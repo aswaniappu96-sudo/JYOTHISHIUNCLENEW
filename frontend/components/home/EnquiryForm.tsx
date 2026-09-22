@@ -67,24 +67,24 @@ export function EnquiryForm({
           </p>
         </div>
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" suppressHydrationWarning />
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <label className="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
               {isContact ? "Devotee Name" : "Your Name"}
-              <input required name="name" defaultValue={user?.name} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" />
+              <input required name="name" defaultValue={user?.name} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" suppressHydrationWarning />
             </label>
             <label className="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
               {isContact ? "Phone Number" : "Mobile / WhatsApp Number"}
-              <input required name="mobile" defaultValue={user?.mobile} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" />
+              <input required name="mobile" defaultValue={user?.mobile} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" suppressHydrationWarning />
             </label>
             <label className="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
               Email Address
-              <input required type="email" name="email" defaultValue={user?.email} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" />
+              <input required type="email" name="email" defaultValue={user?.email} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" suppressHydrationWarning />
             </label>
             {isContact ? (
               <label className="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
                 Inquiry Nature / Subject
-                <select name="subject" defaultValue="General Astrological Question" className="glass-input mt-1 w-full rounded-xl px-4 py-2.5">
+                <select name="subject" defaultValue="General Astrological Question" className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" suppressHydrationWarning>
                   {CONTACT_SUBJECTS.map((subject) => (
                     <option key={subject}>{subject}</option>
                   ))}
@@ -93,21 +93,21 @@ export function EnquiryForm({
             ) : (
               <label className="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
                 Location / Country
-                <input name="location" defaultValue={user?.location} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" />
+                <input name="location" defaultValue={user?.location} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" suppressHydrationWarning />
               </label>
             )}
           </div>
           {isContact ? (
-            <input type="hidden" name="location" defaultValue={user?.location} />
+            <input type="hidden" name="location" defaultValue={user?.location} suppressHydrationWarning />
           ) : (
             <label className="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
               Subject
-              <input required name="subject" defaultValue="General enquiry" className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" />
+              <input required name="subject" defaultValue="General enquiry" className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" suppressHydrationWarning />
             </label>
           )}
           <label className="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
             How did you hear about JyothishiUncle?
-            <select name="source" defaultValue={user?.source} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5">
+            <select name="source" defaultValue={user?.source} className="glass-input mt-1 w-full rounded-xl px-4 py-2.5" suppressHydrationWarning>
               {HEAR_ABOUT_OPTIONS.map((source) => (
                 <option key={source}>{source}</option>
               ))}
@@ -119,6 +119,7 @@ export function EnquiryForm({
               required
               name="message"
               rows={4}
+              suppressHydrationWarning
               placeholder={
                 isContact
                   ? "Elaborate on your requirement or spiritual concern with complete peace of mind..."
@@ -134,6 +135,7 @@ export function EnquiryForm({
             <button
               type="submit"
               disabled={busy}
+              suppressHydrationWarning
               className={`${isContact ? "w-full sm:w-auto px-8 py-3.5 rounded-xl" : "w-full rounded-full py-2.5"} bg-primary text-lg font-bold text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.4)] transition hover:bg-primary-container disabled:opacity-60`}
             >
               {busy ? "Sending…" : isContact ? "Transmit General Enquiry" : "Send Sacred Enquiry"}

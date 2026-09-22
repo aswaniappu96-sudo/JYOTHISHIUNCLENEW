@@ -14,6 +14,7 @@ export function BookConsultationButton({
   return (
     <button
       type="button"
+      suppressHydrationWarning
       onClick={() => openConsultation()}
       className={
         className ||

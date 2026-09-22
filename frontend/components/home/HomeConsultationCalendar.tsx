@@ -40,11 +40,11 @@ export function HomeConsultationCalendar() {
   return (
     <div className="rounded-2xl bg-surface-container/60 p-4 md:p-5">
       <div className="mb-3 flex items-center justify-between">
-        <button type="button" onClick={() => shiftMonth(-1)} className="text-sm text-primary">
+        <button type="button" suppressHydrationWarning onClick={() => shiftMonth(-1)} className="text-sm text-primary">
           ‹
         </button>
         <p className="font-serif text-lg text-on-surface">{monthLabel(month)}</p>
-        <button type="button" onClick={() => shiftMonth(1)} className="text-sm text-primary">
+        <button type="button" suppressHydrationWarning onClick={() => shiftMonth(1)} className="text-sm text-primary">
           ›
         </button>
       </div>
@@ -61,6 +61,7 @@ export function HomeConsultationCalendar() {
           <button
             key={day.date}
             type="button"
+            suppressHydrationWarning
             disabled={!day.available}
             onClick={() => {
               setDate(day.date);

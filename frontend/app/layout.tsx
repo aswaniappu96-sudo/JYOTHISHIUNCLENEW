@@ -53,8 +53,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
-      <body className={`${jakarta.variable} ${playfair.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${jakarta.variable} ${playfair.variable} antialiased`} suppressHydrationWarning>
         <UniverseBackground />
         {settings ? <JsonLd settings={settings} /> : null}
         <Providers>

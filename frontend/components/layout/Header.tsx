@@ -103,6 +103,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
             <div className="relative">
               <button
                 type="button"
+                suppressHydrationWarning
                 onClick={() => setAccountOpen((value) => !value)}
                 className="relative flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-bold text-on-primary ring-2 ring-emerald-400"
                 aria-label="Account"
@@ -134,6 +135,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
           ) : (
             <button
               type="button"
+              suppressHydrationWarning
               onClick={() => openAuth("login")}
               className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-on-primary"
               aria-label="Login"
@@ -143,6 +145,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
           )}
           <button
             type="button"
+            suppressHydrationWarning
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 xl:hidden"
             aria-expanded={open}
             aria-label="Open menu"

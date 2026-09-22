@@ -26,6 +26,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqItem[] }) {
             >
               <button
                 type="button"
+                suppressHydrationWarning
                 className="flex w-full items-center justify-between gap-4 text-left"
                 aria-expanded={isOpen}
                 onClick={() => setOpen(isOpen ? null : faq.id)}
