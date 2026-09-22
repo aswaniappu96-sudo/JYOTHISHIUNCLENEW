@@ -15,12 +15,12 @@ import type {
 } from "@/types/wordpress";
 
 export async function getSettings() {
-  return wpFetch<SiteSettings>("/settings");
+  return settleApi(wpFetch<SiteSettings>("/settings"), emptySettings);
 }
 
 export async function getPoojas(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return wpFetch<Pooja[]>(`/poojas${query}`);
+  return settleApi(wpFetch<Pooja[]>(`/poojas${query}`), []);
 }
 
 export async function getPooja(slug: string) {
@@ -29,7 +29,7 @@ export async function getPooja(slug: string) {
 
 export async function getProducts(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return wpFetch<Product[]>(`/products${query}`);
+  return settleApi(wpFetch<Product[]>(`/products${query}`), []);
 }
 
 export async function getProduct(slug: string) {
@@ -37,11 +37,11 @@ export async function getProduct(slug: string) {
 }
 
 export async function getServices() {
-  return wpFetch<AstrologyService[]>("/services");
+  return settleApi(wpFetch<AstrologyService[]>("/services"), []);
 }
 
 export async function getAstrologers() {
-  return wpFetch<Astrologer[]>("/astrologers");
+  return settleApi(wpFetch<Astrologer[]>("/astrologers"), []);
 }
 
 export async function getService(slug: string) {
@@ -50,7 +50,7 @@ export async function getService(slug: string) {
 
 export async function getTravelDestinations(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return wpFetch<TravelDestination[]>(`/travel${query}`);
+  return settleApi(wpFetch<TravelDestination[]>(`/travel${query}`), []);
 }
 
 export async function getTravelDestination(slug: string) {
@@ -58,7 +58,7 @@ export async function getTravelDestination(slug: string) {
 }
 
 export async function getArticles() {
-  return wpFetch<Article[]>("/articles");
+  return settleApi(wpFetch<Article[]>("/articles"), []);
 }
 
 export async function getArticle(slug: string) {
@@ -66,11 +66,11 @@ export async function getArticle(slug: string) {
 }
 
 export async function getFAQs() {
-  return wpFetch<FaqItem[]>("/faqs");
+  return settleApi(wpFetch<FaqItem[]>("/faqs"), []);
 }
 
 export async function getTestimonials() {
-  return wpFetch<Testimonial[]>("/testimonials");
+  return settleApi(wpFetch<Testimonial[]>("/testimonials"), []);
 }
 
 export async function getPage(slug: string) {

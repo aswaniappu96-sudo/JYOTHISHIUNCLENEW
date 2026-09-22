@@ -7,6 +7,15 @@ function wordpressOrigin() {
   return (process.env.WORDPRESS_URL || DEFAULT_WP_URL).replace(/\/$/, "");
 }
 
+function isLocalWordpress() {
+  try {
+    const host = new URL(wordpressOrigin()).hostname;
+    return host === "127.0.0.1" || host === "localhost" || host === "0.0.0.0" || host.endsWith(".local");
+  } catch {
+    return false;
+  }
+}
+
 export class WordpressApiError extends Error {
   constructor(
     message: string,
@@ -18,6 +27,13 @@ export class WordpressApiError extends Error {
 }
 
 export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  if (process.env.VERCEL && isLocalWordpress()) {
+    throw new WordpressApiError(
+      `WordPress origin is local and cannot be reached from Vercel (${path}). Set WORDPRESS_URL to a public site.`,
+      503,
+    );
+  }
+
   const url = `${wordpressOrigin()}/wp-json/ju/v1${path.startsWith("/") ? path : `/${path}`}`;
   const method = (init?.method || "GET").toUpperCase();
   const skipCache = method !== "GET" || init?.cache === "no-store";
@@ -41,7 +57,8 @@ export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
     }
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000);
+    const timeoutMs = process.env.VERCEL ? 4000 : 20000;
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
       const response = await fetch(url, {
@@ -128,11 +145,8 @@ export async function wpAuthGet<T>(path: string, token: string): Promise<T> {
 export async function wpFetchOptional<T>(path: string): Promise<T | null> {
   try {
     return await wpFetch<T>(path);
-  } catch (error) {
-    if (error instanceof WordpressApiError && error.status === 404) {
-      return null;
-    }
-    throw error;
+  } catch {
+    return null;
   }
 }
 
