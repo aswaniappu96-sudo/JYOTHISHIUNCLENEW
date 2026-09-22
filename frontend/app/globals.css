@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+:root {
+  --surface: #141121;
+  --surface-lowest: #0f0c1c;
+  --surface-low: #1c192a;
+  --surface-container: #211d2e;
+  --surface-high: #2b2839;
+  --surface-highest: #363244;
+  --on-surface: #e6dff6;
+  --on-surface-variant: #d0c5b4;
+  --primary: #ffe09d;
+  --primary-container: #e5c378;
+  --on-primary: #3f2e00;
+  --secondary: #cabeff;
+  --secondary-container: #4829b3;
+  --tertiary: #ffdeb8;
+  --tertiary-container: #ffba5d;
+  --outline: #999080;
+  --outline-variant: #4d4639;
+  --midnight: #141121;
+  --saffron: #e5c378;
+  --cream: #e6dff6;
+  --ink: #d0c5b4;
+  --lotus: #ffb4ab;
+  --paper: #1c192a;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-lowest: var(--surface-lowest);
+  --color-surface-low: var(--surface-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-high: var(--surface-high);
+  --color-surface-highest: var(--surface-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-midnight: var(--midnight);
+  --color-saffron: var(--saffron);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-lotus: var(--lotus);
+  --color-paper: var(--paper);
+  --font-sans: var(--font-jakarta);
+  --font-serif: var(--font-playfair);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--surface-lowest);
+  color: var(--on-surface);
+  font-family: var(--font-jakarta), sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: var(--font-playfair), serif;
+}
+
+::selection {
+  background: var(--primary-container);
+  color: var(--on-primary);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.glass-card {
+  background: rgba(33, 29, 46, 0.7);
+  border: 1px solid rgba(229, 195, 120, 0.12);
+  box-shadow:
+    0 24px 60px -32px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+
+.glass-input {
+  background: var(--surface-container);
+  border: 1px solid transparent;
+  color: var(--on-surface);
+}
+
+.glass-input:focus {
+  outline: none;
+  background: var(--surface-highest);
+  box-shadow: 0 0 0 1px rgba(229, 195, 120, 0.45);
+}
+
+.glass-input option {
+  background: var(--surface-low);
+  color: var(--on-surface);
+}
+
+.prose-ju {
+  color: var(--on-surface-variant);
+  line-height: 1.75;
+}
+
+.prose-ju p {
+  margin-bottom: 1rem;
+}
+
+.prose-ju ul {
+  margin: 0.75rem 0 1.25rem;
+  padding-left: 1.15rem;
+  list-style: disc;
+}
+
+.prose-ju li + li {
+  margin-top: 0.35rem;
+}
+
+.universe-bg {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(72, 41, 179, 0.22), rgba(15, 12, 28, 0)),
+    radial-gradient(ellipse 60% 50% at 80% 60%, rgba(184, 170, 255, 0.06), rgba(15, 12, 28, 0)),
+    radial-gradient(circle at 20% 80%, rgba(229, 195, 120, 0.05), rgba(15, 12, 28, 0)),
+    #0f0c1c;
+}
+
+.universe-nebula {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(72, 41, 179, 0.2), transparent 46%),
+    radial-gradient(circle at 78% 40%, rgba(202, 190, 255, 0.08), transparent 42%);
+  animation: nebula-breathe 22s ease-in-out infinite;
+}
+
+.universe-star-drift {
+  position: absolute;
+  inset: -10%;
+  background-image:
+    radial-gradient(1px 1px at 8% 14%, rgba(255, 224, 157, 0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 61%, rgba(202, 190, 255, 0.45) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 41% 22%, rgba(255, 255, 255, 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 63% 78%, rgba(229, 195, 120, 0.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 81% 33%, rgba(255, 255, 255, 0.35) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 93% 69%, rgba(202, 190, 255, 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 14% 88%, rgba(229, 195, 120, 0.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 52% 47%, rgba(255, 255, 255, 0.3) 50%, transparent 51%);
+}
+
+.universe-star-drift-a {
+  animation: star-pan 70s linear infinite;
+}
+
+.universe-star-drift-b {
+  opacity: 0.7;
+  animation: star-pan 110s linear infinite reverse;
+}
+
+.universe-star {
+  position: absolute;
+  border-radius: 999px;
+  background: white;
+  box-shadow: 0 0 6px rgba(255, 224, 157, 0.85);
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+.universe-star-gold {
+  background: #ffe09d;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes nebula-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes star-pan {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-6%, -8%, 0);
+  }
+}
+
+@keyframes mandala-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mandala-spin {
+  animation: mandala-spin 120s linear infinite;
+}
+
+.mandala-spin-rev {
+  animation: mandala-spin 90s linear infinite reverse;
+}
+
+@keyframes rashi-from-right {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.rashi-marquee-mask {
+  overflow: hidden;
+}
+
+.rashi-marquee {
+  animation: rashi-from-right 48s linear infinite;
+}
+
+.rashi-marquee-mask:hover .rashi-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .universe-nebula,
+  .universe-star-drift,
+  .universe-star,
+  .mandala-spin,
+  .mandala-spin-rev,
+  .rashi-marquee {
+    animation: none;
+  }
+}

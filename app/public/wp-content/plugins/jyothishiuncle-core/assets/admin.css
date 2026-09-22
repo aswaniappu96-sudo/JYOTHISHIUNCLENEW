@@ -1,0 +1,36 @@
+.ju-settings-wrap h2 {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dcdcde;
+}
+
+.ju-gallery-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ju-gallery-list li {
+  width: 120px;
+  border: 1px solid #dcdcde;
+  background: #fff;
+  padding: 8px;
+}
+
+.ju-gallery-list img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ju-help-wrap ul {
+  list-style: disc;
+  padding-left: 1.4rem;
+}
+
+.ju-help-wrap li {
+  margin: 0.4rem 0;
+}

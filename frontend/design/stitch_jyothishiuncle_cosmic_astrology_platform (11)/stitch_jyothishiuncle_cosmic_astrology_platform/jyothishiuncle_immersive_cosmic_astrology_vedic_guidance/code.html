@@ -1,0 +1,1136 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#251a00", "secondary-fixed": "#e6deff", "on-tertiary-container": "#754a00", "surface-container": "#211d2e", "surface-container-highest": "#363244", "inverse-surface": "#e6dff6", "secondary-fixed-dim": "#cabeff", "on-secondary-container": "#b8aaff", "on-surface-variant": "#d0c5b4", "on-tertiary-fixed": "#2a1800", "tertiary": "#ffdeb8", "primary-fixed-dim": "#e4c277", "on-secondary-fixed-variant": "#4829b3", "on-surface": "#e6dff6", "on-primary-container": "#684f0f", "error-container": "#93000a", "surface-container-low": "#1c192a", "surface-dim": "#141121", "on-secondary-fixed": "#1c0062", "surface-container-high": "#2b2839", "background": "#141121", "surface-tint": "#e4c277", "inverse-primary": "#745b1a", "surface-bright": "#3a3749", "inverse-on-surface": "#322e3f", "error": "#ffb4ab", "on-error": "#690005", "primary-fixed": "#ffdf9b", "secondary-container": "#4829b3", "primary": "#ffe09d", "outline": "#999080", "secondary": "#cabeff", "primary-container": "#e5c378", "on-primary-fixed-variant": "#5a4302", "surface-container-lowest": "#0f0c1c", "tertiary-container": "#ffba5d", "surface": "#141121", "on-primary": "#3f2e00", "tertiary-fixed": "#ffddb6", "on-error-container": "#ffdad6", "on-tertiary": "#462a00", "on-secondary": "#31009a", "tertiary-fixed-dim": "#ffb95a", "on-background": "#e6dff6", "on-tertiary-fixed-variant": "#643f00", "outline-variant": "#4d4639", "surface-variant": "#363244" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "1.5rem", "space-lg": "1.75rem", "margin": "3rem", "space-md": "1rem", "space-sm": "0.5rem", "space-xl": "3rem", "space-xs": "0.25rem", "gutter-mobile": "1rem", "margin-mobile": "1.25rem" }, "fontFamily": { "headline-lg": [ "Playfair Display" ], "label-sm": [ "Plus Jakarta Sans" ], "title-md": [ "Plus Jakarta Sans" ], "body-md": [ "Plus Jakarta Sans" ], "label-caps": [ "Plus Jakarta Sans" ], "display-lg": [ "Playfair Display" ], "headline-xl": [ "Playfair Display" ], "headline-xl-mobile": [ "Playfair Display" ], "display-lg-mobile": [ "Playfair Display" ], "headline-sm": [ "Playfair Display" ], "body-lg": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg": [ "32px", { "lineHeight": "40px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "title-md": [ "18px", { "lineHeight": "26px", "letterSpacing": "0.01em", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400" } ], "label-caps": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.18em", "fontWeight": "700" } ], "display-lg": [ "56px", { "lineHeight": "68px", "letterSpacing": "-0.01em", "fontWeight": "400" } ], "headline-xl": [ "40px", { "lineHeight": "48px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-xl-mobile": [ "30px", { "lineHeight": "38px", "letterSpacing": "0em", "fontWeight": "400" } ], "display-lg-mobile": [ "38px", { "lineHeight": "46px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-sm": [ "22px", { "lineHeight": "30px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "body-lg": [ "16px", { "lineHeight": "26px", "letterSpacing": "0.015em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary min-h-screen relative overflow-x-hidden"><div class="fixed inset-0 pointer-events-none z-0"><div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(72,41,179,0.22),rgba(15,12,28,0))]"></div><div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_80%_60%,rgba(184,170,255,0.06),rgba(15,12,28,0))]"></div><div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(229,195,120,0.05),rgba(15,12,28,0))]"></div><div class="absolute top-1/4 left-1/6 w-1 h-1 rounded-full bg-primary-fixed shadow-[0_0_8px_2px_rgba(255,223,155,0.8)] opacity-60 animate-pulse"></div><div class="absolute top-1/3 right-1/4 w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_10px_2px_rgba(202,190,255,0.7)] opacity-70 animate-ping" style="animation-duration: 4s;"></div><div class="absolute top-2/3 left-1/3 w-1 h-1 rounded-full bg-primary opacity-50"></div><div class="absolute top-12 right-1/12 w-1 h-1 rounded-full bg-secondary-fixed opacity-40"></div></div><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/70 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]"><div class="h-20 w-full px-gutter md:px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><a class="flex items-center gap-space-sm group" href="/"><img alt="JyothishiUncle Emblem Logo" class="h-9 w-auto object-contain drop-shadow-[0_0_10px_rgba(229,195,120,0.6)] group-hover:scale-105 transition-transform" src="https://lh3.googleusercontent.com/aida/AEtjO1XYO8Mgty_s963W4fEs2TUV_hNMC1VvS18GxPrYsUMJf6vT080MX-c3bnqLfFgJ2769Yr6GjSRCetPsx0O5CYLt-hejpzlyJcHkojZXE8mb6e_Pq2FE8QfJ22KW8q97u-7iBC-4ZURQ6a42IoJRhHy5qEWt9gLBnlidBgVFu2hoXxqtF7Sk8inP7wHJbFvAqr30OBDIkuNZiohSXZBkFeDUn_lSQWSG0y41-tHMrbceJs3pui6174V-TOsi"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight leading-none">JyothishiUncle</span><span class="font-label-caps text-[9px] text-primary-fixed-dim/70 tracking-[0.2em] uppercase mt-0.5">Vedic Astrological Oracle</span></div></a></div><nav class="hidden xl:flex items-center gap-gutter" data-active-classes="text-primary font-bold drop-shadow-[0_0_10px_rgba(229,195,120,0.6)]"><a aria-current="page" class="transition-colors tracking-wide text-primary font-bold drop-shadow-[0_0_10px_rgba(229,195,120,0.6)]" data-path="home" href="/">Home</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors tracking-wide" data-path="about" href="/about">About</a><div class="relative group flex items-center"><button class="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors tracking-wide inline-flex items-center gap-1 cursor-pointer"><span class="">Services</span><span class="material-symbols-outlined text-[16px] transition-transform duration-300 group-hover:rotate-180">expand_more</span></button><div class="absolute top-full -left-4 pt-2 hidden group-hover:block z-50"><div class="w-56 p-2 rounded-2xl bg-surface-container-high/95 backdrop-blur-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)] border-none flex flex-col gap-1"><a class="px-3 py-2 rounded-xl text-on-surface hover:text-primary hover:bg-surface-container-highest transition-colors font-body-md text-body-md flex items-center gap-2" data-path="pooja-homam" href="/services#pooja"><span class="material-symbols-outlined text-[18px] text-primary">flare</span><span class="">Poojas &amp; Homams</span></a><a class="px-3 py-2 rounded-xl text-on-surface hover:text-primary hover:bg-surface-container-highest transition-colors font-body-md text-body-md flex items-center gap-2" data-path="sacred-products" href="/services#products"><span class="material-symbols-outlined text-[18px] text-secondary">diamond</span><span class="">Sacred Products</span></a></div></div></div><div class="relative group flex items-center"><button class="font-body-md text-body-md text-on-surface-variant group-hover:text-primary transition-colors tracking-wide inline-flex items-center gap-1 cursor-pointer"><span class="">Religious</span><span class="material-symbols-outlined text-[16px] transition-transform duration-300 group-hover:rotate-180">expand_more</span></button><div class="absolute top-full -left-4 pt-2 hidden group-hover:block z-50"><div class="w-56 p-2 rounded-2xl bg-surface-container-high/95 backdrop-blur-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)] border-none flex flex-col gap-1"><a class="px-3 py-2 rounded-xl text-on-surface hover:text-primary hover:bg-surface-container-highest transition-colors font-body-md text-body-md flex items-center gap-2" data-path="vedic-articles" href="/religious/articles"><span class="material-symbols-outlined text-[18px] text-secondary">auto_stories</span><span class="">Vedic Articles</span></a><a class="px-3 py-2 rounded-xl text-on-surface hover:text-primary hover:bg-surface-container-highest transition-colors font-body-md text-body-md flex items-center gap-2" data-path="sacred-journeys" href="/religious/travel"><span class="material-symbols-outlined text-[18px] text-primary">temple_hindu</span><span class="">Sacred Travel</span></a></div></div></div><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors tracking-wide" data-path="contact" href="#contact">Contact</a></nav><div class="flex items-center gap-space-md"><button aria-label="Toggle Ambient Cosmic Frequency" class="hidden sm:flex items-center justify-center w-9 h-9 rounded-full bg-surface-container-high/60 text-secondary hover:text-primary hover:bg-surface-container-highest transition-all shadow-[0_0_15px_rgba(72,41,179,0.3)]" type="button"><span class="material-symbols-outlined text-[18px]">graphic_eq</span></button><a class="relative inline-flex items-center justify-center px-space-md py-space-xs rounded-full bg-primary-container text-on-primary font-body-md text-body-md font-semibold tracking-wide hover:bg-primary transition-all duration-300 shadow-[0_0_20px_-3px_rgba(229,195,120,0.5)] hover:shadow-[0_0_25px_2px_rgba(229,195,120,0.8)]" data-path="book-consultation" href="#consultation">Book Consultation</a><button aria-label="User Profile Account" class="w-9 h-9 rounded-full bg-surface-container-high/80 hover:bg-primary-container text-primary hover:text-on-primary flex items-center justify-center border-none shadow-[0_0_15px_rgba(229,195,120,0.2)] hover:shadow-[0_0_20px_rgba(229,195,120,0.5)] transition-all duration-300"><span class="material-symbols-outlined text-[20px]">person</span></button></div></div></header><main class="relative z-10 w-full pt-20 px-gutter-mobile md:px-gutter"><div class="flex flex-col w-full text-on-surface overflow-hidden">
+<!-- HERO SECTION: COSMIC ASTROLOGY EXPERIENCE -->
+<section class="relative w-full min-h-[92vh] flex flex-col justify-center items-center px-space-md md:px-margin text-center overflow-hidden">
+<!-- Atmospheric Ambient Nebulae -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center -z-10">
+<div class="w-[700px] h-[700px] rounded-full bg-secondary-container/20 blur-[140px] mix-blend-screen animate-pulse" style="animation-duration: 8s;"></div>
+<div class="w-[500px] h-[500px] rounded-full bg-primary-container/15 blur-[120px] mix-blend-screen -mt-40"></div>
+</div>
+<!-- Centerpiece Glowing 3D-Styled Astrolabe & Navagraha Mandala -->
+<div class="relative w-[340px] h-[340px] sm:w-[460px] sm:h-[460px] lg:w-[580px] lg:h-[580px] flex items-center justify-center my-space-sm select-none">
+<!-- Outer Zodiac Sanskrit Glyph Ring -->
+<svg class="absolute inset-0 w-full h-full text-primary-fixed-dim/30 animate-spin" fill="none" style="animation-duration: 120s;" viewBox="0 0 500 500">
+<circle cx="250" cy="250" r="235" stroke="currentColor" stroke-dasharray="4 8" stroke-width="1"></circle>
+<circle cx="250" cy="250" r="215" stroke="currentColor" stroke-width="0.75"></circle>
+<!-- 12 Radiating Bhava Spoke Nodes -->
+<g opacity="0.6" stroke="currentColor" stroke-width="0.5">
+<line x1="250" x2="250" y1="15" y2="485"></line>
+<line x1="15" x2="485" y1="250" y2="250"></line>
+<line x1="84" x2="416" y1="84" y2="416"></line>
+<line x1="84" x2="416" y1="416" y2="84"></line>
+</g>
+<!-- Sanskrit Glyph Representation Indicators -->
+<circle cx="250" cy="25" fill="currentColor" r="4"></circle>
+<circle cx="362" cy="55" fill="currentColor" r="3"></circle>
+<circle cx="445" cy="138" fill="currentColor" r="3.5"></circle>
+<circle cx="475" cy="250" fill="currentColor" r="4"></circle>
+<circle cx="445" cy="362" fill="currentColor" r="3"></circle>
+<circle cx="362" cy="445" fill="currentColor" r="3.5"></circle>
+<circle cx="250" cy="475" fill="currentColor" r="4"></circle>
+<circle cx="138" cy="445" fill="currentColor" r="3"></circle>
+<circle cx="55" cy="362" fill="currentColor" r="3.5"></circle>
+<circle cx="25" cy="250" fill="currentColor" r="4"></circle>
+<circle cx="55" cy="138" fill="currentColor" r="3"></circle>
+<circle cx="138" cy="55" fill="currentColor" r="3.5"></circle>
+</svg>
+<!-- Counter-Rotating Middle Sacred Geometry Ring -->
+<svg class="absolute w-[78%] h-[78%] text-secondary/40 animate-spin" fill="none" style="animation-duration: 90s; animation-direction: reverse;" viewBox="0 0 400 400">
+<polygon points="200,20 356,110 356,290 200,380 44,290 44,110" stroke="currentColor" stroke-width="1.2"></polygon>
+<polygon points="200,380 44,290 44,110 200,20 356,110 356,290" stroke="currentColor" stroke-width="0.8" transform="rotate(30 200 200)"></polygon>
+<circle cx="200" cy="200" r="140" stroke="currentColor" stroke-dasharray="2 6" stroke-width="0.75"></circle>
+</svg>
+<!-- Inner Concentric Luminescent Navagraha Core -->
+<div class="relative w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-gradient-to-tr from-surface-container-lowest via-surface-container-high/90 to-surface-container-lowest flex items-center justify-center shadow-[0_0_80px_rgba(229,195,120,0.3)] backdrop-blur-2xl">
+<div class="absolute inset-2 rounded-full border-none bg-gradient-to-br from-primary-container/20 via-transparent to-secondary-container/20"></div>
+<div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[radial-gradient(circle_at_35%_35%,#ffe09d_0%,#e5c378_40%,#4829b3_95%)] flex items-center justify-center shadow-[0_0_50px_rgba(255,224,157,0.8)]">
+<span class="font-headline-lg text-headline-lg text-on-primary font-bold">ॐ</span>
+</div>
+<!-- Planetary Orbital Nodes -->
+<div class="absolute -top-3 w-4 h-4 rounded-full bg-primary-fixed shadow-[0_0_12px_#ffe09d] flex items-center justify-center text-[9px] font-bold text-on-primary-fixed">☉</div>
+<div class="absolute -bottom-2 -left-2 w-3.5 h-3.5 rounded-full bg-secondary-fixed shadow-[0_0_12px_#cabeff] flex items-center justify-center text-[8px] font-bold text-on-secondary-fixed">☽</div>
+<div class="absolute top-1/2 -right-4 w-4 h-4 rounded-full bg-tertiary-container shadow-[0_0_12px_#ffba5d] flex items-center justify-center text-[9px] font-bold text-on-tertiary">♃</div>
+</div>
+</div>
+<!-- Hero Content Overlay -->
+<div class="relative max-w-4xl mx-auto flex flex-col items-center -mt-10 sm:-mt-16 z-20">
+<!-- Over-title -->
+<div class="inline-flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-high/70 backdrop-blur-md mb-space-sm shadow-sm">
+<span class="material-symbols-outlined text-primary text-[15px]">arrow_back_ios_new</span>
+<span class="font-label-caps text-label-caps text-primary tracking-[0.25em] uppercase">Vedic Cosmos &amp; Soul Transformation</span>
+</div>
+<!-- Main Headline -->
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-transparent bg-clip-text bg-gradient-to-b from-primary via-on-surface to-secondary-fixed mb-space-md max-w-3xl leading-tight">
+        Discover Your Cosmic Path
+      </h1>
+<!-- Supporting Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-space-lg text-center leading-relaxed">
+        Astrology, Pooja, Spiritual Guidance &amp; Sacred Journeys — rooted in timeless Rishikesh and Kerala Vedic lineages of enlightened seers.
+      </p>
+<!-- Primary and Secondary Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-space-md w-full sm:w-auto">
+<a class="w-full sm:w-auto px-space-xl py-space-sm rounded-full bg-gradient-to-r from-primary via-primary-container to-primary text-on-primary font-title-md text-title-md font-semibold tracking-wide shadow-[0_0_35px_rgba(229,195,120,0.5)] hover:shadow-[0_0_45px_rgba(255,224,157,0.85)] hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-space-xs" href="#consultation">
+<span class="">Book a Consultation</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+<a class="w-full sm:w-auto px-space-lg py-space-sm rounded-full bg-surface-container-high/60 backdrop-blur-xl text-primary font-body-lg text-body-lg hover:bg-surface-container-highest transition-all duration-300 flex items-center justify-center gap-space-xs shadow-sm" href="#services">
+<span class="">Explore Sacred Services</span>
+<span class="text-primary-fixed-dim">→</span>
+</a>
+</div>
+<!-- Astrological Live Ticker Ribbon -->
+<div class="mt-space-xl grid grid-cols-2 md:grid-cols-4 gap-space-sm w-full max-w-3xl">
+<div class="p-space-sm rounded-xl bg-surface-container-low/70 backdrop-blur-md flex flex-col items-center justify-center">
+<span class="font-label-caps text-label-caps text-primary-fixed-dim/70">NAKSHATRA</span>
+<span class="font-title-md text-title-md text-primary">Rohini 4th Pada</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low/70 backdrop-blur-md flex flex-col items-center justify-center">
+<span class="font-label-caps text-label-caps text-primary-fixed-dim/70">TITHI</span>
+<span class="font-title-md text-title-md text-secondary">Shukla Panchami</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low/70 backdrop-blur-md flex flex-col items-center justify-center">
+<span class="font-label-caps text-label-caps text-primary-fixed-dim/70">AURA FREQUENCY</span>
+<span class="font-title-md text-title-md text-primary">528Hz Solfeggio</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low/70 backdrop-blur-md flex flex-col items-center justify-center">
+<span class="font-label-caps text-label-caps text-primary-fixed-dim/70">SEEKERS GUIDED</span>
+<span class="font-title-md text-title-md text-secondary">48,000+ Worldwide</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ZODIAC STREAM: HORIZONTAL CELESTIAL FLOW -->
+<section class="relative w-full py-space-xl mt-space-lg">
+<div class="px-space-md md:px-margin mb-space-md flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-primary mb-1">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+<span class="font-label-caps text-label-caps tracking-[0.2em] uppercase">The 12 Celestial Bhavas</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary">
+          Zodiac Resonance Stream
+        </h2>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">swipe</span>
+        Drag or scroll horizontally through cosmic archetypes
+      </p>
+</div>
+<!-- Continuous Horizontal Flow Grid -->
+<div class="w-full overflow-x-auto pb-space-lg pt-space-xs no-scrollbar flex gap-space-md px-space-md md:px-margin snap-x snap-mandatory">
+<!-- 1. Chingam / Leo -->
+<div class="flex-shrink-0 w-72 sm:w-80 p-space-lg rounded-2xl bg-surface-container/60 backdrop-blur-2xl snap-center flex flex-col justify-between hover:bg-surface-container-high/80 transition-all duration-300 group shadow-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="text-3xl font-headline-lg text-primary group-hover:scale-110 transition-transform">♌</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary/10 text-primary font-label-caps text-label-caps">Fire · Surya</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Chingam · Leo</p>
+<p class="font-label-sm text-label-sm text-primary-fixed-dim/80 mb-space-sm">The Golden Solar Lion</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            Dominance of divine consciousness, inner vitality, sovereign spiritual authority, and expansive heart-centered dharma.
+          </p>
+</div>
+<button class="mt-space-md flex items-center gap-space-xs text-primary font-label-caps text-label-caps tracking-widest uppercase group-hover:translate-x-1 transition-transform">
+<span class="">View Daily Rasi Phalam</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- 2. Kanni / Virgo -->
+<div class="flex-shrink-0 w-72 sm:w-80 p-space-lg rounded-2xl bg-surface-container/60 backdrop-blur-2xl snap-center flex flex-col justify-between hover:bg-surface-container-high/80 transition-all duration-300 group shadow-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="text-3xl font-headline-lg text-secondary group-hover:scale-110 transition-transform">♍</span>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps">Earth · Budha</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Kanni · Virgo</p>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim/80 mb-space-sm">The Divine Maiden of Wisdom</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            Meticulous karmic discernment, Vedic analysis, healing herb lore, and devotion to sacred discipline and Seva.
+          </p>
+</div>
+<button class="mt-space-md flex items-center gap-space-xs text-secondary font-label-caps text-label-caps tracking-widest uppercase group-hover:translate-x-1 transition-transform">
+<span class="">View Daily Rasi Phalam</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- 3. Thulam / Libra -->
+<div class="flex-shrink-0 w-72 sm:w-80 p-space-lg rounded-2xl bg-surface-container/60 backdrop-blur-2xl snap-center flex flex-col justify-between hover:bg-surface-container-high/80 transition-all duration-300 group shadow-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="text-3xl font-headline-lg text-primary group-hover:scale-110 transition-transform">♎</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary/10 text-primary font-label-caps text-label-caps">Air · Shukra</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Thulam · Libra</p>
+<p class="font-label-sm text-label-sm text-primary-fixed-dim/80 mb-space-sm">The Cosmic Scales of Karma</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            Equilibrium of dualities, refined aesthetic grace, dharmic unions, and harmonic universal law alignment.
+          </p>
+</div>
+<button class="mt-space-md flex items-center gap-space-xs text-primary font-label-caps text-label-caps tracking-widest uppercase group-hover:translate-x-1 transition-transform">
+<span class="">View Daily Rasi Phalam</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- 4. Vrischikam / Scorpio -->
+<div class="flex-shrink-0 w-72 sm:w-80 p-space-lg rounded-2xl bg-surface-container/60 backdrop-blur-2xl snap-center flex flex-col justify-between hover:bg-surface-container-high/80 transition-all duration-300 group shadow-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="text-3xl font-headline-lg text-tertiary-container group-hover:scale-110 transition-transform">♏</span>
+<span class="px-space-xs py-0.5 rounded-full bg-tertiary-container/10 text-tertiary font-label-caps text-label-caps">Water · Mangal</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Vrischikam · Scorpio</p>
+<p class="font-label-sm text-label-sm text-tertiary-fixed-dim/80 mb-space-sm">The Mystical Phoenix</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            Esoteric mysteries, Kundalini awakening, deep alchemical transmutation, and penetrating psychic clarity.
+          </p>
+</div>
+<button class="mt-space-md flex items-center gap-space-xs text-tertiary font-label-caps text-label-caps tracking-widest uppercase group-hover:translate-x-1 transition-transform">
+<span class="">View Daily Rasi Phalam</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- 5. Dhanu / Sagittarius -->
+<div class="flex-shrink-0 w-72 sm:w-80 p-space-lg rounded-2xl bg-surface-container/60 backdrop-blur-2xl snap-center flex flex-col justify-between hover:bg-surface-container-high/80 transition-all duration-300 group shadow-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="text-3xl font-headline-lg text-primary group-hover:scale-110 transition-transform">♐</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary/10 text-primary font-label-caps text-label-caps">Fire · Guru</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Dhanu · Sagittarius</p>
+<p class="font-label-sm text-label-sm text-primary-fixed-dim/80 mb-space-sm">The Archer of Dharma</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            Higher Vedic philosophies, Guru blessings, pilgrimage quests, and arrow-true adherence to truth and virtue.
+          </p>
+</div>
+<button class="mt-space-md flex items-center gap-space-xs text-primary font-label-caps text-label-caps tracking-widest uppercase group-hover:translate-x-1 transition-transform">
+<span class="">View Daily Rasi Phalam</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- 6. Makaram / Capricorn -->
+<div class="flex-shrink-0 w-72 sm:w-80 p-space-lg rounded-2xl bg-surface-container/60 backdrop-blur-2xl snap-center flex flex-col justify-between hover:bg-surface-container-high/80 transition-all duration-300 group shadow-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="text-3xl font-headline-lg text-secondary group-hover:scale-110 transition-transform">♑</span>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps">Earth · Shani</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Makaram · Capricorn</p>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim/80 mb-space-sm">The Sacred Makara</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            Steadfast perseverance, karmic fortitude, ascension through endurance, and profound mastery of material order.
+          </p>
+</div>
+<button class="mt-space-md flex items-center gap-space-xs text-secondary font-label-caps text-label-caps tracking-widest uppercase group-hover:translate-x-1 transition-transform">
+<span class="">View Daily Rasi Phalam</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- 7. Kumbham / Aquarius -->
+<div class="flex-shrink-0 w-72 sm:w-80 p-space-lg rounded-2xl bg-surface-container/60 backdrop-blur-2xl snap-center flex flex-col justify-between hover:bg-surface-container-high/80 transition-all duration-300 group shadow-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<span class="text-3xl font-headline-lg text-secondary group-hover:scale-110 transition-transform">♒</span>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps">Air · Rahu/Shani</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Kumbham · Aquarius</p>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim/80 mb-space-sm">The Water Bearer of Amrita</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+            Universal humanitarian stream, cosmic network consciousness, and liberating nectar poured upon collective evolution.
+          </p>
+</div>
+<button class="mt-space-md flex items-center gap-space-xs text-secondary font-label-caps text-label-caps tracking-widest uppercase group-hover:translate-x-1 transition-transform">
+<span class="">View Daily Rasi Phalam</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- 8. Meenam / Pisces (Specifically Featured with Golden Spiraling Koi) -->
+<div class="flex-shrink-0 w-80 sm:w-96 p-space-lg rounded-2xl bg-gradient-to-b from-surface-container-high via-surface-container to-surface-container-lowest backdrop-blur-2xl snap-center flex flex-col justify-between shadow-[0_0_40px_rgba(229,195,120,0.25)] relative group overflow-hidden">
+<!-- Floating Celestial Fish Ambient Glow -->
+<div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-primary/20 blur-3xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="text-3xl font-headline-lg text-primary animate-pulse">♓</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary-container text-on-primary font-label-caps text-label-caps">Moksha Archetype</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary tracking-widest">GURU RULER</span>
+</div>
+<!-- Artistic Luminous Dual Spiraling Fish Illustration -->
+<div class="relative w-full h-32 my-space-xs flex items-center justify-center">
+<svg class="w-28 h-28 text-primary animate-spin" fill="none" style="animation-duration: 35s;" viewBox="0 0 120 120">
+<!-- Fish 1 Golden Stream -->
+<path d="M 60 20 C 85 20, 100 45, 95 65 C 90 85, 75 75, 65 65 C 55 55, 45 40, 60 20 Z" fill="currentColor" opacity="0.8"></path>
+<circle cx="88" cy="40" fill="#141121" r="2.5"></circle>
+<!-- Fish 2 Violet Luminous Stream -->
+<path d="M 60 100 C 35 100, 20 75, 25 55 C 30 35, 45 45, 55 55 C 65 65, 75 80, 60 100 Z" fill="#cabeff" opacity="0.85"></path>
+<circle cx="32" cy="80" fill="#141121" r="2.5"></circle>
+</svg>
+<div class="absolute text-[11px] font-label-caps text-primary tracking-widest bg-surface-container-lowest/80 px-2 py-0.5 rounded-full">
+              DUAL MATSYA
+            </div>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary mb-1">Meenam · Pisces</p>
+<p class="font-label-sm text-label-sm text-primary-fixed-dim/90 mb-space-sm">The Eternal Oceans of Moksha</p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Dissolution of ego into celestial oneness, boundless empathy, psychic transcendence, and pure karmic liberation.
+          </p>
+</div>
+<button class="mt-space-md w-full py-2 rounded-full bg-primary-container text-on-primary font-label-caps text-label-caps tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-primary transition-all">
+<span class="">Explore Meenam Transit</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ABOUT JYOTHISHIUNCLE: ANCIENT WISDOM, PERSONAL GUIDANCE -->
+<section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Left Column: Sacred Composition & Atmospheric Portrait -->
+<div class="lg:col-span-6 relative">
+<div class="relative w-full aspect-[4/5] max-h-[580px] rounded-3xl overflow-hidden shadow-2xl bg-surface-container-low">
+<img class="w-full h-full object-cover mix-blend-luminosity brightness-90 hover:scale-105 transition-transform duration-700" data-alt="Atmospheric serene portrait of an authentic elderly Vedic astrologer in deep meditation, silhouetted against glowing temple oil lamps, ancient Malayalam palm-leaf manuscripts, fragrant swirls of homam smoke, dressed in sacred saffron and silk shawls, bathed in cosmic amber and starlight violet rim-lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE_ZWCa-1BP_qCkSer8jdEbxMyaqUB1T1FQtekf7ku5OZgnXAc0qLTABsvJlbT9iTlpyb326A4h0TOaeHDjX77BtynIsCk2G-QCFis86IQSXjwW9wd1Hns5nft5pbguHZ2-gmHros-wmqZ16CJYxT46paJR4ZFws6Gtovgs0i1Cb4-cyeE_OChkQy1dgfMFgczgKEPFIG2UBDSUxIwvoxjF7APjvpa3mqti1xUI7FxHrOVZPVmNxe97A">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent"></div>
+<!-- Embedded Sacred Artifact Badge -->
+<div class="absolute bottom-space-md left-space-md right-space-md p-space-md rounded-2xl bg-surface-container-high/85 backdrop-blur-xl shadow-xl flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[28px]">auto_stories</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Ancient Lineage Manuscript</p>
+<p class="font-title-md text-title-md text-on-surface leading-tight">Thaliola Chuvadi · Kerala Parampara</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Lineage Narrative & Trust Milestones -->
+<div class="lg:col-span-6 flex flex-col justify-center">
+<div class="inline-flex items-center gap-space-xs text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-caps text-label-caps tracking-[0.25em] uppercase">Living Vedic Heritage</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface mb-space-md">
+          Ancient Wisdom. <br>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-container to-secondary">Personal Guidance.</span>
+</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-space-md leading-relaxed">
+          Rooted in unbroken generations of Kerala Jyothisha and Himalayan rishi traditions, JyothishiUncle blends rigorous mathematical Parashara charting with compassionate intuitive revelation. We decode the planetary tapestry without dogma or fear-mongering—illuminating your soul's karmic blueprint with clarity and grace.
+        </p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg leading-relaxed">
+          Every consultation delivers actionable Vedic remedies (Parihara), bespoke homam recommendations, and gemstone alignments formulated specifically to balance your Dasha cycles and restore cosmic harmony.
+        </p>
+<!-- Trust Milestones -->
+<div class="grid grid-cols-3 gap-space-sm py-space-md mb-space-lg bg-surface-container-high/40 rounded-2xl px-space-md">
+<div class="flex flex-col">
+<span class="font-headline-lg text-headline-lg text-primary">35+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Years Sacred Lineage</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-lg text-headline-lg text-secondary">99.4%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chart Accuracy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-lg text-headline-lg text-primary-fixed-dim">48k+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Seekers Worldwide</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<a class="inline-flex items-center gap-space-xs px-space-lg py-space-sm rounded-full bg-surface-container-highest text-primary font-title-md text-title-md hover:bg-primary hover:text-on-primary transition-all duration-300 shadow-md" href="#">
+<span class="">Learn More About JyothishiUncle</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- SERVICES: POOJA & SACRED SPIRITUAL SERVICES (3D FLOATING MANDALA) -->
+<section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin" id="services">
+<div class="text-center max-w-3xl mx-auto mb-space-xl">
+<div class="inline-flex items-center gap-space-xs text-primary mb-space-xs">
+<span class="material-symbols-outlined text-[18px]">flare</span>
+<span class="font-label-caps text-label-caps tracking-[0.25em] uppercase">Vedic Rituals &amp; Parihara</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary mb-space-sm">
+        Sacred Spiritual Services &amp; Homams
+      </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+        Consecrated homams and planetary remediations conducted by trained Vedic priests adhering strictly to Shastric ritual timings.
+      </p>
+</div>
+<!-- 3D Mandala Constellation Service Arrangement -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg">
+<!-- Service 1: Maha Mrityunjaya Pooja -->
+<div class="p-space-lg rounded-3xl bg-surface-container/70 backdrop-blur-2xl hover:bg-surface-container-high transition-all duration-300 flex flex-col justify-between shadow-xl group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">spa</span>
+</div>
+<span class="px-space-xs py-1 rounded-full bg-surface-container-highest text-primary-fixed-dim font-label-caps text-label-caps">Moksha &amp; Healing</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Maha Mrityunjaya Pooja</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+            Invoking Lord Shiva’s eternal amrita energy for deep cellular rejuvenation, recovery from critical illnesses, and insulation against untimely malefic transitions.
+          </p>
+</div>
+<div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant py-space-xs mb-space-sm">
+<span class="">Ritual Duration: 3.5 Hours</span>
+<span class="text-primary">108 Bilva Patra Chants</span>
+</div>
+<button class="w-full py-2.5 rounded-full bg-surface-container-highest hover:bg-primary hover:text-on-primary text-primary font-title-md text-title-md transition-colors flex items-center justify-center gap-2">
+<span class="">Explore Ritual &amp; Book</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Service 2: Navagraha Shanti Homam -->
+<div class="p-space-lg rounded-3xl bg-surface-container/70 backdrop-blur-2xl hover:bg-surface-container-high transition-all duration-300 flex flex-col justify-between shadow-xl group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">cyclone</span>
+</div>
+<span class="px-space-xs py-1 rounded-full bg-surface-container-highest text-secondary-fixed font-label-caps text-label-caps">Planetary Harmony</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Navagraha Shanti Homam</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+            Harmonizing all nine celestial lords with nine sacred samidha woods, rare grains, and ghee offerings to dispel retrograde friction and invoke overall life auspiciousness.
+          </p>
+</div>
+<div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant py-space-xs mb-space-sm">
+<span class="">Ritual Duration: 4 Hours</span>
+<span class="text-secondary">All 9 Grahams pacified</span>
+</div>
+<button class="w-full py-2.5 rounded-full bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-secondary font-title-md text-title-md transition-colors flex items-center justify-center gap-2">
+<span class="">Explore Ritual &amp; Book</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Service 3: Kundali Dosha Nivarana -->
+<div class="p-space-lg rounded-3xl bg-surface-container/70 backdrop-blur-2xl hover:bg-surface-container-high transition-all duration-300 flex flex-col justify-between shadow-xl group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-14 h-14 rounded-2xl bg-tertiary-container/10 flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">favorite</span>
+</div>
+<span class="px-space-xs py-1 rounded-full bg-surface-container-highest text-tertiary-fixed font-label-caps text-label-caps">Manglik &amp; Naga</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Kundali Dosha Nivarana</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+            Dedicated remedial pujas for Manglik Dosha, Kaal Sarp afflictions, and Pitru ancestral karmas obstructing marriage harmony, family lineage, and emotional peace.
+          </p>
+</div>
+<div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant py-space-xs mb-space-sm">
+<span class="">Ritual Duration: 2.5 Hours</span>
+<span class="text-tertiary">Chart-specific resolution</span>
+</div>
+<button class="w-full py-2.5 rounded-full bg-surface-container-highest hover:bg-tertiary hover:text-on-tertiary text-tertiary font-title-md text-title-md transition-colors flex items-center justify-center gap-2">
+<span class="">Explore Ritual &amp; Book</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Service 4: Sudarshana Homam -->
+<div class="p-space-lg rounded-3xl bg-surface-container/70 backdrop-blur-2xl hover:bg-surface-container-high transition-all duration-300 flex flex-col justify-between shadow-xl group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">security</span>
+</div>
+<span class="px-space-xs py-1 rounded-full bg-surface-container-highest text-primary font-label-caps text-label-caps">Negative Clearing</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Sudarshana Homam</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+            A potent protective shield channeling Lord Maha Vishnu’s celestial disc to cut through toxic malevolence, jealous energy (Drishti), and chronic psychic blockages.
+          </p>
+</div>
+<div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant py-space-xs mb-space-sm">
+<span class="">Ritual Duration: 3 Hours</span>
+<span class="text-primary">108 Herb Ghee Oblations</span>
+</div>
+<button class="w-full py-2.5 rounded-full bg-surface-container-highest hover:bg-primary hover:text-on-primary text-primary font-title-md text-title-md transition-colors flex items-center justify-center gap-2">
+<span class="">Explore Ritual &amp; Book</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Service 5: Vedic Career & Wealth Prasna -->
+<div class="p-space-lg rounded-3xl bg-surface-container/70 backdrop-blur-2xl hover:bg-surface-container-high transition-all duration-300 flex flex-col justify-between shadow-xl group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">payments</span>
+</div>
+<span class="px-space-xs py-1 rounded-full bg-surface-container-highest text-secondary font-label-caps text-label-caps">Artha &amp; Success</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Vedic Career &amp; Wealth Prasna</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+            Immediate horary Prashna astrology for business pivots, investments, career promotions, and identifying auspicious venture timings (Muhurtha).
+          </p>
+</div>
+<div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant py-space-xs mb-space-sm">
+<span class="">Session: 45 Minutes</span>
+<span class="text-secondary">Prasna + Kundali Sync</span>
+</div>
+<button class="w-full py-2.5 rounded-full bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-secondary font-title-md text-title-md transition-colors flex items-center justify-center gap-2">
+<span class="">Explore Ritual &amp; Book</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Service 6: Sri Sukta Lakshmi Pooja -->
+<div class="p-space-lg rounded-3xl bg-surface-container/70 backdrop-blur-2xl hover:bg-surface-container-high transition-all duration-300 flex flex-col justify-between shadow-xl group">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">monetization_on</span>
+</div>
+<span class="px-space-xs py-1 rounded-full bg-surface-container-highest text-primary font-label-caps text-label-caps">Abundance</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Sri Sukta Lakshmi Homam</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+            Consecrated chanting of the Rigvedic Sri Suktam with lotus seeds and honey for household prosperity, commercial expansion, and removal of debt shackles.
+          </p>
+</div>
+<div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant py-space-xs mb-space-sm">
+<span class="">Ritual Duration: 3 Hours</span>
+<span class="text-primary">Padma Samidha Invocations</span>
+</div>
+<button class="w-full py-2.5 rounded-full bg-surface-container-highest hover:bg-primary hover:text-on-primary text-primary font-title-md text-title-md transition-colors flex items-center justify-center gap-2">
+<span class="">Explore Ritual &amp; Book</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Center Button -->
+<div class="mt-space-xl flex justify-center">
+<a class="px-space-xl py-space-sm rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-primary font-title-md text-title-md font-semibold transition-all duration-300 shadow-md flex items-center gap-2" href="#">
+<span class="">View All 24 Vedic Rituals</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</section>
+<!-- PRODUCTS: SACRED CELESTIAL STORE (3D ORBITAL SHOWCASE) -->
+<section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-xl">
+<div>
+<div class="inline-flex items-center gap-space-xs text-primary mb-1">
+<span class="material-symbols-outlined text-[18px]">diamond</span>
+<span class="font-label-caps text-label-caps tracking-[0.25em] uppercase">Energized Talismans</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary">
+            Sacred Planetary Store
+          </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Each item is laboratory tested, sanctified through 108 mantra invocations, and energized in auspicious Vedic planetary hours.
+        </p>
+</div>
+<!-- Bento Product Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
+<!-- Main Central Hero Product (Rudraksha Mala) -->
+<div class="lg:col-span-6 rounded-3xl bg-surface-container-low/90 backdrop-blur-2xl p-space-lg flex flex-col justify-between shadow-2xl relative overflow-hidden group">
+<div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-space-md bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="High quality macro photograph of an authentic consecrated 5-Mukhi Nepali Rudraksha Mala with warm golden silk tassels, resting upon aged Sanskrit palm leaves, warm celestial rim lighting with soft golden particle dust reflections, deep obsidian void background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhDpdcbADx30gNqMDp96sWJxXkEBW8p7GK4ojy1PZlnyPt3_EieyDFNQYWcXQMhgjAB97mBpYUrYSIQ3XDpyPCXeSxvEKjUS3Ldi5uLpyrqWWv-wMi1sZ6cSshwuQ-JVmOCyyYFqg8kymOLcZc8remhBG2wCvljMyYvo37fBQhpswEcecz9sTtgd5VqHwhV8KTKOvBj4AexlPZ919wV4r8i1nS435gP3Y23YqnXkxng6DpKI3QBi2H7g">
+<div class="absolute top-space-sm left-space-sm px-space-sm py-1 rounded-full bg-primary-container text-on-primary font-label-caps text-label-caps font-bold">
+              CONSECRATED VEDIC GRADE
+            </div>
+<div class="absolute bottom-space-sm right-space-sm px-space-sm py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-title-md text-title-md">
+              $188 · ₹14,500
+            </div>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1 text-primary">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span class="font-label-caps text-label-caps tracking-widest">LAB CERTIFIED NEPALI 5-MUKHI</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-space-xs">
+              Natural 5-Mukhi Himalayan Rudraksha Mala (108+1)
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+              Hand-strung with pure unbleached silk and energized with Maha Mrityunjaya stotras. Aligns the five primal elements, pacifies Jupiter afflictions, and anchors meditative focus.
+            </p>
+<div class="flex items-center justify-between pt-space-sm">
+<span class="font-label-sm text-label-sm text-secondary">Free Worldwide Consecrated Shipping</span>
+<button class="px-space-lg py-2.5 rounded-full bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-title-md font-semibold transition-all">
+                Acquire Talisman
+              </button>
+</div>
+</div>
+</div>
+<!-- 4 Supporting Floating Products (Right Column Bento Grid) -->
+<div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Product 1: Navaratna Ring -->
+<div class="p-space-md rounded-2xl bg-surface-container/70 backdrop-blur-xl flex flex-col justify-between hover:bg-surface-container-high transition-all shadow-md group">
+<div class="w-full h-40 rounded-xl overflow-hidden mb-space-sm bg-surface-container-lowest relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up luxury shot of an ancient solid gold Navaratna planetary ring featuring nine natural certified gemstones precisely arranged in Vedic cosmic alignment, soft violet and gold ambient starlight reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf5PeE-nFa3KiyarYTESlxITqXfsfjOhPq8weO3rksReb0FNsRlaaqn1P6rcV4hsFodT3wu9WYt6-xDNR4ZQOzRDHhe8OgRuCrsXLhPzSpTxsQ2pSB2-YqbAJfvD_TAbs8hNTZ26UV_ZwoRR8MsBanRf5ZEwZq9xYqlXgTO618YAs7rvaNaQ3wrT2cTLMPcSsqwKnpIYeY_B-b5DWNC8VmyugArARcmzMqcjle87ipkERF4fd5DRfWmQ">
+<span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/80 text-primary font-label-caps text-label-caps">$340</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface mb-1 leading-snug">Energized Navaratna Astral Ring</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Balances nine planetary frequencies simultaneously using untreated Vedic gems.</p>
+</div>
+<button class="mt-space-sm text-primary font-label-caps text-label-caps tracking-wider uppercase text-left hover:underline">
+              View Details →
+            </button>
+</div>
+<!-- Product 2: Copper Sri Yantra -->
+<div class="p-space-md rounded-2xl bg-surface-container/70 backdrop-blur-xl flex flex-col justify-between hover:bg-surface-container-high transition-all shadow-md group">
+<div class="w-full h-40 rounded-xl overflow-hidden mb-space-sm bg-surface-container-lowest relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High precision heavy copper plate hand-engraved with ancient Sri Yantra sacred geometry, illuminated by soft golden candle glow with intricate sacred triangular lines visible, midnight dark background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfOhXcWZXjZRIakvWISkF2eQ_AR9z8xcd5qVPEYajbPgjakWBKS3d4kKlLsn4ldv5GkJMZrF9QAWMBr18-iO_mJE9_e496rTc3rCxyCFqlNf80UN6Ra19ElfXKe68DSadHdTRDgZ3TuZB2vc-d4ZZl-Z6ajcuSPzoZqj3kJzNbbgN8crNRAWIcBtA5NTskAaaXcxu0Tl6v7ZwNl9lBLbIyVUgpKGk09ktUQQT4RwNifNHnShQ1vP2SFg">
+<span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/80 text-primary font-label-caps text-label-caps">$120</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface mb-1 leading-snug">Hand-Engraved Copper Sri Yantra</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Purified with 108 Vedic chants to anchor continuous cosmic wealth vibration in your altar.</p>
+</div>
+<button class="mt-space-sm text-primary font-label-caps text-label-caps tracking-wider uppercase text-left hover:underline">
+              View Details →
+            </button>
+</div>
+<!-- Product 3: Neelam Blue Sapphire -->
+<div class="p-space-md rounded-2xl bg-surface-container/70 backdrop-blur-xl flex flex-col justify-between hover:bg-surface-container-high transition-all shadow-md group">
+<div class="w-full h-40 rounded-xl overflow-hidden mb-space-sm bg-surface-container-lowest relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Macro luxury photography of an unheated Royal Ceylon Blue Sapphire gemstone resting on black velvet, deep sapphire blue glow with starry highlights, certified planetary talisman." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu9fNPjJpP9Vos1jQUHsGk-BLdf5TgxdmnsZrLNUiJLy30TplfX2A_h6IeMP4So8fbPa1bF8GjBf05AJHeBp2vkPR26nx5VWML0UWCYdwfo12mftvPR2n-JRn-PwPkT0o5yTlZS8H-fblh6l9L6fnY3GTBatqLsfqKCFOzYFEaD0EY-p4S45cRatCM6EouHK2Gq36HGKgFko_XGYdxAMV9Zq7iKVi76mqv0svSl12oSQCnGeaCnMFkNg">
+<span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/80 text-primary font-label-caps text-label-caps">$490</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface mb-1 leading-snug">Natural Blue Sapphire (Neelam)</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Consecrated Saturn talisman for profound karmic discipline, career surges, and psychic focus.</p>
+</div>
+<button class="mt-space-sm text-primary font-label-caps text-label-caps tracking-wider uppercase text-left hover:underline">
+              View Details →
+            </button>
+</div>
+<!-- Product 4: Kasturi & Sandalwood Homa Dhoop -->
+<div class="p-space-md rounded-2xl bg-surface-container/70 backdrop-blur-xl flex flex-col justify-between hover:bg-surface-container-high transition-all shadow-md group">
+<div class="w-full h-40 rounded-xl overflow-hidden mb-space-sm bg-surface-container-lowest relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Temple grade traditional organic incense cones and sandalwood powder in brass katori with gentle aromatic smoke rising into a deep indigo spiritual ambiance, sacred herbs visible." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt0OLmHH3idFWNqAr3WKeb8jFbKrgm9VqHFSlJMHoS1_J823O5BbTWgz5T2tZqK309y3y6bSyeRrij1rMVmf8AGqkuiPudw9Nx2xhZdRfWnfooUi4oVScjjOmNb-1yy1C5EDKi-wCWK753PAYk2I6owxTudKPXzgX3LJ7k965S1ymdJfus6-QBxoYetVCFNc9B5OcTGyZLTMnAzAu-bq4tqyA4IeHbkVH0sphEoz4M9W6ZUFoYmrK_Ag">
+<span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-surface-container-lowest/80 text-primary font-label-caps text-label-caps">$45</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface mb-1 leading-snug">Kasturi &amp; Sandalwood Homa Dhoop</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Temple-grade organic purification resin for room cleansing, dispelling astral miasmas.</p>
+</div>
+<button class="mt-space-md text-primary font-label-caps text-label-caps tracking-wider uppercase text-left hover:underline">
+              View Details →
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SACRED JOURNEYS / RELIGIOUS TRAVEL (CINEMATIC PANORAMIC HORIZON) -->
+<section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin" id="vedic-articles"><div class="max-w-7xl mx-auto"><div class="text-center max-w-3xl mx-auto mb-space-xl"><div class="inline-flex items-center gap-space-xs text-primary mb-1"><span class="material-symbols-outlined text-[18px]">auto_stories</span><span class="font-label-caps text-label-caps tracking-[0.25em] uppercase">✦ VEDIC SHASTRA &amp; SACRED DISCOURSES ✦</span></div><h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary mb-space-sm">Illuminations of the Rishis: Featured Vedic Articles</h2><p class="font-body-lg text-body-lg text-on-surface-variant">Explore ancient metaphysical treatises, Shastric scriptural breakdowns, and astronomical transit forecasts penned directly by Sri Devadathan Namboothiri.</p></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg"><article class="rounded-3xl bg-surface-container/60 backdrop-blur-xl overflow-hidden flex flex-col justify-between shadow-2xl hover:shadow-[0_0_40px_rgba(229,195,120,0.2)] transition-all duration-300 group"><div class="relative w-full h-56 overflow-hidden bg-surface-container-lowest"><img alt="Vedic scholar hands unrolling palm leaf manuscript" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida/AEtjO1WXgYW-7U4sfUPAskyf0-0PjLgshIO4C6Jsbwl0WDSUk0i08zpa4Ba6L1yAdwYVbuSA_Q6imGBz_GEWn9VGe2gp9vpq72-_leFKAz9WDOou5DmgZwZT2ADpxQtvuXmDqBTdwNjNYu5oRDdPMPSr56htwDA84JwME9rmGixcS4ELShyWyrRMfa7lIqS-jl1fxZuqv8HmMcHtCsfM31RWHyuMRqWuscZVjIBkMOJ1_z5mg74F1_Y7QfcWYIg"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div><div class="absolute top-4 left-4 flex items-center gap-2"><span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-label-caps text-label-caps">MANUSCRIPT ARCHEOLOGY</span><span class="px-2 py-1 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-caps text-label-caps">8 MIN READ</span></div></div><div class="p-space-lg flex-1 flex flex-col justify-between"><div><h3 class="font-headline-sm text-headline-sm text-on-surface mb-2 leading-snug group-hover:text-primary transition-colors">The Secret Science of Thaliola Palm Leaves: Decoding Prarabdha Karma &amp; Astrological Free Will</h3><p class="font-body-md text-body-md text-on-surface-variant mb-space-md line-clamp-3">Ancient Kerala palm leaf manuscripts reveal that planetary alignments are not fixed sentences of fate, but luminous acoustic resonance maps.</p></div><div class="pt-space-xs border-t border-outline-variant/30"><a class="mt-2 py-2.5 rounded-full bg-surface-container-highest hover:bg-primary hover:text-on-primary text-primary font-title-md text-title-md transition-all flex items-center justify-center gap-2 w-full" href="/religious/articles/thaliola"><span class="">Read Sacred Article</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></div></article><article class="rounded-3xl bg-surface-container/60 backdrop-blur-xl overflow-hidden flex flex-col justify-between shadow-2xl hover:shadow-[0_0_40px_rgba(202,190,255,0.2)] transition-all duration-300 group"><div class="relative w-full h-56 overflow-hidden bg-surface-container-lowest"><img alt="Sacred Vedic Maha Mrityunjaya Pooja with sacred fire sparks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida/AEtjO1W4zDn7U0a94rthWuwQlROw4ndHb0SbE0P-Q4A_Qd4G9LL0Ad-P0vSwIHZKk3RSt5E8o1ANdAmdtJzhOenmp84_ZCe-3UZYa0etBAAIZoQxV8Z6sccqM6C6-YpWknu5RiKmw3cxf7EH1SsUVsOFXYfGKcFcbewvImLpoHaqH_HuB-n6dKu1ax1m1bk2lWyAhkaDr5jJVFctR8n26-g5hnToz-pk4XbIRv2G89DTta8ZvT50JI96WimM6wtm"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div><div class="absolute top-4 left-4 flex items-center gap-2"><span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps">YAJNA VIDHI</span><span class="px-2 py-1 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-caps text-label-caps">7 MIN READ</span></div></div><div class="p-space-lg flex-1 flex flex-col justify-between"><div><h3 class="font-headline-sm text-headline-sm text-on-surface mb-2 leading-snug group-hover:text-secondary transition-colors">The Metaphysics of Maha Mrityunjaya Homam: Why 1008 Ahutis Break Karmic Cycles</h3><p class="font-body-md text-body-md text-on-surface-variant mb-space-md line-clamp-3">Decoding the vibrational bio-geometry of the Trayambakam formula and how consecrated fire dissolves Maraka planetary affliction.</p></div><div class="pt-space-xs border-t border-outline-variant/30"><a class="mt-2 py-2.5 rounded-full bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-secondary font-title-md text-title-md transition-all flex items-center justify-center gap-2 w-full" href="/religious/articles"><span class="">Read Sacred Article</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></div></article><article class="rounded-3xl bg-surface-container/60 backdrop-blur-xl overflow-hidden flex flex-col justify-between shadow-2xl hover:shadow-[0_0_40px_rgba(255,186,93,0.2)] transition-all duration-300 group"><div class="relative w-full h-56 overflow-hidden bg-surface-container-lowest"><img alt="Navagraha brass idols with oil lamps in temple sanctum" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida/AEtjO1U9lzlQFXnj1cYvwgU16UiRJ6vC6lQyepXkRlJoEX_6_6YM2ervwF5oZ9ue6sejSzOougXOnSeG7D-G8WUi9WqoHqlY6peIJxLXURXcruTV6zSZ_VYDlUyoUiGoJQ0IL0C1TNggrXExAVwkCdcuQ7jkzQfGiWNRGKOxLnld20hyQE-wPBXGZszFZY6YMZGziW1i8VqOamGz7gRSQRwhfn-fWm1Qd2euSfpFGyjwhk0rWSYUcVzcVLYGfx0"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div><div class="absolute top-4 left-4 flex items-center gap-2"><span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary font-label-caps text-label-caps">GOCHARA SHASTRA</span><span class="px-2 py-1 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-caps text-label-caps">6 MIN READ</span></div></div><div class="p-space-lg flex-1 flex flex-col justify-between"><div><h3 class="font-headline-sm text-headline-sm text-on-surface mb-2 leading-snug group-hover:text-tertiary transition-colors">Navagraha Transits 2025: Navigating Saturn in Pisces and Rahu-Ketu Axis Shift</h3><p class="font-body-md text-body-md text-on-surface-variant mb-space-md line-clamp-3">A comprehensive astrological breakdown of Saturn's watery immersion into Meena Rashi and tailored remedies for each Janma Rashi.</p></div><div class="pt-space-xs border-t border-outline-variant/30"><a class="mt-2 py-2.5 rounded-full bg-surface-container-highest hover:bg-tertiary hover:text-on-tertiary text-tertiary font-title-md text-title-md transition-all flex items-center justify-center gap-2 w-full" href="/religious/articles"><span class="">Read Sacred Article</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></div></article></div><div class="mt-space-xl flex justify-center"><a class="px-space-xl py-space-sm rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-primary font-title-md text-title-md font-semibold transition-all duration-300 shadow-md flex items-center gap-2 hover:shadow-[0_0_25px_2px_rgba(229,195,120,0.8)]" href="/religious/articles"><span class="material-symbols-outlined text-[18px]">menu_book</span><span class="">View All Vedic Wisdom &amp; Articles</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span></a></div></div></section><section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin">
+<div class="max-w-7xl mx-auto">
+<div class="text-center max-w-2xl mx-auto mb-space-xl">
+<div class="inline-flex items-center gap-space-xs text-primary mb-1">
+<span class="material-symbols-outlined text-[18px]">temple_hindu</span>
+<span class="font-label-caps text-label-caps tracking-[0.25em] uppercase">Sacred Pilgrimages &amp; Mandalas</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary mb-space-sm">
+          Celestial Spiritual Journeys
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          Curated esoteric yatras with private temple access, Vedic rituals at high-energy vortexes, and personal guidance from JyothishiUncle.
+        </p>
+</div>
+<!-- 3 Panoramic Travel Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- Yatra 1: Kashi Moksha Yatra -->
+<div class="rounded-3xl bg-surface-container/60 backdrop-blur-xl overflow-hidden flex flex-col justify-between shadow-2xl hover:shadow-[0_0_40px_rgba(229,195,120,0.2)] transition-all duration-300 group">
+<div class="relative w-full h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Cinematic atmospheric twilight view of ancient Varanasi Ghats along the Ganges river with golden glowing oil lamps floating on water, Manikarnika and Dashashwamedh evening Ganga Aarti, ancient stone temple silhouettes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1D8pfY35Sa0Pi2V2yk-6M2xw0w3zD-m6TWGkILqbSi6C0fTCJwl_zVjMyWC-akzElHrcDCshQw5x6p4VBiCuu8IhW73l19VeSiVw6fyG5-j5kMJx5_tgvF4av2RRgwpWJoClVrYzmW4hJ4aqT9gFt4YYpqyuEzMjD3Bm8ganDQ02Oj5HcezTHtFmt7C6F4mYoReQBiEj2gpkrbwpyATZPYZwhQ2Dcf7IB6xWOExHVwQtWIkYXKtsNbw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-label-caps text-label-caps">
+              OCT 2025 · 7 DAYS
+            </div>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Kashi Moksha Yatra &amp; Ganga Aarti</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+                Private sunrise boat Sankalpa on the sacred Ganga, exclusive darshan at Kashi Vishwanath, and ancestral Tarpana rituals to dissolve generational burdens.
+              </p>
+</div>
+<div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm py-2">
+<span class="">Varanasi &amp; Sarnath</span>
+<span class="text-primary font-semibold">12 Seekers Intimate Group</span>
+</div>
+<button class="w-full mt-2 py-2.5 rounded-full bg-surface-container-highest hover:bg-primary hover:text-on-primary text-primary font-title-md text-title-md transition-all">
+                View Yatra Itinerary →
+              </button>
+</div>
+</div>
+</div>
+<!-- Yatra 2: Char Dham Himalayan -->
+<div class="rounded-3xl bg-surface-container/60 backdrop-blur-xl overflow-hidden flex flex-col justify-between shadow-2xl hover:shadow-[0_0_40px_rgba(202,190,255,0.2)] transition-all duration-300 group">
+<div class="relative w-full h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Epic cinematic panoramic photograph of Kedarnath temple against towering snow-covered Himalayan peaks under a radiant starlit midnight sky with celestial Milky Way galaxy shining brightly overhead." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwvogrrxmGcQsTiXXT9YBMY_p9tVi9hNnBz9Lp6Af9hJaMLU4AIZ8tCe8Co7J4OwTJy9ijQ1Z10jBhHVI1QXPRfXxw64I6ZY1UF7R7pypWZ5AnZ_Km0ldqQQncpEabRVFHoPZwUelLxssGOMHCQ7afm4A7n_2SzM7NvTDN-2bGFpiAHIcdYq8fUVlLddBoGGGN269WFWSBDn7SRE5y9przAbXoY83LWLwjWrESDa4gx9TLGdTOule4rw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps">
+              MAY 2025 · 12 DAYS
+            </div>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Char Dham Himalayan Pilgrimage</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+                High-altitude sacred voyage traversing Yamunotri, Gangotri, Kedarnath, and Badrinath with chartered helicopter transfers and Himalayan hermit blessings.
+              </p>
+</div>
+<div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm py-2">
+<span class="">Uttarakhand High Peaks</span>
+<span class="text-secondary font-semibold">Helicopter Supported</span>
+</div>
+<button class="w-full mt-2 py-2.5 rounded-full bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-secondary font-title-md text-title-md transition-all">
+                View Yatra Itinerary →
+              </button>
+</div>
+</div>
+</div>
+<!-- Yatra 3: Kerala Sacred Temples -->
+<div class="rounded-3xl bg-surface-container/60 backdrop-blur-xl overflow-hidden flex flex-col justify-between shadow-2xl hover:shadow-[0_0_40px_rgba(255,186,93,0.2)] transition-all duration-300 group">
+<div class="relative w-full h-64 overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Atmospheric twilight photo of Sree Padmanabhaswamy Temple gopuram reflecting in the sacred Padma Theertham pond in Thiruvananthapuram, flanked by tropical Kerala coconut palms and glowing temple oil lamps." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVMrn0pxEbIdJAmrMjLNJH4Q5XrADhWGn5BwJZWoDfZfOFtp1O9PfYSzR4eK-xrXspzOByfGaIjZ87YZNw_aCgR2nJ-l6wHmDa0MloEHxYmrNoUxAKaYz8MBUoSqwjQ-XOIQLYlk9iUw-8SRFY1lyJMPm3_89v_NK2M0vf5mf9qdxkHrAAdBky8zvOuNxkO8o6_8StOXfskeYYLO9MjbsqCWgUsaslnxkDJbpLdcJtD-TMO1oBnh2_Yw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary font-label-caps text-label-caps">
+              NOV 2025 · 6 DAYS
+            </div>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Padmanabhaswamy &amp; Divya Desam</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+                Ancient Kerala Thanthric sanctuary circuit covering Padmanabhaswamy, Attukal Devi, and peaceful backwater meditation sanctums with traditional vegetarian feasts.
+              </p>
+</div>
+<div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm py-2">
+<span class="">Kerala South Sanctuary</span>
+<span class="text-tertiary font-semibold">Thanthric Ritual Access</span>
+</div>
+<button class="w-full mt-2 py-2.5 rounded-full bg-surface-container-highest hover:bg-tertiary hover:text-on-tertiary text-tertiary font-title-md text-title-md transition-all">
+                View Yatra Itinerary →
+              </button>
+</div>
+</div>
+</div>
+</div><div class="mt-space-xl flex justify-center"><a class="px-space-xl py-space-sm rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-primary font-title-md text-title-md font-semibold transition-all duration-300 shadow-md flex items-center gap-2 hover:shadow-[0_0_25px_2px_rgba(229,195,120,0.8)]" href="/religious/travel"><span class="material-symbols-outlined text-[18px]">temple_hindu</span><span class="">View All Religious Yatras &amp; Travel</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span></a></div>
+</div>
+</section>
+<!-- CONSULTATION SECTION: COSMIC SCHEDULING INTERFACE -->
+<section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin" id="consultation">
+<div class="max-w-6xl mx-auto rounded-3xl bg-surface-container-low/95 backdrop-blur-3xl p-space-md md:p-space-xl shadow-[0_0_60px_rgba(72,41,179,0.2)]">
+<div class="text-center max-w-2xl mx-auto mb-space-lg">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.25em] uppercase mb-1 block">Live Astrological Ephemeris Sync</span>
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary mb-space-xs">
+          Your Questions. Your Journey. Personal Guidance.
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Book an intimate, confidential 1-on-1 Vedic consultation with JyothishiUncle via secure encrypted video call.
+        </p>
+</div>
+<!-- Interactive Booking Matrix -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Sub-Panel: Consultation Type & Birth Metadata Ingestion -->
+<div class="lg:col-span-6 flex flex-col gap-space-md">
+<!-- Consultation Types Selector -->
+<div>
+<label class="font-label-caps text-label-caps text-primary tracking-wider uppercase mb-space-xs block">
+              1. Select Sacred Consultation Dimension
+            </label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs">
+<label class="p-space-sm rounded-xl bg-surface-container-high/60 cursor-pointer flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
+<input checked="" class="accent-primary" name="consult_type" type="radio">
+<div class="text-left">
+<p class="font-title-md text-title-md text-on-surface leading-tight">Comprehensive Kundali</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Full Life Blueprint (60m)</p>
+</div>
+</label>
+<label class="p-space-sm rounded-xl bg-surface-container-high/60 cursor-pointer flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
+<input class="accent-primary" name="consult_type" type="radio">
+<div class="text-left">
+<p class="font-title-md text-title-md text-on-surface leading-tight">Marriage &amp; Porutham</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Compatibility &amp; Timing (45m)</p>
+</div>
+</label>
+<label class="p-space-sm rounded-xl bg-surface-container-high/60 cursor-pointer flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
+<input class="accent-primary" name="consult_type" type="radio">
+<div class="text-left">
+<p class="font-title-md text-title-md text-on-surface leading-tight">Career &amp; Prasna Query</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Immediate Clarity (30m)</p>
+</div>
+</label>
+<label class="p-space-sm rounded-xl bg-surface-container-high/60 cursor-pointer flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
+<input class="accent-primary" name="consult_type" type="radio">
+<div class="text-left">
+<p class="font-title-md text-title-md text-on-surface leading-tight">Parihara &amp; Gemstone</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Karmic Neutralization (30m)</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Minimalist Birth Details Form Fields -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Seeker Full Legal Name</label>
+<input class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" placeholder="e.g. Aditi Sundaram" type="text">
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Date of Birth</label>
+<input class="w-full bg-surface-container px-space-md py-2 rounded-xl text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" type="date" value="1992-07-15">
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Exact Time (HH:MM)</label>
+<input class="w-full bg-surface-container px-space-md py-2 rounded-xl text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" type="time" value="06:45">
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Place of Birth (City &amp; Country)</label>
+<input class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" placeholder="e.g. Kozhikode, Kerala, India" type="text">
+</div>
+</div>
+</div>
+<!-- Right Sub-Panel: Cosmic Ephemeris Calendar & Time Slot Matrix -->
+<div class="lg:col-span-6 flex flex-col justify-between bg-surface-container/60 p-space-md rounded-2xl">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-title-md text-title-md text-primary">May 2025 · Vaisakha Masa</span>
+<div class="flex items-center gap-1 text-primary">
+<button class="p-1 rounded-lg hover:bg-surface-container-highest"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="p-1 rounded-lg hover:bg-surface-container-highest"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+<!-- Calendar Mini Grid -->
+<div class="grid grid-cols-7 text-center font-label-caps text-label-caps text-outline mb-2">
+<span class="">SU</span><span class="">MO</span><span class="">TU</span><span class="">WE</span><span class="">TH</span><span class="">FR</span><span class="">SA</span>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center font-body-md text-body-md text-on-surface-variant mb-space-md">
+<span class="p-2 opacity-30">27</span><span class="p-2 opacity-30">28</span><span class="p-2 opacity-30">29</span><span class="p-2 opacity-30">30</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">1</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">2</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">3</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">4</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">5</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">6</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">7</span>
+<!-- Selected Date with Glow -->
+<span class="p-2 bg-primary-container text-on-primary font-bold rounded-lg shadow-[0_0_15px_rgba(229,195,120,0.7)] cursor-pointer">8</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">9</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">10</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">11</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">12</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">13</span>
+<span class="p-2 hover:bg-surface-container-highest rounded-lg cursor-pointer">14</span>
+</div>
+<!-- Time Slots -->
+<label class="font-label-caps text-label-caps text-primary tracking-wider uppercase mb-space-xs block">
+              Available Auspicious Muhurthas
+            </label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs mb-space-md">
+<button class="px-space-sm py-2 rounded-xl bg-surface-container-highest text-primary font-label-sm text-label-sm text-left flex items-center justify-between">
+<span class="">10:00 AM - 10:45 AM</span>
+<span class="text-[10px] text-primary-fixed-dim">Guru Hora</span>
+</button>
+<button class="px-space-sm py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm text-left flex items-center justify-between">
+<span class="">02:30 PM - 03:15 PM</span>
+<span class="text-[10px] text-on-surface-variant">Budha Hora</span>
+</button>
+<button class="px-space-sm py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm text-left flex items-center justify-between">
+<span class="">04:45 PM - 05:30 PM</span>
+<span class="text-[10px] text-on-surface-variant">Shukra Hora</span>
+</button>
+<button class="px-space-sm py-2 rounded-xl bg-secondary-container/40 text-secondary font-label-sm text-label-sm text-left flex items-center justify-between shadow-sm">
+<span class="">06:00 PM - 06:45 PM</span>
+<span class="text-[10px] text-secondary-fixed">Sandhya Special</span>
+</button>
+</div>
+</div>
+<!-- Instant CTA -->
+<div class="pt-space-sm">
+<button class="w-full py-space-sm rounded-full bg-gradient-to-r from-primary via-primary-container to-primary text-on-primary font-title-md text-title-md font-bold tracking-wide shadow-[0_0_25px_rgba(229,195,120,0.5)] hover:scale-[1.01] transition-all">
+              Book Consultation (Instant Confirmation)
+            </button>
+<p class="font-label-sm text-label-sm text-center text-outline mt-2">
+              🔒 100% Confidential &amp; Secure Video Call · Ephemeris Sync Guarantee
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TESTIMONIALS: STORIES FROM OUR SEEKERS (CONSTELLATION CLUSTER) -->
+<section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin">
+<div class="text-center max-w-3xl mx-auto mb-space-xl">
+<div class="inline-flex items-center gap-space-xs text-secondary mb-1">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+<span class="font-label-caps text-label-caps tracking-[0.25em] uppercase">Seeker Testimonies</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface">
+        Sacred Stories from the Void
+      </h2>
+</div>
+<!-- 3 Glowing Constellation Cards -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Testimonial 1 -->
+<div class="p-space-lg rounded-3xl bg-surface-container/50 backdrop-blur-xl flex flex-col justify-between shadow-lg relative">
+<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs">✦</div>
+<div>
+<div class="flex items-center gap-1 text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface mb-space-md italic leading-relaxed">
+            "The guidance I received on my Saturn Sade Sati was a dramatic turning point. Practical, compassionate, and uncannily precise down to the month of career recovery."
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<div class="w-11 h-11 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">AN</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface leading-tight">Dr. Ananya Nair</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Neurologist · London, UK</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="p-space-lg rounded-3xl bg-surface-container/50 backdrop-blur-xl flex flex-col justify-between shadow-lg relative">
+<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center text-secondary text-xs">✦</div>
+<div>
+<div class="flex items-center gap-1 text-secondary mb-space-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface mb-space-md italic leading-relaxed">
+            "Our family business was facing severe gridlock. The Navagraha homam and JyothishiUncle’s chart analysis restored balance within 40 days. An absolute beacon of integrity."
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<div class="w-11 h-11 rounded-full bg-secondary/20 flex items-center justify-center text-secondary font-bold">RM</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface leading-tight">Rajesh Menon</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Venture Director · Dubai, UAE</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="p-space-lg rounded-3xl bg-surface-container/50 backdrop-blur-xl flex flex-col justify-between shadow-lg relative">
+<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-tertiary/20 flex items-center justify-center text-tertiary text-xs">✦</div>
+<div>
+<div class="flex items-center gap-1 text-primary mb-space-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface mb-space-md italic leading-relaxed">
+            "Authentic Vedic astrology without anxiety or fear-mongering. Pure wisdom, scientific explanation of planetary transits, and deep spiritual clarity for our marriage."
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<div class="w-11 h-11 rounded-full bg-tertiary/20 flex items-center justify-center text-tertiary font-bold">MK</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface leading-tight">Meera &amp; Arvind K.</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Architects · Bangalore</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FINAL CLIMAX CTA & RADIANT HALO -->
+
+<!-- CONTACT ENQUIRY: MINIMALIST DARK GLASSMORPHIC CARD -->
+<section class="relative w-full py-space-xl my-space-lg px-space-md md:px-margin" id="faq">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-space-xl">
+      <div class="inline-flex items-center gap-space-xs text-primary mb-1">
+        <span class="material-symbols-outlined text-[18px]">help_center</span>
+        <span class="font-label-caps text-label-caps tracking-[0.25em] uppercase">Sacred Inquiries &amp; Clarity</span>
+      </div>
+      <h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary mb-space-xs">
+        Cosmic Queries &amp; Clarity
+      </h2>
+      <p class="font-body-md text-body-md text-on-surface-variant">
+        Explore answers regarding personal consultations, Vedic sidereal calculations, consecrated homams, and sacred yatras.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-space-sm">
+      <!-- FAQ 1 -->
+      <details class="group rounded-2xl bg-surface-container-low/80 backdrop-blur-2xl p-space-md transition-all duration-300 shadow-md open:bg-surface-container-high/60 open:shadow-[0_0_20px_rgba(229,195,120,0.15)]" open="">
+        <summary class="flex items-center justify-between cursor-pointer list-none select-none text-on-surface hover:text-primary transition-colors">
+          <span class="font-title-md text-title-md font-medium pr-4 flex items-center gap-space-xs">
+            <span class="text-primary font-headline-sm text-headline-sm leading-none">01</span>
+            <span class="">How accurate is Vedic Astrology compared to Western Astrology?</span>
+          </span>
+          <span class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-open:rotate-180 transition-transform flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+          </span>
+        </summary>
+        <div class="pt-space-sm mt-space-xs text-on-surface-variant font-body-md text-body-md leading-relaxed border-t border-outline-variant/30">
+          Vedic Astrology (Jyotish) relies on the Sidereal Zodiac (Nirayana system), factoring in the precession of the equinoxes (Ayanamsha) to mirror the exact astronomical positions of fixed stars. Coupled with 27 Lunar Nakshatras and the nuanced Vimshottari Dasha planetary timeline system, it reveals granular timing of karmic shifts that tropical systems frequently overlook.
+        </div>
+      </details>
+
+      <!-- FAQ 2 -->
+      <details class="group rounded-2xl bg-surface-container-low/80 backdrop-blur-2xl p-space-md transition-all duration-300 shadow-md open:bg-surface-container-high/60 open:shadow-[0_0_20px_rgba(229,195,120,0.15)]">
+        <summary class="flex items-center justify-between cursor-pointer list-none select-none text-on-surface hover:text-primary transition-colors">
+          <span class="font-title-md text-title-md font-medium pr-4 flex items-center gap-space-xs">
+            <span class="text-primary font-headline-sm text-headline-sm leading-none">02</span>
+            <span class="">What birth details are required for a personal Kundali reading?</span>
+          </span>
+          <span class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-open:rotate-180 transition-transform flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+          </span>
+        </summary>
+        <div class="pt-space-sm mt-space-xs text-on-surface-variant font-body-md text-body-md leading-relaxed border-t border-outline-variant/30">
+          To compute your accurate Janam Kundali and divisional charts (Navamsha D9, Dashamsha D10), we require your exact Date of Birth, precise Time of Birth (HH:MM), and City/Country of birth. If birth time is uncertain by a few minutes, JyothishiUncle offers Prashna Kundali (Horary sync) and astrological birth-time rectification protocols.
+        </div>
+      </details>
+
+      <!-- FAQ 3 -->
+      <details class="group rounded-2xl bg-surface-container-low/80 backdrop-blur-2xl p-space-md transition-all duration-300 shadow-md open:bg-surface-container-high/60 open:shadow-[0_0_20px_rgba(229,195,120,0.15)]">
+        <summary class="flex items-center justify-between cursor-pointer list-none select-none text-on-surface hover:text-primary transition-colors">
+          <span class="font-title-md text-title-md font-medium pr-4 flex items-center gap-space-xs">
+            <span class="text-primary font-headline-sm text-headline-sm leading-none">03</span>
+            <span class="">Are the poojas and homams conducted remotely or in person?</span>
+          </span>
+          <span class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-open:rotate-180 transition-transform flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+          </span>
+        </summary>
+        <div class="pt-space-sm mt-space-xs text-on-surface-variant font-body-md text-body-md leading-relaxed border-t border-outline-variant/30">
+          Rituals are conducted in dedicated Kerala and Rishikesh Vedic ashram sanctums. Seekers can attend physically or participate remotely via high-definition private live streams. Prior to the homam, your Gotra, Nakshatra, and personal Sankalpa are formally invoked by priests. Sanctified sacred ash (Bhasma), energized yantras, and prasadam are air-shipped worldwide.
+        </div>
+      </details>
+
+      <!-- FAQ 4 -->
+      <details class="group rounded-2xl bg-surface-container-low/80 backdrop-blur-2xl p-space-md transition-all duration-300 shadow-md open:bg-surface-container-high/60 open:shadow-[0_0_20px_rgba(229,195,120,0.15)]">
+        <summary class="flex items-center justify-between cursor-pointer list-none select-none text-on-surface hover:text-primary transition-colors">
+          <span class="font-title-md text-title-md font-medium pr-4 flex items-center gap-space-xs">
+            <span class="text-primary font-headline-sm text-headline-sm leading-none">04</span>
+            <span class="">How do energized talismans, Rudraksha, and gemstones work?</span>
+          </span>
+          <span class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-open:rotate-180 transition-transform flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+          </span>
+        </summary>
+        <div class="pt-space-sm mt-space-xs text-on-surface-variant font-body-md text-body-md leading-relaxed border-t border-outline-variant/30">
+          Every stone and sacred seed is 100% natural, certified untreated, and subjected to authentic Prana Pratishtha consecrations during auspicious planetary horas. By harmonizing electromagnetic and subtle energetic frequencies, they act as resonance antennas—pacifying malefic afflictions and strengthening benefic yogas.
+        </div>
+      </details>
+
+      <!-- FAQ 5 -->
+      <details class="group rounded-2xl bg-surface-container-low/80 backdrop-blur-2xl p-space-md transition-all duration-300 shadow-md open:bg-surface-container-high/60 open:shadow-[0_0_20px_rgba(229,195,120,0.15)]">
+        <summary class="flex items-center justify-between cursor-pointer list-none select-none text-on-surface hover:text-primary transition-colors">
+          <span class="font-title-md text-title-md font-medium pr-4 flex items-center gap-space-xs">
+            <span class="text-primary font-headline-sm text-headline-sm leading-none">05</span>
+            <span class="">Can I reschedule or modify my booked consultation?</span>
+          </span>
+          <span class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-open:rotate-180 transition-transform flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+          </span>
+        </summary>
+        <div class="pt-space-sm mt-space-xs text-on-surface-variant font-body-md text-body-md leading-relaxed border-t border-outline-variant/30">
+          Yes. Because planetary timeframes (Muhurthas) are sacred, we accommodate appointment rescheduling up to 24 hours before your session. You can easily pick another available slot via the digital ephemeris calendar or contact our sanctuary liaison on WhatsApp.
+        </div>
+      </details>
+
+      <!-- FAQ 6 -->
+      <details class="group rounded-2xl bg-surface-container-low/80 backdrop-blur-2xl p-space-md transition-all duration-300 shadow-md open:bg-surface-container-high/60 open:shadow-[0_0_20px_rgba(229,195,120,0.15)]">
+        <summary class="flex items-center justify-between cursor-pointer list-none select-none text-on-surface hover:text-primary transition-colors">
+          <span class="font-title-md text-title-md font-medium pr-4 flex items-center gap-space-xs">
+            <span class="text-primary font-headline-sm text-headline-sm leading-none">06</span>
+            <span class="">How are Sacred Spiritual Journeys arranged and curated?</span>
+          </span>
+          <span class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-open:rotate-180 transition-transform flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+          </span>
+        </summary>
+        <div class="pt-space-sm mt-space-xs text-on-surface-variant font-body-md text-body-md leading-relaxed border-t border-outline-variant/30">
+          Our yatras are limited to intimate cohorts (10–12 seekers) to ensure profound contemplative focus. Journeys feature VIP temple access, personal guidance from JyothishiUncle, satvik Ayurvedic nutrition, helicopter connectivity for Himalayan circuits, and daily sadhana sessions at ancient energetic vortexes.
+        </div>
+      </details>
+    </div>
+  </div>
+</section><section class="relative w-full py-space-xl mb-space-xl px-space-md md:px-margin" id="contact">
+<div class="max-w-3xl mx-auto p-space-lg md:p-space-xl rounded-3xl bg-surface-container-lowest/80 backdrop-blur-2xl shadow-[0_0_60px_rgba(0,0,0,0.8)]">
+<div class="text-center mb-space-lg">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.2em] uppercase mb-1 block">Sanctuary Inquiries</span>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-1">
+          Send a Sacred Enquiry
+        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Have a question about homams, birth chart readings, or upcoming sacred journeys? We respond within one planetary cycle (24 hours).
+        </p>
+</div>
+<form class="flex flex-col gap-space-md" onsubmit="event.preventDefault();">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Your Name</label>
+<input class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" placeholder="Devi Prasad" type="text">
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Mobile / WhatsApp Number</label>
+<input class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" placeholder="+91 98765 43210" type="tel">
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Email Address</label>
+<input class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" placeholder="seeker@vediccosmos.com" type="email">
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Location / Country</label>
+<input class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all" placeholder="Singapore / India / USA" type="text">
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">How Did You Hear About JyothishiUncle?</label>
+<select class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all">
+<option>Personal Recommendation / Word of Mouth</option>
+<option>Spiritual Sanctuary &amp; Vedic Temple Referral</option>
+<option>Social Media / Vedic Resonance Podcast</option>
+<option>Sacred Pilgrimage Cohort</option>
+</select>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase block mb-1">Your Query / Spiritual Message</label>
+<textarea class="w-full bg-surface-container px-space-md py-2.5 rounded-xl text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:bg-surface-container-highest transition-all resize-none" placeholder="Briefly describe what clarity or guidance you are seeking..." rows="4"></textarea>
+</div>
+<button class="w-full py-space-sm rounded-full bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-title-md font-bold transition-all shadow-[0_0_20px_rgba(229,195,120,0.4)]" type="submit">
+          Send Sacred Enquiry
+        </button>
+</form>
+</div>
+</section>
+</div></main><div class="fixed bottom-space-lg right-space-md md:right-space-lg z-50 flex items-center group"><div class="hidden md:flex items-center mr-space-sm px-space-md py-space-xs rounded-full bg-surface-container-high/80 backdrop-blur-xl text-on-surface font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] pointer-events-none"><span class="font-label-caps text-label-caps text-primary mr-2">✦</span>Chat with JyothishiUncle</div><a aria-label="Chat with JyothishiUncle on WhatsApp" class="relative flex items-center justify-center w-14 h-14 rounded-full bg-primary-container text-on-primary shadow-[0_0_30px_rgba(229,195,120,0.4)] hover:shadow-[0_0_40px_rgba(229,195,120,0.75)] hover:scale-105 transition-all duration-300" href="#"><div class="absolute inset-0 rounded-full bg-primary animate-ping opacity-25"></div><span class="material-symbols-outlined text-[28px]">chat</span></a></div><section class="relative w-full py-space-xl my-space-xl px-space-md md:px-margin flex flex-col items-center justify-center text-center overflow-hidden"><div class="absolute inset-0 pointer-events-none flex items-center justify-center -z-10"><div class="w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(229,195,120,0.18),rgba(72,41,179,0.12),rgba(15,12,28,0))] blur-[120px] animate-pulse" style="animation-duration: 7s;"></div><div class="absolute w-[500px] h-[500px] rounded-full bg-secondary-container/20 blur-[140px]"></div></div><div class="relative max-w-5xl mx-auto w-full rounded-3xl bg-gradient-to-b from-surface-container-high/70 via-surface-container/60 to-surface-container-lowest/90 backdrop-blur-2xl p-space-lg md:p-space-xl shadow-[0_0_80px_rgba(229,195,120,0.3)] overflow-hidden"><div class="absolute top-1/4 left-1/6 w-1.5 h-1.5 rounded-full bg-primary-fixed shadow-[0_0_8px_2px_rgba(255,223,155,0.8)] opacity-70 animate-ping" style="animation-duration: 5s;"></div><div class="absolute bottom-1/3 right-1/12 w-1 h-1 rounded-full bg-secondary shadow-[0_0_10px_2px_rgba(202,190,255,0.7)] opacity-60 animate-pulse"></div><div class="relative z-10 flex flex-col items-center"><div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-surface-container-lowest via-surface-container-high to-surface-container-lowest flex items-center justify-center shadow-[0_0_50px_rgba(255,224,157,0.8)] mb-space-md group"><svg class="absolute inset-0 w-full h-full text-primary/40 animate-spin" fill="none" style="animation-duration: 60s;" viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" stroke="currentColor" stroke-dasharray="3 6" stroke-width="1"></circle><circle cx="60" cy="60" r="48" stroke="currentColor" stroke-width="0.75"></circle></svg><span class="material-symbols-outlined text-[44px] text-primary group-hover:scale-110 transition-transform duration-500">brightness_7</span></div><div class="inline-flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-high/80 backdrop-blur-md mb-space-sm shadow-sm"><span class="material-symbols-outlined text-primary text-[15px]">auto_awesome</span><span class="font-label-caps text-label-caps text-primary tracking-[0.25em] uppercase">Sacred Karmic Awakening</span></div><h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-transparent bg-clip-text bg-gradient-to-b from-primary via-on-surface to-secondary-fixed mb-space-sm max-w-3xl leading-tight">Your Cosmic Journey Begins Now</h2><p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-space-lg leading-relaxed">Align your destiny with ancient Vedic astrology, personalized planetary remedies, and sacred homams.</p><div class="flex flex-col sm:flex-row items-center justify-center gap-space-md w-full sm:w-auto mb-space-xl"><a class="w-full sm:w-auto px-space-xl py-space-sm rounded-full bg-gradient-to-r from-primary via-primary-container to-primary text-on-primary font-title-md text-title-md font-bold tracking-wide shadow-[0_0_35px_rgba(229,195,120,0.6)] hover:shadow-[0_0_45px_rgba(255,224,157,0.85)] hover:scale-105 transition-all duration-300 flex items-center justify-center gap-space-xs" href="#consultation"><span class="material-symbols-outlined text-[20px]">star</span><span class="">Book Your 1-on-1 Consultation</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span></a><a class="w-full sm:w-auto px-space-lg py-space-sm rounded-full bg-surface-container-high/60 backdrop-blur-xl text-primary font-body-lg text-body-lg hover:bg-surface-container-highest transition-all duration-300 flex items-center justify-center gap-space-xs shadow-md" href="#services"><span class="material-symbols-outlined text-[18px] text-secondary">temple_hindu</span><span class="">Explore Sacred Pooja &amp; Homams</span></a></div><div class="w-full pt-space-md border-t border-outline-variant/30 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm text-center"><div class="p-space-xs rounded-xl bg-surface-container-low/60 flex items-center justify-center gap-2"><span class="text-primary text-[16px]">⚡</span><span class="font-label-sm text-label-sm text-on-surface">Instant Muhurtha Confirmation</span></div><div class="p-space-xs rounded-xl bg-surface-container-low/60 flex items-center justify-center gap-2"><span class="text-secondary text-[16px]">🔒</span><span class="font-label-sm text-label-sm text-on-surface">100% Confidential Video Guidance</span></div><div class="p-space-xs rounded-xl bg-surface-container-low/60 flex items-center justify-center gap-2"><span class="text-primary text-[16px]">🪷</span><span class="font-label-sm text-label-sm text-on-surface">Certified Vedic Priests</span></div><div class="p-space-xs rounded-xl bg-surface-container-low/60 flex items-center justify-center gap-2"><span class="text-secondary text-[16px]">⭐</span><span class="font-label-sm text-label-sm text-on-surface">4.98/5 Rating (48,000+ Seekers)</span></div></div></div></div></section><footer class="relative z-10 w-full bg-surface-container-lowest/95 pt-space-xl pb-space-lg mt-space-xl backdrop-blur-2xl border-t border-outline-variant/30"><div class="w-full px-gutter md:px-margin max-w-7xl mx-auto flex flex-col items-center"><div class="text-center max-w-3xl mx-auto mb-space-xl"><p class="font-headline-sm text-headline-sm text-primary mb-space-xs tracking-wider">ॐ असतो मा सद्गमय । तमसो मा ज्योतिर्गमय । मृत्योर्मा अमृतं गमय ॥</p><p class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.2em] uppercase">'LEAD US FROM UNREAL TO REAL, FROM DARKNESS UNTO CELESTIAL LIGHT'</p></div><div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg pb-space-xl border-b border-outline-variant/30 text-left"><div class="flex flex-col items-start gap-space-sm"><a class="flex items-center gap-space-sm group" href="/"><img alt="JyothishiUncle Emblem Logo" class="h-9 w-auto object-contain drop-shadow-[0_0_10px_rgba(229,195,120,0.6)] group-hover:scale-105 transition-transform" src="https://lh3.googleusercontent.com/aida/AEtjO1XYO8Mgty_s963W4fEs2TUV_hNMC1VvS18GxPrYsUMJf6vT080MX-c3bnqLfFgJ2769Yr6GjSRCetPsx0O5CYLt-hejpzlyJcHkojZXE8mb6e_Pq2FE8QfJ22KW8q97u-7iBC-4ZURQ6a42IoJRhHy5qEWt9gLBnlidBgVFu2hoXxqtF7Sk8inP7wHJbFvAqr30OBDIkuNZiohSXZBkFeDUn_lSQWSG0y41-tHMrbceJs3pui6174V-TOsi"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight leading-none">JyothishiUncle</span><span class="font-label-caps text-[9px] text-primary-fixed-dim/70 tracking-[0.2em] uppercase mt-0.5">Vedic Astrological Oracle</span></div></a><p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Dedicated to the pure preservation of Surya Siddhanta astronomical precision and cosmic consciousness. Illuminating destiny pathways through timeless Vedic cartography.</p><div class="flex items-center gap-2 pt-2"><a href="https://www.youtube.com/@jyothishiuncle" target="_blank" rel="noopener noreferrer" aria-label="YouTube @jyothishiuncle" title="YouTube @jyothishiuncle" class="w-9 h-9 rounded-full bg-surface-container-high/80 text-primary hover:text-on-primary hover:bg-primary flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-[0_0_15px_rgba(229,195,120,0.5)] hover:scale-105"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></a><a href="https://wa.me/919840211088" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Sanctuary Desk" title="WhatsApp Sanctuary Desk" class="w-9 h-9 rounded-full bg-surface-container-high/80 text-primary hover:text-on-primary hover:bg-primary flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-[0_0_15px_rgba(229,195,120,0.5)] hover:scale-105"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.301-.15-1.78-.879-2.056-.98-.277-.101-.478-.15-.679.15-.201.302-.78 0.98-.956 1.182-.175.201-.351.226-.652.076-.301-.15-1.272-.469-2.423-1.496-.897-.799-1.502-1.786-1.678-2.087-.175-.302-.019-.465.132-.615.136-.135.301-.351.452-.527.15-.175.201-.301.301-.502.101-.201.05-.377-.025-.527-.075-.151-.678-1.635-.93-2.238-.244-.589-.493-.509-.679-.519-.176-.01-.377-.01-.578-.01-.201 0-.527.075-.803.376-.277.302-1.055 1.03-1.055 2.513 0 1.483 1.08 2.915 1.231 3.116.151.201 2.126 3.246 5.15 4.553.719.311 1.281.497 1.719.636.722.23 1.378.197 1.898.12.579-.087 1.78-.727 2.03-1.43.251-.704.251-1.307.176-1.431-.076-.124-.277-.199-.578-.349zM12.04 21.788h-.002c-1.748 0-3.463-.47-4.965-1.362l-.356-.212-3.692.969.986-3.599-.232-.37a9.92 9.92 0 0 1-1.524-5.276c0-5.484 4.463-9.948 9.951-9.948 2.656 0 5.154 1.035 7.032 2.913a9.887 9.887 0 0 1 2.91 7.035c-.003 5.485-4.467 9.95-9.108 9.95zm8.441-18.39A11.897 11.897 0 0 0 12.039 0C5.419 0 .034 5.385.031 12.006c0 2.112.552 4.175 1.601 5.992L0 24l6.177-1.62a11.968 11.968 0 0 0 5.86 1.517h.005c6.618 0 12.003-5.385 12.006-12.007a11.91 11.91 0 0 0-3.567-8.492z"></path></svg></a><a href="https://instagram.com/jyothishiuncle" target="_blank" rel="noopener noreferrer" aria-label="Instagram @jyothishiuncle" title="Instagram @jyothishiuncle" class="w-9 h-9 rounded-full bg-surface-container-high/80 text-primary hover:text-on-primary hover:bg-primary flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-[0_0_15px_rgba(229,195,120,0.5)] hover:scale-105"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a></div><div class="flex items-center gap-2 text-primary pt-1"><span class="w-2 h-2 rounded-full bg-primary animate-ping"></span><span class="font-label-caps text-label-caps text-primary tracking-wider">LIVE SIDEREAL EPHEMERIS</span></div></div><div class="flex flex-col gap-space-xs"><p class="font-label-caps text-label-caps text-primary tracking-widest uppercase mb-1">Celestial Portals</p><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#consultation">Kundali Horizon</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#consultation">Transit Ephemeris</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#consultation">Nakshatra Almanac</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#consultation">Maha Dasha Timeline</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#consultation">Ashtamangala Prashnam</a></div><div class="flex flex-col gap-space-xs"><p class="font-label-caps text-label-caps text-primary tracking-widest uppercase mb-1">Sacred Offerings</p><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="/services#pooja">Poojas &amp; Homams</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="/services#products">Prana-Consecrated Yantras</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="/religious/travel">Sacred Yatra Journeys</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="/about">Vedic Gurus &amp; Acharyas</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="/services#products">Consecrated Gemology</a></div><div class="p-space-md rounded-2xl bg-surface-container-high/60 backdrop-blur-xl flex flex-col justify-between border-none shadow-md"><div class="flex items-center gap-2 mb-2 text-primary"><span class="material-symbols-outlined text-[18px]">satellite_alt</span><span class="font-label-caps text-label-caps tracking-wider">EPHEMERIS ALIGNMENT</span></div><p class="font-label-sm text-label-sm text-on-surface-variant mb-2">Mathematical calculations calibrated to sacred coordinate nodes:</p><div class="flex flex-col gap-1.5 font-label-sm text-label-sm text-on-surface-variant"><div class="flex justify-between"><span class="">Ayanamsha:</span><span class="text-primary font-semibold">Lahiri 24° 11'</span></div><div class="flex justify-between"><span class="">Solar Meridian:</span><span class="text-secondary font-semibold">Ujjain / Kashi</span></div><div class="flex justify-between"><span class="">Coordinate Core:</span><span class="text-on-surface font-semibold">Surya Siddhanta</span></div><div class="flex justify-between"><span class="">Right Ascension:</span><span class="text-primary-fixed-dim">RA 18h 42m 11s</span></div><div class="flex justify-between"><span class="">Declination:</span><span class="text-primary-fixed-dim">Dec -23° 07'</span></div></div></div></div><div class="w-full pt-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm text-center md:text-left text-on-surface-variant font-label-sm text-label-sm"><div class="">© 2025 JyothishiUncle Vedic Astrological Oracle. All celestial rights reserved.</div><div class="flex flex-wrap items-center justify-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">Cosmic Ethics</a><a class="hover:text-primary transition-colors" href="#">Vedic Sanctity</a><a class="hover:text-primary transition-colors" href="#">Sanctuary Privacy</a><a class="hover:text-primary transition-colors" href="#">Consultation Terms</a></div></div></div></footer>
+
+
+
+
+
+
+
+
+
+</body></html>

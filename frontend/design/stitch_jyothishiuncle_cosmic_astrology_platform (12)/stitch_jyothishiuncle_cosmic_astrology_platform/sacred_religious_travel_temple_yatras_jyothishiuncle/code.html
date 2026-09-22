@@ -1,0 +1,617 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-fixed-variant": "#643f00", "surface-bright": "#3a3749", "tertiary-container": "#ffba5d", "on-surface": "#e6dff6", "on-tertiary-fixed": "#2a1800", "tertiary-fixed-dim": "#ffb95a", "secondary-fixed": "#e6deff", "surface-container-lowest": "#0f0c1c", "secondary": "#cabeff", "surface-container": "#211d2e", "surface-container-highest": "#363244", "on-tertiary-container": "#754a00", "error-container": "#93000a", "outline-variant": "#4d4639", "on-primary": "#3f2e00", "on-secondary-fixed": "#1c0062", "on-primary-fixed-variant": "#5a4302", "on-secondary": "#31009a", "tertiary-fixed": "#ffddb6", "surface-tint": "#e4c277", "tertiary": "#ffdeb8", "on-error": "#690005", "surface": "#141121", "inverse-primary": "#745b1a", "secondary-container": "#4829b3", "on-secondary-fixed-variant": "#4829b3", "primary-container": "#e5c378", "error": "#ffb4ab", "primary": "#ffe09d", "surface-variant": "#363244", "outline": "#999080", "on-surface-variant": "#d0c5b4", "surface-container-high": "#2b2839", "primary-fixed-dim": "#e4c277", "primary-fixed": "#ffdf9b", "on-background": "#e6dff6", "on-primary-fixed": "#251a00", "surface-container-low": "#1c192a", "secondary-fixed-dim": "#cabeff", "on-error-container": "#ffdad6", "background": "#141121", "on-primary-container": "#684f0f", "inverse-on-surface": "#322e3f", "inverse-surface": "#e6dff6", "on-secondary-container": "#b8aaff", "on-tertiary": "#462a00", "surface-dim": "#141121" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.75rem", "space-md": "1rem", "margin-mobile": "1.25rem", "space-xl": "3rem", "space-xs": "0.25rem", "gutter": "1.5rem", "margin": "3rem", "gutter-mobile": "1rem", "space-sm": "0.5rem" }, "fontFamily": { "headline-xl-mobile": [ "Playfair Display" ], "headline-xl": [ "Playfair Display" ], "headline-lg": [ "Playfair Display" ], "body-lg": [ "Plus Jakarta Sans" ], "title-md": [ "Plus Jakarta Sans" ], "display-lg-mobile": [ "Playfair Display" ], "display-lg": [ "Playfair Display" ], "body-md": [ "Plus Jakarta Sans" ], "headline-sm": [ "Playfair Display" ], "label-sm": [ "Plus Jakarta Sans" ], "label-caps": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-xl-mobile": [ "30px", { "lineHeight": "38px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-xl": [ "40px", { "lineHeight": "48px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-lg": [ "32px", { "lineHeight": "40px", "letterSpacing": "0.01em", "fontWeight": "500" } ], "body-lg": [ "16px", { "lineHeight": "26px", "letterSpacing": "0.015em", "fontWeight": "400" } ], "title-md": [ "18px", { "lineHeight": "26px", "letterSpacing": "0.01em", "fontWeight": "600" } ], "display-lg-mobile": [ "38px", { "lineHeight": "46px", "letterSpacing": "0em", "fontWeight": "400" } ], "display-lg": [ "56px", { "lineHeight": "68px", "letterSpacing": "-0.01em", "fontWeight": "400" } ], "body-md": [ "14px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400" } ], "headline-sm": [ "22px", { "lineHeight": "30px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "label-caps": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.18em", "fontWeight": "700" } ] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen relative flex flex-col"><header class="fixed top-0 left-0 w-full z-50 bg-surface/85 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.45)]"><div class="h-20 w-full px-gutter flex items-center justify-between"><div class="flex items-center gap-space-md"><img alt="Brand logo. - Primary color: #e5c378
+- Font: playfairDisplay
+- Mode: dark
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XYO8Mgty_s963W4fEs2TUV_hNMC1VvS18GxPrYsUMJf6vT080MX-c3bnqLfFgJ2769Yr6GjSRCetPsx0O5CYLt-hejpzlyJcHkojZXE8mb6e_Pq2FE8QfJ22KW8q97u-7iBC-4ZURQ6a42IoJRhHy5qEWt9gLBnlidBgVFu2hoXxqtF7Sk8inP7wHJbFvAqr30OBDIkuNZiohSXZBkFeDUn_lSQWSG0y41-tHMrbceJs3pui6174V-TOsi"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-wide leading-none">JyothishiUncle</span><span class="font-label-caps text-label-caps text-on-surface-variant opacity-80 uppercase tracking-widest mt-space-xs">Vedic Astrological Oracle</span></div></div><nav class="hidden xl:flex items-center gap-space-lg" data-active-classes="text-primary font-title-md"><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-space-sm" data-path="home" href="/">Home</a><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-space-sm" data-path="about" href="/about">About</a><div class="relative group py-space-sm"><button class="flex items-center gap-space-xs font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors cursor-pointer bg-transparent border-0">Services <span class="text-[10px] opacity-70">▾</span></button><div class="absolute left-0 top-full hidden group-hover:flex flex-col w-56 py-space-sm bg-surface-container/95 backdrop-blur-2xl rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] z-50"><a class="px-space-md py-space-sm font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="/services#pooja">Poojas &amp; Homams</a><a class="px-space-md py-space-sm font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="/services#products">Sacred Products</a></div></div><div class="relative group py-space-sm"><button class="flex items-center gap-space-xs font-body-md text-body-md text-primary font-title-md group-hover:text-on-surface transition-colors cursor-pointer bg-transparent border-0">Religious <span class="text-[10px] opacity-70">▾</span></button><div class="absolute left-0 top-full hidden group-hover:flex flex-col w-56 py-space-sm bg-surface-container/95 backdrop-blur-2xl rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] z-50"><a class="px-space-md py-space-sm font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="/religious/articles">Vedic Articles</a><a aria-current="page" class="px-space-md py-space-sm hover:bg-surface-container-high transition-colors text-primary font-title-md" href="/religious/travel">Sacred Travel</a></div></div><a class="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors py-space-sm" data-path="contact" href="/contact">Contact</a></nav><div class="flex items-center gap-space-md"><a class="hidden sm:inline-flex items-center justify-center px-space-md py-2.5 rounded-full bg-primary-container hover:bg-primary text-on-primary font-title-md text-body-md tracking-wide transition-all shadow-[0_0_24px_-4px_rgba(229,195,120,0.4)] hover:shadow-[0_0_32px_0px_rgba(229,195,120,0.6)]" data-path="consultation" href="/consultation">Book Consultation</a><button aria-label="User Profile" class="w-9 h-9 rounded-full bg-primary/20 hover:bg-primary/30 flex items-center justify-center transition-all cursor-pointer shadow-[0_0_16px_rgba(229,195,120,0.2)]"><span class="material-symbols-outlined text-primary text-[20px]">person</span></button></div></div></header><main class="w-full pt-20 bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Atmospheric Background Glow Elements -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-gradient-to-b from-primary/15 via-secondary-container/20 to-transparent blur-[140px] pointer-events-none -z-10"></div>
+<div class="absolute top-96 -left-32 w-96 h-96 bg-primary-container/10 blur-[130px] pointer-events-none -z-10"></div>
+<div class="absolute top-[1200px] -right-32 w-96 h-96 bg-secondary/10 blur-[140px] pointer-events-none -z-10"></div>
+<!-- Hero Banner with Negative Top Margin for Immersion -->
+<section class="relative w-full -mt-20 pt-36 pb-20 px-gutter border-b-0">
+<!-- Background Ambient Visual Composition -->
+<div class="absolute inset-0 -z-20 overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-surface/40 via-surface/85 to-surface z-10"></div>
+<div class="w-full h-full bg-cover bg-center scale-105 transform filter brightness-40 saturate-125" data-alt="Majestic ancient Vedic stone temple nestled against mist-shrouded Himalayan peaks at dawn, sacred glowing brass oil lamps illuminating pilgrims dressed in ochre shawls with soft golden sun rays breaking through mountain clouds in gold and deep indigo shades" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZD3cqDmLTGaiDUDmt4JSwQds7DpOhONCcZ6jiM4AwdHD95nWBSMzujfmhvl24qnWlUf8BeqCpUVBwKfr69ADSCKfXR6JdgcR4Le0BiMkwDY467AxCNP9jdeVft6ewTSUHwgqcR-rP1h0S_5vwXvvk4AnxSoYRZs1iIrJAPAuVHyGwn8ET-kvr8ToFCfJfMudj93vrz8OAg7uZBNQqtm9OD8XJLqZXx96x1HFLHkXUrMZH-E51kPhJmg')"></div>
+</div>
+<div class="max-w-6xl mx-auto flex flex-col items-center text-center relative z-20">
+<!-- Vedic Badge -->
+<div class="inline-flex items-center gap-space-sm px-space-md py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-xl shadow-[0_0_24px_rgba(229,195,120,0.25)] mb-space-md">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-primary tracking-[0.25em]">TIRTHA YATRA · CONSECRATED PILGRIMAGES</span>
+<span class="text-primary text-xs opacity-70">✦</span>
+</div>
+<!-- Headline -->
+<h1 class="font-headline-xl text-headline-xl md:text-[52px] md:leading-[60px] text-primary tracking-tight max-w-4xl mb-space-md drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
+          Sacred Temple Yatras &amp; Himalayan Sanctuaries
+        </h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl leading-relaxed mb-space-xl">
+          Immersive spiritual journeys led by consecrated Vedic scholars. Experience high-frequency temple vortices, private sanctum pujas, and planetary alignments at primordial sacred sites.
+        </p>
+<!-- Stats Ticker Bar -->
+<div class="w-full max-w-5xl rounded-2xl bg-surface-container/70 backdrop-blur-2xl shadow-[0_16px_50px_rgba(0,0,0,0.5)] p-space-md sm:p-space-lg grid grid-cols-2 md:grid-cols-4 gap-space-md divide-y md:divide-y-0 divide-surface-container-highest/60 text-left">
+<div class="flex items-center gap-space-sm pt-space-xs md:pt-0">
+<div class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">flare</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-primary leading-tight">12 Peethas</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Divine Shakti Portals</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs md:pt-0">
+<div class="w-11 h-11 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[22px]">temple_hindu</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface leading-tight">4 Mahadhams</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Primordial Cardinal Gates</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs md:pt-0">
+<div class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">groups</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface leading-tight">Max 9 Seekers</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Intimate Sacred Cohorts</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs md:pt-0">
+<div class="w-11 h-11 rounded-xl bg-primary-container/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">auto_awesome</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-primary leading-tight">Vedic Gurus</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Astrologer Accompanied</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter & Categories Pills -->
+<section class="w-full px-gutter py-space-md max-w-7xl mx-auto">
+<div class="flex items-center justify-start md:justify-center gap-space-sm overflow-x-auto pb-space-sm no-scrollbar">
+<button class="filter-pill active shrink-0 px-5 py-2.5 rounded-full bg-primary text-on-primary font-title-md text-body-md transition-all shadow-[0_0_20px_rgba(229,195,120,0.35)] flex items-center gap-2 cursor-pointer">
+<span class="">All Sacred Yatras</span>
+<span class="text-xs bg-on-primary/20 px-2 py-0.5 rounded-full">12</span>
+</button>
+<button class="filter-pill shrink-0 px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-md text-body-md transition-all flex items-center gap-2 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-primary">landscape</span>
+<span class="">Himalayan Sanctuaries</span>
+</button>
+<button class="filter-pill shrink-0 px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-md text-body-md transition-all flex items-center gap-2 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-primary">brightness_high</span>
+<span class="">Jyotirlinga Darshans</span>
+</button>
+<button class="filter-pill shrink-0 px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-md text-body-md transition-all flex items-center gap-2 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-secondary">explore</span>
+<span class="">Navagraha Temple Trail (Tamil Nadu)</span>
+</button>
+<button class="filter-pill shrink-0 px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-md text-body-md transition-all flex items-center gap-2 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-primary">water_drop</span>
+<span class="">Kerala Tantra &amp; Backwaters</span>
+</button>
+</div>
+</section>
+<!-- Religious Travel Cards Grid -->
+<section class="w-full px-gutter py-space-lg max-w-7xl mx-auto">
+<div class="flex items-center justify-between mb-space-lg">
+<div>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-[0.2em]">Muhurtha Verified</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-space-xs">Current Sacred Expeditions</h2>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-on-surface-variant font-body-md">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span class="">Only 3 to 5 spots left per departure</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg">
+<!-- Card 1: Kailash Mansarovar & Muktinath -->
+<article class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all duration-300 flex flex-col overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(229,195,120,0.18)] hover:-translate-y-1">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Ancient stone carved multi-tiered pagoda temple in Muktinath Himalayas surrounded by snow covered peaks, holy pilgrims walking with brass prayer lamps in golden morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRAZM1zQhgP6ltkSQyWyWGxgIXxAGFxLJ7knLvyOv-h16Cm2SZ5yYRYIPvhL7PVZYw3iMoN81uIgbkb0cGQ13wULJ-FM3ayu4we_8nJXihfyeh_OCMYjZKE6HIYUiqAjYc-XTuyGiCdPy7PBlktgOUIvKLdFAZ-8uX1HMgFKHdqvnfBE2iljfF100B-rAnSGG686-YSAQECT_bjtbrUtTZQ5tiEs6ZVwnFy9JvR82-f7fjT5X84cJL3g">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/40"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-label-caps text-label-caps tracking-widest uppercase">
+                High-Altitude Yatra
+              </span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-on-surface font-body-md text-sm">
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-primary font-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 11 Days
+              </span>
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-on-surface font-label-sm">
+<span class="material-symbols-outlined text-[14px]">terrain</span> 14,000 ft
+              </span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col flex-1">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="">Tibet &amp; Mustang, Nepal</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-primary-fixed transition-colors mb-space-xs">
+              Kailash Mansarovar &amp; Muktinath High-Altitude Yatra
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-space-md">
+              Circling Mount Meru's physical manifestation. Includes private Agni Pooja on the lake shore and deep Dhyana pranayama sessions led by authentic Yogis.
+            </p>
+<div class="mt-auto pt-space-md border-t-0 bg-surface-container/40 rounded-xl p-space-sm mb-space-md">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Sacred Dakshina</span>
+<span class="font-title-md text-title-md text-primary font-semibold">₹1,25,000</span>
+<span class="text-xs text-on-surface-variant">/ $1,500</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Next Batch</span>
+<span class="font-label-sm text-label-sm text-on-surface">Shukla Pratipada</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-md text-label-sm transition-colors text-center cursor-pointer">
+                Explore Yatra Details
+              </button>
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-label-sm transition-all shadow-[0_0_16px_rgba(229,195,120,0.3)] text-center cursor-pointer">
+                Reserve Yatra
+              </button>
+</div>
+</div>
+</article>
+<!-- Card 2: Kashi Vishwanath & Mahashamshan Moksha -->
+<article class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all duration-300 flex flex-col overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(229,195,120,0.18)] hover:-translate-y-1">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Varanasi ghats at twilight with historic sandstone temples, glowing brass oil lamps during Ganga Aarti, reflections of evening fire rituals dancing upon sacred river Ganga" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPgG6AgdCHIx89QtJqscXxTs_EIXVLUDq-j6Rp-Kd5kr0rNxot7w3-gghaDnAOlAHIfznyWB7JdxNQyAL8WcqcrI8Z0ukXg0fw_sUQsMidn5K4gRjNDrrC30dCx5GYdDz7S2MH5xLYMQoWgt6upFjlmnbBqzhIQPXrOum3n5cB9KfzaZbqSmyt94dsIWP2xI8sseysDzC3020XuXXbcaRHFmFlGcH1QUSwNQVX6O_l1wpXUkUidSbvvw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/40"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps tracking-widest uppercase">
+                Moksha Gateway
+              </span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-on-surface font-body-md text-sm">
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-primary font-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 4 Days
+              </span>
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-on-surface font-label-sm">
+<span class="material-symbols-outlined text-[14px]">directions_boat</span> Private Bajra
+              </span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col flex-1">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="">Kashi (Varanasi), Uttar Pradesh</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-primary-fixed transition-colors mb-space-xs">
+              Kashi Vishwanath &amp; Mahashamshan Moksha Pilgrimage
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-space-md">
+              Midnight Sparsha Darshan at Kashi Vishwanath, Manikarnika Rudrabhishekam rites, and sunrise contemplation on private consecrated wooden Bajra boats.
+            </p>
+<div class="mt-auto pt-space-md border-t-0 bg-surface-container/40 rounded-xl p-space-sm mb-space-md">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Sacred Dakshina</span>
+<span class="font-title-md text-title-md text-primary font-semibold">₹42,000</span>
+<span class="text-xs text-on-surface-variant">/ Pilgrim</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Cohort Status</span>
+<span class="font-label-sm text-label-sm text-on-surface">4 Spots Open</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-md text-label-sm transition-colors text-center cursor-pointer">
+                Explore Yatra Details
+              </button>
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-label-sm transition-all shadow-[0_0_16px_rgba(229,195,120,0.3)] text-center cursor-pointer">
+                Reserve Yatra
+              </button>
+</div>
+</div>
+</article>
+<!-- Card 3: Navagraha Sthalam Yatra -->
+<article class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all duration-300 flex flex-col overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(229,195,120,0.18)] hover:-translate-y-1">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Ornate Dravidian granite gopuram temple tower in Kumbakonam with intricately carved cosmic deities against a warm twilight sky with glowing temple lamps" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0xtWom1wbEta7Bh7vrQ6GXs7DEp4NTFwA9XdYtOH5Rv1WLDe7_93apfZmaJ7nzeUG2Q30t-70QYn3A6Anuwkvv3I1Vscn_9AUJfZt5s58DTcK7dMhgzgXJDP-zHqsDoERN60kU-k8LxxEN0xakfhlXRfmaDB2DZAlw16ut8vFd8GgcZRqLH1daU7ab3abf2CA09IrHGmIavsA5DOBjwLiI6jC7GsimsY0TsjGvrxk_Pmpje3MvCIrGQ">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/40"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-label-caps text-label-caps tracking-widest uppercase">
+                Navagraha Pacification
+              </span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-on-surface font-body-md text-sm">
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-primary font-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 5 Days
+              </span>
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-on-surface font-label-sm">
+<span class="material-symbols-outlined text-[14px]">public</span> 9 Planetary Shrines
+              </span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col flex-1">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="">Kumbakonam &amp; Thanjavur, Tamil Nadu</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-primary-fixed transition-colors mb-space-xs">
+              Navagraha Sthalam Yatra (9 Planetary Temples)
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-space-md">
+              Personalized Dasha pacification rituals at each authentic planetary vortex. Coordinated with individualized planetary transits and natal horoscope charts.
+            </p>
+<div class="mt-auto pt-space-md border-t-0 bg-surface-container/40 rounded-xl p-space-sm mb-space-md">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Sacred Dakshina</span>
+<span class="font-title-md text-title-md text-primary font-semibold">₹55,000</span>
+<span class="text-xs text-on-surface-variant">/ Seeker</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Horoscope Audit</span>
+<span class="font-label-sm text-label-sm text-on-surface">Included</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-md text-label-sm transition-colors text-center cursor-pointer">
+                Explore Yatra Details
+              </button>
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-label-sm transition-all shadow-[0_0_16px_rgba(229,195,120,0.3)] text-center cursor-pointer">
+                Reserve Yatra
+              </button>
+</div>
+</div>
+</article>
+<!-- Card 4: Kedarnath & Badrinath Moksha Char Dham -->
+<article class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all duration-300 flex flex-col overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(229,195,120,0.18)] hover:-translate-y-1">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Majestic Kedarnath temple structure surrounded by dramatic snow covered Himalayan peaks with divine evening light and sacred bells swaying in cold breeze" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS_8v-sHWf_LuT8fFxjGQ6q_KFe1T8zn3vbkvm4R0qGGCOSanqcaGfcz4nsMZR6One_w5NlT5iM5DL84JeWjCP6VAg5V9oTcZ9oq9sxz8OuI7LwBF_ut0u8ztvDM_hSOy7dd3WZSt-TsE_C5udAnrxxaSZbmRZcfMJvVLHw78saA8VkTzrP__1K4mQClh41rcTl7LBK_TZOLIWQOMOZS0-tGY_Qo7s3Reg_zl3Ml_lpu9DxTV6kvE8FQ">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/40"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-label-caps text-label-caps tracking-widest uppercase">
+                Heli Sanctum Express
+              </span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-on-surface font-body-md text-sm">
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-primary font-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 7 Days
+              </span>
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-on-surface font-label-sm">
+<span class="material-symbols-outlined text-[14px]">flight</span> Chartered Heli
+              </span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col flex-1">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="">Garhwal Himalayas, Uttarakhand</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-primary-fixed transition-colors mb-space-xs">
+              Kedarnath &amp; Badrinath Moksha Char Dham Express
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-space-md">
+              Chartered aviation support direct to inner sanctum gates. Exclusive early-dawn Maha Rudra Abhishek inside Kedarnath sanctum sanctorum before public opening.
+            </p>
+<div class="mt-auto pt-space-md border-t-0 bg-surface-container/40 rounded-xl p-space-sm mb-space-md">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Sacred Dakshina</span>
+<span class="font-title-md text-title-md text-primary font-semibold">₹1,80,000</span>
+<span class="text-xs text-on-surface-variant">/ Seeker</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Oxygen Assist</span>
+<span class="font-label-sm text-label-sm text-on-surface">Certified Paramedic</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-md text-label-sm transition-colors text-center cursor-pointer">
+                Explore Yatra Details
+              </button>
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-label-sm transition-all shadow-[0_0_16px_rgba(229,195,120,0.3)] text-center cursor-pointer">
+                Reserve Yatra
+              </button>
+</div>
+</div>
+</article>
+<!-- Card 5: Rameshwaram & Dhanushkodi Pitru Dosha -->
+<article class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all duration-300 flex flex-col overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(229,195,120,0.18)] hover:-translate-y-1">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Historic long pillared corridor of Ramanathaswamy Temple in Rameshwaram with infinite vanishing lines and dramatic lantern lighting over wet stone flags" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkbANNljKEKtN3PH-eBnmkutf9ekjRH9gw5ys13ZsF8qBydY93ERZAyaDGv2am4P92iz7vBe5BzVdCZ24zqRvTisZJycprI44UDuZTETX6Z2cwnRahxP591SDS782Guu1U9I6VkjQNGO7oJxbMBXTBxxyzT8i-ZSbIkwOzP-2mh7MXrX-vYQmQPGIVK7mQBID0lhS2AmvhAaVTZWns-jSzRbjZSV9PH15mPjBK7uJ8warmYaxaUUHyLw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/40"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps tracking-widest uppercase">
+                Ancestral Karmic Clearing
+              </span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-on-surface font-body-md text-sm">
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-primary font-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 4 Days
+              </span>
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-on-surface font-label-sm">
+<span class="material-symbols-outlined text-[14px]">water</span> 22 Sacred Teerthas
+              </span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col flex-1">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="">Rameshwaram &amp; Dhanushkodi, Tamil Nadu</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-primary-fixed transition-colors mb-space-xs">
+              Rameshwaram &amp; Dhanushkodi Pitru Dosha &amp; Sea Rites
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-space-md">
+              Complete sequential immersion across the 22 consecrated temple wells, followed by profound Tila Homa rituals at Rama Setu confluence to dissolve generational karmic blocks.
+            </p>
+<div class="mt-auto pt-space-md border-t-0 bg-surface-container/40 rounded-xl p-space-sm mb-space-md">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Sacred Dakshina</span>
+<span class="font-title-md text-title-md text-primary font-semibold">₹38,000</span>
+<span class="text-xs text-on-surface-variant">/ Seeker</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Amavasya Cohort</span>
+<span class="font-label-sm text-label-sm text-on-surface">Immediate Access</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-md text-label-sm transition-colors text-center cursor-pointer">
+                Explore Yatra Details
+              </button>
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-label-sm transition-all shadow-[0_0_16px_rgba(229,195,120,0.3)] text-center cursor-pointer">
+                Reserve Yatra
+              </button>
+</div>
+</div>
+</article>
+<!-- Card 6: Kamakhya Tantric Shakti Peetha -->
+<article class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all duration-300 flex flex-col overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(229,195,120,0.18)] hover:-translate-y-1">
+<div class="relative h-64 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Ancient tantric Kamakhya temple dome at sunrise surrounded by lush green Nilachal hill vegetation with deep red vermilion flags fluttering and morning river mist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz8kEsJuhyQGbC8srKxuBLKO-BnyxSMnPwHn8MPdFhHSObBSBCgXzMw-AmzE5wJQQQSZ_3F1ZC11l-OYqTmENO4oTtV93zFMV3_bLRAc6vP0NVlvK7knS1YjMr_GmPXaRfXSLDKuxKMfUBNZrn5dXlPYp33duU0USMdHpYuxA3nAbXbGx9oxBI-1-Btt9hhkPmroPheUa6Z0thWUTd0_L4lB6nXFdoMwi2aEAoO8hbiUapix3QBFv2Aw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/40"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-primary font-label-caps text-label-caps tracking-widest uppercase">
+                Tantric Shakti Peetha
+              </span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-on-surface font-body-md text-sm">
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-primary font-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 5 Days
+              </span>
+<span class="flex items-center gap-1 bg-surface-container-high/80 backdrop-blur-md px-2.5 py-1 rounded-full text-on-surface font-label-sm">
+<span class="material-symbols-outlined text-[14px]">psychology</span> Kulachara Guided
+              </span>
+</div>
+</div>
+<div class="p-space-md sm:p-space-lg flex flex-col flex-1">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm mb-space-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="">Guwahati &amp; Brahmaputra, Assam</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-primary-fixed transition-colors mb-space-xs">
+              Kamakhya Tantric Shakti Peetha &amp; Brahmaputra Sadhana
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-space-md">
+              Subterranean Garbhagriha natural spring darshan. Rare consecration rituals supervised by traditional Kulachara priests and dawn sound-vibration sadhana on the mighty Brahmaputra.
+            </p>
+<div class="mt-auto pt-space-md border-t-0 bg-surface-container/40 rounded-xl p-space-sm mb-space-md">
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Sacred Dakshina</span>
+<span class="font-title-md text-title-md text-primary font-semibold">₹48,000</span>
+<span class="text-xs text-on-surface-variant">/ Seeker</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary block">Sanctum Access</span>
+<span class="font-label-sm text-label-sm text-on-surface">Vedic Pass</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-md text-label-sm transition-colors text-center cursor-pointer">
+                Explore Yatra Details
+              </button>
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-label-sm transition-all shadow-[0_0_16px_rgba(229,195,120,0.3)] text-center cursor-pointer">
+                Reserve Yatra
+              </button>
+</div>
+</div>
+</article>
+</div>
+<!-- Load More Button with Spinning Lotus Indicator -->
+<div class="mt-space-xl flex flex-col items-center justify-center">
+<button class="group relative px-space-lg py-3.5 rounded-full bg-surface-container-high/90 hover:bg-surface-bright text-primary font-title-md text-body-md transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.3)] hover:shadow-[0_0_28px_rgba(229,195,120,0.25)] flex items-center gap-3 cursor-pointer" id="load-more-btn">
+<svg class="w-5 h-5 text-primary transform group-hover:rotate-180 transition-transform duration-700 animate-spin-slow" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+<path d="M12 2C12 2 15 6 15 9C15 11 13.5 12 12 12C10.5 12 9 11 9 9C9 6 12 2 12 2Z" fill="currentColor" fill-opacity="0.2"></path>
+<path d="M12 22C12 22 15 18 15 15C15 13 13.5 12 12 12C10.5 12 9 13 9 15C9 18 12 22 12 22Z" fill="currentColor" fill-opacity="0.2"></path>
+<path d="M2 12C2 12 6 9 9 9C11 9 12 10.5 12 12C12 13.5 11 15 9 15C6 15 2 12 2 12Z" fill="currentColor" fill-opacity="0.2"></path>
+<path d="M22 12C22 12 18 9 15 9C13 9 12 10.5 12 12C12 13.5 13 15 15 15C18 15 22 12 22 12Z" fill="currentColor" fill-opacity="0.2"></path>
+<circle cx="12" cy="12" fill="currentColor" r="2"></circle>
+</svg>
+<span class="">Load More Sacred Yatras (6 More in Archive)</span>
+<span class="material-symbols-outlined text-[18px] text-primary group-hover:translate-y-0.5 transition-transform">expand_more</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 mt-space-xs">
+          Showing 6 of 12 astrologically curated sacred journeys
+        </span>
+</div>
+</section>
+<!-- What Makes JyothishiUncle Yatras Unique -->
+<section class="w-full px-gutter py-space-xl max-w-7xl mx-auto">
+<div class="text-center max-w-3xl mx-auto mb-space-xl">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.25em] uppercase">Vedic Excellence</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-space-xs mb-space-sm">
+          What Makes Our Consecrated Yatras Unique
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Unlike commercial tourism, our Yatras are designed as karmic transformational rituals under orthodox Shastra mandates.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Feature 1 -->
+<div class="rounded-2xl bg-surface-container/60 backdrop-blur-xl p-space-lg shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-surface-container transition-all flex flex-col group">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-[28px]">schedule</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-space-xs font-semibold">
+            Astrologically Calibrated Dates (Muhurtha)
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Every departure aligns with celestial transits, Nakshatra yogas, and auspicious Tithis to maximize energetic receptivity and karmic mitigation.
+          </p>
+<div class="mt-auto pt-space-md">
+<span class="font-label-caps text-label-caps text-secondary tracking-wider uppercase">01 · Astro Synchronicity</span>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="rounded-2xl bg-surface-container/60 backdrop-blur-xl p-space-lg shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-surface-container transition-all flex flex-col group">
+<div class="w-14 h-14 rounded-2xl bg-secondary/15 flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-[28px]">key</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-space-xs font-semibold">
+            VIP Sanctum Access &amp; No Queues
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Direct protocol entry arranged via hereditary temple trustees. Unhurried inner sanctum sparshams and prolonged meditation directly before the deity.
+          </p>
+<div class="mt-auto pt-space-md">
+<span class="font-label-caps text-label-caps text-secondary tracking-wider uppercase">02 · Garbhagriha Access</span>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="rounded-2xl bg-surface-container/60 backdrop-blur-xl p-space-lg shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-surface-container transition-all flex flex-col group">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-[28px]">spa</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-space-xs font-semibold">
+            Sattvic Organic Ayurvedic Diet
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Freshly prepared, non-stimulating pure sattvic cuisine cooked in brass cookware with cold-pressed oils, maintaining mental clarity and physical vitality.
+          </p>
+<div class="mt-auto pt-space-md">
+<span class="font-label-caps text-label-caps text-secondary tracking-wider uppercase">03 · Pure Nourishment</span>
+</div>
+</div>
+<!-- Feature 4 -->
+<div class="rounded-2xl bg-surface-container/60 backdrop-blur-xl p-space-lg shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-surface-container transition-all flex flex-col group">
+<div class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-space-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-[28px]">vital_signs</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-space-xs font-semibold">
+            Private Sanctum Sankalpa for Your Gotra
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Dedicated Purohits perform individual Gotra Sankalpas in your family's name at key planetary altars, ensuring ancestral blessings cross lineages.
+          </p>
+<div class="mt-auto pt-space-md">
+<span class="font-label-caps text-label-caps text-secondary tracking-wider uppercase">04 · Hereditary Lineage</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Comprehensive Pre-Footer CTA Section -->
+<section class="w-full px-gutter py-space-xl max-w-7xl mx-auto">
+<div class="relative rounded-3xl bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-low p-space-lg sm:p-space-xl overflow-hidden shadow-[0_24px_70px_rgba(0,0,0,0.6)]">
+<!-- Subtle Starfield Overlay SVG -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+<circle cx="10%" cy="20%" fill="#ffe09d" r="1"></circle>
+<circle cx="25%" cy="60%" fill="#ffe09d" r="1.5"></circle>
+<circle cx="70%" cy="30%" fill="#cabeff" r="1"></circle>
+<circle cx="85%" cy="80%" fill="#ffe09d" r="2"></circle>
+<circle cx="50%" cy="85%" fill="#cabeff" r="1"></circle>
+<circle cx="90%" cy="15%" fill="#ffe09d" r="1"></circle>
+<circle cx="35%" cy="15%" fill="#ffe09d" r="1"></circle>
+</svg>
+</div>
+<!-- Ambient Golden Light Corner -->
+<div class="absolute -top-24 -right-24 w-80 h-80 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="relative z-10 max-w-3xl mx-auto text-center flex flex-col items-center">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary font-label-caps text-label-caps tracking-widest uppercase mb-space-sm">
+<span class="material-symbols-outlined text-[15px]">stars</span>
+<span class="">Astrological Guidance Before Travel</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg sm:text-[38px] sm:leading-[46px] text-primary mb-space-sm">
+            Seeking a Customized Kundali-Calibrated Pilgrimage?
+          </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed mb-space-lg">
+            Every soul has a karmic destination where planetary afflictions dissolve. Consult Sri Devadathan Namboothiri to determine which sacred temple vortex aligns with your current transit.
+          </p>
+<!-- Dual Buttons -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-space-md w-full max-w-md mb-space-lg">
+<a class="w-full sm:w-auto px-space-lg py-3.5 rounded-full bg-primary hover:bg-primary-fixed-dim text-on-primary font-title-md text-body-md transition-all duration-300 shadow-[0_0_24px_rgba(229,195,120,0.4)] hover:shadow-[0_0_36px_rgba(229,195,120,0.6)] text-center cursor-pointer" data-path="consultation" href="#">
+              Book Pilgrimage Consultation
+            </a>
+<a class="w-full sm:w-auto px-space-lg py-3.5 rounded-full bg-surface-container-highest/80 hover:bg-surface-bright text-on-surface font-title-md text-body-md transition-all duration-300 flex items-center justify-center gap-2 text-center cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.3)]" href="https://wa.me/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-primary text-[20px]">chat</span>
+<span class="">Speak via WhatsApp</span>
+</a>
+</div>
+<!-- Yatra Guarantees -->
+<div class="w-full pt-space-md border-t-0 bg-surface-container-lowest/40 backdrop-blur-md rounded-2xl px-space-md py-space-sm flex flex-wrap items-center justify-center gap-x-space-lg gap-y-space-xs text-on-surface font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">hotel</span>
+<span class="">Verified Sattvic Stays</span>
+</div>
+<span class="text-on-surface-variant/40 hidden sm:inline">✦</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">medical_services</span>
+<span class="">Full Medical &amp; Oxygen Support</span>
+</div>
+<span class="text-on-surface-variant/40 hidden sm:inline">✦</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">workspace_premium</span>
+<span class="">Consecrated Temple Prasadam</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Interactive JavaScript for Filters and Micro-Interactions -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Filter Pill Switching Behavior
+      const filterPills = document.querySelectorAll('.filter-pill');
+      filterPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          filterPills.forEach(p => {
+            p.classList.remove('bg-primary', 'text-on-primary', 'shadow-[0_0_20px_rgba(229,195,120,0.35)]');
+            p.classList.add('bg-surface-container-high', 'text-on-surface');
+          });
+          pill.classList.remove('bg-surface-container-high', 'text-on-surface');
+          pill.classList.add('bg-primary', 'text-on-primary', 'shadow-[0_0_20px_rgba(229,195,120,0.35)]');
+        });
+      });
+
+      // Load More Button Action
+      const loadMoreBtn = document.getElementById('load-more-btn');
+      if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+          const btnSpan = this.querySelector('span:nth-of-type(1)');
+          if (btnSpan) {
+            btnSpan.innerText = 'Manifesting Additional Yatras...';
+            setTimeout(() => {
+              btnSpan.innerText = 'All 12 Pilgrimages Displayed';
+              this.classList.add('opacity-70', 'cursor-default');
+            }, 800);
+          }
+        });
+      }
+    });
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest text-on-surface py-space-xl relative overflow-hidden"><div class="w-full px-gutter flex flex-col items-center text-center"><div class="max-w-2xl mx-auto mb-space-lg flex flex-col items-center"><span class="font-label-caps text-label-caps text-primary tracking-widest uppercase mb-space-xs opacity-90">Sacred Alignment</span><div class="font-headline-lg text-headline-sm sm:text-headline-lg text-primary tracking-wide mb-space-xs font-serif">ॐ असतो मा सद्गमय । तमसो मा ज्योतिर्गमय ।</div><p class="font-body-md text-body-md text-on-surface-variant italic max-w-lg">Lead us from unreal to real, from darkness unto the celestial light.</p></div><div class="flex flex-wrap justify-center items-center gap-x-space-lg gap-y-space-sm mb-space-lg text-body-md font-body-md text-on-surface-variant"><a class="hover:text-primary transition-colors" data-path="cosmic-center" href="#">Cosmic Center</a><span class="opacity-30">✦</span><a class="hover:text-primary transition-colors" data-path="vedic-transits" href="#">Vedic Transits</a><span class="opacity-30">✦</span><a class="hover:text-primary transition-colors" data-path="sacred-pilgrimages" href="#">Sacred Pilgrimages</a><span class="opacity-30">✦</span><a class="hover:text-primary transition-colors" data-path="sanctuary-privacy" href="#">Sanctuary Privacy</a><span class="opacity-30">✦</span><a class="hover:text-primary transition-colors" data-path="oracle-terms" href="#">Oracle Terms</a></div><div class="flex flex-col items-center gap-space-xs"><div class="font-label-caps text-label-caps text-on-surface-variant opacity-60 tracking-widest">RA 18° 42' 11" · DEC -23° 07' · KASHI MERIDIAN 25.3176° N</div><div class="font-label-sm text-label-sm text-on-surface-variant opacity-75 mt-space-xs">© 2025 JyothishiUncle Cosmos. All Sacred Geometries Reserved.</div></div></div></footer><div class="fixed bottom-6 right-6 z-50 flex items-center group"><div class="mr-3 px-3 py-1.5 rounded-full bg-surface-container-high/90 backdrop-blur-md text-primary font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg whitespace-nowrap">Sacred Concierge</div><a aria-label="WhatsApp Concierge" class="w-14 h-14 rounded-full bg-primary-container hover:bg-primary text-on-primary flex items-center justify-center shadow-[0_0_30px_rgba(229,195,120,0.45)] hover:scale-105 transition-all cursor-pointer" href="#"><span class="material-symbols-outlined text-[28px]">chat</span></a></div>
+
+</body></html>
