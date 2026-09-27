@@ -12,10 +12,9 @@ function monthString(date: Date) {
 
 export function ConsultationCalendar({
   services,
-  defaultMeeting,
 }: {
   services: AstrologyService[];
-  defaultMeeting: string;
+  defaultMeeting?: string;
 }) {
   const { user } = useAuth();
   const bookable = services.filter((service) => service.booking_enabled);
@@ -56,7 +55,6 @@ export function ConsultationCalendar({
         service,
         date,
         start_time: slot,
-        meeting_method: String(form.get("meeting_method") || defaultMeeting),
         name: String(form.get("name") || ""),
         email: String(form.get("email") || ""),
         mobile: String(form.get("mobile") || ""),
@@ -83,9 +81,9 @@ export function ConsultationCalendar({
     <section id="consultation" className="px-5 py-8">
       <div className="glass-card mx-auto max-w-6xl rounded-[2rem] p-6 md:p-10">
         <p className="text-xs uppercase tracking-[0.22em] text-saffron">Consultation calendar</p>
-        <h2 className="mt-2 font-serif text-4xl text-white">Choose a time</h2>
-        <p className="mt-3 max-w-2xl text-sm text-cream/70">
-          Times below are Oman time. Already booked slots are hidden. After you submit, we confirm and send a WhatsApp, Meet, or Zoom link.
+        <h2 className="mt-2 font-serif text-4xl text-primary">Choose a time</h2>
+        <p className="mt-3 max-w-2xl text-sm text-on-surface-variant">
+          Times below follow your local clock. Already booked slots are hidden. After you submit, we confirm a video consulting session.
         </p>
 
         {done ? (
@@ -176,15 +174,6 @@ export function ConsultationCalendar({
               <label className="text-sm">
                 Location
                 <input name="location" defaultValue={user?.location} className="mt-2 w-full rounded-2xl border border-saffron/30 bg-cream px-4 py-3" />
-              </label>
-              <label className="text-sm">
-                Meeting
-                <select name="meeting_method" defaultValue={defaultMeeting} className="mt-2 w-full rounded-2xl border border-saffron/30 bg-cream px-4 py-3">
-                  <option value="whatsapp">WhatsApp video</option>
-                  <option value="google_meet">Google Meet</option>
-                  <option value="zoom">Zoom</option>
-                  <option value="teams">Microsoft Teams</option>
-                </select>
               </label>
               <label className="text-sm">
                 Message

@@ -34,3 +34,79 @@
 .ju-help-wrap li {
   margin: 0.4rem 0;
 }
+
+.ju-schedule-wrap p {
+  max-width: 960px;
+}
+
+.ju-schedule-save {
+  margin: 12px 0 16px;
+}
+
+.ju-schedule-table-wrap {
+  overflow: auto;
+  max-width: 100%;
+  border: 1px solid #c3c4c7;
+  background: #fff;
+}
+
+.ju-schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1240px;
+  font-size: 13px;
+}
+
+.ju-schedule-table th,
+.ju-schedule-table td {
+  border: 1px solid #dcdcde;
+  padding: 8px 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.ju-schedule-table thead th {
+  position: sticky;
+  top: 0;
+  background: #2271b1;
+  color: #fff;
+  font-weight: 600;
+}
+
+.ju-schedule-table input[type="date"],
+.ju-schedule-table input[type="time"],
+.ju-schedule-table input[type="text"],
+.ju-schedule-table select {
+  width: 100%;
+  max-width: 170px;
+}
+
+.ju-schedule-reason {
+  max-width: 240px;
+  white-space: pre-wrap;
+}
+
+.ju-schedule-row.ju-status-completed {
+  background: #edf7ed;
+}
+
+.ju-schedule-row.ju-status-cancelled {
+  background: #f6f7f7;
+  color: #646970;
+}
+
+.ju-schedule-row.ju-status-new,
+.ju-schedule-row.ju-status-contacted,
+.ju-schedule-row.ju-status-confirmed {
+  background: #fff8e7;
+}
+
+.ju-lock {
+  color: #b32d2e;
+  font-weight: 600;
+}
+
+.ju-open {
+  color: #1e7e34;
+  font-weight: 600;
+}

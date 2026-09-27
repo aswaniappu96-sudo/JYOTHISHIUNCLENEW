@@ -20,6 +20,7 @@ class JU_Submissions {
 		register_rest_route( JU_REST::NS, '/enquiry', array_merge( $public_post, array( 'callback' => array( __CLASS__, 'enquiry' ) ) ) );
 		register_rest_route( JU_REST::NS, '/pooja-bookings', array_merge( $public_post, array( 'callback' => array( __CLASS__, 'pooja_booking' ) ) ) );
 		register_rest_route( JU_REST::NS, '/product-enquiries', array_merge( $public_post, array( 'callback' => array( __CLASS__, 'product_enquiry' ) ) ) );
+		register_rest_route( JU_REST::NS, '/travel-bookings', array_merge( $public_post, array( 'callback' => array( __CLASS__, 'travel_booking' ) ) ) );
 		register_rest_route( JU_REST::NS, '/consultation-bookings', array_merge( $public_post, array( 'callback' => array( __CLASS__, 'consultation_booking' ) ) ) );
 		register_rest_route( JU_REST::NS, '/auth/register', array_merge( $public_post, array( 'callback' => array( __CLASS__, 'register_user' ) ) ) );
 		register_rest_route( JU_REST::NS, '/auth/login', array_merge( $public_post, array( 'callback' => array( __CLASS__, 'login' ) ) ) );
@@ -81,7 +82,7 @@ class JU_Submissions {
 		);
 
 		JU_Mail::notify(
-			'[JyothishiUncle] New customer enquiry — ' . $p['name'],
+			'[JyothishiUncle] New client enquiry — ' . $p['name'],
 			array(
 				'Name'     => $p['name'],
 				'Email'    => $p['email'],
@@ -90,7 +91,8 @@ class JU_Submissions {
 				'Subject'  => $subject,
 				'Source'   => (string) $request->get_param( 'source' ),
 				'Message'  => $p['message'],
-			)
+			),
+			'A new client enquiry was received from the website. It is also saved in Customer Enquiries → Client enquiries (Excel).'
 		);
 
 		return rest_ensure_response( array( 'ok' => true, 'id' => $id ) );
@@ -111,7 +113,22 @@ class JU_Submissions {
 		$pooja      = $pooja_slug ? get_page_by_path( $pooja_slug, OBJECT, 'pooja' ) : null;
 		$title      = $pooja ? $pooja->post_title : sanitize_text_field( (string) $request->get_param( 'pooja_title' ) );
 		$date       = sanitize_text_field( (string) $request->get_param( 'preferred_date' ) );
-		$user       = JU_JWT::user_from_request( $request );
+		$mode       = sanitize_key( (string) $request->get_param( 'offering_mode' ) );
+		if ( ! in_array( $mode, array( 'online', 'offline' ), true ) ) {
+			$mode = 'online';
+		}
+
+		$vendor_slug = sanitize_title( (string) ( $request->get_param( 'vendor' ) ?: $request->get_param( 'vendor_slug' ) ) );
+		$vendor      = $vendor_slug ? get_page_by_path( $vendor_slug, OBJECT, 'vendor' ) : null;
+		$vendor_name = $vendor ? $vendor->post_title : sanitize_text_field( (string) $request->get_param( 'vendor_name' ) );
+		if ( ! $vendor_name ) {
+			$has_vendors = (int) wp_count_posts( 'vendor' )->publish;
+			if ( $has_vendors > 0 ) {
+				return new WP_Error( 'ju_invalid', 'Please choose a pooja temple.', array( 'status' => 400 ) );
+			}
+		}
+
+		$user = JU_JWT::user_from_request( $request );
 
 		if ( $user ) {
 			$p = self::merge_user( $p, $user );
@@ -128,6 +145,9 @@ class JU_Submissions {
 				'pooja_title'    => $title,
 				'pooja_id'       => $pooja ? $pooja->ID : 0,
 				'preferred_date' => $date,
+				'offering_mode'  => $mode,
+				'vendor_name'    => $vendor_name,
+				'vendor_id'      => $vendor ? $vendor->ID : 0,
 				'message'        => $p['message'],
 				'status'         => 'new',
 			)
@@ -138,6 +158,8 @@ class JU_Submissions {
 			array(
 				'Customer'       => $p['name'],
 				'Pooja'          => $title,
+				'Mode'           => 'offline' === $mode ? 'Offline' : 'Online',
+				'Pooja temple'   => $vendor_name ? $vendor_name : '—',
 				'Preferred date' => $date,
 				'Email'          => $p['email'],
 				'Phone'          => $p['mobile'],
@@ -182,7 +204,7 @@ class JU_Submissions {
 		);
 
 		JU_Mail::notify(
-			'[JyothishiUncle] New product enquiry — ' . $title,
+			'[JyothishiUncle] New product booking — ' . $title,
 			array(
 				'Customer' => $p['name'],
 				'Product'  => $title,
@@ -191,6 +213,55 @@ class JU_Submissions {
 				'Phone'    => $p['mobile'],
 				'Location' => $p['location'],
 				'Message'  => $p['message'],
+			)
+		);
+
+		return rest_ensure_response( array( 'ok' => true, 'id' => $id ) );
+	}
+
+	public static function travel_booking( WP_REST_Request $request ) {
+		$guard = self::guard( $request );
+		if ( $guard ) {
+			return $guard;
+		}
+
+		$p = self::person( $request );
+		if ( is_wp_error( $p ) ) {
+			return $p;
+		}
+
+		$slug    = sanitize_title( (string) ( $request->get_param( 'travel' ) ?: $request->get_param( 'slug' ) ) );
+		$travel  = $slug ? get_page_by_path( $slug, OBJECT, 'religious_travel' ) : null;
+		$title   = $travel ? $travel->post_title : sanitize_text_field( (string) $request->get_param( 'travel_title' ) );
+		$dates   = sanitize_text_field( (string) $request->get_param( 'preferred_dates' ) );
+		$notes   = $p['message'];
+
+		$id = self::create_item(
+			'travel_booking',
+			$p['name'] . ' — ' . $title,
+			array(
+				'customer_name'   => $p['name'],
+				'email'           => $p['email'],
+				'mobile'          => $p['mobile'],
+				'location'        => $p['location'],
+				'travel_title'    => $title,
+				'travel_id'       => $travel ? $travel->ID : 0,
+				'preferred_dates' => $dates,
+				'message'         => $notes,
+				'status'          => 'new',
+			)
+		);
+
+		JU_Mail::notify(
+			'[JyothishiUncle] New yatra booking — ' . $title,
+			array(
+				'Customer'         => $p['name'],
+				'Yatra'            => $title,
+				'Preferred dates'  => $dates,
+				'Email'            => $p['email'],
+				'Phone'            => $p['mobile'],
+				'Location'         => $p['location'],
+				'Message'          => $notes,
 			)
 		);
 
@@ -231,6 +302,14 @@ class JU_Submissions {
 			return new WP_Error( 'ju_invalid', 'Please choose a future date.', array( 'status' => 400 ) );
 		}
 
+		$user = JU_JWT::user_from_request( $request );
+		if ( $user ) {
+			$p = self::merge_user( $p, $user );
+		}
+		$wants_free = filter_var( $request->get_param( 'claim_free_slot' ), FILTER_VALIDATE_BOOLEAN );
+		$free_slot  = $wants_free && self::user_eligible_for_free_slot( $user );
+		$slot_offer = $free_slot ? '10 MIN FREE SLOT' : '';
+
 		$duration = (int) $settings['consultation_slot_minutes'];
 		$slug     = sanitize_title( (string) $request->get_param( 'service' ) );
 		$service  = $slug ? get_page_by_path( $slug, OBJECT, 'astrology_service' ) : null;
@@ -239,6 +318,9 @@ class JU_Submissions {
 			if ( $custom > 0 ) {
 				$duration = $custom;
 			}
+		}
+		if ( $free_slot ) {
+			$duration = 10;
 		}
 
 		$month = substr( $date, 0, 7 );
@@ -261,16 +343,14 @@ class JU_Submissions {
 		$start_dt = DateTimeImmutable::createFromFormat( 'Y-m-d H:i', $date . ' ' . $start, $timezone );
 		$end      = $start_dt ? $start_dt->modify( '+' . $duration . ' minutes' )->format( 'H:i' ) : '';
 
-		$user = JU_JWT::user_from_request( $request );
-		if ( $user ) {
-			$p = self::merge_user( $p, $user );
-		}
 		$meeting = sanitize_text_field( (string) $request->get_param( 'meeting_method' ) );
 		if ( ! $meeting ) {
 			$meeting = $settings['default_meeting_method'];
 		}
 
-		$label = $types[ $type_key ];
+		$label     = $types[ $type_key ];
+		$astrologer = sanitize_text_field( (string) $request->get_param( 'astrologer_name' ) );
+		$astrologer = $astrologer ? substr( $astrologer, 0, 120 ) : 'Consultation only';
 
 		$id = self::create_item(
 			'consultation_booking',
@@ -288,26 +368,41 @@ class JU_Submissions {
 				'end_time'          => $end,
 				'meeting_method'    => $meeting,
 				'message'           => $p['message'],
+				'astrologer_name'   => $astrologer,
+				'slot_offer'        => $slot_offer,
+				'user_id'           => $user ? (int) $user->ID : 0,
 				'status'            => 'new',
 			)
 		);
 
+		if ( $id && $free_slot && $user ) {
+			update_user_meta( $user->ID, 'ju_free_consultation_used', 1 );
+		}
+
 		JU_Mail::notify(
 			'[JyothishiUncle] New consultation booking — ' . $label,
 			array(
-				'Customer' => $p['name'],
-				'Type'     => $label,
-				'Date'     => $date,
-				'Time'     => $start . ( $end ? '–' . $end : '' ) . ' (Oman)',
-				'Meeting'  => $meeting,
-				'Email'    => $p['email'],
-				'Phone'    => $p['mobile'],
-				'Location' => $p['location'],
-				'Message'  => $p['message'],
+				'Customer'   => $p['name'],
+				'Astrologer' => $astrologer,
+				'Type'       => $label,
+				'Slot'       => $slot_offer ? $slot_offer : 'Standard',
+				'Date'       => $date,
+				'Time'       => $start . ( $end ? '–' . $end : '' ) . ' (calendar time)',
+				'Meeting'    => $meeting,
+				'Email'      => $p['email'],
+				'Phone'      => $p['mobile'],
+				'Location'   => $p['location'],
+				'Message'    => $p['message'],
 			)
 		);
 
-		return rest_ensure_response( array( 'ok' => true, 'id' => $id ) );
+		return rest_ensure_response(
+			array(
+				'ok'        => true,
+				'id'        => $id,
+				'free_slot' => (bool) ( $id && $free_slot ),
+			)
+		);
 	}
 
 	public static function register_user( WP_REST_Request $request ) {
@@ -353,10 +448,26 @@ class JU_Submissions {
 		update_user_meta( $user_id, 'ju_source', $source );
 		update_user_meta( $user_id, 'ju_intro_message', $message );
 		update_user_meta( $user_id, 'ju_profile_complete', 1 );
+		update_user_meta( $user_id, 'ju_reg_status', 'new' );
 		$user = get_user_by( 'id', $user_id );
 
+		self::create_item(
+			'website_registration',
+			$name,
+			array(
+				'customer_name' => $name,
+				'email'         => $email,
+				'mobile'        => $mobile,
+				'location'      => $location,
+				'source'        => $source,
+				'message'       => $message,
+				'user_id'       => $user_id,
+				'status'        => 'new',
+			)
+		);
+
 		JU_Mail::notify(
-			'[JyothishiUncle] New customer registration — ' . $name,
+			'[JyothishiUncle] New client registration — ' . $name,
 			array(
 				'Name'     => $name,
 				'Email'    => $email,
@@ -364,7 +475,8 @@ class JU_Submissions {
 				'Location' => $location,
 				'Source'   => $source,
 				'Message'  => $message,
-			)
+			),
+			'A new client registered on the website. Details are saved in Registrations → Registrations (Excel).'
 		);
 
 		return rest_ensure_response(
@@ -462,9 +574,10 @@ class JU_Submissions {
 		return rest_ensure_response(
 			array(
 				'ok'            => true,
-				'pooja'         => self::bookings_for_email( 'pooja_booking', $email, array( 'pooja_title', 'preferred_date', 'status', 'message' ) ),
+				'pooja'         => self::bookings_for_email( 'pooja_booking', $email, array( 'pooja_title', 'preferred_date', 'offering_mode', 'vendor_name', 'status', 'message' ) ),
 				'products'      => self::bookings_for_email( 'product_enquiry', $email, array( 'product_title', 'quantity', 'status', 'message' ) ),
-				'consultations' => self::bookings_for_email( 'consultation_booking', $email, array( 'consultation_type', 'service_title', 'booking_date', 'start_time', 'status', 'message' ) ),
+				'travel'        => self::bookings_for_email( 'travel_booking', $email, array( 'travel_title', 'preferred_dates', 'status', 'message' ) ),
+				'consultations' => self::bookings_for_email( 'consultation_booking', $email, array( 'consultation_type', 'service_title', 'booking_date', 'start_time', 'slot_offer', 'status', 'message' ) ),
 			)
 		);
 	}
@@ -527,6 +640,51 @@ class JU_Submissions {
 		}
 
 		return compact( 'name', 'email', 'mobile', 'location', 'message' );
+	}
+
+	private static function user_eligible_for_free_slot( $user ) {
+		if ( ! $user instanceof WP_User ) {
+			return false;
+		}
+		if ( (int) get_user_meta( $user->ID, 'ju_free_consultation_used', true ) ) {
+			return false;
+		}
+
+		$existing = new WP_Query(
+			array(
+				'post_type'      => 'consultation_booking',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'no_found_rows'  => true,
+				'fields'         => 'ids',
+				'meta_query'     => array(
+					'relation' => 'AND',
+					array(
+						'key'     => 'slot_offer',
+						'value'   => array( '10 MIN FREE SLOT', '30 MIN FREE SLOT' ),
+						'compare' => 'IN',
+					),
+					array(
+						'relation' => 'OR',
+						array(
+							'key'   => 'email',
+							'value' => $user->user_email,
+						),
+						array(
+							'key'   => 'user_id',
+							'value' => (string) $user->ID,
+						),
+					),
+				),
+			)
+		);
+
+		if ( $existing->have_posts() ) {
+			update_user_meta( $user->ID, 'ju_free_consultation_used', 1 );
+			return false;
+		}
+
+		return true;
 	}
 
 	private static function merge_user( array $p, WP_User $user ) {

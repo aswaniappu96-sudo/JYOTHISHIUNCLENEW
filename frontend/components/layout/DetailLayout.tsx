@@ -28,12 +28,12 @@ export function DetailLayout({
 }) {
   return (
     <>
-      <section className="px-5 py-16 text-cream">
+      <section className="px-5 py-16">
         <div className="mx-auto grid max-w-6xl items-end gap-8 md:grid-cols-[1.2fr_0.8fr]">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-saffron">{eyebrow}</p>
-            <h1 className="mt-4 font-serif text-4xl md:text-6xl">{title}</h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-cream/70 md:text-base">{summary}</p>
+            <p className="text-xs uppercase tracking-[0.28em] text-primary">{eyebrow}</p>
+            <h1 className="mt-4 font-serif text-4xl text-primary md:text-6xl">{title}</h1>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">{summary}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               {extraActions}
               <ButtonLink href={whatsappUrl(whatsappNumber, whatsappMessage)} variant="ghost" external>
@@ -49,7 +49,7 @@ export function DetailLayout({
           .filter((section) => section.html)
           .map((section) => (
             <div key={section.title} className="mb-10">
-              <h2 className="font-serif text-3xl text-white">{section.title}</h2>
+              <h2 className="font-serif text-3xl text-primary">{section.title}</h2>
               <div className="prose-ju mt-4" dangerouslySetInnerHTML={{ __html: section.html }} />
             </div>
           ))}
@@ -62,12 +62,12 @@ export function DetailLayout({
         ) : null}
         {testimonials.length ? (
           <div className="mt-12">
-            <h2 className="font-serif text-3xl text-white">What families say</h2>
+            <h2 className="font-serif text-3xl text-primary">What families say</h2>
             <div className="mt-6 grid gap-4">
               {testimonials.map((item) => (
                 <blockquote key={item.id} className="glass-card rounded-3xl p-5">
-                  <p className="text-sm leading-relaxed text-cream/80">“{item.review}”</p>
-                  <footer className="mt-3 font-serif text-lg text-white">{item.name}</footer>
+                  <p className="text-sm leading-relaxed text-on-surface-variant">“{item.review}”</p>
+                  <footer className="mt-3 font-serif text-lg text-primary">{item.name}</footer>
                 </blockquote>
               ))}
             </div>

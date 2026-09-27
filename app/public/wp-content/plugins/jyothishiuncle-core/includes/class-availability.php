@@ -1,6 +1,6 @@
 <?php
 /**
- * Builds consultation slots from Oman working hours minus booked/blocked times.
+ * Builds consultation slots from working hours minus booked times.
  *
  * @package JyothishiUncleCore
  */
@@ -26,9 +26,8 @@ class JU_Availability {
 
 		$booked       = self::booked_keys( $start, $end );
 		$booked_dates = self::booked_dates( $booked );
-		$blocked      = self::blocked_dates( $start, $end );
-		$days    = array();
-		$cursor  = $start;
+		$days         = array();
+		$cursor       = $start;
 
 		while ( $cursor <= $end ) {
 			$key      = $cursor->format( 'Y-m-d' );
@@ -44,18 +43,17 @@ class JU_Availability {
 			);
 			$day_code = $map[ $weekday ] ?? $weekday;
 			$is_work  = in_array( $day_code, $working_days, true );
-			$is_block = in_array( $key, $blocked, true );
 			$is_taken = in_array( $key, $booked_dates, true );
 			$slots    = array();
 
-			if ( $is_work && ! $is_block && ! $is_taken ) {
+			if ( $is_work && ! $is_taken ) {
 				$slots = self::day_slots( $key, $day_start, $day_end, $duration, $timezone, $booked );
 			}
 
 			$days[] = array(
 				'date'      => $key,
-				'available' => ! empty( $slots ) && ! $is_taken && ! $is_block,
-				'blocked'   => $is_block,
+				'available' => ! empty( $slots ) && ! $is_taken,
+				'blocked'   => false,
 				'booked'    => $is_taken,
 				'working'   => $is_work,
 				'slots'     => $slots,
@@ -112,16 +110,15 @@ class JU_Availability {
 			)
 		);
 
-		$keys     = array();
-		$blocked_status = array( 'new', 'contacted', 'confirmed' );
+		$keys = array();
 
 		foreach ( $query->posts as $id ) {
 			$status = (string) JU_REST_Serialize::meta( $id, 'status', 'new' );
-			if ( ! in_array( $status, $blocked_status, true ) ) {
+			if ( ! self::locks_calendar( $status ) ) {
 				continue;
 			}
 
-			$date = (string) JU_REST_Serialize::meta( $id, 'booking_date' );
+			$date = self::normalize_date( (string) JU_REST_Serialize::meta( $id, 'booking_date' ) );
 			$time = (string) JU_REST_Serialize::meta( $id, 'start_time' );
 			if ( ! $date ) {
 				continue;
@@ -146,25 +143,49 @@ class JU_Availability {
 		return array_values( array_unique( $dates ) );
 	}
 
-	private static function blocked_dates( DateTimeImmutable $start, DateTimeImmutable $end ) {
+	public static function locks_calendar( $status ) {
+		return in_array( (string) $status, array( 'new', 'contacted', 'confirmed' ), true );
+	}
+
+	public static function normalize_date( $value ) {
+		$digits = preg_replace( '/\D/', '', (string) $value );
+		if ( strlen( $digits ) === 8 ) {
+			return substr( $digits, 0, 4 ) . '-' . substr( $digits, 4, 2 ) . '-' . substr( $digits, 6, 2 );
+		}
+		return (string) $value;
+	}
+
+	public static function date_is_taken( $date, $exclude_id = 0 ) {
+		$date = self::normalize_date( $date );
 		$query = new WP_Query(
 			array(
-				'post_type'      => 'consultation_block',
+				'post_type'      => 'consultation_booking',
 				'post_status'    => 'publish',
-				'posts_per_page' => 200,
+				'posts_per_page' => 500,
 				'no_found_rows'  => true,
 				'fields'         => 'ids',
+				'post__not_in'   => $exclude_id ? array( (int) $exclude_id ) : array(),
 			)
 		);
 
-		$dates = array();
 		foreach ( $query->posts as $id ) {
-			$date = (string) JU_REST_Serialize::meta( $id, 'block_date' );
-			if ( $date && $date >= $start->format( 'Y-m-d' ) && $date <= $end->format( 'Y-m-d' ) ) {
-				$dates[] = $date;
+			$status = (string) JU_REST_Serialize::meta( $id, 'status', 'new' );
+			if ( ! self::locks_calendar( $status ) ) {
+				continue;
+			}
+			if ( self::normalize_date( (string) JU_REST_Serialize::meta( $id, 'booking_date' ) ) === $date ) {
+				return true;
 			}
 		}
 
-		return $dates;
+		return false;
+	}
+
+	public static function save_meta( $post_id, $key, $value ) {
+		if ( function_exists( 'update_field' ) ) {
+			update_field( $key, $value, $post_id );
+			return;
+		}
+		update_post_meta( $post_id, $key, $value );
 	}
 }

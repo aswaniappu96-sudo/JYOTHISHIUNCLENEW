@@ -21,8 +21,16 @@ export async function submitProductEnquiry(payload: Record<string, unknown>) {
   return readJson("/api/product-enquiries", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
 }
 
+export async function submitTravelBooking(payload: Record<string, unknown>) {
+  return readJson("/api/travel-bookings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+}
+
 export async function submitConsultationBooking(payload: Record<string, unknown>) {
-  return readJson("/api/consultation-bookings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+  return readJson<{ ok: boolean; id?: number; free_slot?: boolean }>("/api/consultation-bookings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
 }
 
 export async function loginCustomer(email: string, password: string) {
@@ -65,6 +73,7 @@ export async function getMyBookings() {
     ok: boolean;
     pooja: Array<Record<string, string>>;
     products: Array<Record<string, string>>;
+    travel: Array<Record<string, string>>;
     consultations: Array<Record<string, string>>;
   }>("/api/me/bookings");
 }

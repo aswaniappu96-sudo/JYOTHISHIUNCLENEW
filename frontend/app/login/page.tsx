@@ -45,7 +45,7 @@ export default function LoginPage() {
         <button disabled={busy} className="rounded-full bg-midnight px-5 py-3 text-sm text-cream disabled:opacity-60">
           {busy ? "Signing in…" : "Login"}
         </button>
-        <p className="text-sm text-cream/70">
+        <p className="text-sm text-on-surface-variant">
           New here? <Link href="/register" className="text-lotus underline">Register</Link>
         </p>
       </form>

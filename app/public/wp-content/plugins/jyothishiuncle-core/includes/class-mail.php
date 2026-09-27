@@ -11,10 +11,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class JU_Mail {
 
-	public static function notify( $subject, array $rows ) {
+	public static function notify( $subject, array $rows, $intro = '' ) {
 		$settings = JU_Settings::get();
-		$to       = $settings['admin_notify_email'] ? $settings['admin_notify_email'] : get_option( 'admin_email' );
-		if ( ! $to || ! is_email( $to ) ) {
+		$to       = array();
+		if ( ! empty( $settings['admin_notify_email'] ) && is_email( $settings['admin_notify_email'] ) ) {
+			$to[] = $settings['admin_notify_email'];
+		}
+		$admin = get_option( 'admin_email' );
+		if ( $admin && is_email( $admin ) && ! in_array( $admin, $to, true ) ) {
+			$to[] = $admin;
+		}
+		if ( ! $to ) {
 			return false;
 		}
 
@@ -23,7 +30,8 @@ class JU_Mail {
 			$lines .= '<tr><th style="text-align:left;padding:8px;border-bottom:1px solid #eee;width:180px;">' . esc_html( $label ) . '</th><td style="padding:8px;border-bottom:1px solid #eee;">' . esc_html( (string) $value ) . '</td></tr>';
 		}
 
-		$body = '<p>A new JyothishiUncle submission was received.</p><table cellpadding="0" cellspacing="0" style="width:100%;max-width:640px;font-family:Georgia,serif;">' . $lines . '</table>';
+		$lead = $intro ? $intro : 'A new JyothishiUncle submission was received.';
+		$body = '<p>' . esc_html( $lead ) . '</p><table cellpadding="0" cellspacing="0" style="width:100%;max-width:640px;font-family:Georgia,serif;">' . $lines . '</table>';
 
 		return wp_mail(
 			$to,

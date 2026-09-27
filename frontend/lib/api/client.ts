@@ -27,7 +27,8 @@ export class WordpressApiError extends Error {
 }
 
 export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  if (process.env.VERCEL && isLocalWordpress()) {
+  // Skip only on Vercel's cloud runtime, never during local `next dev`.
+  if (process.env.VERCEL_ENV && isLocalWordpress()) {
     throw new WordpressApiError(
       `WordPress origin is local and cannot be reached from Vercel (${path}). Set WORDPRESS_URL to a public site.`,
       503,

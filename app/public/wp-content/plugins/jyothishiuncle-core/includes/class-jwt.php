@@ -74,7 +74,8 @@ class JU_JWT {
 			'location'         => (string) get_user_meta( $user->ID, 'ju_location', true ),
 			'source'           => (string) get_user_meta( $user->ID, 'ju_source', true ),
 			'message'          => (string) get_user_meta( $user->ID, 'ju_intro_message', true ),
-			'profile_complete' => (bool) get_user_meta( $user->ID, 'ju_profile_complete', true ),
+			'profile_complete'             => (bool) get_user_meta( $user->ID, 'ju_profile_complete', true ),
+			'free_consultation_available'  => ! (int) get_user_meta( $user->ID, 'ju_free_consultation_used', true ),
 		);
 	}
 

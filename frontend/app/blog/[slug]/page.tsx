@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PageIntro } from "@/components/layout/PageIntro";
-import { getArticle, getArticles } from "@/lib/api/wordpress";
-import { imageSrc } from "@/lib/media";
+import { ArticleDetailView } from "@/components/pages/ArticleDetailView";
+import { getArticle, getArticles, getAstrologers, getProducts, getSettings } from "@/lib/api/wordpress";
 
 export const revalidate = 60;
 
@@ -26,18 +25,26 @@ export async function generateMetadata({
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = await getArticle(slug);
+  const [article, articles, settings, astrologers, products] = await Promise.all([
+    getArticle(slug),
+    getArticles().catch(() => []),
+    getSettings().catch(() => null),
+    getAstrologers().catch(() => []),
+    getProducts().catch(() => []),
+  ]);
   if (!article) notFound();
 
   return (
-    <>
-      <PageIntro
-        eyebrow={article.categories[0] || "Article"}
-        title={article.title}
-        copy={article.excerpt}
-        image={imageSrc(article.featured_image) || undefined}
-      />
-      <article className="prose-ju mx-auto max-w-3xl px-5 py-16" dangerouslySetInnerHTML={{ __html: article.content }} />
-    </>
+    <ArticleDetailView
+      article={article}
+      related={articles.filter((item) => item.slug !== article.slug).slice(0, 3)}
+      whatsappNumber={settings?.whatsapp_number || ""}
+      author={
+        astrologers.find(
+          (item) => item.title.trim().toLowerCase() === (article.writer_name || "").trim().toLowerCase(),
+        ) || null
+      }
+      product={products[0] || null}
+    />
   );
 }

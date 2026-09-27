@@ -1,5 +1,6 @@
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { ConchIcon } from "@/components/icons/ConchIcon";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export function CtaSection({
@@ -46,10 +47,12 @@ export function CtaSection({
             </ButtonLink>
           </div>
           <div className="grid w-full grid-cols-1 gap-2 border-t border-outline-variant/30 pt-4 text-center sm:grid-cols-2 lg:grid-cols-4">
-            {["Instant confirmation after review", "Confidential video guidance", "Traditional pooja with care", "Online from Oman, worldwide"].map(
+            {["Instant confirmation after review", "Confidential video guidance", "Traditional pooja with care", "Online consults worldwide"].map(
               (item) => (
                 <div key={item} className="flex items-center justify-center gap-2 rounded-xl bg-surface-low/60 p-2">
-                  <span className="text-primary">✦</span>
+                  <span className="text-primary">
+                    <ConchIcon className="h-3.5 w-3.5" />
+                  </span>
                   <span className="text-xs text-on-surface">{item}</span>
                 </div>
               ),

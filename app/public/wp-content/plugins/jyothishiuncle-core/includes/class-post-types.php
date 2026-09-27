@@ -57,6 +57,15 @@ class JU_Post_Types {
 			array( 'title', 'editor', 'thumbnail', 'excerpt' )
 		);
 
+		self::public_type(
+			'vendor',
+			'Pooja Temple',
+			'Pooja Temples',
+			'dashicons-building',
+			10,
+			array( 'title', 'editor', 'thumbnail', 'excerpt' )
+		);
+
 		self::ui_type(
 			'faq',
 			'FAQ',
@@ -73,6 +82,14 @@ class JU_Post_Types {
 			'dashicons-format-quote',
 			21,
 			array( 'title', 'thumbnail' )
+		);
+
+		self::private_type(
+			'website_registration',
+			'Registration',
+			'Registrations',
+			'dashicons-id',
+			25
 		);
 
 		self::private_type(
@@ -93,25 +110,25 @@ class JU_Post_Types {
 
 		self::private_type(
 			'product_enquiry',
-			'Product Enquiry',
-			'Product Enquiries',
+			'Product Booking',
+			'Product Bookings',
 			'dashicons-cart',
 			28
 		);
 
 		self::private_type(
-			'consultation_booking',
-			'Consultation Booking',
-			'Consultation Bookings',
-			'dashicons-clock',
+			'travel_booking',
+			'Yatra Booking',
+			'Yatra Bookings',
+			'dashicons-palmtree',
 			29
 		);
 
 		self::private_type(
-			'consultation_block',
-			'Blocked Date',
-			'Blocked Dates',
-			'dashicons-hidden',
+			'consultation_booking',
+			'Scheduled Consultation',
+			'Schedule Consultations',
+			'dashicons-clock',
 			30
 		);
 	}
@@ -135,6 +152,7 @@ class JU_Post_Types {
 		$post->labels->all_items          = 'All Articles';
 		$post->labels->menu_name          = 'Articles';
 		$post->labels->name_admin_bar     = 'Article';
+		remove_post_type_support( 'post', 'author' );
 	}
 
 	private static function public_type( $slug, $singular, $plural, $icon, $position, $supports ) {

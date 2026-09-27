@@ -11,6 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class JU_REST_Serialize {
 
+	public static function title( WP_Post $post ) {
+		return html_entity_decode( wp_strip_all_tags( get_the_title( $post ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	}
+
 	public static function pooja( WP_Post $post ) {
 		return array_merge(
 			self::card( $post ),
@@ -21,6 +25,16 @@ class JU_REST_Serialize {
 				'gallery'          => self::gallery( $post->ID ),
 				'booking_enabled'  => (bool) self::meta( $post->ID, 'booking_enabled', true ),
 				'whatsapp_message' => (string) self::meta( $post->ID, 'whatsapp_message', 'Hello, I am interested in ' . $post->post_title . '.' ),
+			)
+		);
+	}
+
+	public static function vendor( WP_Post $post ) {
+		return array_merge(
+			self::card( $post ),
+			array(
+				'location'         => (string) self::meta( $post->ID, 'location' ),
+				'full_description' => self::html_meta( $post->ID, 'full_description', $post->post_content ),
 			)
 		);
 	}
@@ -80,7 +94,7 @@ class JU_REST_Serialize {
 		return array(
 			'id'            => $post->ID,
 			'slug'          => $post->post_name,
-			'question'      => get_the_title( $post ),
+			'question'      => self::title( $post ),
 			'answer'        => wp_kses_post( $post->post_content ),
 			'display_order' => (int) self::meta( $post->ID, 'display_order', 10 ),
 		);
@@ -89,7 +103,7 @@ class JU_REST_Serialize {
 	public static function testimonial( WP_Post $post ) {
 		return array(
 			'id'            => $post->ID,
-			'name'          => get_the_title( $post ),
+			'name'          => self::title( $post ),
 			'review'        => (string) self::meta( $post->ID, 'review' ),
 			'rating'        => (int) self::meta( $post->ID, 'rating', 5 ),
 			'image'         => self::image( get_post_thumbnail_id( $post ) ),
@@ -104,13 +118,14 @@ class JU_REST_Serialize {
 		return array(
 			'id'            => $post->ID,
 			'slug'          => $post->post_name,
-			'title'         => get_the_title( $post ),
+			'title'         => self::title( $post ),
 			'excerpt'       => wp_strip_all_tags( $post->post_excerpt ? $post->post_excerpt : wp_trim_words( wp_strip_all_tags( $post->post_content ), 24 ) ),
 			'content'       => wp_kses_post( apply_filters( 'the_content', $post->post_content ) ),
 			'date'          => get_post_time( 'c', true, $post ),
 			'featured_image'=> self::image( get_post_thumbnail_id( $post ) ),
 			'categories'    => is_wp_error( $cats ) ? array() : array_values( $cats ),
 			'tags'          => is_wp_error( $tags ) ? array() : array_values( $tags ),
+			'writer_name'   => sanitize_text_field( (string) self::meta( $post->ID, 'writer_name' ) ),
 		);
 	}
 
@@ -118,7 +133,7 @@ class JU_REST_Serialize {
 		return array(
 			'id'               => $post->ID,
 			'slug'             => $post->post_name,
-			'title'            => get_the_title( $post ),
+			'title'            => self::title( $post ),
 			'content'          => wp_kses_post( apply_filters( 'the_content', $post->post_content ) ),
 			'eyebrow'          => (string) self::meta( $post->ID, 'eyebrow' ),
 			'hero_copy'        => (string) self::meta( $post->ID, 'hero_copy' ),
@@ -138,11 +153,11 @@ class JU_REST_Serialize {
 		return array(
 			'id'                => $post->ID,
 			'slug'              => $post->post_name,
-			'title'             => get_the_title( $post ),
+			'title'             => self::title( $post ),
 			'short_description' => (string) self::meta( $post->ID, 'short_description', $post->post_excerpt ),
 			'featured_image'    => self::image( get_post_thumbnail_id( $post ) ),
 			'display_order'     => (int) self::meta( $post->ID, 'display_order', 10 ),
-			'show_on_homepage'  => (bool) self::meta( $post->ID, 'show_on_homepage', false ),
+			'show_on_homepage'  => self::bool_meta( $post->ID, 'show_on_homepage' ),
 		);
 	}
 
@@ -156,6 +171,26 @@ class JU_REST_Serialize {
 
 		$value = get_post_meta( $post_id, $key, true );
 		return ( '' === $value || null === $value ) ? $default : $value;
+	}
+
+	public static function bool_meta( $post_id, $key ) {
+		$raw = null;
+		if ( function_exists( 'get_field' ) ) {
+			$raw = get_field( $key, $post_id );
+			if ( is_bool( $raw ) ) {
+				return $raw;
+			}
+		}
+		if ( null === $raw || '' === $raw ) {
+			$raw = get_post_meta( $post_id, $key, true );
+		}
+		if ( is_bool( $raw ) ) {
+			return $raw;
+		}
+		if ( is_numeric( $raw ) ) {
+			return 1 === (int) $raw;
+		}
+		return in_array( strtolower( trim( (string) $raw ) ), array( '1', 'true', 'yes', 'on' ), true );
 	}
 
 	private static function html_meta( $post_id, $key, $fallback = '' ) {

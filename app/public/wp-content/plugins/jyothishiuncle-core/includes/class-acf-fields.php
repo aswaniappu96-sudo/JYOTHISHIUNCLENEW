@@ -20,15 +20,18 @@ class JU_ACF_Fields {
 		self::product();
 		self::service();
 		self::astrologer();
+		self::vendor();
 		self::site_pages();
 		self::travel();
+		self::article();
 		self::faq();
 		self::testimonial();
 		self::customer_enquiry();
+		self::website_registration();
 		self::pooja_booking();
 		self::product_enquiry();
+		self::travel_booking();
 		self::consultation_booking();
-		self::consultation_block();
 	}
 
 	private static function pooja() {
@@ -111,14 +114,30 @@ class JU_ACF_Fields {
 				'title'    => 'Astrologer details',
 				'fields'   => array(
 					self::field( 'field_astrologer_specialty', 'specialty', 'Specialty', 'text', 'Example: Jathaka, marriage matching, prashna.' ),
-					self::field( 'field_astrologer_location', 'location', 'Location', 'text', 'Example: Thrissur, Kerala. Shown on the astrologers page.' ),
+					self::field( 'field_astrologer_location', 'location', 'Location', 'text', 'Example: Thrissur. Shown on the astrologers page.' ),
 					self::field( 'field_astrologer_short', 'short_description', 'Short description', 'textarea' ),
 					self::field( 'field_astrologer_full', 'full_description', 'Full biography', 'wysiwyg' ),
 					self::field( 'field_astrologer_gift', 'first_session_note', 'First session note', 'text', 'Shown on the welcome popup and profile.' ),
 					self::number( 'field_astrologer_order', 'display_order', 'Display order', 10 ),
-					self::true_false( 'field_astrologer_home', 'show_on_homepage', 'Show on homepage', 0 ),
+					self::true_false( 'field_astrologer_home', 'show_on_homepage', 'Show on homepage', 0, 'Yes = appear on the home page. No = only on the Astrologers page.' ),
 				),
 				'location' => self::location( 'astrologer' ),
+			)
+		);
+	}
+
+	private static function vendor() {
+		acf_add_local_field_group(
+			array(
+				'key'      => 'group_ju_vendor',
+				'title'    => 'Pooja temple details',
+				'fields'   => array(
+					self::field( 'field_vendor_location', 'location', 'Temple / place', 'text', 'Shown on the pooja page and in the booking form.' ),
+					self::field( 'field_vendor_short', 'short_description', 'Short description', 'textarea', 'One or two sentences for the pooja page list.' ),
+					self::field( 'field_vendor_full', 'full_description', 'Full description', 'wysiwyg', 'Optional extra notes about this pooja temple.' ),
+					self::number( 'field_vendor_order', 'display_order', 'Display order', 10 ),
+				),
+				'location' => self::location( 'vendor' ),
 			)
 		);
 	}
@@ -197,6 +216,40 @@ class JU_ACF_Fields {
 		);
 	}
 
+	private static function website_registration() {
+		acf_add_local_field_group(
+			array(
+				'key'      => 'group_ju_registration',
+				'title'    => 'Registration',
+				'fields'   => array_merge(
+					self::person_fields( 'registration' ),
+					array(
+						self::field( 'field_reg_source', 'source', 'How they heard about us', 'text' ),
+						self::field( 'field_reg_message', 'message', 'Message', 'textarea' ),
+						array(
+							'key'          => 'field_reg_user_id',
+							'label'        => 'User ID',
+							'name'         => 'user_id',
+							'type'         => 'number',
+							'instructions' => 'Filled automatically from the website Register form.',
+						),
+						self::status_field(
+							'field_reg_status',
+							'new',
+							array(
+								'new'       => 'New',
+								'contacted' => 'Contacted',
+								'confirmed' => 'Active',
+								'cancelled' => 'Inactive',
+							)
+						),
+					)
+				),
+				'location' => self::location( 'website_registration' ),
+			)
+		);
+	}
+
 	private static function pooja_booking() {
 		acf_add_local_field_group(
 			array(
@@ -222,6 +275,25 @@ class JU_ACF_Fields {
 							'display_format' => 'd/m/Y',
 						),
 						self::field( 'field_pb_message', 'message', 'Message', 'textarea' ),
+						array(
+							'key'           => 'field_pb_mode',
+							'label'         => 'Online or offline',
+							'name'          => 'offering_mode',
+							'type'          => 'select',
+							'choices'       => array(
+								'online'  => 'Online',
+								'offline' => 'Offline',
+							),
+							'default_value' => 'online',
+						),
+						self::field( 'field_pb_vendor', 'vendor_name', 'Pooja temple', 'text', 'Filled when the family chooses a temple for online or offline pooja.' ),
+						array(
+							'key'          => 'field_pb_vendor_id',
+							'label'        => 'Temple ID',
+							'name'         => 'vendor_id',
+							'type'         => 'number',
+							'instructions' => 'Filled automatically from the website.',
+						),
 						self::status_field( 'field_pb_status', 'new' ),
 					)
 				),
@@ -234,7 +306,7 @@ class JU_ACF_Fields {
 		acf_add_local_field_group(
 			array(
 				'key'      => 'group_ju_product_enquiry',
-				'title'    => 'Product enquiry',
+				'title'    => 'Product booking',
 				'fields'   => array_merge(
 					self::person_fields( 'product_enquiry' ),
 					array(
@@ -251,6 +323,32 @@ class JU_ACF_Fields {
 					)
 				),
 				'location' => self::location( 'product_enquiry' ),
+			)
+		);
+	}
+
+	private static function travel_booking() {
+		acf_add_local_field_group(
+			array(
+				'key'      => 'group_ju_travel_booking',
+				'title'    => 'Yatra booking',
+				'fields'   => array_merge(
+					self::person_fields( 'travel_booking' ),
+					array(
+						self::field( 'field_tb_travel', 'travel_title', 'Yatra', 'text' ),
+						array(
+							'key'          => 'field_tb_travel_id',
+							'label'        => 'Destination ID',
+							'name'         => 'travel_id',
+							'type'         => 'number',
+							'instructions' => 'Filled automatically from the website.',
+						),
+						self::field( 'field_tb_dates', 'preferred_dates', 'Preferred dates', 'text', 'Month, festival, or dates the family shared.' ),
+						self::field( 'field_tb_message', 'message', 'Message', 'textarea' ),
+						self::status_field( 'field_tb_status', 'new' ),
+					)
+				),
+				'location' => self::location( 'travel_booking' ),
 			)
 		);
 	}
@@ -284,14 +382,14 @@ class JU_ACF_Fields {
 						),
 						array(
 							'key'            => 'field_cb_date',
-							'label'          => 'Date (Oman)',
+							'label'          => 'Date',
 							'name'           => 'booking_date',
 							'type'           => 'date_picker',
 							'return_format'  => 'Y-m-d',
 							'display_format' => 'd/m/Y',
 						),
-						self::field( 'field_cb_start', 'start_time', 'Start time (Oman)', 'time_picker', '', array( 'display_format' => 'H:i', 'return_format' => 'H:i' ) ),
-						self::field( 'field_cb_end', 'end_time', 'End time (Oman)', 'time_picker', '', array( 'display_format' => 'H:i', 'return_format' => 'H:i' ) ),
+						self::field( 'field_cb_start', 'start_time', 'Start time', 'time_picker', '', array( 'display_format' => 'H:i', 'return_format' => 'H:i' ) ),
+						self::field( 'field_cb_end', 'end_time', 'End time', 'time_picker', '', array( 'display_format' => 'H:i', 'return_format' => 'H:i' ) ),
 						array(
 							'key'     => 'field_cb_meeting',
 							'label'   => 'Preferred meeting method',
@@ -305,7 +403,27 @@ class JU_ACF_Fields {
 							),
 						),
 						self::field( 'field_cb_message', 'message', 'Message', 'textarea' ),
-						self::status_field( 'field_cb_status', 'new' ),
+						self::field(
+							'field_cb_astrologer',
+							'astrologer_name',
+							'Astrologer',
+							'text',
+							'The astrologer this booking is for. Bookings from the homepage calendar are saved as “Consultation only”.'
+						),
+						self::field(
+							'field_cb_slot_offer',
+							'slot_offer',
+							'Slot offer',
+							'text',
+							'Set automatically for a logged-in first consultation as “10 MIN FREE SLOT”.'
+						),
+						array(
+							'key'   => 'field_cb_user_id',
+							'label' => 'User ID',
+							'name'  => 'user_id',
+							'type'  => 'number',
+						),
+						self::status_field( 'field_cb_status', 'new', JU_Consultation_Schedule::status_choices() ),
 					)
 				),
 				'location' => self::location( 'consultation_booking' ),
@@ -313,23 +431,22 @@ class JU_ACF_Fields {
 		);
 	}
 
-	private static function consultation_block() {
+	private static function article() {
 		acf_add_local_field_group(
 			array(
-				'key'      => 'group_ju_consult_block',
-				'title'    => 'Blocked date',
+				'key'      => 'group_ju_article',
+				'title'    => 'Writer',
 				'fields'   => array(
-					array(
-						'key'            => 'field_block_date',
-						'label'          => 'Date',
-						'name'           => 'block_date',
-						'type'           => 'date_picker',
-						'return_format'  => 'Y-m-d',
-						'display_format' => 'd/m/Y',
+					self::field(
+						'field_article_writer_name',
+						'writer_name',
+						'Writer name',
+						'text',
+						'Shown on the public article page. Leave blank to show JyothishiUncle. This is not the WordPress login name.'
 					),
-					self::field( 'field_block_reason', 'reason', 'Reason (optional)', 'text' ),
 				),
-				'location' => self::location( 'consultation_block' ),
+				'location' => self::location( 'post' ),
+				'position' => 'side',
 			)
 		);
 	}
@@ -383,19 +500,22 @@ class JU_ACF_Fields {
 		);
 	}
 
-	private static function status_field( $key, $default = 'new' ) {
-		return array(
-			'key'           => $key,
-			'label'         => 'Status',
-			'name'          => 'status',
-			'type'          => 'select',
-			'choices'       => array(
+	private static function status_field( $key, $default = 'new', $choices = array() ) {
+		if ( ! $choices ) {
+			$choices = array(
 				'new'       => 'New',
 				'contacted' => 'Contacted',
 				'confirmed' => 'Confirmed',
 				'completed' => 'Completed',
 				'cancelled' => 'Cancelled',
-			),
+			);
+		}
+		return array(
+			'key'           => $key,
+			'label'         => 'Status',
+			'name'          => 'status',
+			'type'          => 'select',
+			'choices'       => $choices,
 			'default_value' => $default,
 		);
 	}
@@ -436,7 +556,7 @@ class JU_ACF_Fields {
 		);
 	}
 
-	private static function true_false( $key, $name, $label, $default ) {
+	private static function true_false( $key, $name, $label, $default, $instructions = '' ) {
 		return array(
 			'key'           => $key,
 			'label'         => $label,
@@ -444,6 +564,7 @@ class JU_ACF_Fields {
 			'type'          => 'true_false',
 			'ui'            => 1,
 			'default_value' => $default,
+			'instructions'  => $instructions,
 		);
 	}
 

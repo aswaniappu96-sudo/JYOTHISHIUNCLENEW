@@ -10,15 +10,25 @@ type BookingRow = Record<string, string>;
 
 export default function MyBookingsPage() {
   const { user, loading } = useAuth();
-  const [rows, setRows] = useState<{ pooja: BookingRow[]; products: BookingRow[]; consultations: BookingRow[] } | null>(
-    null,
-  );
+  const [rows, setRows] = useState<{
+    pooja: BookingRow[];
+    products: BookingRow[];
+    travel: BookingRow[];
+    consultations: BookingRow[];
+  } | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!user) return;
     getMyBookings()
-      .then((data) => setRows({ pooja: data.pooja || [], products: data.products || [], consultations: data.consultations || [] }))
+      .then((data) =>
+        setRows({
+          pooja: data.pooja || [],
+          products: data.products || [],
+          travel: data.travel || [],
+          consultations: data.consultations || [],
+        }),
+      )
       .catch((err) => setError(err instanceof Error ? err.message : "Unable to load bookings."));
   }, [user]);
 
@@ -38,6 +48,7 @@ export default function MyBookingsPage() {
           <div className="grid gap-8">
             <BookingGroup title="Pooja bookings" items={rows?.pooja || []} fields={["pooja_title", "preferred_date", "status"]} />
             <BookingGroup title="Product enquiries" items={rows?.products || []} fields={["product_title", "quantity", "status"]} />
+            <BookingGroup title="Yatra bookings" items={rows?.travel || []} fields={["travel_title", "preferred_dates", "status"]} />
             <BookingGroup title="Consultations" items={rows?.consultations || []} fields={["service_title", "booking_date", "status"]} />
             <Link href="/account" className="text-sm text-primary underline">
               Back to dashboard

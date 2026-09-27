@@ -61,6 +61,7 @@ class JU_Sample_Content {
 		self::pages();
 		self::articles();
 		self::astrologers();
+		self::vendors();
 		self::ensure_contact_page();
 
 		update_option( self::FLAG, 1 );
@@ -68,8 +69,10 @@ class JU_Sample_Content {
 
 	public static function maybe_seed_extras() {
 		self::astrologers();
+		self::vendors();
 		self::pages();
 		self::ensure_contact_page();
+		self::services();
 	}
 
 	private static function poojas() {
@@ -78,7 +81,7 @@ class JU_Sample_Content {
 				'title'   => 'Ganapathi Homam',
 				'slug'    => 'ganapathi-homam',
 				'short'   => 'A traditional fire ritual to remove obstacles and begin new work with Lord Ganesha’s blessing.',
-				'full'    => '<p>Ganapathi Homam is performed to invoke Lord Ganesha before new beginnings — home, business, travel, or family ceremonies.</p><p>The JyothishiUncle team guides the sankalpa and explains each step so the family can participate with clarity, whether the ritual is arranged locally or coordinated from Oman.</p>',
+				'full'    => '<p>Ganapathi Homam is performed to invoke Lord Ganesha before new beginnings — home, business, travel, or family ceremonies.</p><p>The JyothishiUncle team guides the sankalpa and explains each step so the family can participate with clarity, whether the ritual is arranged locally or coordinated online.</p>',
 				'benefits'=> '<ul><li>Removes obstacles before a new start</li><li>Brings calm and clarity</li><li>Suitable before other poojas</li></ul>',
 				'reqs'    => '<ul><li>Name, nakshatra, and gotra if known</li><li>Preferred date</li><li>Location of the ritual</li></ul>',
 				'wa'      => 'Hello, I am interested in Ganapathi Homam.',
@@ -181,31 +184,58 @@ class JU_Sample_Content {
 	private static function services() {
 		$items = array(
 			array(
-				'title'    => 'Birth chart reading',
-				'slug'     => 'birth-chart-reading',
-				'short'    => 'A complete janma kundali reading covering dasa, strengths, and practical guidance.',
-				'full'     => '<p>Share birth date, time, and place. The consultation is online from Oman via WhatsApp video, Google Meet, or Zoom.</p>',
-				'wa'       => 'Hello, I would like to book a birth chart reading.',
+				'title'    => 'Jathakam',
+				'slug'     => 'jathakam',
+				'short'    => 'Horoscope analysis',
+				'full'     => '<p>Janma kundali reading covering dasa, strengths, and practical guidance. Share birth date, time, and place. The consultation is online.</p>',
+				'wa'       => 'Hello, I would like to book a Jathakam (horoscope analysis) consultation.',
 				'duration' => 45,
 				'order'    => 1,
 			),
 			array(
-				'title'    => 'Marriage matching',
-				'slug'     => 'marriage-matching',
-				'short'    => 'Porutham / guna matching with a clear explanation of the result.',
-				'full'     => '<p>Birth details of both people are required. The session is online and can include family questions.</p>',
-				'wa'       => 'Hello, I would like to book marriage matching.',
+				'title'    => 'Prasnam',
+				'slug'     => 'prasnam',
+				'short'    => 'Astrological predictions',
+				'full'     => '<p>A focused question session for a decision, timing, or family matter. Useful when a full birth time is not available.</p>',
+				'wa'       => 'Hello, I would like to book a Prasnam consultation.',
 				'duration' => 30,
 				'order'    => 2,
 			),
 			array(
-				'title'    => 'Prashna consultation',
-				'slug'     => 'prashna-consultation',
-				'short'    => 'A focused question session when a full birth time is not available.',
-				'full'     => '<p>Useful for a single decision — travel, ritual, family matter, or timing. Held online worldwide.</p>',
-				'wa'       => 'Hello, I would like to book a prashna consultation.',
+				'title'    => 'Porutham',
+				'slug'     => 'porutham',
+				'short'    => 'Horoscope matching',
+				'full'     => '<p>Porutham / guna matching with a clear explanation of the result. Birth details of both people are required.</p>',
+				'wa'       => 'Hello, I would like to book Porutham (horoscope matching).',
 				'duration' => 30,
 				'order'    => 3,
+			),
+			array(
+				'title'    => 'Ashtamangala Prasnam',
+				'slug'     => 'ashtamangala-prasnam',
+				'short'    => 'Thamboola & ashtamangala',
+				'full'     => '<p>Traditional Ashtamangala and Thamboola prasnam for deeper clarity on family and dharmic questions.</p>',
+				'wa'       => 'Hello, I would like to book Ashtamangala Prasnam.',
+				'duration' => 45,
+				'order'    => 4,
+			),
+			array(
+				'title'    => 'Family guidance',
+				'slug'     => 'family-guidance',
+				'short'    => 'Finance, career & marriage',
+				'full'     => '<p>Guidance for the household on finance, career, and marriage questions, with practical next steps.</p>',
+				'wa'       => 'Hello, I would like family guidance on finance, career, or marriage.',
+				'duration' => 30,
+				'order'    => 5,
+			),
+			array(
+				'title'    => 'Parihara remedies',
+				'slug'     => 'parihara-remedies',
+				'short'    => 'Planetary doshas & obstacles',
+				'full'     => '<p>Remedial guidance for planetary doshas and obstacles. Mantra, homam, and dana notes are shared privately.</p>',
+				'wa'       => 'Hello, I would like guidance on Parihara remedies.',
+				'duration' => 30,
+				'order'    => 6,
 			),
 		);
 
@@ -226,6 +256,13 @@ class JU_Sample_Content {
 				)
 			);
 		}
+
+		foreach ( array( 'birth-chart-reading', 'marriage-matching', 'prashna-consultation' ) as $old_slug ) {
+			$old = get_page_by_path( $old_slug, OBJECT, 'astrology_service' );
+			if ( $old ) {
+				wp_trash_post( (int) $old->ID );
+			}
+		}
 	}
 
 	private static function travel() {
@@ -233,7 +270,7 @@ class JU_Sample_Content {
 			array(
 				'title'    => 'Guruvayur Temple',
 				'slug'     => 'guruvayur-temple',
-				'location' => 'Guruvayur, Kerala, India',
+				'location' => 'Guruvayur, India',
 				'short'    => 'Guidance for darshan, timing, and family pooja at Guruvayur Sri Krishna Temple.',
 				'full'     => '<p>Information for devotees travelling to Guruvayur — dress, darshan, and related poojas. This is guidance and coordination, not a packaged tour checkout.</p>',
 				'info'     => '<p>Nearest airport: Kochi. Dress: traditional. Confirm festival dates before travel.</p>',
@@ -243,7 +280,7 @@ class JU_Sample_Content {
 			array(
 				'title'    => 'Sabarimala',
 				'slug'     => 'sabarimala',
-				'location' => 'Pathanamthitta, Kerala, India',
+				'location' => 'Pathanamthitta, India',
 				'short'    => 'Vratham, travel notes, and mandala season information for Sabarimala pilgrims.',
 				'full'     => '<p>Sabarimala pilgrimage needs preparation. We share vratham notes and practical travel points. Confirm official opening dates each season.</p>',
 				'info'     => '<p>Seasonal pilgrimage. Follow temple board rules for virtual queue and dress.</p>',
@@ -284,8 +321,8 @@ class JU_Sample_Content {
 	private static function faqs() {
 		$items = array(
 			array(
-				'q' => 'Do I need to visit Oman for a consultation?',
-				'a' => '<p>No. The JyothishiUncle team is based in Oman and consults devotees worldwide online — WhatsApp video, Google Meet, or Zoom.</p>',
+				'q' => 'Do I need to visit in person for a consultation?',
+				'a' => '<p>No. The JyothishiUncle team consults devotees worldwide online through video consulting.</p>',
 				'o' => 1,
 			),
 			array(
@@ -324,8 +361,8 @@ class JU_Sample_Content {
 				'order'  => 1,
 			),
 			array(
-				'name'   => 'Arun, Muscat',
-				'review' => 'We booked Ganapathi Homam from Oman. Communication was simple on WhatsApp and the sankalpa was explained well.',
+				'name'   => 'Arun, Kochi',
+				'review' => 'We booked Ganapathi Homam online. Communication was simple on WhatsApp and the sankalpa was explained well.',
 				'order'  => 2,
 			),
 			array(
@@ -355,9 +392,9 @@ class JU_Sample_Content {
 			array(
 				'title'     => 'About Us',
 				'slug'      => 'about',
-				'content'   => '<p>JyothishiUncle is a spiritual services practice offering pooja, homam, astrology consultation, spiritual products, and temple travel guidance.</p><p>The team is based in Muscat, Oman, and consults devotees anywhere through online meetings. Rituals and product enquiries are coordinated with care rather than through an automated checkout.</p>',
+				'content'   => '<p>JyothishiUncle is a spiritual services practice offering pooja, homam, astrology consultation, spiritual products, and temple travel guidance.</p><p>The team consults devotees anywhere through online meetings. Rituals and product enquiries are coordinated with care rather than through an automated checkout.</p>',
 				'eyebrow'   => 'Guru-Shishya Parampara · Vedic Lineage',
-				'hero_copy' => 'Deep in the celestial soils of ancient Bharat, wisdom descends like golden light. From Sage Parashara to the palm leaf Thaliola masters of Kerala, our lineage is rooted in eternal cosmic mathematics.',
+				'hero_copy' => 'Deep in the celestial soils of ancient Bharat, wisdom descends like golden light. From Sage Parashara to the palm leaf Thaliola masters, our lineage is rooted in eternal cosmic mathematics.',
 			),
 			array(
 				'title'     => 'Sacred Services & Divine Consecrations',
@@ -374,11 +411,11 @@ class JU_Sample_Content {
 				'hero_copy' => 'Connect in sacred 1-on-1 communion with enlightened masters of Ashtamangala Prashnam, Jathaka Shastra, and Nadi palm leaf wisdom. Every consultation is strictly confidential and spiritually sanctified.',
 			),
 			array(
-				'title'     => 'Temples and sacred places',
+				'title'     => 'Sacred Temple Yatras & Himalayan Sanctuaries',
 				'slug'      => 'religious-travel',
 				'content'   => '<p>Travel destinations come from the Religious Travel menu. Edit this page for the heading, intro, and hero photo.</p>',
-				'eyebrow'   => 'Religious travel',
-				'hero_copy' => 'Information and coordination for devotees. Confirm dates and temple rules locally.',
+				'eyebrow'   => 'Tirtha Yatra · Consecrated pilgrimages',
+				'hero_copy' => 'Immersive spiritual journeys led by consecrated Vedic scholars. Experience high-frequency temple vortices, private sanctum pujas, and planetary alignments at primordial sacred sites.',
 			),
 			array(
 				'title'     => 'Reading for a quieter mind',
@@ -390,7 +427,7 @@ class JU_Sample_Content {
 			array(
 				'title'     => 'Contact',
 				'slug'      => 'contact',
-				'content'   => '<p>Send an enquiry for pooja, consultation, products, or temple travel. The JyothishiUncle team is based in Muscat, Oman, and replies by phone, WhatsApp, or email.</p>',
+				'content'   => '<p>Send an enquiry for pooja, consultation, products, or temple travel. The JyothishiUncle team replies by phone, WhatsApp, or email.</p>',
 				'eyebrow'   => 'Sacred Portals & Ritual Access',
 				'hero_copy' => 'High-fidelity sanctuary interfaces, authenticated seeker flows, auspicious Muhurtha calendars, and consecrated order mechanisms configured for celestial accuracy.',
 			),
@@ -441,7 +478,7 @@ class JU_Sample_Content {
 				'title'   => 'How to prepare for an online astrology consultation',
 				'slug'    => 'prepare-online-astrology-consultation',
 				'excerpt' => 'Birth details, questions, and a quiet place — a simple way to get more from the session.',
-				'content' => '<p>Keep birth date, time, and place ready. Write two or three questions. Join from a quiet room. The JyothishiUncle team is in Oman; your meeting time is confirmed in your local time.</p>',
+				'content' => '<p>Keep birth date, time, and place ready. Write two or three questions. Join from a quiet room. Your meeting time is confirmed in your local time.</p>',
 			),
 			array(
 				'title'   => 'When families choose Ganapathi Homam',
@@ -505,10 +542,10 @@ class JU_Sample_Content {
 			array(
 				'title'     => 'Sri Devadathan Namboothiri',
 				'slug'      => 'sri-devadathan-namboothiri',
-				'specialty' => 'Kerala Jyothisha · Jathaka',
-				'location'  => 'Thrissur, Kerala',
-				'short'     => 'Hereditary Kerala jyothisha for birth-chart reading and family sankalpa.',
-				'full'      => '<p>Sri Devadathan Namboothiri continues a gurukula lineage of Kerala jyothisha. Sessions cover jathaka, dasha timing, and practical remedies for the household.</p>',
+				'specialty' => 'Vedic Jyothisha · Jathaka',
+				'location'  => 'Thrissur',
+				'short'     => 'Hereditary Vedic jyothisha for birth-chart reading and family sankalpa.',
+				'full'      => '<p>Sri Devadathan Namboothiri continues a gurukula lineage of Vedic jyothisha. Sessions cover jathaka, dasha timing, and practical remedies for the household.</p>',
 				'gift'      => 'First call and chat are free.',
 				'order'     => 1,
 			),
@@ -537,8 +574,8 @@ class JU_Sample_Content {
 				'slug'      => 'acharya-shankaranarayana-bhat',
 				'specialty' => 'Temple ritual · Nadi notes',
 				'location'  => 'Ujjain, Madhya Pradesh',
-				'short'     => 'Temple ritual sequencing and nadi notes for devotees travelling from Oman.',
-				'full'      => '<p>Acharya Shankaranarayana Bhat advises on temple ritual sequence and nadi notes, coordinating remote sankalpa for families in Oman and abroad.</p>',
+				'short'     => 'Temple ritual sequencing and nadi notes for devotees travelling worldwide.',
+				'full'      => '<p>Acharya Shankaranarayana Bhat advises on temple ritual sequence and nadi notes, coordinating remote sankalpa for families worldwide.</p>',
 				'gift'      => 'First call and chat are free.',
 				'order'     => 4,
 			),
@@ -563,6 +600,50 @@ class JU_Sample_Content {
 		}
 	}
 
+	private static function vendors() {
+		$items = array(
+			array(
+				'title'    => 'Sri Mahaganapathi Temple',
+				'slug'     => 'sri-mahaganapathi-temple',
+				'location' => 'Udupi',
+				'short'    => 'A pooja temple for Ganapathi and family poojas, arranged online or offline through JyothishiUncle.',
+				'full'     => '<p>Poojas can be offered here when the family prefers this temple. Date and sankalpa are confirmed privately.</p>',
+				'order'    => 1,
+			),
+			array(
+				'title'    => 'Sri Mahavishnu Temple',
+				'slug'     => 'sri-mahavishnu-temple',
+				'location' => 'Tirupati',
+				'short'    => 'A pooja temple for Vishnu-related poojas and family sankalpa, online or offline.',
+				'full'     => '<p>This temple can host the pooja when chosen on the booking form. Timing is confirmed after your request.</p>',
+				'order'    => 2,
+			),
+			array(
+				'title'    => 'Sri Mahadeva Temple',
+				'slug'     => 'sri-mahadeva-temple',
+				'location' => 'Varanasi',
+				'short'    => 'A pooja temple for Shiva-related poojas and homam arrangements, online or offline.',
+				'full'     => '<p>Choose this temple from the pooja form. Dakshina and schedule are shared privately.</p>',
+				'order'    => 3,
+			),
+		);
+
+		foreach ( $items as $item ) {
+			self::create_post(
+				'vendor',
+				$item['title'],
+				$item['slug'],
+				$item['full'],
+				array(
+					'location'          => $item['location'],
+					'short_description' => $item['short'],
+					'full_description'  => $item['full'],
+					'display_order'     => $item['order'],
+				)
+			);
+		}
+	}
+
 	private static function ensure_contact_page() {
 		if ( get_page_by_path( 'contact' ) ) {
 			return;
@@ -572,7 +653,7 @@ class JU_Sample_Content {
 			array(
 				'post_title'   => 'Contact',
 				'post_name'    => 'contact',
-				'post_content' => '<p>Send an enquiry for pooja, consultation, products, or temple travel. The JyothishiUncle team is based in Muscat, Oman, and replies by phone, WhatsApp, or email.</p>',
+				'post_content' => '<p>Send an enquiry for pooja, consultation, products, or temple travel. The JyothishiUncle team replies by phone, WhatsApp, or email.</p>',
 				'post_status'  => 'publish',
 				'post_type'    => 'page',
 			)

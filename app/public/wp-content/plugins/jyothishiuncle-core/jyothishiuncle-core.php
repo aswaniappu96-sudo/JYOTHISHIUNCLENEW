@@ -2,7 +2,7 @@
 /**
  * Plugin Name: JyothishiUncle Core
  * Description: Custom post types, site settings, galleries, and sample content for the JyothishiUncle headless website. The public site is Next.js — do not install a page-builder theme.
- * Version: 0.5.1
+ * Version: 0.6.0
  * Author: JyothishiUncle
  * Requires at least: 6.4
  * Requires PHP: 8.1
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JU_CORE_VERSION', '0.5.1' );
+define( 'JU_CORE_VERSION', '0.6.0' );
 define( 'JU_CORE_FILE', __FILE__ );
 define( 'JU_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'JU_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -35,6 +35,12 @@ require_once JU_CORE_DIR . 'includes/class-mail.php';
 require_once JU_CORE_DIR . 'includes/class-submissions.php';
 require_once JU_CORE_DIR . 'includes/class-export.php';
 require_once JU_CORE_DIR . 'includes/class-admin-lists.php';
+require_once JU_CORE_DIR . 'includes/class-consultation-schedule.php';
+require_once JU_CORE_DIR . 'includes/class-pooja-schedule.php';
+require_once JU_CORE_DIR . 'includes/class-product-schedule.php';
+require_once JU_CORE_DIR . 'includes/class-travel-schedule.php';
+require_once JU_CORE_DIR . 'includes/class-enquiry-schedule.php';
+require_once JU_CORE_DIR . 'includes/class-registration-schedule.php';
 
 register_activation_hook( JU_CORE_FILE, 'ju_core_activate' );
 register_deactivation_hook( JU_CORE_FILE, 'ju_core_deactivate' );
@@ -83,3 +89,9 @@ add_action( 'admin_notices', array( 'JU_Admin', 'content_guide' ) );
 JU_REST::hooks();
 JU_Export::hooks();
 JU_Admin_Lists::hooks();
+JU_Consultation_Schedule::hooks();
+JU_Pooja_Schedule::hooks();
+JU_Product_Schedule::hooks();
+JU_Travel_Schedule::hooks();
+JU_Enquiry_Schedule::hooks();
+JU_Registration_Schedule::hooks();

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export function Footer({
   text,
@@ -7,7 +8,7 @@ export function Footer({
   instagram,
   facebook,
   youtube,
-  logoUrl,
+  logoUrl: _logoUrl,
 }: {
   text?: string;
   address?: string;
@@ -32,17 +33,7 @@ export function Footer({
 
         <div className="grid grid-cols-1 gap-8 py-8 md:grid-cols-4">
           <div className="space-y-3">
-            {logoUrl && !logoUrl.includes("placeholder") ? (
-              <div className="flex h-16 items-center overflow-hidden">
-                <img
-                  src={logoUrl}
-                  alt="JyothishiUncle"
-                  className="h-[320%] w-auto max-w-none shrink-0 object-contain brightness-125"
-                />
-              </div>
-            ) : (
-              <p className="font-serif text-xl text-primary">JyothishiUncle</p>
-            )}
+            <BrandLogo className="h-16" />
             <p className="text-sm leading-relaxed text-on-surface-variant">
               {text || "Transmitting unbroken Surya Siddhanta precision and ancestral guidance to conscious souls worldwide."}
             </p>
@@ -68,7 +59,7 @@ export function Footer({
           <div>
             <h4 className="mb-4 text-[11px] font-bold uppercase tracking-widest text-primary">Sanctuary</h4>
             <ul className="space-y-2 text-sm text-on-surface-variant">
-              <li>{address || "Muscat, Oman"}</li>
+              <li>{address || "Consultations online worldwide"}</li>
               {phone ? <li>{phone}</li> : null}
               <li><Link className="hover:text-primary" href="/privacy-policy">Privacy</Link></li>
               <li><Link className="hover:text-primary" href="/terms">Terms</Link></li>

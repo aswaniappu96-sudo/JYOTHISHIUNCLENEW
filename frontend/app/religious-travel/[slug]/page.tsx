@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DetailLayout } from "@/components/layout/DetailLayout";
+import { TravelDetailView } from "@/components/pages/TravelDetailView";
 import { getSettings, getTravelDestination, getTravelDestinations } from "@/lib/api/wordpress";
 
 export const revalidate = 60;
@@ -22,22 +22,18 @@ export async function generateMetadata({
 
 export default async function TravelDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [item, settings] = await Promise.all([getTravelDestination(slug), getSettings()]);
+  const [item, settings, destinations] = await Promise.all([
+    getTravelDestination(slug),
+    getSettings(),
+    getTravelDestinations().catch(() => []),
+  ]);
   if (!item) notFound();
 
   return (
-    <DetailLayout
-      eyebrow={item.location || "Religious travel"}
-      title={item.title}
-      summary={item.short_description}
-      image={item.featured_image}
-      gallery={item.gallery}
-      htmlSections={[
-        { title: "About this place", html: item.full_description },
-        { title: "Travel information", html: item.travel_information },
-      ]}
-      whatsappNumber={settings.whatsapp_number}
-      whatsappMessage={item.whatsapp_message}
+    <TravelDetailView
+      travel={item}
+      settings={settings}
+      related={destinations.filter((entry) => entry.slug !== item.slug).slice(0, 3)}
     />
   );
 }

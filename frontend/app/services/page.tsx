@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ServicesView } from "@/components/pages/ServicesView";
-import { getPage, getPoojas, getProducts, settleApi } from "@/lib/api/wordpress";
+import { fallbackSettings, getPage, getPoojas, getProducts, getSettings, getVendors, settleApi } from "@/lib/api/wordpress";
 
 export const revalidate = 60;
 
@@ -10,10 +10,20 @@ export const metadata: Metadata = {
 };
 
 export default async function ServicesPage() {
-  const [poojas, products, page] = await Promise.all([
+  const [poojas, products, page, settings, vendors] = await Promise.all([
     settleApi(getPoojas(), []),
     settleApi(getProducts(), []),
     settleApi(getPage("services"), null),
+    settleApi(getSettings(), fallbackSettings()),
+    settleApi(getVendors(), []),
   ]);
-  return <ServicesView poojas={poojas} products={products} page={page} />;
+  return (
+    <ServicesView
+      poojas={poojas}
+      products={products}
+      page={page}
+      whatsappNumber={settings.whatsapp_number}
+      vendors={vendors}
+    />
+  );
 }

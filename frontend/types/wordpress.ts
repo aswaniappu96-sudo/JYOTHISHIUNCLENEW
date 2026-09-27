@@ -61,6 +61,11 @@ export type Pooja = ContentCard & {
   whatsapp_message: string;
 };
 
+export type Vendor = ContentCard & {
+  location?: string;
+  full_description: string;
+};
+
 export type Product = ContentCard & {
   full_description: string;
   product_info: string;
@@ -119,6 +124,7 @@ export type Article = {
   featured_image: WPImage;
   categories: string[];
   tags: string[];
+  writer_name?: string;
 };
 
 export type WPPage = {
@@ -143,6 +149,7 @@ export type HomePayload = {
   settings: SiteSettings;
   poojas: Pooja[];
   products: Product[];
+  astrologers?: Astrologer[];
   services: AstrologyService[];
   travel: TravelDestination[];
   faqs: FaqItem[];

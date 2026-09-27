@@ -15,16 +15,16 @@ class JU_Settings {
 
 	public static function defaults() {
 		return array(
-			'site_tagline'              => 'Sacred guidance from Oman, for devotees everywhere.',
+			'site_tagline'              => 'Sacred guidance for devotees everywhere.',
 			'whatsapp_number'           => '96800000000',
 			'admin_notify_email'        => 'hello@jyothishiuncle.com',
 			'phone_number'              => '+968 0000 0000',
-			'address'                   => 'Muscat, Sultanate of Oman. Consultations are online worldwide.',
+			'address'                   => 'Consultations are online worldwide.',
 			'hero_title'                => 'JyothishiUncle',
 			'hero_subtitle'             => 'Pooja, astrology consultation, spiritual products, and temple travel — guided with care.',
 			'hero_primary_cta_label'    => 'Book a consultation',
 			'hero_primary_cta_url'      => '/services',
-			'about_excerpt'             => 'JyothishiUncle offers traditional pooja, homam, and astrology consultation. The team is based in Oman and consults devotees anywhere through WhatsApp video, Google Meet, or Zoom.',
+			'about_excerpt'             => 'JyothishiUncle.com is a venture from a family of Traditional Astrologers with more than 500+ years of tradition. We practice Astrology as divine and this wisdom is being transferred through generations. Our aim is to make people understand the true spiritual traditions of Bharat and follow them in their true spirit for a better tomorrow filled with discipline and happiness. We offer a better space for astrologers who practice Astrology in its true spirit and share their wisdom for the betterment of society.',
 			'consultation_timezone'     => 'Asia/Muscat',
 			'consultation_slot_minutes' => '30',
 			'consultation_days'         => array( 'sun', 'mon', 'tue', 'wed', 'thu' ),
@@ -36,7 +36,7 @@ class JU_Settings {
 			'social_instagram'          => '',
 			'social_facebook'           => '',
 			'social_youtube'            => '',
-			'footer_text'               => 'JyothishiUncle — spiritual services from Oman.',
+			'footer_text'               => 'JyothishiUncle — spiritual services worldwide.',
 			'brand_midnight'            => '#1A1630',
 			'brand_saffron'             => '#C4A574',
 			'brand_cream'               => '#F7F1E8',
@@ -347,13 +347,13 @@ class JU_Settings {
 				</table>
 
 				<h2>Consultation calendar</h2>
-				<p>Times are stored in Oman time (Asia/Muscat). The public website will convert them to each visitor’s local time. Meetings are online only.</p>
+				<p>Times are stored in the consultation timezone. The public website converts them to each visitor’s local clock. Meetings are online only.</p>
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row">Timezone</th>
 						<td>
 							<input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[consultation_timezone]" type="text" class="regular-text" value="<?php echo esc_attr( $s['consultation_timezone'] ); ?>" readonly>
-							<p class="description">Oman — Asia/Muscat (GMT+4)</p>
+							<p class="description">Calendar timezone (IANA), currently <?php echo esc_html( $s['consultation_timezone'] ); ?></p>
 						</td>
 					</tr>
 					<tr>
@@ -368,11 +368,11 @@ class JU_Settings {
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="ju_start">Start time (Oman)</label></th>
+						<th scope="row"><label for="ju_start">Start time</label></th>
 						<td><input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[consultation_start_time]" id="ju_start" type="time" value="<?php echo esc_attr( $s['consultation_start_time'] ); ?>"></td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="ju_end">End time (Oman)</label></th>
+						<th scope="row"><label for="ju_end">End time</label></th>
 						<td><input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[consultation_end_time]" id="ju_end" type="time" value="<?php echo esc_attr( $s['consultation_end_time'] ); ?>"></td>
 					</tr>
 					<tr>

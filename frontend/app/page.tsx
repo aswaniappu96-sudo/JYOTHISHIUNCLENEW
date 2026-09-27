@@ -1,4 +1,5 @@
 import { AboutTeaser } from "@/components/home/AboutTeaser";
+import { AstrologersSection } from "@/components/home/AstrologersSection";
 import { BlogSection } from "@/components/home/BlogSection";
 import { ConsultationSection } from "@/components/home/ConsultationSection";
 import { CtaSection } from "@/components/home/CtaSection";
@@ -20,21 +21,28 @@ export default async function HomePage() {
   return (
     <div>
       <Hero settings={data.settings} />
-      <HoroscopeBand />
-      <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />
-      <PoojaSection poojas={data.poojas} whatsappNumber={data.settings.whatsapp_number} />
-      <ProductSection products={data.products} whatsappNumber={data.settings.whatsapp_number} />
-      <TravelSection travel={data.travel} />
-      <ConsultationSection settings={data.settings} services={data.services} />
-      <Testimonials testimonials={data.testimonials} />
-      <FaqAccordion faqs={data.faqs} />
-      <EnquiryForm whatsappNumber={data.settings.whatsapp_number} />
-      <BlogSection articles={data.articles} />
-      <CtaSection
-        whatsappNumber={data.settings.whatsapp_number}
-        phone={data.settings.phone_number}
-        address={data.settings.address}
-      />
+      <div className="relative z-10">
+        <HoroscopeBand />
+        <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />
+        <PoojaSection poojas={data.poojas} whatsappNumber={data.settings.whatsapp_number} />
+        <ProductSection products={data.products} whatsappNumber={data.settings.whatsapp_number} />
+        <AstrologersSection
+          astrologers={data.astrologers || []}
+          phone={data.settings.phone_number}
+          whatsapp={data.settings.whatsapp_number}
+        />
+        <ConsultationSection settings={data.settings} services={data.services || []} />
+        <TravelSection travel={data.travel} whatsappNumber={data.settings.whatsapp_number} />
+        <BlogSection articles={data.articles} />
+        <Testimonials testimonials={data.testimonials} />
+        <FaqAccordion faqs={data.faqs} />
+        <EnquiryForm whatsappNumber={data.settings.whatsapp_number} />
+        <CtaSection
+          whatsappNumber={data.settings.whatsapp_number}
+          phone={data.settings.phone_number}
+          address={data.settings.address}
+        />
+      </div>
     </div>
   );
 }

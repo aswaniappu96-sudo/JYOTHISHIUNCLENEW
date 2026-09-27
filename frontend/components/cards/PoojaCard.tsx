@@ -9,8 +9,85 @@ const FALLBACKS = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuD6vwXvFwWTl9DdS3WxNvBSUNcIq6C6i6dhEa_1z0cFOCVTTLJG1Xdie6yvU5L2WxrCDLl0CCy6RsPz3eNnxp5jbzC2M2agr3IVSKjmfCcN3o-yWaQrD65hSaAkUZUON_PcaLxxGl_hWePN8PLOmD2ctMU-ZeXKZJzc_bab6ctXeOWugx9VrzHBJbJG6KbKc20RtYJyDJuLYP7RAcbbpm7-cwgWgAAQFqHLC4LQha31E-Bl1oKszKBCnw",
 ];
 
-export function PoojaCard({ pooja }: { pooja: Pooja }) {
+const detailsClass =
+  "inline-flex items-center justify-center rounded-full bg-linear-to-r from-primary via-primary-container to-primary px-5 py-2.5 text-sm font-semibold text-on-primary";
+
+function DetailsLink({ slug }: { slug: string }) {
+  return (
+    <Link href={`/pooja/${slug}`} className={detailsClass}>
+      Details
+    </Link>
+  );
+}
+
+export function PoojaCard({
+  pooja,
+  variant = "standard",
+}: {
+  pooja: Pooja;
+  variant?: "standard" | "featured" | "compact";
+}) {
   const src = imageSrc(pooja.featured_image, FALLBACKS[Math.abs(pooja.id) % FALLBACKS.length]);
+
+  if (variant === "featured") {
+    return (
+      <article className="group relative flex h-full min-h-[420px] overflow-hidden rounded-2xl bg-surface-low shadow-xl lg:min-h-0">
+        <img
+          src={src}
+          alt={pooja.title}
+          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-linear-to-t from-[#1a1408]/90 via-[#1a1408]/35 to-transparent" />
+        <div className="relative z-10 mt-auto flex w-full flex-col gap-4 p-6 md:p-8">
+          <span className="w-fit rounded-full bg-primary-container/90 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-primary uppercase">
+            Featured
+          </span>
+          <h3 className="font-serif text-[28px] leading-tight text-[#fffbf3] md:text-[34px]">{pooja.title}</h3>
+          {pooja.short_description ? (
+            <p className="max-w-xl line-clamp-3 text-sm leading-6 text-[#fffbf3]/85">{pooja.short_description}</p>
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <DetailsLink slug={pooja.slug} />
+            {pooja.booking_enabled ? (
+              <BookPoojaButton
+                pooja={pooja}
+                className="inline-flex items-center justify-center rounded-full border border-[#fffbf3]/50 bg-transparent px-5 py-2.5 text-sm font-semibold text-[#fffbf3] transition hover:bg-[#fffbf3]/15"
+              >
+                Book now
+              </BookPoojaButton>
+            ) : null}
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  if (variant === "compact") {
+    return (
+      <article className="group flex h-full min-h-[200px] flex-col overflow-hidden rounded-2xl bg-surface-low shadow-xl sm:flex-row">
+        <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-auto sm:w-[44%]">
+          <img
+            src={src}
+            alt={pooja.title}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-surface-low/70 to-transparent sm:bg-linear-to-r" />
+        </div>
+        <div className="flex flex-1 flex-col justify-between gap-3 p-5">
+          <div>
+            <h3 className="font-serif text-[20px] leading-snug text-on-surface">{pooja.title}</h3>
+            {pooja.short_description ? (
+              <p className="mt-2 line-clamp-2 text-sm leading-6 text-on-surface-variant">{pooja.short_description}</p>
+            ) : null}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <DetailsLink slug={pooja.slug} />
+            {pooja.booking_enabled ? <BookPoojaButton pooja={pooja}>Book now</BookPoojaButton> : null}
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-surface-low shadow-xl">
@@ -25,13 +102,8 @@ export function PoojaCard({ pooja }: { pooja: Pooja }) {
       </div>
       <div className="flex flex-1 flex-col p-6">
         <p className="line-clamp-3 text-sm leading-6 text-on-surface-variant">{pooja.short_description}</p>
-        <div className="mt-5 flex flex-wrap gap-2 opacity-100 transition duration-300 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-          <Link
-            href={`/pooja/${pooja.slug}`}
-            className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-primary via-primary-container to-primary px-5 py-2.5 text-sm font-semibold text-on-primary"
-          >
-            Read more
-          </Link>
+        <div className="mt-5 flex flex-wrap gap-2">
+          <DetailsLink slug={pooja.slug} />
           {pooja.booking_enabled ? <BookPoojaButton pooja={pooja}>Book now</BookPoojaButton> : null}
         </div>
       </div>

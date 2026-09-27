@@ -1,5 +1,8 @@
 "use client";
 
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { JOURNEY_CREAM, journeyCanvas } from "@/lib/rashis";
+
 function mulberry32(seed: number) {
   return () => {
     let t = (seed += 0x6d2b79f5);
@@ -23,13 +26,27 @@ function makeStars(seed: number, count: number) {
 }
 
 const STARS = makeStars(20260918, 70);
+const MOTES = [
+  { top: "18%", left: "8%", size: 7 },
+  { top: "42%", left: "88%", size: 5 },
+  { top: "68%", left: "12%", size: 6 },
+  { top: "28%", left: "72%", size: 4 },
+  { top: "82%", left: "64%", size: 5 },
+];
 
 export function UniverseBackground() {
+  const reduce = useReducedMotion();
+  const { scrollY, scrollYProgress } = useScroll();
+  const nebulaY = useTransform(scrollY, [0, 2400], [0, 70]);
+  const starsY = useTransform(scrollY, [0, 2400], [0, -55]);
+  const motesY = useTransform(scrollY, [0, 2400], [0, 120]);
+  const canvas = useTransform(scrollYProgress, (progress) => (reduce ? JOURNEY_CREAM : journeyCanvas(progress)));
+
   return (
-    <div className="universe-bg" aria-hidden="true">
-      <div className="universe-nebula" />
-      <div className="universe-star-drift universe-star-drift-a" />
-      <div className="universe-star-drift universe-star-drift-b" />
+    <motion.div className="universe-bg" aria-hidden="true" style={{ backgroundColor: canvas }}>
+      <motion.div className="universe-nebula" style={reduce ? undefined : { y: nebulaY }} />
+      <motion.div className="universe-star-drift universe-star-drift-a" style={reduce ? undefined : { y: starsY }} />
+      <motion.div className="universe-star-drift universe-star-drift-b" style={reduce ? undefined : { y: starsY }} />
       {STARS.map((star) => (
         <span
           key={star.id}
@@ -44,6 +61,22 @@ export function UniverseBackground() {
           }}
         />
       ))}
-    </div>
+      {!reduce
+        ? MOTES.map((mote) => (
+            <motion.span
+              key={`${mote.top}-${mote.left}`}
+              className="absolute rounded-full bg-primary-container/45 blur-[1px]"
+              style={{
+                top: mote.top,
+                left: mote.left,
+                width: mote.size,
+                height: mote.size,
+                y: motesY,
+                boxShadow: "0 0 16px rgba(229, 195, 120, 0.55)",
+              }}
+            />
+          ))
+        : null}
+    </motion.div>
   );
 }

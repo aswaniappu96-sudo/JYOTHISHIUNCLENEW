@@ -1,23 +1,67 @@
 "use client";
 
-import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { EnquireButton } from "@/components/portal/EnquireButton";
+import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
+import { usePortal } from "@/components/portal/PortalProvider";
+import { contactNumber } from "@/lib/consultation";
+import { telHref } from "@/lib/html";
 import { whatsappUrl } from "@/lib/whatsapp";
 
-export function AstrologerActions() {
+const pill =
+  "inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/30 bg-surface-highest px-3 py-2 text-xs font-semibold text-on-surface";
+
+export function AstrologerActions({
+  name,
+  phone,
+  whatsapp,
+}: {
+  name: string;
+  phone?: string;
+  whatsapp?: string;
+}) {
+  const { openConsultation } = usePortal();
+  const number = contactNumber(phone, whatsapp);
+  const tel = number ? telHref(number) : "";
+  const chatHref = number
+    ? whatsappUrl(
+        number,
+        name
+          ? `Namaste. I would like to chat with ${name} at JyothishiUncle.`
+          : "Namaste. I would like to chat with an astrologer at JyothishiUncle.",
+      )
+    : "";
+
   return (
     <div className="mt-3 flex flex-col gap-2.5 border-t border-outline-variant/20 pt-3">
       <div className="grid grid-cols-2 gap-2">
-        <BookConsultationButton className="inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/30 bg-surface-highest px-3 py-2 text-xs font-semibold text-on-surface hover:text-primary">
-          Call
-        </BookConsultationButton>
-        <BookConsultationButton className="inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/30 bg-surface-highest px-3 py-2 text-xs font-semibold text-on-surface hover:text-secondary">
-          Chat
-        </BookConsultationButton>
+        {tel ? (
+          <a href={tel} className={`${pill} hover:text-primary`}>
+            Call
+          </a>
+        ) : (
+          <span className={`${pill} cursor-not-allowed opacity-40`}>Call</span>
+        )}
+        {chatHref ? (
+          <a href={chatHref} target="_blank" rel="noreferrer" className={`${pill} hover:text-secondary`}>
+            Chat
+          </a>
+        ) : (
+          <span className={`${pill} cursor-not-allowed opacity-40`}>Chat</span>
+        )}
       </div>
-      <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container py-2.5 text-xs font-bold text-on-primary shadow-[0_0_20px_-4px_rgba(229,195,120,0.35)] hover:bg-primary">
+      <button
+        type="button"
+        suppressHydrationWarning
+        onClick={() =>
+          openConsultation({
+            astrologerName: name,
+            whatsapp: number,
+          })
+        }
+        className="inline-flex w-full items-center justify-center rounded-full bg-primary-container py-2.5 text-xs font-bold text-on-primary shadow-[0_0_20px_-4px_rgba(229,195,120,0.35)] hover:brightness-95"
+      >
         Book Consultation
-      </BookConsultationButton>
+      </button>
     </div>
   );
 }
@@ -60,7 +104,7 @@ export function AstrologerMatchCta({ whatsappNumber }: { whatsappNumber: string 
           {[
             ["100% Confidential", "Gotra & Janma Sankalpa Protected"],
             ["Authentic Lineage", "Strictly Gurukula-Certified Acharyas"],
-            ["Sacred Channels", "Audio, HD Video, or Temple Phone Formats"],
+            ["Sacred Channels", "Video consulting"],
           ].map(([title, copy]) => (
             <div key={title} className="flex flex-col items-center gap-1">
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-on-surface">{title}</span>

@@ -4,14 +4,20 @@ import { FormEvent, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Field, ModalShell, fieldClass, goldBtn } from "@/components/portal/ModalShell";
 import { loginCustomer, registerCustomer } from "@/lib/api/submit";
-import { HEAR_ABOUT_OPTIONS } from "@/types/forms";
+import { HEAR_ABOUT_OPTIONS, type CustomerUser } from "@/types/forms";
 
 export function AuthModal({
   tab,
   onClose,
+  onAuthenticated,
+  firstVisit = false,
+  consultationOffer = false,
 }: {
   tab: "login" | "register";
   onClose: () => void;
+  onAuthenticated?: (user: CustomerUser) => void;
+  firstVisit?: boolean;
+  consultationOffer?: boolean;
 }) {
   const { refresh } = useAuth();
   const [mode, setMode] = useState<"login" | "register">(tab);
@@ -24,9 +30,10 @@ export function AuthModal({
     setError("");
     const data = new FormData(event.currentTarget);
     try {
-      await loginCustomer(String(data.get("email") || ""), String(data.get("password") || ""));
+      const result = await loginCustomer(String(data.get("email") || ""), String(data.get("password") || ""));
       await refresh();
-      onClose();
+      if (onAuthenticated) onAuthenticated(result.user);
+      else onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to log in.");
     } finally {
@@ -40,7 +47,7 @@ export function AuthModal({
     setError("");
     const data = new FormData(event.currentTarget);
     try {
-      await registerCustomer({
+      const result = await registerCustomer({
         name: String(data.get("name") || ""),
         address: String(data.get("location") || ""),
         location: String(data.get("location") || ""),
@@ -53,7 +60,8 @@ export function AuthModal({
         website: String(data.get("website") || ""),
       });
       await refresh();
-      onClose();
+      if (onAuthenticated) onAuthenticated(result.user);
+      else onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to register.");
     } finally {
@@ -67,6 +75,16 @@ export function AuthModal({
       title={mode === "login" ? "Login" : "Create account"}
       onClose={onClose}
     >
+      {consultationOffer ? (
+        <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
+          Login to book and get 10 min free consultation. You can cancel and continue without the free slot.
+        </p>
+      ) : firstVisit ? (
+        <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
+          Login to use this site so your activities can be watched in the future. You can also continue without login.
+        </p>
+      ) : null}
+
       <div className="mb-5 grid grid-cols-2 gap-2 rounded-xl bg-surface-lowest/70 p-1">
         <button
           type="button"
@@ -96,6 +114,19 @@ export function AuthModal({
           <button disabled={busy} className={goldBtn}>
             {busy ? "Signing in…" : "Login"}
           </button>
+          {consultationOffer ? (
+            <button type="button" onClick={onClose} className="text-sm text-on-surface-variant hover:text-on-surface">
+              Cancel — continue without free
+            </button>
+          ) : firstVisit ? (
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-sm font-semibold text-primary underline underline-offset-2 hover:text-on-surface"
+            >
+              Continue without login
+            </button>
+          ) : null}
         </form>
       ) : (
         <form onSubmit={onRegister} className="grid gap-3">
@@ -129,6 +160,19 @@ export function AuthModal({
           <button disabled={busy} className={goldBtn}>
             {busy ? "Saving…" : "Create account"}
           </button>
+          {consultationOffer ? (
+            <button type="button" onClick={onClose} className="text-sm text-on-surface-variant hover:text-on-surface">
+              Cancel — continue without free
+            </button>
+          ) : firstVisit ? (
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-sm font-semibold text-primary underline underline-offset-2 hover:text-on-surface"
+            >
+              Continue without login
+            </button>
+          ) : null}
         </form>
       )}
     </ModalShell>

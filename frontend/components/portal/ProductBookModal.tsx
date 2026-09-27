@@ -3,13 +3,16 @@
 import { FormEvent, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Field, ModalShell, fieldClass, goldBtn } from "@/components/portal/ModalShell";
-import { submitProductEnquiry } from "@/lib/api/submit";
+import { saveProductBookingAndWhatsApp } from "@/lib/product-booking";
+import { abandonWhatsAppTab, prepareWhatsAppTab, redirectToWhatsApp } from "@/lib/whatsapp-return";
 
 export function ProductBookModal({
   product,
+  whatsappNumber = "",
   onClose,
 }: {
   product: { slug: string; title: string };
+  whatsappNumber?: string;
   onClose: () => void;
 }) {
   const { user } = useAuth();
@@ -21,33 +24,38 @@ export function ProductBookModal({
     event.preventDefault();
     setBusy(true);
     setError("");
-    const data = new FormData(event.currentTarget);
+    const form = new FormData(event.currentTarget);
+    const tab = prepareWhatsAppTab();
     try {
-      await submitProductEnquiry({
-        product: product.slug,
-        product_title: product.title,
-        name: String(data.get("name") || ""),
-        email: String(data.get("email") || ""),
-        mobile: String(data.get("mobile") || ""),
-        location: String(data.get("location") || ""),
-        quantity: Number(data.get("quantity") || 1),
-        message: String(data.get("message") || ""),
-        website: String(data.get("website") || ""),
+      const result = await saveProductBookingAndWhatsApp({
+        slug: product.slug,
+        title: product.title,
+        form,
+        whatsappNumber,
       });
+      if (result.whatsappHref) {
+        onClose();
+        redirectToWhatsApp(result.whatsappHref, "product", tab);
+        return;
+      }
+      abandonWhatsAppTab(tab);
       setDone(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to send.");
+      abandonWhatsAppTab(tab);
+      setError(err instanceof Error ? err.message : "Unable to send booking.");
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <ModalShell eyebrow="Product enquiry" title={product.title} onClose={onClose}>
+    <ModalShell eyebrow="Product booking" title={product.title} onClose={onClose}>
       {done ? (
-        <p className="text-sm leading-relaxed text-on-surface-variant">
-          Enquiry received. We will confirm availability with you.
-        </p>
+        <div className="grid gap-3">
+          <p className="text-sm leading-relaxed text-on-surface-variant">
+            Your product booking is saved.
+          </p>
+        </div>
       ) : (
         <form onSubmit={onSubmit} className="grid gap-3">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
@@ -74,7 +82,7 @@ export function ProductBookModal({
           </Field>
           {error ? <p className="text-sm text-lotus">{error}</p> : null}
           <button disabled={busy} className={goldBtn}>
-            {busy ? "Sending…" : "Submit product enquiry"}
+            {busy ? "Sending…" : "Submit product booking"}
           </button>
         </form>
       )}

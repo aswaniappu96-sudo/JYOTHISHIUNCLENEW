@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AboutMantraCta } from "@/components/pages/AboutMantraCta";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { imageSrc } from "@/lib/media";
@@ -13,12 +14,12 @@ const NAVAGRAHA =
 const ROOTS = [
   ["PARASHARA HORA", "Vedic Astrology Foundation"],
   ["JAIMINI SUTRAS", "Chara Dasha Nuances"],
-  ["KERALA THALIOLA", "Palm Leaf Prashna Marga"],
+  ["VEDIC THALIOLA", "Palm Leaf Prashna Marga"],
   ["GURUVAYUR DIKSHA", "Tantric Agni Vidya"],
 ];
 
 const STATS = [
-  ["35+", "Years Sadhana", "Kerala & Himalaya"],
+  ["35+", "Years Sadhana", "Bharat & Himalaya"],
   ["48k+", "Seekers Guided", "Across 42 Nations"],
   ["108+", "Vedic Homams", "Consecrated Rites"],
   ["100%", "Ethical Secrecy", "Direct Counsel"],
@@ -66,7 +67,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
             {page?.hero_copy ||
-              "Deep in the celestial soils of ancient Bharat, wisdom descends like golden light. From Sage Parashara to the palm leaf Thaliola masters of Kerala, our lineage is rooted in eternal cosmic mathematics."}
+              "Deep in the celestial soils of ancient Bharat, wisdom descends like golden light. From Sage Parashara to the palm leaf Thaliola masters, our lineage is rooted in eternal cosmic mathematics."}
           </p>
           <div className="relative mt-12 flex w-full max-w-3xl flex-col items-center">
             <svg className="h-44 w-full overflow-visible text-primary opacity-85" fill="none" viewBox="0 0 800 200">
@@ -74,7 +75,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
                 <radialGradient id="rootGlow" cx="50%" cy="0%" r="80%">
                   <stop offset="0%" stopColor="#ffe09d" stopOpacity="0.9" />
                   <stop offset="50%" stopColor="#cabeff" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#141121" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#fffbf3" stopOpacity="0" />
                 </radialGradient>
                 <linearGradient id="rootGoldLine" x1="0%" x2="0%" y1="0%" y2="100%">
                   <stop offset="0%" stopColor="#ffe09d" />
@@ -119,7 +120,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
                 <img alt={page?.portrait_name || "Jyothishi Uncle portrait"} className="h-full w-full object-cover object-center" src={portrait} />
                 <div className="absolute inset-0 bg-linear-to-t from-surface-lowest/90 via-surface-lowest/20 to-transparent" />
                 <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-surface-lowest/80 px-3 py-1 backdrop-blur-md">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">Kerala Guruvayur Diksha</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">Guruvayur Diksha</span>
                 </div>
                 <div className="absolute right-4 bottom-4 left-4 rounded-xl bg-surface-high/80 p-4 backdrop-blur-xl">
                   <div className="mb-1 flex items-center justify-between">
@@ -144,8 +145,8 @@ export function AboutView({ page }: { page: WPPage | null }) {
             </h2>
             <p className="text-base leading-relaxed text-on-surface-variant">
               For more than thirty-five years, Sri Devadathan (fondly sought as Jyothishi Uncle) has walked the sacred
-              nexus where Vedic scripture meets mathematical astronomy. Initiated at age eleven in the sacred sanctums of
-              Kerala, he mastered the rare discipline of <span className="font-medium text-primary">Ashtamangala Deva Prashnam</span>{" "}
+              nexus where Vedic scripture meets mathematical astronomy. Initiated at age eleven in the sacred sanctums,
+              he mastered the rare discipline of <span className="font-medium text-primary">Ashtamangala Deva Prashnam</span>{" "}
               alongside ancient palm-leaf ephemerides.
             </p>
             <p className="text-sm leading-relaxed text-on-surface-variant/90">
@@ -193,7 +194,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
                 invocations performed by traditionally consecrated priests in adherence to the Rigveda and Agamas.
               </p>
             </div>
-            <Link href="/services#pooja" className="inline-flex items-center gap-2 rounded-full bg-surface-high px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary hover:text-on-primary">
+            <Link href="/services#pooja" className="inline-flex items-center gap-2 rounded-full bg-primary-container px-4 py-2.5 text-sm font-semibold text-on-primary hover:brightness-95">
               Explore Ritual Schedule →
             </Link>
           </div>
@@ -331,13 +332,15 @@ export function AboutView({ page }: { page: WPPage | null }) {
                   ))}
                 </div>
               </div>
-              <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container py-3 text-sm font-bold text-on-primary shadow-[0_0_24px_rgba(229,195,120,0.4)] hover:bg-primary">
+              <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container py-3 text-sm font-bold text-on-primary shadow-[0_0_24px_rgba(229,195,120,0.4)] hover:brightness-95">
                 Open Consultation Calendar
               </BookConsultationButton>
             </div>
           </div>
         </div>
       </section>
+
+      <AboutMantraCta />
     </div>
   );
 }

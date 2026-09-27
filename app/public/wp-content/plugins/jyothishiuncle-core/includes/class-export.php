@@ -25,8 +25,10 @@ class JU_Export {
 
 		$map = array(
 			'customer_enquiry'     => 'enquiries',
+			'website_registration' => 'registrations',
 			'pooja_booking'        => 'pooja_bookings',
 			'product_enquiry'      => 'product_enquiries',
+			'travel_booking'       => 'travel_bookings',
 			'consultation_booking' => 'consultation_bookings',
 		);
 		if ( ! isset( $map[ $screen->post_type ] ) ) {
@@ -58,6 +60,19 @@ class JU_Export {
 
 		if ( 'users' === $type ) {
 			$rows = self::users();
+		} elseif ( 'registrations' === $type ) {
+			$rows = self::posts(
+				'website_registration',
+				array(
+					'Name'           => 'customer_name',
+					'Email'          => 'email',
+					'Mobile'         => 'mobile',
+					'Location'       => 'location',
+					'How they heard' => 'source',
+					'Message'        => 'message',
+					'Status'         => 'status',
+				)
+			);
 		} elseif ( 'enquiries' === $type ) {
 			$rows = self::posts(
 				'customer_enquiry',
@@ -69,8 +84,10 @@ class JU_Export {
 				array(
 					'Customer'     => 'customer_name',
 					'Email'        => 'email',
-					'Pooja'        => 'pooja_title',
-					'Date'         => 'preferred_date',
+					'Pooja'          => 'pooja_title',
+					'Mode'           => 'offering_mode',
+					'Pooja temple'   => 'vendor_name',
+					'Date'           => 'preferred_date',
 					'Phone'        => 'mobile',
 					'Location'     => 'location',
 					'Message'      => 'message',
@@ -91,22 +108,42 @@ class JU_Export {
 					'Status'   => 'status',
 				)
 			);
+		} elseif ( 'travel_bookings' === $type ) {
+			$rows = self::posts(
+				'travel_booking',
+				array(
+					'Customer'        => 'customer_name',
+					'Email'           => 'email',
+					'Yatra'           => 'travel_title',
+					'Preferred dates' => 'preferred_dates',
+					'Phone'           => 'mobile',
+					'Location'        => 'location',
+					'Message'         => 'message',
+					'Status'          => 'status',
+				)
+			);
 		} elseif ( 'consultation_bookings' === $type ) {
 			$rows = self::posts(
 				'consultation_booking',
 				array(
-					'Customer' => 'customer_name',
-					'Type'     => 'consultation_type',
-					'Service'  => 'service_title',
-					'Date'     => 'booking_date',
-					'Time'     => 'start_time',
-					'Phone'    => 'mobile',
-					'Email'    => 'email',
-					'Location' => 'location',
-					'Message'  => 'message',
-					'Status'   => 'status',
+					'Customer'   => 'customer_name',
+					'Astrologer' => 'astrologer_name',
+					'Type'       => 'consultation_type',
+					'Service'    => 'service_title',
+					'Date'       => 'booking_date',
+					'Time'       => 'start_time',
+					'Slot'       => 'slot_offer',
+					'Phone'      => 'mobile',
+					'Email'      => 'email',
+					'Location'   => 'location',
+					'Message'    => 'message',
+					'Status'     => 'status',
 				)
 			);
+			foreach ( $rows as &$row ) {
+				$row['Astrologer'] = JU_Consultation_Schedule::astrologer_label( $row['Astrologer'] );
+			}
+			unset( $row );
 		} else {
 			wp_die( 'Unknown export' );
 		}
@@ -125,6 +162,7 @@ class JU_Export {
 				'Location'           => (string) get_user_meta( $user->ID, 'ju_location', true ),
 				'How they heard'     => (string) get_user_meta( $user->ID, 'ju_source', true ),
 				'Message'            => (string) get_user_meta( $user->ID, 'ju_intro_message', true ),
+				'Status'             => (string) get_user_meta( $user->ID, 'ju_reg_status', true ),
 				'Registration date'  => $user->user_registered,
 			);
 		}

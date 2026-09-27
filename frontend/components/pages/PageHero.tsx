@@ -1,3 +1,5 @@
+import { ConchIcon } from "@/components/icons/ConchIcon";
+
 export function Eyebrow({
   children,
   className = "",
@@ -9,7 +11,9 @@ export function Eyebrow({
     <div
       className={`inline-flex items-center gap-2 rounded-full bg-surface-high/70 px-4 py-1.5 shadow-[0_0_25px_rgba(72,41,179,0.3)] backdrop-blur-md ${className}`}
     >
-      <span className="text-xs text-primary">✦</span>
+      <span className="text-primary">
+        <ConchIcon className="h-3 w-3" />
+      </span>
       <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">{children}</span>
       <span className="text-xs text-secondary">☉</span>
     </div>

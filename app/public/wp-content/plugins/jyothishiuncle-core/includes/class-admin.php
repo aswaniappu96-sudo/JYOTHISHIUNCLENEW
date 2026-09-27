@@ -44,14 +44,21 @@ class JU_Admin {
 			array( 'About', admin_url( 'admin.php?page=ju-edit-about' ), 'JyothishiUncle → About page', 'Title, intro, editor text, Featured image (portrait), Photo 2, Photo 3.' ),
 			array( 'Services heading', admin_url( 'admin.php?page=ju-edit-services' ), 'JyothishiUncle → Services page', 'Page title, intro, and hero photo. Pooja/product cards are not on this screen.' ),
 			array( 'Pooja cards', admin_url( 'edit.php?post_type=pooja' ), 'Left menu → Poojas', 'Each pooja: title, text, Featured image, extra gallery photos.' ),
+			array( 'Pooja temples', admin_url( 'edit.php?post_type=vendor' ), 'Left menu → Pooja Temples', 'Temples that can host online or offline poojas. They appear on the pooja page and in the booking form.' ),
 			array( 'Product cards', admin_url( 'edit.php?post_type=product' ), 'Left menu → Products', 'Each product: title, text, Featured image, extra gallery photos.' ),
 			array( 'Astrologers heading', admin_url( 'admin.php?page=ju-edit-astrologers' ), 'JyothishiUncle → Astrologers page', 'Page title, intro, and hero photo.' ),
 			array( 'Astrologer cards', admin_url( 'edit.php?post_type=astrologer' ), 'Left menu → Astrologers', 'Each astrologer: name, bio, location, Featured image (portrait).' ),
 			array( 'Travel heading', admin_url( 'admin.php?page=ju-edit-travel' ), 'JyothishiUncle → Religious Travel page', 'Page title, intro, and hero photo.' ),
 			array( 'Travel places', admin_url( 'edit.php?post_type=religious_travel' ), 'Left menu → Religious Travel', 'Each destination: title, text, Featured image, gallery.' ),
 			array( 'Articles heading', admin_url( 'admin.php?page=ju-edit-articles' ), 'JyothishiUncle → Articles page', 'Listing page title, intro, and hero photo.' ),
-			array( 'Article posts', admin_url( 'edit.php' ), 'Left menu → Articles', 'Each article: title, excerpt, content, Featured image.' ),
+			array( 'Article posts', admin_url( 'edit.php' ), 'Left menu → Articles', 'Each article: title, excerpt, content, Featured image, Writer name.' ),
 			array( 'Contact', admin_url( 'admin.php?page=ju-edit-contact' ), 'JyothishiUncle → Contact page', 'Title, intro, editor text, Featured image, Photo 2.' ),
+			array( 'Consultation schedule', admin_url( 'edit.php?post_type=consultation_booking&page=ju-consultation-schedule' ), 'Left menu → Schedule Consultations → Schedule (Excel)', 'Change date or time, mark meeting finished, or delete. Locked dates leave the public calendar until finished or deleted.' ),
+			array( 'Pooja bookings', admin_url( 'edit.php?post_type=pooja_booking&page=ju-pooja-schedule' ), 'Left menu → Pooja Bookings → Pooja bookings (Excel)', 'Website pooja bookings are saved here even if WhatsApp is not sent. Change date, online/offline, pooja temple, or status.' ),
+			array( 'Product bookings', admin_url( 'edit.php?post_type=product_enquiry&page=ju-product-schedule' ), 'Left menu → Product Bookings → Product bookings (Excel)', 'Website Buy form bookings are saved here even if WhatsApp is not sent. Change quantity or status.' ),
+			array( 'Yatra bookings', admin_url( 'edit.php?post_type=travel_booking&page=ju-travel-schedule' ), 'Left menu → Yatra Bookings → Yatra bookings (Excel)', 'Website yatra form bookings are saved here even if WhatsApp is not sent. Change preferred dates or status.' ),
+			array( 'Client enquiries', admin_url( 'edit.php?post_type=customer_enquiry&page=ju-enquiry-schedule' ), 'Left menu → Customer Enquiries → Client enquiries (Excel)', 'Website enquiry form submissions are saved here. Admin also gets an email for each new client enquiry. Change status after you reply.' ),
+			array( 'Registrations', admin_url( 'edit.php?post_type=website_registration&page=ju-registration-schedule' ), 'Left menu → Registrations → Registrations (Excel)', 'Website Register form details are saved here as a separate Excel sheet, not mixed with client enquiries.' ),
 			array( 'Privacy / Terms', admin_url( 'edit.php?post_type=page' ), 'Left menu → Pages', 'Open Privacy Policy or Terms & Conditions and edit the text.' ),
 		);
 		?>
@@ -63,7 +70,7 @@ class JU_Admin {
 			<p>Use the <strong>JyothishiUncle</strong> menu. Open the page, change the title and text, then set <strong>Featured image</strong> in the right sidebar. Click Update.</p>
 
 			<h2>2. Left-sidebar items (cards and posts)</h2>
-			<p>Poojas, Products, Astrologers, Religious Travel, and Articles are lists. Open one item, edit it, set its Featured image, then Update. Add a new item with Add New. Do not create a new WordPress Page for each pooja or article.</p>
+			<p>Poojas, Products, Astrologers, Pooja Temples, Religious Travel, and Articles are lists. Open one item, edit it, set its Featured image, then Update. Add a new item with Add New. Do not create a new WordPress Page for each pooja or article.</p>
 
 			<table class="widefat striped" style="max-width:1100px;margin-top:16px;">
 				<thead>
@@ -160,7 +167,8 @@ class JU_Admin {
 		}
 
 		if ( 'dashboard' === $screen->id ) {
-			echo '<div class="notice notice-info"><p><strong>How to change website content and photos:</strong> open <a href="' . esc_url( admin_url( 'admin.php?page=ju-how-to-edit' ) ) . '">JyothishiUncle → How to edit</a>. Home, About, Services, Astrologers, Travel, Articles, and Contact are website pages. The left-sidebar lists (Poojas, Products, Astrologers, Religious Travel, Articles) are the cards and posts on those pages — set a Featured image on each item.</p></div>';
+			$regs = admin_url( 'edit.php?post_type=website_registration&page=ju-registration-schedule' );
+			echo '<div class="notice notice-info"><p><strong>How to change website content and photos:</strong> open <a href="' . esc_url( admin_url( 'admin.php?page=ju-how-to-edit' ) ) . '">JyothishiUncle → How to edit</a>. Home, About, Services, Astrologers, Travel, Articles, and Contact are website pages. The left-sidebar lists (Poojas, Products, Astrologers, Religious Travel, Articles) are the cards and posts on those pages — set a Featured image on each item.</p><p><strong>Website registrations:</strong> left menu → <a href="' . esc_url( $regs ) . '">Registrations → Registrations (Excel)</a>. New Register form accounts are saved there.</p></div>';
 			return;
 		}
 
@@ -189,10 +197,11 @@ class JU_Admin {
 
 		$cpt_notes = array(
 			'pooja'             => 'This pooja card appears on the Services page. Gallery photos appear on the pooja detail page.',
+			'vendor'            => 'This pooja temple appears on pooja pages and in the online and offline booking form.',
 			'product'           => 'This product card appears on the Services page. Gallery photos appear on the product detail page.',
 			'astrologer'        => 'This portrait card appears on the Astrologers page.',
 			'religious_travel'  => 'This destination appears on the Religious Travel page.',
-			'post'              => 'This article appears under Articles on the website.',
+			'post'              => 'This article appears under Articles on the website. Fill Writer name in the sidebar; that is the name shown on the article page.',
 			'testimonial'       => 'This review can appear on the home page.',
 			'faq'               => 'This question can appear on the home page.',
 		);
@@ -210,16 +219,18 @@ class JU_Admin {
 		$map = array(
 			'pooja'                => 'Pooja name, e.g. Ganapathi Homam',
 			'product'              => 'Product name, e.g. Rudraksha Mala',
-			'astrology_service'    => 'Service name, e.g. Birth chart reading',
+			'astrology_service'    => 'Service name, e.g. Jathakam',
 			'religious_travel'     => 'Place name, e.g. Guruvayur Temple',
 			'faq'                  => 'Question, e.g. How do online consultations work?',
 			'testimonial'          => 'Customer name',
 			'customer_enquiry'     => 'Customer name',
 			'pooja_booking'        => 'Customer name — Pooja',
 			'product_enquiry'      => 'Customer name — Product',
+			'travel_booking'       => 'Customer name — Yatra',
+			'website_registration' => 'Customer name',
 			'consultation_booking' => 'Customer name — Service',
-			'consultation_block'   => 'Holiday or blocked day',
 			'astrologer'           => 'Astrologer name, e.g. Sri Devadathan Namboothiri',
+			'vendor'               => 'Temple name, e.g. Sri Mahaganapathi Temple',
 		);
 
 		return isset( $map[ $post->post_type ] ) ? $map[ $post->post_type ] : $title;

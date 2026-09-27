@@ -29,7 +29,8 @@ export function EnquiryForm({
     event.preventDefault();
     setBusy(true);
     setError("");
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
     try {
       await submitCustomerEnquiry({
         name: String(data.get("name") || ""),
@@ -42,7 +43,7 @@ export function EnquiryForm({
         website: String(data.get("website") || ""),
       });
       setSent(true);
-      event.currentTarget.reset();
+      form.reset();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to send.");
     } finally {
@@ -63,7 +64,7 @@ export function EnquiryForm({
           <p className="mt-1 text-sm text-on-surface-variant">
             {isContact
               ? "For temple yatras, spiritual speaking, and personalized astrological queries."
-              : "Pooja, consultation, product, or travel — a short note is enough. We store this in WordPress and will get back to you."}
+              : "Pooja, consultation, product, or travel — a short note is enough. We save this for the team and email the admin."}
           </p>
         </div>
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
@@ -136,7 +137,7 @@ export function EnquiryForm({
               type="submit"
               disabled={busy}
               suppressHydrationWarning
-              className={`${isContact ? "w-full sm:w-auto px-8 py-3.5 rounded-xl" : "w-full rounded-full py-2.5"} bg-primary text-lg font-bold text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.4)] transition hover:bg-primary-container disabled:opacity-60`}
+              className={`${isContact ? "w-full sm:w-auto px-8 py-3.5 rounded-xl" : "w-full rounded-full py-2.5"} bg-primary-container text-lg font-bold text-on-primary shadow-[0_8px_20px_rgba(201,162,39,0.35)] transition hover:brightness-95 disabled:opacity-60`}
             >
               {busy ? "Sending…" : isContact ? "Transmit General Enquiry" : "Send Sacred Enquiry"}
             </button>

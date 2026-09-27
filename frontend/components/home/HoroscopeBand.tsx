@@ -1,27 +1,7 @@
 "use client";
 
-import { Noto_Sans_Malayalam } from "next/font/google";
-
-const malayalam = Noto_Sans_Malayalam({
-  subsets: ["malayalam"],
-  weight: ["500", "700"],
-  display: "swap",
-});
-
-const RASHIS = [
-  { slug: "chingam", mal: "ചിങ്ങം", name: "Chingam", en: "Leo" },
-  { slug: "kanni", mal: "കന്നി", name: "Kanni", en: "Virgo" },
-  { slug: "thulam", mal: "തുലാം", name: "Thulam", en: "Libra" },
-  { slug: "vrischikam", mal: "വൃശ്ചികം", name: "Vrischikam", en: "Scorpio" },
-  { slug: "dhanu", mal: "ധനു", name: "Dhanu", en: "Sagittarius" },
-  { slug: "makaram", mal: "മകരം", name: "Makaram", en: "Capricorn" },
-  { slug: "kumbham", mal: "കുംഭം", name: "Kumbham", en: "Aquarius" },
-  { slug: "meenam", mal: "മീനം", name: "Meenam", en: "Pisces" },
-  { slug: "medam", mal: "മേടം", name: "Medam", en: "Aries" },
-  { slug: "edavam", mal: "ഇടവം", name: "Edavam", en: "Taurus" },
-  { slug: "midhunam", mal: "മിഥുനം", name: "Midhunam", en: "Gemini" },
-  { slug: "karkidakam", mal: "കർക്കടകം", name: "Karkidakam", en: "Cancer" },
-];
+import { malayalam } from "@/lib/malayalam-font";
+import { RASHIS } from "@/lib/rashis";
 
 export function HoroscopeBand() {
   const loop = [...RASHIS, ...RASHIS];

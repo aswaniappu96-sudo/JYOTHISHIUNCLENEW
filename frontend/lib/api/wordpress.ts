@@ -1,5 +1,7 @@
 import { cache } from "react";
 import { wpFetch, wpFetchOptional } from "@/lib/api/client";
+import { decodeWpText } from "@/lib/html";
+import { stripOmanDeep } from "@/lib/publicCopy";
 import type {
   Article,
   AstrologyService,
@@ -11,70 +13,94 @@ import type {
   SiteSettings,
   Testimonial,
   TravelDestination,
+  Vendor,
   WPPage,
 } from "@/types/wordpress";
 
 export async function getSettings() {
-  return settleApi(wpFetch<SiteSettings>("/settings"), emptySettings);
+  return stripOmanDeep(await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings));
 }
 
 export async function getPoojas(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return settleApi(wpFetch<Pooja[]>(`/poojas${query}`), []);
+  return stripOmanDeep(await settleApi(wpFetch<Pooja[]>(`/poojas${query}`), []));
 }
 
 export async function getPooja(slug: string) {
-  return wpFetchOptional<Pooja>(`/poojas/${slug}`);
+  const item = await wpFetchOptional<Pooja>(`/poojas/${slug}`);
+  return item ? stripOmanDeep(item) : null;
+}
+
+export async function getVendors() {
+  return stripOmanDeep(await settleApi(wpFetch<Vendor[]>("/vendors"), []));
 }
 
 export async function getProducts(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return settleApi(wpFetch<Product[]>(`/products${query}`), []);
+  return stripOmanDeep(await settleApi(wpFetch<Product[]>(`/products${query}`), []));
 }
 
 export async function getProduct(slug: string) {
-  return wpFetchOptional<Product>(`/products/${slug}`);
+  const item = await wpFetchOptional<Product>(`/products/${slug}`);
+  return item ? stripOmanDeep(item) : null;
 }
 
 export async function getServices() {
-  return settleApi(wpFetch<AstrologyService[]>("/services"), []);
+  return stripOmanDeep(await settleApi(wpFetch<AstrologyService[]>("/services"), []));
 }
 
-export async function getAstrologers() {
-  return settleApi(wpFetch<Astrologer[]>("/astrologers"), []);
+export async function getAstrologers(homepage = false) {
+  const query = homepage ? "?homepage=1" : "";
+  return stripOmanDeep(await settleApi(wpFetch<Astrologer[]>(`/astrologers${query}`), []));
 }
 
 export async function getService(slug: string) {
-  return wpFetchOptional<AstrologyService>(`/services/${slug}`);
+  const item = await wpFetchOptional<AstrologyService>(`/services/${slug}`);
+  return item ? stripOmanDeep(item) : null;
 }
 
 export async function getTravelDestinations(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return settleApi(wpFetch<TravelDestination[]>(`/travel${query}`), []);
+  return stripOmanDeep(await settleApi(wpFetch<TravelDestination[]>(`/travel${query}`), []));
 }
 
 export async function getTravelDestination(slug: string) {
-  return wpFetchOptional<TravelDestination>(`/travel/${slug}`);
+  const item = await wpFetchOptional<TravelDestination>(`/travel/${slug}`);
+  return item ? stripOmanDeep(item) : null;
 }
 
 export async function getArticles() {
-  return settleApi(wpFetch<Article[]>("/articles"), []);
+  return stripOmanDeep(await settleApi(wpFetch<Article[]>("/articles"), []));
 }
 
 export async function getArticle(slug: string) {
-  return wpFetchOptional<Article>(`/articles/${slug}`);
+  const item = await wpFetchOptional<Article>(`/articles/${slug}`);
+  return item ? stripOmanDeep(item) : null;
 }
 
 export async function getFAQs() {
-  return settleApi(wpFetch<FaqItem[]>("/faqs"), []);
+  return stripOmanDeep(await settleApi(wpFetch<FaqItem[]>("/faqs"), []));
 }
 
 export async function getTestimonials() {
-  return settleApi(wpFetch<Testimonial[]>("/testimonials"), []);
+  return stripOmanDeep(await settleApi(wpFetch<Testimonial[]>("/testimonials"), []));
 }
 
 export async function getPage(slug: string) {
-  return wpFetchOptional<WPPage>(`/pages/${slug}`);
+  const page = await wpFetchOptional<WPPage>(`/pages/${slug}`);
+  if (!page) return null;
+  return stripOmanDeep({
+    ...page,
+    title: decodeWpText(page.title || ""),
+    eyebrow: decodeWpText(page.eyebrow || ""),
+    hero_copy: decodeWpText(page.hero_copy || ""),
+    portrait_name: decodeWpText(page.portrait_name || ""),
+    portrait_caption: decodeWpText(page.portrait_caption || ""),
+    image_1_title: decodeWpText(page.image_1_title || ""),
+    image_1_copy: decodeWpText(page.image_1_copy || ""),
+    image_2_title: decodeWpText(page.image_2_title || ""),
+    image_2_copy: decodeWpText(page.image_2_copy || ""),
+  });
 }
 
 export async function getConsultationAvailability(service?: string, month?: string) {
@@ -91,10 +117,10 @@ const emptySettings: SiteSettings = {
   phone_number: "",
   address: "",
   hero_title: "JyothishiUncle",
-  hero_subtitle: "Pooja, astrology consultation, and spiritual guidance from Oman.",
+  hero_subtitle: "Pooja, astrology consultation, and spiritual guidance worldwide.",
   hero_primary_cta_label: "Book a consultation",
   hero_primary_cta_url: "/consultation",
-  about_excerpt: "",
+  about_excerpt: "JyothishiUncle.com is a venture from a family of Traditional Astrologers with more than 500+ years of tradition.",
   consultation_timezone: "Asia/Muscat",
   consultation_slot_minutes: 30,
   consultation_days: [],
@@ -128,17 +154,19 @@ export function fallbackSettings() {
 
 export const getHomePayload = cache(async (): Promise<HomePayload> => {
   try {
-    return await wpFetch<HomePayload>("/home");
+    return stripOmanDeep(await wpFetch<HomePayload>("/home"));
   } catch {
-    return {
-      settings: emptySettings,
-      poojas: [],
-      products: [],
-      services: [],
-      travel: [],
-      faqs: [],
-      testimonials: [],
-      articles: [],
-    };
+    const [settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles] = await Promise.all([
+      settleApi(wpFetch<SiteSettings>("/settings"), emptySettings),
+      settleApi(wpFetch<Pooja[]>("/poojas?homepage=1"), []),
+      settleApi(wpFetch<Product[]>("/products?homepage=1"), []),
+      settleApi(wpFetch<Astrologer[]>("/astrologers?homepage=1"), []),
+      settleApi(wpFetch<AstrologyService[]>("/services"), []),
+      settleApi(wpFetch<TravelDestination[]>("/travel?homepage=1"), []),
+      settleApi(wpFetch<FaqItem[]>("/faqs"), []),
+      settleApi(wpFetch<Testimonial[]>("/testimonials"), []),
+      settleApi(wpFetch<Article[]>("/articles"), []),
+    ]);
+    return stripOmanDeep({ settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles });
   }
 });

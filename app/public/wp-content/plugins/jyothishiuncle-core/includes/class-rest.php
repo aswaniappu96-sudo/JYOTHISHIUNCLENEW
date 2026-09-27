@@ -26,7 +26,7 @@ class JU_REST {
 				$origin = get_http_origin();
 				$allowed = self::allowed_origins();
 
-				if ( $origin && in_array( $origin, $allowed, true ) ) {
+				if ( $origin && self::origin_allowed( $origin, $allowed ) ) {
 					header( 'Access-Control-Allow-Origin: ' . $origin );
 					header( 'Vary: Origin' );
 				} elseif ( 'local' === wp_get_environment_type() ) {
@@ -42,6 +42,13 @@ class JU_REST {
 		);
 	}
 
+	private static function origin_allowed( $origin, array $allowed ) {
+		if ( in_array( $origin, $allowed, true ) ) {
+			return true;
+		}
+		return (bool) preg_match( '#^https://[a-z0-9-]+(\.vercel\.app)$#i', $origin );
+	}
+
 	private static function allowed_origins() {
 		$origins = array(
 			'http://localhost:3000',
@@ -51,6 +58,10 @@ class JU_REST {
 		$site = home_url();
 		if ( $site ) {
 			$origins[] = untrailingslashit( $site );
+		}
+
+		if ( defined( 'JU_FRONTEND_URL' ) && JU_FRONTEND_URL ) {
+			$origins[] = untrailingslashit( (string) JU_FRONTEND_URL );
 		}
 
 		return apply_filters( 'ju_rest_allowed_origins', $origins );
@@ -68,6 +79,8 @@ class JU_REST {
 
 		self::collection( '/poojas', 'poojas' );
 		self::item( '/poojas/(?P<slug>[a-z0-9-]+)', 'pooja' );
+		self::collection( '/vendors', 'vendors' );
+		self::item( '/vendors/(?P<slug>[a-z0-9-]+)', 'vendor' );
 		self::collection( '/products', 'products' );
 		self::item( '/products/(?P<slug>[a-z0-9-]+)', 'product' );
 		self::collection( '/services', 'services' );
@@ -144,9 +157,11 @@ class JU_REST {
 		$poojas       = self::serialize_many( 'pooja', null, array( 'JU_REST_Serialize', 'pooja' ) );
 		$products     = self::serialize_many( 'product', null, array( 'JU_REST_Serialize', 'product' ) );
 		$travel       = self::serialize_many( 'religious_travel', null, array( 'JU_REST_Serialize', 'travel' ) );
+		$astrologers  = self::serialize_many( 'astrologer', null, array( 'JU_REST_Serialize', 'astrologer' ) );
 		$featured_p   = array_values( array_filter( $poojas, array( __CLASS__, 'on_home' ) ) );
 		$featured_pr  = array_values( array_filter( $products, array( __CLASS__, 'on_home' ) ) );
 		$featured_t   = array_values( array_filter( $travel, array( __CLASS__, 'on_home' ) ) );
+		$featured_a   = array_values( array_filter( $astrologers, array( __CLASS__, 'on_home' ) ) );
 		$article_query = new WP_Query(
 			array(
 				'post_type'      => 'post',
@@ -164,6 +179,7 @@ class JU_REST {
 				'settings'     => self::settings_payload(),
 				'poojas'       => array_slice( $featured_p ? $featured_p : $poojas, 0, 3 ),
 				'products'     => array_slice( $featured_pr ? $featured_pr : $products, 0, 3 ),
+				'astrologers'  => $featured_a,
 				'services'     => self::serialize_many( 'astrology_service', null, array( 'JU_REST_Serialize', 'service' ) ),
 				'travel'       => array_slice( $featured_t ? $featured_t : $travel, 0, 3 ),
 				'faqs'         => self::serialize_many( 'faq', null, array( 'JU_REST_Serialize', 'faq' ) ),
@@ -178,7 +194,14 @@ class JU_REST {
 	}
 
 	private static function on_home( $item ) {
-		return ! empty( $item['show_on_homepage'] );
+		$value = isset( $item['show_on_homepage'] ) ? $item['show_on_homepage'] : false;
+		if ( is_bool( $value ) ) {
+			return $value;
+		}
+		if ( is_numeric( $value ) ) {
+			return 1 === (int) $value;
+		}
+		return in_array( strtolower( trim( (string) $value ) ), array( '1', 'true', 'yes', 'on' ), true );
 	}
 
 	private static function settings_payload() {
@@ -228,6 +251,14 @@ class JU_REST {
 
 	public static function pooja( WP_REST_Request $request ) {
 		return self::one( 'pooja', $request['slug'], array( 'JU_REST_Serialize', 'pooja' ) );
+	}
+
+	public static function vendors() {
+		return rest_ensure_response( self::serialize_many( 'vendor', null, array( 'JU_REST_Serialize', 'vendor' ) ) );
+	}
+
+	public static function vendor( WP_REST_Request $request ) {
+		return self::one( 'vendor', $request['slug'], array( 'JU_REST_Serialize', 'vendor' ) );
 	}
 
 	public static function products( WP_REST_Request $request ) {
@@ -331,7 +362,7 @@ class JU_REST {
 				'start_time'    => $settings['consultation_start_time'],
 				'end_time'      => $settings['consultation_end_time'],
 				'days'          => $days,
-				'note'          => 'Times are in Oman time (Asia/Muscat). The website should convert them to the visitor’s local time.',
+				'note'          => 'Times are stored in the consultation timezone. The website should convert them to the visitor’s local clock.',
 			)
 		);
 	}
@@ -339,24 +370,19 @@ class JU_REST {
 	private static function serialize_many( $post_type, $request, $callback ) {
 		$homepage = $request instanceof WP_REST_Request ? (int) $request->get_param( 'homepage' ) : 0;
 
-		$args = array(
-			'post_type'      => $post_type,
-			'post_status'    => 'publish',
-			'posts_per_page' => 100,
-			'no_found_rows'  => true,
+		$query = new WP_Query(
+			array(
+				'post_type'      => $post_type,
+				'post_status'    => 'publish',
+				'posts_per_page' => 100,
+				'no_found_rows'  => true,
+			)
 		);
+		$items = array_map( $callback, $query->posts );
 
 		if ( $homepage ) {
-			$args['meta_query'] = array(
-				array(
-					'key'   => 'show_on_homepage',
-					'value' => array( '1', 1, 'true' ),
-				),
-			);
+			$items = array_values( array_filter( $items, array( __CLASS__, 'on_home' ) ) );
 		}
-
-		$query = new WP_Query( $args );
-		$items = array_map( $callback, $query->posts );
 
 		usort(
 			$items,

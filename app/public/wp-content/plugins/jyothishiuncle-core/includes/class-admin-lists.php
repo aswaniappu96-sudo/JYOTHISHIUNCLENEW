@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class JU_Admin_Lists {
 
 	public static function hooks() {
-		foreach ( array( 'customer_enquiry', 'pooja_booking', 'product_enquiry', 'consultation_booking' ) as $type ) {
+		foreach ( array( 'customer_enquiry', 'website_registration', 'pooja_booking', 'product_enquiry', 'travel_booking', 'consultation_booking' ) as $type ) {
 			add_filter( "manage_{$type}_posts_columns", array( __CLASS__, 'columns' ) );
 			add_action( "manage_{$type}_posts_custom_column", array( __CLASS__, 'column' ), 10, 2 );
 		}
@@ -37,6 +37,9 @@ class JU_Admin_Lists {
 		if ( 'product_enquiry' === $type ) {
 			$base['meta'] = 'Product / qty';
 		}
+		if ( 'travel_booking' === $type ) {
+			$base['meta'] = 'Yatra / dates';
+		}
 		if ( 'consultation_booking' === $type ) {
 			$base['meta'] = 'Service / slot';
 		}
@@ -50,20 +53,64 @@ class JU_Admin_Lists {
 			return;
 		}
 		if ( 'status' === $column ) {
-			echo esc_html( JU_REST_Serialize::meta( $post_id, 'status', 'new' ) );
+			$value = (string) JU_REST_Serialize::meta( $post_id, 'status', 'new' );
+			if ( 'consultation_booking' === get_post_type( $post_id ) && isset( JU_Consultation_Schedule::status_choices()[ $value ] ) ) {
+				echo esc_html( JU_Consultation_Schedule::status_choices()[ $value ] );
+				return;
+			}
+			if ( 'pooja_booking' === get_post_type( $post_id ) && isset( JU_Pooja_Schedule::status_choices()[ $value ] ) ) {
+				echo esc_html( JU_Pooja_Schedule::status_choices()[ $value ] );
+				return;
+			}
+			if ( 'product_enquiry' === get_post_type( $post_id ) && isset( JU_Product_Schedule::status_choices()[ $value ] ) ) {
+				echo esc_html( JU_Product_Schedule::status_choices()[ $value ] );
+				return;
+			}
+			if ( 'travel_booking' === get_post_type( $post_id ) && isset( JU_Travel_Schedule::status_choices()[ $value ] ) ) {
+				echo esc_html( JU_Travel_Schedule::status_choices()[ $value ] );
+				return;
+			}
+			if ( 'customer_enquiry' === get_post_type( $post_id ) && isset( JU_Enquiry_Schedule::status_choices()[ $value ] ) ) {
+				echo esc_html( JU_Enquiry_Schedule::status_choices()[ $value ] );
+				return;
+			}
+			if ( 'website_registration' === get_post_type( $post_id ) && isset( JU_Registration_Schedule::status_choices()[ $value ] ) ) {
+				echo esc_html( JU_Registration_Schedule::status_choices()[ $value ] );
+				return;
+			}
+			echo esc_html( $value );
 			return;
 		}
 		if ( 'meta' === $column ) {
 			$type = get_post_type( $post_id );
 			if ( 'pooja_booking' === $type ) {
 				echo esc_html( JU_REST_Serialize::meta( $post_id, 'pooja_title' ) . ' · ' . JU_REST_Serialize::meta( $post_id, 'preferred_date' ) );
+				$mode = (string) JU_REST_Serialize::meta( $post_id, 'offering_mode' );
+				if ( $mode ) {
+					echo '<br><span style="color:#646970;">' . esc_html( 'offline' === $mode ? 'Offline' : 'Online' );
+					$vendor = (string) JU_REST_Serialize::meta( $post_id, 'vendor_name' );
+					if ( $vendor ) {
+						echo ' · ' . esc_html( $vendor );
+					}
+					echo '</span>';
+				}
 			} elseif ( 'product_enquiry' === $type ) {
 				echo esc_html( JU_REST_Serialize::meta( $post_id, 'product_title' ) . ' × ' . JU_REST_Serialize::meta( $post_id, 'quantity' ) );
+			} elseif ( 'travel_booking' === $type ) {
+				echo esc_html( JU_REST_Serialize::meta( $post_id, 'travel_title' ) . ' · ' . JU_REST_Serialize::meta( $post_id, 'preferred_dates' ) );
 			} elseif ( 'consultation_booking' === $type ) {
-				echo esc_html( JU_REST_Serialize::meta( $post_id, 'service_title' ) . ' · ' . JU_REST_Serialize::meta( $post_id, 'booking_date' ) . ' ' . JU_REST_Serialize::meta( $post_id, 'start_time' ) );
+				$guide = JU_Consultation_Schedule::astrologer_label( (string) JU_REST_Serialize::meta( $post_id, 'astrologer_name' ) );
+				$slot = (string) JU_REST_Serialize::meta( $post_id, 'slot_offer' );
+				echo esc_html( $guide . ' · ' . JU_REST_Serialize::meta( $post_id, 'service_title' ) . ' · ' . JU_REST_Serialize::meta( $post_id, 'booking_date' ) . ' ' . JU_REST_Serialize::meta( $post_id, 'start_time' ) );
+				if ( $slot ) {
+					echo '<br><strong style="color:#8b6414;">' . esc_html( $slot ) . '</strong>';
+				}
 			} elseif ( 'customer_enquiry' === $type ) {
 				$subject = JU_REST_Serialize::meta( $post_id, 'subject' );
 				echo esc_html( $subject ? $subject : JU_REST_Serialize::meta( $post_id, 'mobile' ) );
+			} elseif ( 'website_registration' === $type ) {
+				$source = JU_REST_Serialize::meta( $post_id, 'source' );
+				echo esc_html( $source ? $source : JU_REST_Serialize::meta( $post_id, 'mobile' ) );
 			} else {
 				echo esc_html( JU_REST_Serialize::meta( $post_id, 'mobile' ) );
 			}

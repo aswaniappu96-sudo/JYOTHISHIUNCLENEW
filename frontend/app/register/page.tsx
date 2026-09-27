@@ -80,7 +80,7 @@ export default function RegisterPage() {
         <button disabled={busy} className="rounded-full bg-midnight px-5 py-3 text-sm text-cream disabled:opacity-60">
           {busy ? "Creating…" : "Create account"}
         </button>
-        <p className="text-sm text-cream/70">
+        <p className="text-sm text-on-surface-variant">
           Already registered? <Link href="/login" className="text-saffron underline">Login</Link>
         </p>
       </form>

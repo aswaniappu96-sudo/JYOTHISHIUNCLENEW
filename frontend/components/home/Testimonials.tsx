@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
+import { ConchIcon } from "@/components/icons/ConchIcon";
 import type { Testimonial } from "@/types/wordpress";
 
 export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
@@ -17,8 +18,8 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
           return (
             <Reveal key={item.id} delay={index * 0.08}>
               <blockquote className="relative flex h-full flex-col justify-between rounded-3xl bg-surface-container/50 p-7 shadow-lg backdrop-blur-xl">
-                <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-xs text-primary">
-                  ✦
+                <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-primary">
+                  <ConchIcon className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="mb-3 text-primary">{"★".repeat(item.rating || 5)}</p>

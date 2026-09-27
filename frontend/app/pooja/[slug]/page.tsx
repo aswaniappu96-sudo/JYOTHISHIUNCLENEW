@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
-import { DetailLayout } from "@/components/layout/DetailLayout";
-import { getPooja, getPoojas, getSettings, getTestimonials } from "@/lib/api/wordpress";
+import { PoojaDetailView } from "@/components/pages/PoojaDetailView";
+import { getPooja, getPoojas, getSettings, getVendors } from "@/lib/api/wordpress";
 
 export const revalidate = 60;
 
@@ -27,27 +26,20 @@ export async function generateMetadata({
 
 export default async function PoojaDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [item, settings, testimonials] = await Promise.all([getPooja(slug), getSettings(), getTestimonials()]);
+  const [item, settings, poojas, vendors] = await Promise.all([
+    getPooja(slug),
+    getSettings(),
+    getPoojas().catch(() => []),
+    getVendors(),
+  ]);
   if (!item) notFound();
 
   return (
-    <div id="book">
-      <DetailLayout
-        eyebrow="Pooja & homam"
-        title={item.title}
-        summary={item.short_description}
-        image={item.featured_image}
-        gallery={item.gallery}
-        htmlSections={[
-          { title: "About this pooja", html: item.full_description },
-          { title: "Benefits", html: item.benefits },
-          { title: "Requirements", html: item.requirements },
-        ]}
-        whatsappNumber={settings.whatsapp_number}
-        whatsappMessage={item.whatsapp_message}
-        extraActions={item.booking_enabled ? <BookPoojaButton pooja={item} /> : null}
-        testimonials={testimonials.slice(0, 3)}
-      />
-    </div>
+    <PoojaDetailView
+      pooja={item}
+      settings={settings}
+      relatedPoojas={poojas.filter((entry) => entry.slug !== item.slug)}
+      vendors={vendors}
+    />
   );
 }

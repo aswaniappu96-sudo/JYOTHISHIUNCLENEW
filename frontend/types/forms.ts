@@ -22,6 +22,7 @@ export type CustomerUser = {
   source: string;
   message: string;
   profile_complete: boolean;
+  free_consultation_available?: boolean;
 };
 
 export type AvailabilityDay = {

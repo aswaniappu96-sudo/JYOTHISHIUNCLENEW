@@ -1,13 +1,15 @@
 "use client";
 
-import { usePortal } from "@/components/portal/PortalProvider";
+import { usePortal, type ConsultationPrefill } from "@/components/portal/PortalProvider";
 
 export function BookConsultationButton({
   children = "Book Consultation",
   className,
+  prefill,
 }: {
   children?: React.ReactNode;
   className?: string;
+  prefill?: ConsultationPrefill;
 }) {
   const { openConsultation } = usePortal();
 
@@ -15,10 +17,10 @@ export function BookConsultationButton({
     <button
       type="button"
       suppressHydrationWarning
-      onClick={() => openConsultation()}
+      onClick={() => openConsultation(prefill)}
       className={
         className ||
-        "inline-flex items-center justify-center rounded-full bg-primary-container px-4 py-1.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_0_20px_-3px_rgba(229,195,120,0.5)] transition hover:bg-primary"
+        "inline-flex items-center justify-center rounded-full bg-primary-container px-4 py-1.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_8px_20px_-4px_rgba(201,162,39,0.45)] transition hover:brightness-95"
       }
     >
       {children}
