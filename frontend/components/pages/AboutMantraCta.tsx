@@ -28,45 +28,41 @@ function MantraRays() {
         </radialGradient>
       </defs>
       <ellipse cx="320" cy="168" fill="url(#mantraGlow)" rx="220" ry="48" />
-      {(
-        [
-          ["M320 170 C250 120, 150 70, 70 28", "gold", 1.6],
-          ["M320 170 C270 115, 200 75, 140 22", "gold", 1.8],
-          ["M320 170 C290 100, 250 55, 210 12", "gold", 2],
-          ["M320 170 C310 90, 300 40, 292 8", "gold", 2.2],
-          ["M320 170 C320 85, 320 35, 320 6", "gold", 2.4],
-          ["M320 170 C330 90, 340 40, 348 8", "gold", 2.2],
-          ["M320 170 C350 100, 390 55, 430 12", "gold", 2],
-          ["M320 170 C370 115, 440 75, 500 22", "gold", 1.8],
-          ["M320 170 C390 120, 490 70, 570 28", "gold", 1.6],
-          ["M320 170 C230 130, 110 90, 36 48", "soft", 1.2],
-          ["M320 170 C410 130, 530 90, 604 48", "soft", 1.2],
-        ] as const
-      ).map(([d, tone, width]) => (
+      {[
+        { d: "M320 170 C250 120, 150 70, 70 28", tone: "gold", width: 1.6 },
+        { d: "M320 170 C270 115, 200 75, 140 22", tone: "gold", width: 1.8 },
+        { d: "M320 170 C290 100, 250 55, 210 12", tone: "gold", width: 2 },
+        { d: "M320 170 C310 90, 300 40, 292 8", tone: "gold", width: 2.2 },
+        { d: "M320 170 C320 85, 320 35, 320 6", tone: "gold", width: 2.4 },
+        { d: "M320 170 C330 90, 340 40, 348 8", tone: "gold", width: 2.2 },
+        { d: "M320 170 C350 100, 390 55, 430 12", tone: "gold", width: 2 },
+        { d: "M320 170 C370 115, 440 75, 500 22", tone: "gold", width: 1.8 },
+        { d: "M320 170 C390 120, 490 70, 570 28", tone: "gold", width: 1.6 },
+        { d: "M320 170 C230 130, 110 90, 36 48", tone: "soft", width: 1.2 },
+        { d: "M320 170 C410 130, 530 90, 604 48", tone: "soft", width: 1.2 },
+      ].map((ray) => (
         <path
-          key={d}
-          d={d}
-          stroke={tone === "soft" ? "url(#mantraRaySoft)" : "url(#mantraRayGold)"}
+          key={ray.d}
+          d={ray.d}
+          stroke={ray.tone === "soft" ? "url(#mantraRaySoft)" : "url(#mantraRayGold)"}
           strokeLinecap="round"
-          strokeWidth={width}
+          strokeWidth={ray.width}
         />
       ))}
-      {(
-        [
-          [70, 28, "#c9a227", 5],
-          [140, 22, "#e5c378", 4.5],
-          [210, 12, "#8b6414", 4],
-          [292, 8, "#4a2db3", 3.5],
-          [320, 6, "#c9a227", 5.5],
-          [348, 8, "#4a2db3", 3.5],
-          [430, 12, "#8b6414", 4],
-          [500, 22, "#e5c378", 4.5],
-          [570, 28, "#c9a227", 5],
-          [36, 48, "#4a2db3", 3],
-          [604, 48, "#4a2db3", 3],
-        ] as const
-      ).map(([cx, cy, fill, r]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} fill={fill} r={r} />
+      {[
+        { cx: 70, cy: 28, fill: "#c9a227", r: 5 },
+        { cx: 140, cy: 22, fill: "#e5c378", r: 4.5 },
+        { cx: 210, cy: 12, fill: "#8b6414", r: 4 },
+        { cx: 292, cy: 8, fill: "#4a2db3", r: 3.5 },
+        { cx: 320, cy: 6, fill: "#c9a227", r: 5.5 },
+        { cx: 348, cy: 8, fill: "#4a2db3", r: 3.5 },
+        { cx: 430, cy: 12, fill: "#8b6414", r: 4 },
+        { cx: 500, cy: 22, fill: "#e5c378", r: 4.5 },
+        { cx: 570, cy: 28, fill: "#c9a227", r: 5 },
+        { cx: 36, cy: 48, fill: "#4a2db3", r: 3 },
+        { cx: 604, cy: 48, fill: "#4a2db3", r: 3 },
+      ].map((dot) => (
+        <circle key={`${dot.cx}-${dot.cy}`} cx={dot.cx} cy={dot.cy} fill={dot.fill} r={dot.r} />
       ))}
     </svg>
   );
