@@ -58,7 +58,7 @@ export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
     }
 
     const controller = new AbortController();
-    const timeoutMs = process.env.VERCEL ? 4000 : 20000;
+    const timeoutMs = process.env.VERCEL ? 15000 : 20000;
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
