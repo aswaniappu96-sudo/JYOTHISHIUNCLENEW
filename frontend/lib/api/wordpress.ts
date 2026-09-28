@@ -23,7 +23,7 @@ export async function getSettings() {
 
 export async function getPoojas(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return stripOmanDeep(await settleApi(wpFetch<Pooja[]>(`/poojas${query}`), []));
+  return stripOmanDeep(await wpFetch<Pooja[]>(`/poojas${query}`));
 }
 
 export async function getPooja(slug: string) {
@@ -153,18 +153,18 @@ export function fallbackSettings() {
 }
 
 export const getHomePayload = cache(async (): Promise<HomePayload> => {
-  const settings = await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings);
+  const settings = await wpFetch<SiteSettings>("/settings");
   const [poojas, products, astrologers, services] = await Promise.all([
-    settleApi(wpFetch<Pooja[]>("/poojas?homepage=1"), []),
-    settleApi(wpFetch<Product[]>("/products?homepage=1"), []),
-    settleApi(wpFetch<Astrologer[]>("/astrologers?homepage=1"), []),
-    settleApi(wpFetch<AstrologyService[]>("/services"), []),
+    wpFetch<Pooja[]>("/poojas?homepage=1"),
+    wpFetch<Product[]>("/products?homepage=1"),
+    wpFetch<Astrologer[]>("/astrologers?homepage=1"),
+    wpFetch<AstrologyService[]>("/services"),
   ]);
   const [travel, faqs, testimonials, articles] = await Promise.all([
-    settleApi(wpFetch<TravelDestination[]>("/travel?homepage=1"), []),
-    settleApi(wpFetch<FaqItem[]>("/faqs"), []),
-    settleApi(wpFetch<Testimonial[]>("/testimonials"), []),
-    settleApi(wpFetch<Article[]>("/articles"), []),
+    wpFetch<TravelDestination[]>("/travel?homepage=1"),
+    wpFetch<FaqItem[]>("/faqs"),
+    wpFetch<Testimonial[]>("/testimonials"),
+    wpFetch<Article[]>("/articles"),
   ]);
   return stripOmanDeep({ settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles });
 });
