@@ -1,7 +1,10 @@
+"use client";
+
 import { TravelCard } from "@/components/cards/TravelCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
+import { useJuList } from "@/lib/useJuList";
 import type { TravelDestination } from "@/types/wordpress";
 
 export function TravelSection({
@@ -11,6 +14,7 @@ export function TravelSection({
   travel: TravelDestination[];
   whatsappNumber?: string;
 }) {
+  const list = useJuList<TravelDestination>("/travel?homepage=1", travel);
   return (
     <section className="relative my-8 w-full px-4 py-12 md:px-12">
       <SectionHeading
@@ -19,7 +23,7 @@ export function TravelSection({
         copy="Guidance for darshan, timing, and family rituals — not a packaged tour checkout."
       />
       <div className="mx-auto mt-12 grid max-w-7xl gap-7 lg:grid-cols-3">
-        {travel.map((item, index) => (
+        {list.map((item, index) => (
           <Reveal key={item.id} delay={index * 0.08}>
             <TravelCard travel={item} whatsappNumber={whatsappNumber} />
           </Reveal>

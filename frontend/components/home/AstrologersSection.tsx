@@ -1,7 +1,10 @@
+"use client";
+
 import { AstrologerCard, PORTRAITS } from "@/components/pages/AstrologerCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
+import { useJuList } from "@/lib/useJuList";
 import type { Astrologer } from "@/types/wordpress";
 
 export function AstrologersSection({
@@ -13,7 +16,8 @@ export function AstrologersSection({
   phone?: string;
   whatsapp?: string;
 }) {
-  const featured = astrologers.filter((person) => Boolean(person.show_on_homepage));
+  const list = useJuList<Astrologer>("/astrologers?homepage=1", astrologers);
+  const featured = list.filter((person) => Boolean(person.show_on_homepage));
   if (!featured.length) {
     return null;
   }

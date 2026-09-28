@@ -1,7 +1,10 @@
+"use client";
+
 import { ProductCard } from "@/components/cards/ProductCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
+import { useJuList } from "@/lib/useJuList";
 import type { Product } from "@/types/wordpress";
 
 export function ProductSection({
@@ -11,7 +14,8 @@ export function ProductSection({
   products: Product[];
   whatsappNumber: string;
 }) {
-  const featured = products.slice(0, 3);
+  const list = useJuList<Product>("/products?homepage=1", products);
+  const featured = list.slice(0, 3);
   const hero = featured[0];
   const side = featured.slice(1);
 

@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FaqItem } from "@/types/wordpress";
 import { SectionHeading } from "@/components/home/SectionHeading";
+import { useJuList } from "@/lib/useJuList";
 
 export function FaqAccordion({ faqs }: { faqs: FaqItem[] }) {
-  const [open, setOpen] = useState<number | null>(faqs[0]?.id ?? null);
+  const list = useJuList<FaqItem>("/faqs", faqs);
+  const [open, setOpen] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (open == null && list[0]) {
+      setOpen(list[0].id);
+    }
+  }, [list, open]);
 
   return (
     <section id="faq" className="relative my-8 w-full px-4 py-12 md:px-12">
@@ -15,7 +23,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqItem[] }) {
         copy="Questions families often ask about consultation, pooja, and travel."
       />
       <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-2">
-        {faqs.map((faq, index) => {
+        {list.map((faq, index) => {
           const isOpen = open === faq.id;
           return (
             <div

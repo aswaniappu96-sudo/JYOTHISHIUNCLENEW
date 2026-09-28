@@ -23,19 +23,19 @@ class JU_REST {
 		add_filter(
 			'rest_pre_serve_request',
 			function ( $value ) {
-				$origin = get_http_origin();
+				$origin  = get_http_origin();
 				$allowed = self::allowed_origins();
 
 				if ( $origin && self::origin_allowed( $origin, $allowed ) ) {
 					header( 'Access-Control-Allow-Origin: ' . $origin );
 					header( 'Vary: Origin' );
-				} elseif ( 'local' === wp_get_environment_type() ) {
+					header( 'Access-Control-Allow-Credentials: true' );
+				} else {
 					header( 'Access-Control-Allow-Origin: *' );
 				}
 
 				header( 'Access-Control-Allow-Methods: GET, POST, OPTIONS' );
 				header( 'Access-Control-Allow-Headers: Content-Type, Authorization' );
-				header( 'Access-Control-Allow-Credentials: true' );
 
 				return $value;
 			}
@@ -383,6 +383,16 @@ class JU_REST {
 		if ( $homepage ) {
 			$items = array_values( array_filter( $items, array( __CLASS__, 'on_home' ) ) );
 		}
+
+		$items = array_map(
+			static function ( $item ) {
+				if ( is_array( $item ) ) {
+					unset( $item['gallery'] );
+				}
+				return $item;
+			},
+			$items
+		);
 
 		usort(
 			$items,

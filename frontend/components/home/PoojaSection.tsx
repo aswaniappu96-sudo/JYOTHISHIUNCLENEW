@@ -1,11 +1,15 @@
+"use client";
+
 import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
+import { useJuList } from "@/lib/useJuList";
 import type { Pooja } from "@/types/wordpress";
 
 export function PoojaSection({ poojas }: { poojas: Pooja[]; whatsappNumber?: string }) {
-  const featured = poojas.slice(0, 3);
+  const list = useJuList<Pooja>("/poojas?homepage=1", poojas);
+  const featured = list.slice(0, 3);
   const hero = featured[0];
   const side = featured.slice(1);
 
