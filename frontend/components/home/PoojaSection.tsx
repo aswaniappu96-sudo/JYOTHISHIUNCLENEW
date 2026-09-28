@@ -5,6 +5,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
 import { useJuList } from "@/lib/useJuList";
+import { POOJAS_PATH } from "@/lib/siteRoutes";
 import type { Pooja } from "@/types/wordpress";
 
 export function PoojaSection({ poojas }: { poojas: Pooja[]; whatsappNumber?: string }) {
@@ -33,7 +34,7 @@ export function PoojaSection({ poojas }: { poojas: Pooja[]; whatsappNumber?: str
         ))}
       </div>
       <div className="mt-12 flex justify-center">
-        <ButtonLink href="/services#pooja" variant="light">
+        <ButtonLink href={POOJAS_PATH} variant="light">
           View all poojas
         </ButtonLink>
       </div>

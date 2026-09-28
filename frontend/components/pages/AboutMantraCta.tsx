@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { devanagari } from "@/lib/devanagari-font";
+import { POOJAS_PATH } from "@/lib/siteRoutes";
 
 function MantraRays() {
   return (
@@ -94,7 +95,7 @@ export function AboutMantraCta() {
             Book Consultation With JyothishiUncle
           </BookConsultationButton>
           <Link
-            href="/services#pooja"
+            href={POOJAS_PATH}
             className="inline-flex w-full items-center justify-center rounded-full bg-surface-high px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:bg-surface-highest sm:w-auto"
           >
             Explore Consecrated Homams

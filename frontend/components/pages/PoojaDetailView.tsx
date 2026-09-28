@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/home/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { htmlListItems, stripPublicPrices } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
+import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Pooja, SiteSettings, Vendor } from "@/types/wordpress";
 
@@ -74,7 +75,7 @@ export function PoojaDetailView({
           Services
         </Link>
         <span className="text-outline-variant">/</span>
-        <Link href="/services#pooja" className="transition hover:text-primary">
+        <Link href={POOJAS_PATH} className="transition hover:text-primary">
           Poojas & Homams
         </Link>
         <span className="text-outline-variant">/</span>

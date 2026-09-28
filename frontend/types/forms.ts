@@ -7,7 +7,7 @@ export const HEAR_ABOUT_OPTIONS = [
 ] as const;
 
 export const CONSULTATION_TYPES = [
-  { value: "pooja", label: "Pooja" },
+  { value: "pooja", label: "Poojas" },
   { value: "marriage", label: "Marriage" },
   { value: "jathaka", label: "Jathaka" },
   { value: "other", label: "Other" },

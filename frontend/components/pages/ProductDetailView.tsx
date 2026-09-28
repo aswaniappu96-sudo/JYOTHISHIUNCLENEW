@@ -5,6 +5,7 @@ import { ProductEnquireForm } from "@/components/pages/ProductEnquireForm";
 import { ProductGallery } from "@/components/pages/ProductGallery";
 import { htmlListItems, htmlParagraphs, stripPublicPrices, telHref } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
+import { PRODUCTS_PATH } from "@/lib/siteRoutes";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Product, SiteSettings, Testimonial } from "@/types/wordpress";
 
@@ -116,7 +117,7 @@ export function ProductDetailView({
             Services
           </Link>
           <span className="text-outline-variant">/</span>
-          <Link href="/services#products" className="transition hover:text-primary">
+          <Link href={PRODUCTS_PATH} className="transition hover:text-primary">
             Products
           </Link>
           <span className="text-outline-variant">/</span>

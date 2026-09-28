@@ -1,20 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 import { ScrollSutra } from "@/components/layout/ScrollSutra";
 import { usePortal } from "@/components/portal/PortalProvider";
+import { POOJAS_PATH, PRODUCTS_PATH, isPoojasNav, isProductsNav } from "@/lib/siteRoutes";
 
 const primaryNav = [
-  { href: "/", label: "Home", match: "/" },
-  { href: "/astrologers", label: "Astrologers", match: "/astrologers" },
-  { href: "/services#pooja", label: "Pooja", match: "/pooja" },
-  { href: "/services#products", label: "Products", match: "/product" },
-  { href: "/religious-travel", label: "Temple Yatra", match: "/religious-travel" },
+  { href: "/", label: "Home", match: "home" },
+  { href: "/astrologers", label: "Astrologers", match: "astrologers" },
+  { href: POOJAS_PATH, label: "Poojas", match: "poojas" },
+  { href: PRODUCTS_PATH, label: "Products", match: "products" },
+  { href: "/religious-travel", label: "Temple Yatra", match: "travel" },
 ];
 
 const moreNav = [
@@ -26,10 +27,13 @@ const moreNav = [
 const ctaClass =
   "hidden rounded-full bg-[#c4a227] px-5 py-2 text-[12px] font-semibold tracking-wide text-white shadow-none transition hover:bg-[#b08a1a] sm:inline-flex";
 
-function isNavActive(pathname: string, item: (typeof primaryNav)[number]) {
-  if (item.match === "/") return pathname === "/";
-  if (item.match === "/pooja") return pathname === "/services" || pathname.startsWith("/pooja");
-  return pathname === item.match || pathname.startsWith(`${item.match}/`);
+function isNavActive(pathname: string, tab: string | null, item: (typeof primaryNav)[number]) {
+  if (item.match === "home") return pathname === "/";
+  if (item.match === "astrologers") return pathname === "/astrologers" || pathname.startsWith("/astrologers/");
+  if (item.match === "poojas") return isPoojasNav(pathname, tab);
+  if (item.match === "products") return isProductsNav(pathname, tab);
+  if (item.match === "travel") return pathname === "/religious-travel" || pathname.startsWith("/religious-travel/");
+  return false;
 }
 
 function NavLink({
@@ -77,6 +81,8 @@ export function Header({ logoUrl: _logoUrl }: { logoUrl?: string }) {
   const { user, logout } = useAuth();
   const { openAuth } = usePortal();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab");
   const moreActive = moreNav.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`));
 
   return (
@@ -91,7 +97,7 @@ export function Header({ logoUrl: _logoUrl }: { logoUrl?: string }) {
           aria-label="Main"
         >
           {primaryNav.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} active={isNavActive(pathname, item)} />
+            <NavLink key={item.href} href={item.href} label={item.label} active={isNavActive(pathname, tab, item)} />
           ))}
           <div
             className="group relative flex h-20 items-center"

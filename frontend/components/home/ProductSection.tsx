@@ -5,6 +5,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
 import { useJuList } from "@/lib/useJuList";
+import { PRODUCTS_PATH } from "@/lib/siteRoutes";
 import type { Product } from "@/types/wordpress";
 
 export function ProductSection({
@@ -41,7 +42,7 @@ export function ProductSection({
           ))}
         </div>
         <div className="mt-12 flex justify-center">
-          <ButtonLink href="/services#products" variant="light">
+          <ButtonLink href={PRODUCTS_PATH} variant="light">
             View all products
           </ButtonLink>
         </div>

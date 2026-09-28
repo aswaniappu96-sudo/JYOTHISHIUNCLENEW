@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ProductCard } from "@/components/cards/ProductCard";
 import { PoojaVendorsSection } from "@/components/pages/PoojaVendorsSection";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { imageSrc } from "@/lib/media";
+import { POOJAS_PATH, PRODUCTS_PATH, servicesTab } from "@/lib/siteRoutes";
 import type { Pooja, Product, Vendor, WPPage } from "@/types/wordpress";
 
 export function ServicesView({
@@ -15,25 +18,28 @@ export function ServicesView({
   page,
   whatsappNumber,
   vendors = [],
+  initialTab = "poojas",
 }: {
   poojas: Pooja[];
   products: Product[];
   page?: WPPage | null;
   whatsappNumber: string;
   vendors?: Vendor[];
+  initialTab?: "poojas" | "products";
 }) {
-  const [tab, setTab] = useState<"pooja" | "products">("pooja");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = servicesTab(searchParams.get("tab") ?? initialTab);
   const heroImage = imageSrc(page?.featured_image);
 
   useEffect(() => {
-    const apply = () => {
-      if (window.location.hash === "#products") setTab("products");
-      if (window.location.hash === "#pooja") setTab("pooja");
-    };
-    apply();
-    window.addEventListener("hashchange", apply);
-    return () => window.removeEventListener("hashchange", apply);
-  }, []);
+    const hash = window.location.hash;
+    if (hash === "#products") {
+      router.replace(PRODUCTS_PATH, { scroll: false });
+    } else if (hash === "#pooja" || hash === "#poojas") {
+      router.replace(POOJAS_PATH, { scroll: false });
+    }
+  }, [router]);
 
   return (
     <div>
@@ -50,26 +56,22 @@ export function ServicesView({
               "Ancient Shastric Poojas, Vedic Homams & Consecrated Planetary Artifacts calibrated precisely to your individual birth Nakshatra, Dasha coordinates, and planetary afflictions."}
           </p>
           <div className="flex items-center gap-1 rounded-full bg-surface-lowest/80 p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
-            <button
-              type="button"
-              onClick={() => {
-                setTab("pooja");
-                window.history.replaceState(null, "", "#pooja");
-              }}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-lg font-semibold transition ${tab === "pooja" ? "bg-primary-container text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.4)]" : "text-on-surface-variant hover:text-primary"}`}
+            <Link
+              href={POOJAS_PATH}
+              replace
+              scroll={false}
+              className={`flex items-center gap-2 rounded-full px-5 py-2 text-lg font-semibold transition ${tab === "poojas" ? "bg-primary-container text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.4)]" : "text-on-surface-variant hover:text-primary"}`}
             >
               Poojas & Consecrated Homams
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setTab("products");
-                window.history.replaceState(null, "", "#products");
-              }}
+            </Link>
+            <Link
+              href={PRODUCTS_PATH}
+              replace
+              scroll={false}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-lg font-semibold transition ${tab === "products" ? "bg-primary-container text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.4)]" : "text-on-surface-variant hover:text-primary"}`}
             >
               Sacred Planetary Products
-            </button>
+            </Link>
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs text-on-surface-variant/80">
             <span className="flex items-center gap-1.5">
@@ -88,8 +90,8 @@ export function ServicesView({
         </div>
       </section>
 
-      {tab === "pooja" ? (
-        <section id="pooja" className="scroll-mt-28 px-4 pb-16 md:px-12">
+      {tab === "poojas" ? (
+        <section className="px-4 pb-16 md:px-12">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
               <div>
@@ -118,7 +120,7 @@ export function ServicesView({
           </div>
         </section>
       ) : (
-        <section id="products" className="scroll-mt-28 px-4 pb-16 md:px-12">
+        <section className="px-4 pb-16 md:px-12">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8">
               <div className="mb-1 flex items-center gap-2">

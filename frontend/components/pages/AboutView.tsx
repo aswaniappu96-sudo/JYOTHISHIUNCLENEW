@@ -3,6 +3,7 @@ import { AboutMantraCta } from "@/components/pages/AboutMantraCta";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { imageSrc } from "@/lib/media";
+import { POOJAS_PATH } from "@/lib/siteRoutes";
 import type { WPPage } from "@/types/wordpress";
 
 const PORTRAIT = "/images/about-portrait.jpg";
@@ -194,7 +195,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
                 invocations performed by traditionally consecrated priests in adherence to the Rigveda and Agamas.
               </p>
             </div>
-            <Link href="/services#pooja" className="inline-flex items-center gap-2 rounded-full bg-primary-container px-4 py-2.5 text-sm font-semibold text-on-primary hover:brightness-95">
+            <Link href={POOJAS_PATH} className="inline-flex items-center gap-2 rounded-full bg-primary-container px-4 py-2.5 text-sm font-semibold text-on-primary hover:brightness-95">
               Explore Ritual Schedule →
             </Link>
           </div>

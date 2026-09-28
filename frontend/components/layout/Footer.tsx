@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 
 export function Footer({
   text,
@@ -42,8 +43,8 @@ export function Footer({
             <h4 className="mb-4 text-[11px] font-bold uppercase tracking-widest text-primary">Celestial Portals</h4>
             <ul className="space-y-2 text-sm text-on-surface-variant">
               <li><Link className="hover:text-primary" href="/">Home</Link></li>
-              <li><Link className="hover:text-primary" href="/services">Pooja</Link></li>
-              <li><Link className="hover:text-primary" href="/services#products">Products</Link></li>
+              <li><Link className="hover:text-primary" href={POOJAS_PATH}>Poojas</Link></li>
+              <li><Link className="hover:text-primary" href={PRODUCTS_PATH}>Products</Link></li>
               <li><Link className="hover:text-primary" href="/astrologers">Astrologers</Link></li>
             </ul>
           </div>

@@ -360,6 +360,15 @@ h3,
   animation: mandala-spin 140s linear infinite;
 }
 
+@keyframes routebar {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
 @keyframes rashi-from-right {
   from {
     transform: translate3d(0, 0, 0);

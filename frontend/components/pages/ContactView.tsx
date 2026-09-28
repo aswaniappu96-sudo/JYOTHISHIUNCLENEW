@@ -1,8 +1,9 @@
+import Link from "next/link";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
-import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
 import { EnquireButton } from "@/components/portal/EnquireButton";
 import { EnquiryForm } from "@/components/home/EnquiryForm";
 import { imageSrc } from "@/lib/media";
+import { POOJAS_PATH } from "@/lib/siteRoutes";
 import type { SiteSettings, WPPage } from "@/types/wordpress";
 
 const HAVAN =
@@ -52,9 +53,12 @@ export function ContactView({
             <BookConsultationButton className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-on-primary">
               Launch Consultation Portal
             </BookConsultationButton>
-            <BookPoojaButton pooja={{ slug: "ganapathi-homam", title: "Ganapathi Homam" }}>
+            <Link
+              href={POOJAS_PATH}
+              className="inline-flex items-center justify-center rounded-xl border border-primary/30 bg-transparent px-4 py-2.5 text-sm font-medium text-primary transition hover:bg-surface-highest"
+            >
               Book Homam
-            </BookPoojaButton>
+            </Link>
             <EnquireButton className="inline-flex items-center rounded-xl bg-surface-high px-4 py-2.5 text-sm font-medium text-primary" subject="General Shastric Enquiry">
               Open Enquiry
             </EnquireButton>

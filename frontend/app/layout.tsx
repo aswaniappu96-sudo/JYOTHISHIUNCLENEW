@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import type { Metadata } from "next";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { PageLoading } from "@/components/layout/PageLoading";
 import { MandalaTrail } from "@/components/layout/MandalaTrail";
 import { UniverseBackground } from "@/components/layout/UniverseBackground";
 import { RashiChakraBackdrop } from "@/components/home/RashiChakraWatermark";
@@ -55,9 +56,11 @@ export default async function RootLayout({
         {settings ? <JsonLd settings={settings} /> : null}
         <Providers>
           <div className="relative z-10">
-            <Header logoUrl={mediaUrl(settings?.logo?.full || settings?.logo?.url || settings?.logo_url) || undefined} />
+            <Suspense fallback={<header className="fixed top-0 z-50 h-20 w-full bg-[#fffbf4]/95" />}>
+              <Header logoUrl={mediaUrl(settings?.logo?.full || settings?.logo?.url || settings?.logo_url) || undefined} />
+            </Suspense>
             <main className="pt-20">
-              <Suspense fallback={<div className="min-h-[50vh]" aria-hidden />}>{children}</Suspense>
+              <Suspense fallback={<PageLoading message="Opening page…" />}>{children}</Suspense>
             </main>
             <Footer
               text={settings?.footer_text}
