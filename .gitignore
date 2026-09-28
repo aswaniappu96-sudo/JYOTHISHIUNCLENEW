@@ -38,3 +38,8 @@ Thumbs.db
 npm-debug.log*
 .vscode/
 .idea/
+
+# Local zip dumps (too large for GitHub)
+*.zip
+frontend.zip
+app/public.zip

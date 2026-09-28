@@ -1,0 +1,5 @@
+# Not needed for the live Next.js site. These screenshots made GitHub/Vercel uploads time out.
+design
+.next
+node_modules
+.env*.local
