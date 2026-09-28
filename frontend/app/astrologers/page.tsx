@@ -6,7 +6,7 @@ import { HoroscopeBand } from "@/components/home/HoroscopeBand";
 import { AstrologyServicesSection } from "@/components/pages/AstrologyServicesSection";
 import { fallbackSettings, getAstrologers, getPage, getServices, getSettings, settleApi } from "@/lib/api/wordpress";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Hereditary Vedic Astrologers & Cosmic Gurus",

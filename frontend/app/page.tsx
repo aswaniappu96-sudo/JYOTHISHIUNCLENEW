@@ -13,7 +13,7 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { TravelSection } from "@/components/home/TravelSection";
 import { getHomePayload } from "@/lib/api/wordpress";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const data = await getHomePayload();

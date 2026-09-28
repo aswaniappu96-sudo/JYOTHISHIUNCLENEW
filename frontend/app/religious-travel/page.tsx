@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TravelView } from "@/components/pages/TravelView";
 import { fallbackSettings, getPage, getSettings, getTravelDestinations, settleApi } from "@/lib/api/wordpress";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Sacred Temple Yatras & Himalayan Sanctuaries",

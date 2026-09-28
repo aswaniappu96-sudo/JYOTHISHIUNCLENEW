@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ServicesView } from "@/components/pages/ServicesView";
 import { fallbackSettings, getPage, getPoojas, getProducts, getSettings, getVendors, settleApi } from "@/lib/api/wordpress";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Sacred Services & Divine Consecrations",

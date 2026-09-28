@@ -56,13 +56,22 @@ export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
 
   const request = (async () => {
     const headers = new Headers(init?.headers);
+    if (!headers.has("Accept")) {
+      headers.set("Accept", "application/json");
+    }
+    if (!headers.has("User-Agent")) {
+      headers.set(
+        "User-Agent",
+        "Mozilla/5.0 (compatible; JyothishiUncleBot/1.0; +https://jyothishiuncle-new.vercel.app)",
+      );
+    }
     const host = process.env.WORDPRESS_HOST;
     if (host && !headers.has("Host")) {
       headers.set("Host", host);
     }
 
     const controller = new AbortController();
-    const timeoutMs = process.env.VERCEL ? 15000 : 20000;
+    const timeoutMs = process.env.VERCEL ? 28000 : 20000;
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
