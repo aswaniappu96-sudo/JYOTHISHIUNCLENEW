@@ -5,6 +5,7 @@ function wordpressImagePatterns() {
     { protocol: "http", hostname: "127.0.0.1", port: "10101" },
     { protocol: "http", hostname: "localhost", port: "10101" },
     { protocol: "http", hostname: "jyothishiuncle.local" },
+    { protocol: "https", hostname: "jyothishiuncle.ct.ws" },
   ];
 
   const raw = process.env.WORDPRESS_URL;

@@ -1,10 +1,14 @@
 const DEFAULT_WP_URL = "http://127.0.0.1:10101";
+const PRODUCTION_WP_URL = "https://jyothishiuncle.ct.ws";
 const GET_CACHE_MS = 60_000;
 const getCache = new Map<string, { expires: number; data: unknown }>();
 const getInflight = new Map<string, Promise<unknown>>();
 
 function wordpressOrigin() {
-  return (process.env.WORDPRESS_URL || DEFAULT_WP_URL).replace(/\/$/, "");
+  const fromEnv = process.env.WORDPRESS_URL?.replace(/\/$/, "");
+  if (fromEnv) return fromEnv;
+  if (process.env.VERCEL) return PRODUCTION_WP_URL;
+  return DEFAULT_WP_URL;
 }
 
 function isLocalWordpress() {
