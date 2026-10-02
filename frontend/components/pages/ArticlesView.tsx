@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { ArticleCard } from "@/components/pages/ArticleCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { formatArticleDate, readingMinutes } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -50,13 +51,48 @@ export function ArticlesView({
           </span>
           <span className="text-xs text-secondary">☉</span>
         </div>
-        <h1 className="mb-6 max-w-4xl font-serif text-[30px] leading-[38px] tracking-tight text-primary md:text-[56px] md:leading-[68px]">
-          {page?.title || "Illuminations of the Rishis: Vedic Wisdom & Astrological Articles"}
-        </h1>
+        <PageHeading as="h1" title={page?.title || "Illuminations of the Rishis: Vedic Wisdom & Astrological Articles"} className="mb-6 max-w-4xl" />
         <p className="mx-auto max-w-3xl text-base leading-relaxed text-on-surface-variant">
           {page?.hero_copy ||
             "Quiet reading on pooja, consultation, and temple journeys — written for families seeking clear, traditional guidance."}
         </p>
+        {categories.length ? (
+          <div className="mt-8 w-full max-w-5xl">
+            <div className="no-scrollbar flex items-center justify-start gap-2.5 overflow-x-auto pb-2 md:justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setActive("All");
+                  setShown(PAGE_SIZE);
+                }}
+                className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition ${
+                  active === "All"
+                    ? "bg-primary-container font-semibold text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.35)]"
+                    : "bg-surface-high/60 text-on-surface backdrop-blur-md hover:bg-surface-highest"
+                }`}
+              >
+                All articles ({articles.length})
+              </button>
+              {categories.map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => {
+                    setActive(name);
+                    setShown(PAGE_SIZE);
+                  }}
+                  className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition ${
+                    active === name
+                      ? "bg-primary-container font-semibold text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.35)]"
+                      : "bg-surface-high/60 text-on-surface backdrop-blur-md hover:bg-surface-highest"
+                  }`}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-[11px] font-bold tracking-widest text-on-surface-variant/70 uppercase">
           <span className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
@@ -68,44 +104,6 @@ export function ArticlesView({
           <span>Sidereal calculations</span>
         </div>
       </div>
-
-      {categories.length ? (
-        <div className="relative z-10 mx-auto mb-14 max-w-6xl">
-          <div className="no-scrollbar flex items-center justify-start gap-2.5 overflow-x-auto pb-4 md:justify-center">
-            <button
-              type="button"
-              onClick={() => {
-                setActive("All");
-                setShown(PAGE_SIZE);
-              }}
-              className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition ${
-                active === "All"
-                  ? "bg-primary-container font-semibold text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.35)]"
-                  : "bg-surface-high/60 text-on-surface backdrop-blur-md hover:bg-surface-highest"
-              }`}
-            >
-              All articles ({articles.length})
-            </button>
-            {categories.map((name) => (
-              <button
-                key={name}
-                type="button"
-                onClick={() => {
-                  setActive(name);
-                  setShown(PAGE_SIZE);
-                }}
-                className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm transition ${
-                  active === name
-                    ? "bg-primary-container font-semibold text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.35)]"
-                    : "bg-surface-high/60 text-on-surface backdrop-blur-md hover:bg-surface-highest"
-                }`}
-              >
-                {name}
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
 
       {featured ? (
         <div className="relative z-10 mx-auto mb-20 max-w-6xl">

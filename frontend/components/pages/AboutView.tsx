@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { CategoryDesk } from "@/components/home/CategoryDesk";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { AboutMantraCta } from "@/components/pages/AboutMantraCta";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
-import type { WPPage } from "@/types/wordpress";
+import type { Pooja, Product, TravelDestination, WPPage } from "@/types/wordpress";
 
 const PORTRAIT = "/images/about-portrait.jpg";
 const HOMAM =
@@ -47,7 +49,17 @@ const READINGS = [
   ["Yearly Transit Forecast", "3-year dasha timelines"],
 ];
 
-export function AboutView({ page }: { page: WPPage | null }) {
+export function AboutView({
+  page,
+  poojas = [],
+  products = [],
+  travel = [],
+}: {
+  page: WPPage | null;
+  poojas?: Pooja[];
+  products?: Product[];
+  travel?: TravelDestination[];
+}) {
   const portrait = imageSrc(page?.featured_image, PORTRAIT);
   const ritual1 = imageSrc(page?.image_1, HOMAM);
   const ritual2 = imageSrc(page?.image_2, NAVAGRAHA);
@@ -59,13 +71,11 @@ export function AboutView({ page }: { page: WPPage | null }) {
       <section className="relative overflow-hidden px-4 pt-8 pb-16 text-center md:px-12">
         <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center">
           <Eyebrow className="mb-6">{page?.eyebrow || "Guru-Shishya Parampara · Vedic Lineage"}</Eyebrow>
-          <h1 className="max-w-4xl font-serif text-[38px] leading-[46px] tracking-tight text-on-surface md:text-[56px] md:leading-[68px]">
-            {customTitle || (
-              <>
-                The Unbroken Lineage of <span className="italic text-primary">Stellar Seers</span>
-              </>
-            )}
-          </h1>
+          {customTitle ? (
+            <PageHeading as="h1" title={customTitle} className="max-w-4xl" />
+          ) : (
+            <PageHeading as="h1" lead="The Unbroken Lineage of" accent="Stellar Seers" className="max-w-4xl" />
+          )}
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
             {page?.hero_copy ||
               "Deep in the celestial soils of ancient Bharat, wisdom descends like golden light. From Sage Parashara to the palm leaf Thaliola masters, our lineage is rooted in eternal cosmic mathematics."}
@@ -140,10 +150,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
               <span className="h-px w-8 bg-primary" />
               <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">The Oracle Behind the Sight</span>
             </div>
-            <h2 className="font-serif text-[30px] leading-tight text-on-surface md:text-[40px]">
-              Ancient Wisdom. Personal Guidance.{" "}
-              <span className="italic text-primary">No Fear. Absolute Clarity.</span>
-            </h2>
+            <PageHeading className="leading-tight" lead="Ancient Wisdom. Personal Guidance." accent="No Fear. Absolute Clarity." />
             <p className="text-base leading-relaxed text-on-surface-variant">
               For more than thirty-five years, Sri Devadathan (fondly sought as Jyothishi Uncle) has walked the sacred
               nexus where Vedic scripture meets mathematical astronomy. Initiated at age eleven in the sacred sanctums,
@@ -187,9 +194,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
               <div className="flex items-center gap-2">
                 <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Agni Kund & Tantric Vidya</span>
               </div>
-              <h2 className="font-serif text-[30px] text-on-surface md:text-[40px]">
-                Authentic Shastric Rituals & <span className="italic text-primary">Planetary Remediation</span>
-              </h2>
+              <PageHeading lead="Authentic Shastric Rituals &" accent="Planetary Remediation" />
               <p className="text-sm text-on-surface-variant">
                 Remedies at JyothishiUncle are never symbolic tokens. They are sacred, mathematically synchronized Vedic
                 invocations performed by traditionally consecrated priests in adherence to the Rigveda and Agamas.
@@ -258,9 +263,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
       <section className="relative mx-auto max-w-7xl px-4 py-20 md:px-12">
         <div className="mx-auto mb-16 flex max-w-3xl flex-col items-center text-center">
           <Eyebrow className="mb-4">The Sacred Covenant</Eyebrow>
-          <h2 className="mb-3 font-serif text-[30px] text-on-surface md:text-[40px]">
-            The Four Pillars of <span className="italic text-primary">JyothishiUncle</span>
-          </h2>
+          <PageHeading className="mb-3" lead="The Four Pillars of" accent="JyothishiUncle" />
           <p className="text-base text-on-surface-variant">Our foundational promise to every seeker entering this digital sanctuary of light.</p>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -288,9 +291,7 @@ export function AboutView({ page }: { page: WPPage | null }) {
                 <div className="inline-flex items-center gap-2 rounded-full bg-primary-container/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
                   ● Live 1-on-1 Oracle Audience
                 </div>
-                <h2 className="font-serif text-[30px] leading-snug text-on-surface md:text-[40px]">
-                  Seek the Council of the <span className="italic text-primary">Cosmos</span>
-                </h2>
+                <PageHeading className="leading-snug" lead="Seek the Council of the" accent="Cosmos" />
                 <p className="text-sm leading-relaxed text-on-surface-variant">
                   Book a private, deep-dive session with Jyothishi Uncle. Receive an in-depth analysis of your Natal
                   Kundali, planetary dasha cycles, and immediate actionable remedies.
@@ -340,6 +341,8 @@ export function AboutView({ page }: { page: WPPage | null }) {
           </div>
         </div>
       </section>
+
+      <CategoryDesk poojas={poojas} products={products} travel={travel} />
 
       <AboutMantraCta />
     </div>

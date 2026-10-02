@@ -155,16 +155,17 @@ export function fallbackSettings() {
 export const getHomePayload = cache(async (): Promise<HomePayload> => {
   const settings = await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings);
   const [poojas, products, astrologers, services] = await Promise.all([
-    settleApi(wpFetch<Pooja[]>("/poojas?homepage=1"), []),
-    settleApi(wpFetch<Product[]>("/products?homepage=1"), []),
-    settleApi(wpFetch<Astrologer[]>("/astrologers?homepage=1"), []),
+    settleApi(wpFetch<Pooja[]>("/poojas"), []),
+    settleApi(wpFetch<Product[]>("/products"), []),
+    settleApi(wpFetch<Astrologer[]>("/astrologers"), []),
     settleApi(wpFetch<AstrologyService[]>("/services"), []),
   ]);
-  const [travel, faqs, testimonials, articles] = await Promise.all([
-    settleApi(wpFetch<TravelDestination[]>("/travel?homepage=1"), []),
+  const [travel, faqs, testimonials, articles, vendors] = await Promise.all([
+    settleApi(wpFetch<TravelDestination[]>("/travel"), []),
     settleApi(wpFetch<FaqItem[]>("/faqs"), []),
     settleApi(wpFetch<Testimonial[]>("/testimonials"), []),
     settleApi(wpFetch<Article[]>("/articles"), []),
+    settleApi(wpFetch<Vendor[]>("/vendors"), []),
   ]);
-  return stripOmanDeep({ settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles });
+  return stripOmanDeep({ settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles, vendors });
 });

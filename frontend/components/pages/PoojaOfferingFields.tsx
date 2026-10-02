@@ -5,9 +5,11 @@ import type { Vendor } from "@/types/wordpress";
 export function PoojaOfferingFields({
   vendors,
   fieldClass,
+  defaultVendor = "",
 }: {
   vendors: Vendor[];
   fieldClass: string;
+  defaultVendor?: string;
 }) {
   return (
     <>
@@ -21,7 +23,7 @@ export function PoojaOfferingFields({
       {vendors.length ? (
         <label className="block text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">
           Pooja temple
-          <select required name="vendor" className={`${fieldClass} mt-1`}>
+          <select required name="vendor" defaultValue={defaultVendor} className={`${fieldClass} mt-1`}>
             <option value="">Choose a pooja temple</option>
             {vendors.map((vendor) => (
               <option key={vendor.id || vendor.slug} value={vendor.slug}>

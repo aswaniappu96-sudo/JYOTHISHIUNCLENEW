@@ -2,7 +2,7 @@
 
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { stripHtml, stripPublicPrices } from "@/lib/html";
-import { ASTROLOGER_SERVICES } from "@/lib/astrologer-services";
+import { consultServicesFromWp } from "@/lib/siteServices";
 import type { AstrologyService } from "@/types/wordpress";
 
 export type ServiceTile = {
@@ -23,13 +23,10 @@ function TileCopy({ title, hint }: ServiceTile) {
 }
 
 export function tilesFromServices(services: AstrologyService[]): ServiceTile[] {
-  const tiles = services
-    .map((service) => ({
-      title: stripPublicPrices(service.title),
-      hint: stripPublicPrices(stripHtml(service.short_description || "")),
-    }))
-    .filter((item) => item.title);
-  return tiles.length ? tiles : ASTROLOGER_SERVICES.map((item) => ({ title: item.title, hint: item.hint }));
+  return consultServicesFromWp(services).map((item) => ({
+    title: stripPublicPrices(item.label),
+    hint: stripPublicPrices(stripHtml(item.hint || "")),
+  }));
 }
 
 export function AstrologyServiceTiles({

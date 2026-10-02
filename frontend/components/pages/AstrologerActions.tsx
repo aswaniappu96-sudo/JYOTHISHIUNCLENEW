@@ -2,6 +2,7 @@
 
 import { EnquireButton } from "@/components/portal/EnquireButton";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { contactNumber } from "@/lib/consultation";
 import { telHref } from "@/lib/html";
@@ -14,10 +15,12 @@ export function AstrologerActions({
   name,
   phone,
   whatsapp,
+  compact = false,
 }: {
   name: string;
   phone?: string;
   whatsapp?: string;
+  compact?: boolean;
 }) {
   const { openConsultation } = usePortal();
   const number = contactNumber(phone, whatsapp);
@@ -34,13 +37,6 @@ export function AstrologerActions({
   return (
     <div className="mt-3 flex flex-col gap-2.5 border-t border-outline-variant/20 pt-3">
       <div className="grid grid-cols-2 gap-2">
-        {tel ? (
-          <a href={tel} className={`${pill} hover:text-primary`}>
-            Call
-          </a>
-        ) : (
-          <span className={`${pill} cursor-not-allowed opacity-40`}>Call</span>
-        )}
         {chatHref ? (
           <a href={chatHref} target="_blank" rel="noreferrer" className={`${pill} hover:text-secondary`}>
             Chat
@@ -48,20 +44,38 @@ export function AstrologerActions({
         ) : (
           <span className={`${pill} cursor-not-allowed opacity-40`}>Chat</span>
         )}
+        {compact ? (
+          <button
+            type="button"
+            suppressHydrationWarning
+            onClick={() => openConsultation({ astrologerName: name, whatsapp: number })}
+            className="inline-flex items-center justify-center rounded-full bg-primary-container px-3 py-2 text-xs font-bold text-on-primary hover:brightness-95"
+          >
+            Video consult
+          </button>
+        ) : tel ? (
+          <a href={tel} className={`${pill} hover:text-primary`}>
+            Call
+          </a>
+        ) : (
+          <span className={`${pill} cursor-not-allowed opacity-40`}>Call</span>
+        )}
       </div>
-      <button
-        type="button"
-        suppressHydrationWarning
-        onClick={() =>
-          openConsultation({
-            astrologerName: name,
-            whatsapp: number,
-          })
-        }
-        className="inline-flex w-full items-center justify-center rounded-full bg-primary-container py-2.5 text-xs font-bold text-on-primary shadow-[0_0_20px_-4px_rgba(229,195,120,0.35)] hover:brightness-95"
-      >
-        Book Consultation
-      </button>
+      {compact ? null : (
+        <button
+          type="button"
+          suppressHydrationWarning
+          onClick={() =>
+            openConsultation({
+              astrologerName: name,
+              whatsapp: number,
+            })
+          }
+          className="inline-flex w-full items-center justify-center rounded-full bg-primary-container py-2.5 text-xs font-bold text-on-primary shadow-[0_0_20px_-4px_rgba(229,195,120,0.35)] hover:brightness-95"
+        >
+          Book Consultation
+        </button>
+      )}
     </div>
   );
 }
@@ -72,9 +86,7 @@ export function AstrologerMatchCta({ whatsappNumber }: { whatsappNumber: string 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center overflow-hidden rounded-2xl bg-linear-to-b from-surface-low via-surface-container to-surface-lowest p-8 text-center shadow-2xl md:p-14">
         <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-primary/10 blur-[90px]" />
         <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-surface-highest text-2xl text-primary">ॐ</div>
-        <h2 className="max-w-3xl font-serif text-[30px] tracking-tight text-primary md:text-[40px]">
-          Unsure Which Astrologer is Aligned with Your Kundali?
-        </h2>
+        <PageHeading title="Unsure Which Astrologer is Aligned with Your Kundali?" className="max-w-3xl" />
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-on-surface-variant">
           Let our sacred intake concierge match your birth nakshatra and specific life inquiry with the hereditary guru
           best equipped to decipher your karmic chart.

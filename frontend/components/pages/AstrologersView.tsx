@@ -1,4 +1,5 @@
 import { AstrologerCard, PORTRAITS } from "@/components/pages/AstrologerCard";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { decodeWpText } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
@@ -14,9 +15,7 @@ export function AstrologersHero({ page }: { page?: WPPage | null }) {
       <div className="pointer-events-none absolute -top-32 left-1/2 h-[520px] w-[720px] -translate-x-1/2 rounded-full bg-secondary-container/20 blur-[140px]" />
       <div className="relative mx-auto flex max-w-6xl flex-col items-center">
         <Eyebrow className="mb-4">{decodeWpText(page?.eyebrow || "Parashara & Surya Siddhanta Lineage · Revered Jyothishis")}</Eyebrow>
-        <h1 className="max-w-4xl font-serif text-[38px] tracking-tight text-primary md:text-[56px] md:leading-[68px]">
-          {decodeWpText(page?.title || "Hereditary Vedic Astrologers & Cosmic Gurus")}
-        </h1>
+        <PageHeading as="h1" title={decodeWpText(page?.title || "Hereditary Vedic Astrologers & Cosmic Gurus")} className="max-w-4xl" />
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-on-surface-variant">
           {decodeWpText(
             page?.hero_copy ||
@@ -69,7 +68,7 @@ export function AstrologerGrid({
         <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary">Verified Living Masters</span>
-            <h2 className="mt-1 font-serif text-[32px] text-on-surface">Sacred Consultation Lineage</h2>
+            <PageHeading title="Sacred Consultation Lineage" className="mt-1" />
           </div>
           <div className="flex items-center gap-2 text-xs text-on-surface-variant">
             <span>Synchronized to Lahiri Ayanamsha:</span>
@@ -97,7 +96,7 @@ export function JyotishaWisdom() {
     <section className="relative overflow-hidden px-4 py-16 md:px-12">
       <div className="mx-auto mb-12 max-w-3xl text-center">
         <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-secondary">Jyotishya Vedanga Shastra</span>
-        <h2 className="mt-1 font-serif text-[30px] text-primary md:text-[40px]">The Timeless Wisdom of Jyotisha: Eye of the Vedas</h2>
+        <PageHeading title="The Timeless Wisdom of Jyotisha: Eye of the Vedas" className="mt-1" />
         <p className="mt-3 text-sm leading-relaxed text-on-surface-variant">
           Jyotisha is not fatalistic fortune-telling; it is celestial illumination (Jyoti = Divine Light). It maps the
           vibrational architecture through which consciousness journeys into physical reality.

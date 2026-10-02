@@ -1,3 +1,4 @@
+import { PageHeading } from "@/components/home/SectionHeading";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -32,7 +33,7 @@ export function DetailLayout({
         <div className="mx-auto grid max-w-6xl items-end gap-8 md:grid-cols-[1.2fr_0.8fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-primary">{eyebrow}</p>
-            <h1 className="mt-4 font-serif text-4xl text-primary md:text-6xl">{title}</h1>
+            <PageHeading as="h1" title={title} className="mt-4" />
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">{summary}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               {extraActions}

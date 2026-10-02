@@ -81,6 +81,7 @@ export type PanchangSnapshot = {
   zoneLabel: string;
   nakshatraLabel: string;
   tithiLabel: string;
+  pakshaLabel: string;
 };
 
 export function visitorTimeZone(): string {
@@ -223,5 +224,6 @@ export function getPanchang(timezone = DEFAULT_TIMEZONE, at = new Date()): Panch
     zoneLabel: zoneDisplayName(tz),
     nakshatraLabel: `${NAKSHATRAS[nakIndex]} ${ordinal} Pada`,
     tithiLabel,
+    pakshaLabel: shukla ? "Shukla Paksha" : "Krishna Paksha",
   };
 }

@@ -7,6 +7,7 @@ import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ProductCard } from "@/components/cards/ProductCard";
 import { PoojaVendorsSection } from "@/components/pages/PoojaVendorsSection";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH, PRODUCTS_PATH, servicesTab } from "@/lib/siteRoutes";
@@ -48,9 +49,7 @@ export function ServicesView({
         <div className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[700px] -translate-x-1/2 rounded-full bg-secondary-container/25 blur-[120px]" />
         <div className="relative mx-auto flex max-w-5xl flex-col items-center">
           <Eyebrow className="mb-4">{page?.eyebrow || "Vedic Tantric Shastra · Anushthana Protocols"}</Eyebrow>
-          <h1 className="mb-3 max-w-4xl font-serif text-[38px] leading-tight tracking-tight text-primary drop-shadow-[0_2px_15px_rgba(255,224,157,0.3)] md:text-[56px] md:leading-[68px]">
-            {page?.title || "Sacred Services & Divine Consecrations"}
-          </h1>
+          <PageHeading as="h1" title={page?.title || "Sacred Services & Divine Consecrations"} className="mb-3 max-w-4xl" />
           <p className="mb-8 max-w-3xl text-base leading-relaxed text-on-surface-variant">
             {page?.hero_copy ||
               "Ancient Shastric Poojas, Vedic Homams & Consecrated Planetary Artifacts calibrated precisely to your individual birth Nakshatra, Dasha coordinates, and planetary afflictions."}
@@ -80,7 +79,7 @@ export function ServicesView({
             </span>
             <span className="text-outline-variant">|</span>
             <span>
-              PRIESTHOOD: <span className="text-on-surface">Vedic Tantra Namboothiri Peetham</span>
+              PRIESTHOOD: <span className="text-on-surface">Traditional Vedic priesthood</span>
             </span>
             <span className="text-outline-variant">|</span>
             <span>
@@ -99,7 +98,7 @@ export function ServicesView({
                   <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">01 / Agnikarya & Yajnas</span>
                   <span className="h-px w-12 bg-primary/40" />
                 </div>
-                <h2 className="font-serif text-[30px] tracking-tight text-on-surface md:text-[40px]">Sacred Fire Homams & Poojas</h2>
+                <PageHeading title="Sacred Fire Homams & Poojas" />
                 <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
                   HD Live Sankalpa Stream & Consecrated Prasadam shipped worldwide. Fees are shared privately after your
                   booking request.
@@ -127,7 +126,7 @@ export function ServicesView({
                 <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-secondary">02 / Sacred products</span>
                 <span className="h-px w-12 bg-secondary/40" />
               </div>
-              <h2 className="font-serif text-[30px] tracking-tight text-on-surface md:text-[40px]">Sacred Planetary Products & Talismans</h2>
+              <PageHeading title="Sacred Planetary Products & Talismans" />
               <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
                 Items for puja and japa, prepared with care. Fees are shared privately after you enquire.
               </p>
@@ -144,7 +143,7 @@ export function ServicesView({
       <section id="consultation" className="px-4 pb-20 md:px-12">
         <div className="mx-auto flex max-w-5xl flex-col items-center rounded-2xl bg-surface-low/90 p-8 text-center shadow-2xl md:p-12">
           <span className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Live Astrological Ephemeris Sync</span>
-          <h2 className="font-serif text-[30px] text-primary md:text-[40px]">Book a 1-on-1 Consultation</h2>
+          <PageHeading title="Book a 1-on-1 Consultation" />
           <p className="mt-2 max-w-2xl text-sm text-on-surface-variant">
             Confidential sessions online through video consulting. Calendar dates that are already taken stay closed.
           </p>

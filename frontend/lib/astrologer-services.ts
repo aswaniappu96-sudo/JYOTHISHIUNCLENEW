@@ -1,10 +1,10 @@
 export const ASTROLOGER_SERVICES = [
-  { title: "Jathakam", hint: "Horoscope analysis" },
-  { title: "Prasnam", hint: "Astrological predictions" },
-  { title: "Porutham", hint: "Horoscope matching" },
-  { title: "Ashtamangala Prasnam", hint: "Thamboola & ashtamangala" },
+  { title: "Kundli", hint: "Birth-chart reading" },
+  { title: "Prashna", hint: "Question-based predictions" },
+  { title: "Matchmaking", hint: "Guna milan" },
   { title: "Family guidance", hint: "Finance, career & marriage" },
-  { title: "Parihara remedies", hint: "Planetary doshas & obstacles" },
+  { title: "Remedies", hint: "Planetary doshas & obstacles" },
+  { title: "Consultation", hint: "Video consulting" },
 ] as const;
 
 export const ASTROLOGER_SERVICE_POINTS = ASTROLOGER_SERVICES.map(

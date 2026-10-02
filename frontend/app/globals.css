@@ -7,9 +7,9 @@
   --surface-container: #f3e6d0;
   --surface-high: #ead9bc;
   --surface-highest: #e0cba8;
-  --on-surface: #3a2a14;
-  --on-surface-variant: #6a5638;
-  --primary: #8b6414;
+  --on-surface: #1f1408;
+  --on-surface-variant: #4a3520;
+  --primary: #6b4a12;
   --primary-container: #e5c378;
   --on-primary: #3f2e00;
   --secondary: #4a2db3;
@@ -21,9 +21,18 @@
   --midnight: #fffbf3;
   --saffron: #e5c378;
   --cream: #fffbf3;
-  --ink: #6a5638;
+  --ink: #1f1408;
   --lotus: #c45c55;
   --paper: #fff8ec;
+  --font-hi: "Noto Sans Devanagari";
+  --font-ta: "Noto Sans Tamil";
+  --font-ml: "Noto Sans Malayalam";
+  --font-kn: "Noto Sans Kannada";
+  --font-te: "Noto Sans Telugu";
+}
+
+.font-devanagari {
+  font-family: "Noto Serif Devanagari", "Noto Sans Devanagari", serif;
 }
 
 @theme inline {
@@ -104,6 +113,41 @@ h3,
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes qs-shine {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-12deg);
+  }
+}
+
+@keyframes qs-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(15deg);
+  }
+}
+
+@keyframes qs-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.qs-shine {
+  animation: qs-shine 3s ease-in-out infinite;
 }
 
 .glass-card {
@@ -356,6 +400,24 @@ h3,
   animation: mandala-spin 90s linear infinite reverse;
 }
 
+@keyframes sheet-drop {
+  0% {
+    transform: translateY(-46%);
+    opacity: 0;
+  }
+  72% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.astro-sheet-drop {
+  animation: sheet-drop 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .rashi-chakra-spin {
   animation: mandala-spin 140s linear infinite;
 }
@@ -390,6 +452,58 @@ h3,
   animation-play-state: paused;
 }
 
+.ju-main {
+  transition: padding-top 0.3s ease;
+}
+
+html.ju-chips-hide .ju-main {
+  padding-top: 8rem;
+}
+
+@media (min-width: 768px) {
+  html.ju-chips-hide .ju-main {
+    padding-top: 8.5rem;
+  }
+}
+
+@keyframes hero-strip-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.hero-strip-marquee {
+  animation: hero-strip-marquee 72s linear infinite;
+}
+
+.hero-strip-mask:hover .hero-strip-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes review-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.review-marquee-mask {
+  overflow: hidden;
+}
+
+.review-marquee {
+  animation: review-marquee 38s linear infinite;
+}
+
+.review-marquee-mask:hover .review-marquee {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -402,9 +516,131 @@ h3,
   .mandala-spin-rev,
   .rashi-chakra-spin,
   .rashi-marquee,
+  .hero-strip-marquee,
+  .review-marquee,
+  .qs-shine,
   .om-gold-core,
   .om-gold-halo,
-  .mandala-outer-glow {
+  .mandala-outer-glow,
+  .twinkle,
+  .hero-gold-card::after,
+  .astro-sheet-drop {
     animation: none;
   }
 }
+
+html.dark {
+  color-scheme: dark;
+  --surface: #14100b;
+  --surface-lowest: #1b140e;
+  --surface-low: #221910;
+  --surface-container: #2c2116;
+  --surface-high: #3a2c1c;
+  --surface-highest: #4a3824;
+  --on-surface: #f6ead2;
+  --on-surface-variant: #d9c6a8;
+  --primary: #e5c378;
+  --primary-container: #c4a227;
+  --on-primary: #1c1008;
+  --outline: #5c4a32;
+  --outline-variant: #3e2f20;
+  --cream: #1b140e;
+  --paper: #221910;
+  --ink: #f6ead2;
+  --midnight: #1b140e;
+}
+
+html.dark body {
+  background: #120e09;
+}
+
+@keyframes ju-twinkle {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(229, 195, 120, 0.08);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 18px 2px rgba(229, 195, 120, 0.5);
+    filter: brightness(1.14);
+  }
+}
+
+.twinkle {
+  animation: ju-twinkle 2.8s ease-in-out infinite;
+}
+
+.twinkle:nth-child(2n) {
+  animation-delay: 0.55s;
+}
+
+.twinkle:nth-child(3n) {
+  animation-delay: 1.1s;
+}
+
+.hero-gold-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(165deg, rgba(58, 38, 18, 0.55), transparent 42%),
+    linear-gradient(180deg, #2a1c10 0%, #1c1008 100%);
+  border: 1px solid rgba(243, 230, 200, 0.22);
+  box-shadow: 0 12px 28px -18px rgba(8, 4, 0, 0.55);
+}
+
+.hero-gold-card::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: -30%;
+  left: -55%;
+  width: 42%;
+  height: 160%;
+  background: linear-gradient(90deg, transparent, rgba(229, 195, 120, 0.22), transparent);
+  animation: gold-sheen 4.6s ease-in-out infinite;
+}
+
+@keyframes gold-sheen {
+  0% {
+    transform: translateX(0) rotate(12deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateX(420%) rotate(12deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(420%) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+html[data-lang="hi"] body,
+html[data-lang="hi"] button,
+html[data-lang="hi"] input {
+  font-family: var(--font-hi), "Pluto Sans", var(--font-jakarta), sans-serif;
+}
+
+html[data-lang="ta"] body,
+html[data-lang="ta"] button {
+  font-family: var(--font-ta), "Pluto Sans", var(--font-jakarta), sans-serif;
+}
+
+html[data-lang="ml"] body,
+html[data-lang="ml"] button {
+  font-family: var(--font-ml), "Pluto Sans", var(--font-jakarta), sans-serif;
+}
+
+html[data-lang="kn"] body,
+html[data-lang="kn"] button {
+  font-family: var(--font-kn), "Pluto Sans", var(--font-jakarta), sans-serif;
+}
+
+html[data-lang="te"] body,
+html[data-lang="te"] button {
+  font-family: var(--font-te), "Pluto Sans", var(--font-jakarta), sans-serif;
+}
+

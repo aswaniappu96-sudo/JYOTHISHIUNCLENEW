@@ -3,6 +3,7 @@ import { ProductCard } from "@/components/cards/ProductCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { ProductEnquireForm } from "@/components/pages/ProductEnquireForm";
 import { ProductGallery } from "@/components/pages/ProductGallery";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { htmlListItems, htmlParagraphs, stripPublicPrices, telHref } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
 import { PRODUCTS_PATH } from "@/lib/siteRoutes";
@@ -154,9 +155,7 @@ export function ProductDetailView({
               </span>
             </div>
             <div className="space-y-2">
-              <h1 className="font-serif text-[30px] leading-[38px] tracking-tight text-primary md:text-[40px] md:leading-[48px]">
-                {title}
-              </h1>
+              <PageHeading as="h1" title={title} />
               {summary ? <p className="text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
             </div>
             <div className="rounded-xl bg-surface-high/90 p-5 shadow-lg">

@@ -3,7 +3,6 @@
 import { useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { malayalam } from "@/lib/malayalam-font";
 import { RASHIS } from "@/lib/rashis";
 
 function polar(cx: number, cy: number, r: number, deg: number) {
@@ -47,7 +46,7 @@ export function RashiChakraBackdrop() {
       style={{ clipPath }}
     >
       <div className={`${reduce ? "" : "rashi-chakra-spin"} w-[min(120vw,72rem)] text-primary opacity-[0.06]`}>
-        <svg className={`aspect-square w-full ${malayalam.className}`} fill="none" viewBox="0 0 400 400">
+        <svg className="aspect-square w-full" fill="none" viewBox="0 0 400 400">
           <circle cx="200" cy="200" r="188" stroke="currentColor" strokeWidth="0.9" />
           <circle cx="200" cy="200" r="146" stroke="currentColor" strokeWidth="0.55" />
           <circle cx="200" cy="200" r="88" stroke="currentColor" strokeDasharray="3 7" strokeWidth="0.55" />
@@ -58,7 +57,7 @@ export function RashiChakraBackdrop() {
             const p = polar(200, 200, 167, i * 30 + 15);
             return (
               <text key={rashi.slug} fill="currentColor" fontSize="11" textAnchor="middle" x={p.x} y={p.y + 4}>
-                {rashi.mal}
+                {rashi.sa}
               </text>
             );
           })}

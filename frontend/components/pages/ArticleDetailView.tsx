@@ -4,6 +4,7 @@ import { ArticleCard } from "@/components/pages/ArticleCard";
 import { ArticlePanchangRail } from "@/components/pages/ArticlePanchangRail";
 import { ArticleShareBar } from "@/components/pages/ArticleShareBar";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { articleCategory, formatArticleDate, readingMinutes, stripHtml, stripPublicPrices } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -65,9 +66,7 @@ export function ArticleDetailView({
           <span className="text-[11px] font-bold tracking-[0.2em] uppercase">{category}</span>
         </div>
 
-        <h1 className="mt-1 mb-6 max-w-4xl font-serif text-[30px] leading-[38px] tracking-tight text-primary md:text-[56px] md:leading-[68px]">
-          {article.title}
-        </h1>
+        <PageHeading as="h1" title={article.title} className="mt-1 mb-6 max-w-4xl" />
 
         <div className="flex flex-col justify-between gap-4 rounded-xl bg-surface-low/70 p-4 shadow-xl backdrop-blur-xl lg:flex-row lg:items-center">
           <div className="flex items-center gap-4">

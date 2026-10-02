@@ -25,7 +25,7 @@ export function PoojaCard({
   variant = "standard",
 }: {
   pooja: Pooja;
-  variant?: "standard" | "featured" | "compact";
+  variant?: "standard" | "featured" | "compact" | "tile" | "rail";
 }) {
   const src = imageSrc(pooja.featured_image, FALLBACKS[Math.abs(pooja.id) % FALLBACKS.length]);
 
@@ -56,6 +56,46 @@ export function PoojaCard({
                 Book now
               </BookPoojaButton>
             ) : null}
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  if (variant === "rail") {
+    return (
+      <article className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-surface-lowest shadow-md ring-1 ring-primary/10 transition hover:-translate-y-0.5 hover:ring-primary/35">
+        <div className="relative h-44 overflow-hidden">
+          <img src={src} alt={pooja.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        </div>
+        <div className="flex flex-1 flex-col gap-2 p-4">
+          <h3 className="line-clamp-2 font-serif text-[20px] leading-snug text-[#1f1408]">{pooja.title}</h3>
+          <div className="mt-auto flex flex-wrap gap-1.5">
+            <Link href={`/pooja/${pooja.slug}`} className="rounded-full bg-primary-container px-3 py-1 text-[11px] font-semibold text-on-primary">
+              View
+            </Link>
+            {pooja.booking_enabled ? <BookPoojaButton pooja={pooja}>Book</BookPoojaButton> : null}
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  if (variant === "tile") {
+    return (
+      <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-surface-low shadow-lg">
+        <div className="relative h-40 overflow-hidden">
+          <img
+            src={src}
+            alt={pooja.title}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+        </div>
+        <div className="flex flex-1 flex-col gap-3 p-4">
+          <h3 className="font-serif text-lg leading-snug text-on-surface">{pooja.title}</h3>
+          <div className="mt-auto flex flex-wrap gap-2">
+            <DetailsLink slug={pooja.slug} />
+            {pooja.booking_enabled ? <BookPoojaButton pooja={pooja}>Book</BookPoojaButton> : null}
           </div>
         </div>
       </article>

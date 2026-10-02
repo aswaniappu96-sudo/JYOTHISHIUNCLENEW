@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AboutView } from "@/components/pages/AboutView";
-import { getPage, settleApi } from "@/lib/api/wordpress";
+import { getPage, getPoojas, getProducts, getTravelDestinations, settleApi } from "@/lib/api/wordpress";
 
 export const revalidate = 60;
 
@@ -15,6 +15,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const page = await settleApi(getPage("about"), null);
-  return <AboutView page={page} />;
+  const [page, poojas, products, travel] = await Promise.all([
+    settleApi(getPage("about"), null),
+    settleApi(getPoojas(), []),
+    settleApi(getProducts(), []),
+    settleApi(getTravelDestinations(), []),
+  ]);
+  return <AboutView page={page} poojas={poojas} products={products} travel={travel} />;
 }

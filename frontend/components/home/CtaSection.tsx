@@ -1,6 +1,8 @@
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ConchIcon } from "@/components/icons/ConchIcon";
+import { TwoToneHeading } from "@/components/home/SectionHeading";
+import { SECTION_INNER } from "@/lib/layout";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export function CtaSection({
@@ -13,22 +15,21 @@ export function CtaSection({
   address: string;
 }) {
   return (
-    <section className="relative my-12 flex w-full flex-col items-center justify-center overflow-hidden px-4 py-12 text-center md:px-12">
+    <section className="relative flex w-full flex-col items-center justify-center overflow-hidden py-6 text-center">
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
         <div className="h-[700px] w-[700px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(229,195,120,0.18),rgba(72,41,179,0.12),rgba(15,12,28,0))] blur-[120px]" />
       </div>
-      <div className="relative mx-auto w-full max-w-5xl overflow-hidden rounded-3xl bg-linear-to-b from-surface-high/70 via-surface-container/60 to-surface-lowest/90 p-7 shadow-[0_0_80px_rgba(229,195,120,0.3)] backdrop-blur-2xl md:p-12">
+      <div className={SECTION_INNER}>
+        <div className="relative overflow-hidden rounded-2xl bg-linear-to-b from-surface-high/70 via-surface-container/60 to-surface-lowest/90 p-5 shadow-[0_0_40px_rgba(229,195,120,0.2)] md:p-7">
         <div className="relative z-10 flex flex-col items-center">
-          <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-tr from-surface-lowest via-surface-high to-surface-lowest shadow-[0_0_50px_rgba(255,224,157,0.8)]">
-            <span className="font-serif text-4xl text-primary">ॐ</span>
+          <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-tr from-surface-lowest via-surface-high to-surface-lowest shadow-[0_0_30px_rgba(255,224,157,0.6)]">
+            <span className="font-serif text-2xl text-primary">ॐ</span>
           </div>
           <div className="mb-3 inline-flex items-center rounded-full bg-surface-high/80 px-4 py-1 text-[11px] font-bold uppercase tracking-[0.25em] text-primary backdrop-blur-md">
             Sacred Karmic Awakening
           </div>
-          <h2 className="mb-3 max-w-3xl bg-linear-to-b from-primary via-on-surface to-secondary bg-clip-text font-serif text-[38px] leading-tight text-transparent md:text-[56px]">
-            Your Cosmic Journey Begins Now
-          </h2>
-          <p className="mx-auto mb-7 max-w-2xl text-base leading-relaxed text-on-surface-variant">
+          <TwoToneHeading lead="Your cosmic journey" accent="begins now" className="mb-3 text-center" />
+          <p className="mx-auto mb-7 max-w-2xl text-base leading-relaxed text-[#3a2a14]">
             {address} {phone ? `· ${phone}` : ""} A conversation can start today.
           </p>
           <div className="mb-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
@@ -58,6 +59,7 @@ export function CtaSection({
               ),
             )}
           </div>
+        </div>
         </div>
       </div>
     </section>

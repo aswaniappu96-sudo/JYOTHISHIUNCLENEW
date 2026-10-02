@@ -13,7 +13,7 @@ export function PoojaBookModal({
   whatsappNumber = "",
   onClose,
 }: {
-  pooja: { slug: string; title: string };
+  pooja: { slug: string; title: string; vendor?: string };
   whatsappNumber?: string;
   onClose: () => void;
 }) {
@@ -73,7 +73,7 @@ export function PoojaBookModal({
           <Field label="Selected Pooja">
             <input readOnly value={pooja.title} className={`${fieldClass} opacity-80`} />
           </Field>
-          <PoojaOfferingFields vendors={vendors} fieldClass={fieldClass} />
+          <PoojaOfferingFields vendors={vendors} fieldClass={fieldClass} defaultVendor={pooja.vendor} />
           <Field label="Name">
             <input required name="name" defaultValue={user?.name} className={fieldClass} />
           </Field>

@@ -42,7 +42,7 @@ export function ProductCard({
 }: {
   product: Product;
   whatsappNumber: string;
-  variant?: "standard" | "featured" | "compact";
+  variant?: "standard" | "featured" | "compact" | "tile" | "rail";
 }) {
   const title = stripPublicPrices(product.title);
   const summary = stripPublicPrices(product.short_description);
@@ -82,6 +82,51 @@ export function ProductCard({
             ) : null}
           </div>
           <p className="text-xs text-[#fffbf3]/70">Fees shared privately</p>
+        </div>
+      </article>
+    );
+  }
+
+  if (variant === "rail") {
+    return (
+      <article className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-surface-lowest shadow-md ring-1 ring-primary/10 transition hover:-translate-y-0.5 hover:ring-primary/35">
+        <div className="relative h-44 overflow-hidden">
+          <img src={src} alt={title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+          <span className="absolute top-2 left-2 rounded-full bg-surface-lowest/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-primary">
+            {available}
+          </span>
+        </div>
+        <div className="flex flex-1 flex-col gap-2 p-4">
+          <h3 className="line-clamp-2 font-serif text-[20px] leading-snug text-[#1f1408]">{title}</h3>
+          <div className="mt-auto flex flex-wrap gap-1.5">
+            <Link href={`/product/${product.slug}`} className="rounded-full bg-primary-container px-3 py-1 text-[11px] font-semibold text-on-primary">
+              View
+            </Link>
+            <ProductEnquiryButton product={product}>Enquire</ProductEnquiryButton>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  if (variant === "tile") {
+    return (
+      <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-surface-low shadow-lg">
+        <div className="relative h-40 overflow-hidden">
+          <img src={src} alt={title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+          <span className="absolute top-3 left-3 rounded-full bg-surface-lowest/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+            {available}
+          </span>
+        </div>
+        <div className="flex flex-1 flex-col gap-3 p-4">
+          <h3 className="font-serif text-lg leading-snug text-on-surface">{title}</h3>
+          <div className="mt-auto">
+            <div className="flex flex-wrap gap-2">
+              <DetailsLink slug={product.slug} />
+              <ProductEnquiryButton product={product}>Enquire</ProductEnquiryButton>
+            </div>
+            <p className="mt-2 text-xs text-on-surface-variant">Fees shared privately</p>
+          </div>
         </div>
       </article>
     );

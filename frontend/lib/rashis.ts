@@ -1,16 +1,16 @@
 export const RASHIS = [
-  { slug: "chingam", mal: "ചിങ്ങം", name: "Chingam", en: "Leo" },
-  { slug: "kanni", mal: "കന്നി", name: "Kanni", en: "Virgo" },
-  { slug: "thulam", mal: "തുലാം", name: "Thulam", en: "Libra" },
-  { slug: "vrischikam", mal: "വൃശ്ചികം", name: "Vrischikam", en: "Scorpio" },
-  { slug: "dhanu", mal: "ധനു", name: "Dhanu", en: "Sagittarius" },
-  { slug: "makaram", mal: "മകരം", name: "Makaram", en: "Capricorn" },
-  { slug: "kumbham", mal: "കുംഭം", name: "Kumbham", en: "Aquarius" },
-  { slug: "meenam", mal: "മീനം", name: "Meenam", en: "Pisces" },
-  { slug: "medam", mal: "മേടം", name: "Medam", en: "Aries" },
-  { slug: "edavam", mal: "ഇടവം", name: "Edavam", en: "Taurus" },
-  { slug: "midhunam", mal: "മിഥുനം", name: "Midhunam", en: "Gemini" },
-  { slug: "karkidakam", mal: "കർക്കടകം", name: "Karkidakam", en: "Cancer" },
+  { slug: "medam", sa: "Mesha", en: "Aries" },
+  { slug: "edavam", sa: "Vrishabha", en: "Taurus" },
+  { slug: "midhunam", sa: "Mithuna", en: "Gemini" },
+  { slug: "karkidakam", sa: "Karka", en: "Cancer" },
+  { slug: "chingam", sa: "Simha", en: "Leo" },
+  { slug: "kanni", sa: "Kanya", en: "Virgo" },
+  { slug: "thulam", sa: "Tula", en: "Libra" },
+  { slug: "vrischikam", sa: "Vrischika", en: "Scorpio" },
+  { slug: "dhanu", sa: "Dhanu", en: "Sagittarius" },
+  { slug: "makaram", sa: "Makara", en: "Capricorn" },
+  { slug: "kumbham", sa: "Kumbha", en: "Aquarius" },
+  { slug: "meenam", sa: "Meena", en: "Pisces" },
 ] as const;
 
 export const JOURNEY_CREAM = "#FFF8E7";

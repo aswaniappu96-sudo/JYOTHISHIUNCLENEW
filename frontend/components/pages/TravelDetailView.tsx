@@ -3,6 +3,7 @@ import { TravelCard } from "@/components/cards/TravelCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { TravelEnquireForm } from "@/components/pages/TravelEnquireForm";
 import { TravelGallery } from "@/components/pages/TravelGallery";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { htmlListItems, htmlParagraphs, stripPublicPrices, telHref } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -99,9 +100,7 @@ export function TravelDetailView({
                 </span>
               ) : null}
             </div>
-            <h1 className="font-serif text-[30px] leading-[38px] tracking-tight text-primary md:text-[40px] md:leading-[48px]">
-              {title}
-            </h1>
+            <PageHeading as="h1" title={title} />
             {summary ? <p className="max-w-3xl text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
             {uniqueImages.length ? <TravelGallery images={uniqueImages} title={title} location={location} /> : null}
           </div>

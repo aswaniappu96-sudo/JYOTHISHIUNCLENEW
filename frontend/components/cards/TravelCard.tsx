@@ -10,9 +10,11 @@ const FALLBACK =
 export function TravelCard({
   travel,
   whatsappNumber,
+  variant = "standard",
 }: {
   travel: TravelDestination;
   whatsappNumber?: string;
+  variant?: "standard" | "rail";
 }) {
   const title = stripPublicPrices(travel.title);
   const summary = stripPublicPrices(travel.short_description);
@@ -21,6 +23,22 @@ export function TravelCard({
   const waHref = whatsappNumber
     ? whatsappUrl(whatsappNumber, travel.whatsapp_message || `Hello, I would like to know more about travel to ${title}.`)
     : "";
+
+  if (variant === "rail") {
+    return (
+      <article className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-surface-lowest shadow-md ring-1 ring-primary/10 transition hover:-translate-y-0.5 hover:ring-primary/35">
+        <div className="relative h-44 overflow-hidden">
+          <img src={src} alt={title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        </div>
+        <div className="flex flex-1 flex-col gap-2 p-4">
+          <h3 className="line-clamp-2 font-serif text-[20px] leading-snug text-[#1f1408]">{title}</h3>
+          <Link href={`/religious-travel/${travel.slug}`} className="mt-auto rounded-full bg-primary-container px-3 py-1 text-center text-[11px] font-semibold text-on-primary">
+            View
+          </Link>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-surface-low shadow-xl">

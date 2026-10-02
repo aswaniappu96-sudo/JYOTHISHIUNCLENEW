@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { CategoryDesk } from "@/components/home/CategoryDesk";
+import { EnquiryForm } from "@/components/home/EnquiryForm";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { EnquireButton } from "@/components/portal/EnquireButton";
-import { EnquiryForm } from "@/components/home/EnquiryForm";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
-import type { SiteSettings, WPPage } from "@/types/wordpress";
+import type { Pooja, Product, SiteSettings, TravelDestination, WPPage } from "@/types/wordpress";
 
 const HAVAN =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuD6vwXvFwWTl9DdS3WxNvBSUNcIq6C6i6dhEa_1z0cFOCVTTLJG1Xdie6yvU5L2WxrCDLl0CCy6RsPz3eNnxp5jbzC2M2agr3IVSKjmfCcN3o-yWaQrD65hSaAkUZUON_PcaLxxGl_hWePN8PLOmD2ctMU-ZeXKZJzc_bab6ctXeOWugx9VrzHBJbJG6KbKc20RtYJyDJuLYP7RAcbbpm7-cwgWgAAQFqHLC4LQha31E-Bl1oKszKBCnw";
@@ -14,9 +16,15 @@ const GEMS =
 export function ContactView({
   settings,
   page,
+  poojas = [],
+  products = [],
+  travel = [],
 }: {
   settings: SiteSettings;
   page: WPPage | null;
+  poojas?: Pooja[];
+  products?: Product[];
+  travel?: TravelDestination[];
 }) {
   const visual1 = imageSrc(page?.featured_image, HAVAN);
   const visual2 = imageSrc(page?.image_1 || page?.image_2, GEMS);
@@ -35,9 +43,7 @@ export function ContactView({
                 {page?.eyebrow || "Sacred Portals & Ritual Access"}
               </span>
             </div>
-            <h1 className="font-serif text-[30px] tracking-tight text-primary md:text-[40px]">
-              {customTitle || "Sacred Forms & Booking Portals"}
-            </h1>
+            <PageHeading as="h1" title={customTitle || "Sacred Forms & Booking Portals"} />
             <p className="max-w-2xl text-base text-on-surface-variant">
               {page?.hero_copy ||
                 "High-fidelity sanctuary interfaces, authenticated seeker flows, auspicious Muhurtha calendars, and consecrated order mechanisms configured for celestial accuracy."}
@@ -73,7 +79,7 @@ export function ContactView({
         <div className="mb-8 flex flex-col justify-between gap-4 border-t border-surface-highest/30 pt-12 md:flex-row md:items-end">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Sanctified Environment</span>
-            <h2 className="font-serif text-[32px] text-on-surface">Where Every Form Transmutes into Ahuti</h2>
+            <PageHeading title="Where Every Form Transmutes into Ahuti" />
           </div>
           <p className="max-w-md text-sm text-on-surface-variant">
             Every form submission is received directly by authorized priests at our consecrated sanctum centers across
@@ -111,6 +117,8 @@ export function ContactView({
           </div>
         </div>
       </section>
+
+      <CategoryDesk poojas={poojas} products={products} travel={travel} />
     </div>
   );
 }

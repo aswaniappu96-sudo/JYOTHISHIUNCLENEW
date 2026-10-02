@@ -1,5 +1,6 @@
 const DEFAULT_WP_URL = "http://127.0.0.1:10101";
 const PRODUCTION_WP_URL = "https://jyothishiuncle.ct.ws";
+const FALLBACK_WP_URL = "https://jyothishuncle.velvetbyte.com";
 const GET_CACHE_MS = 60_000;
 const getCache = new Map<string, { expires: number; data: unknown }>();
 const getInflight = new Map<string, Promise<unknown>>();
@@ -11,13 +12,25 @@ function wordpressOrigin() {
   return DEFAULT_WP_URL;
 }
 
-function isLocalWordpress() {
+function wordpressFallbackOrigin() {
+  return (process.env.WORDPRESS_FALLBACK_URL || FALLBACK_WP_URL).replace(/\/$/, "");
+}
+
+function isLocalHost(origin: string) {
   try {
-    const host = new URL(wordpressOrigin()).hostname;
+    const host = new URL(origin).hostname;
     return host === "127.0.0.1" || host === "localhost" || host === "0.0.0.0" || host.endsWith(".local");
   } catch {
     return false;
   }
+}
+
+function isLocalWordpress() {
+  return isLocalHost(wordpressOrigin());
+}
+
+export function wordpressMediaOrigin() {
+  return isLocalWordpress() ? wordpressFallbackOrigin() : wordpressOrigin();
 }
 
 export class WordpressApiError extends Error {
@@ -30,50 +43,38 @@ export class WordpressApiError extends Error {
   }
 }
 
-export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  // Skip only on Vercel's cloud runtime, never during local `next dev`.
-  if (process.env.VERCEL_ENV && isLocalWordpress()) {
-    throw new WordpressApiError(
-      `WordPress origin is local and cannot be reached from Vercel (${path}). Set WORDPRESS_URL to a public site.`,
-      503,
+function juUrl(origin: string, path: string) {
+  return `${origin}/wp-json/ju/v1${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+function timeoutError(path: string) {
+  return new WordpressApiError(
+    `WordPress did not respond in time (${path}). Start the site in Local, then refresh.`,
+    504,
+  );
+}
+
+async function fetchJson<T>(origin: string, path: string, init: RequestInit | undefined, sendLocalHost: boolean): Promise<T> {
+  const url = juUrl(origin, path);
+  const headers = new Headers(init?.headers);
+  if (!headers.has("Accept")) headers.set("Accept", "application/json");
+  if (!headers.has("User-Agent")) {
+    headers.set(
+      "User-Agent",
+      "Mozilla/5.0 (compatible; JyothishiUncleBot/1.0; +https://jyothishiuncle-new.vercel.app)",
     );
   }
-
-  const url = `${wordpressOrigin()}/wp-json/ju/v1${path.startsWith("/") ? path : `/${path}`}`;
-  const method = (init?.method || "GET").toUpperCase();
-  const skipCache = method !== "GET" || init?.cache === "no-store";
-
-  if (!skipCache) {
-    const hit = getCache.get(url);
-    if (hit && hit.expires > Date.now()) {
-      return hit.data as T;
-    }
-    const pending = getInflight.get(url);
-    if (pending) {
-      return pending as Promise<T>;
-    }
+  const host = process.env.WORDPRESS_HOST;
+  if (sendLocalHost && host && !headers.has("Host")) {
+    headers.set("Host", host);
+  } else {
+    headers.delete("Host");
   }
 
-  const request = (async () => {
-    const headers = new Headers(init?.headers);
-    if (!headers.has("Accept")) {
-      headers.set("Accept", "application/json");
-    }
-    if (!headers.has("User-Agent")) {
-      headers.set(
-        "User-Agent",
-        "Mozilla/5.0 (compatible; JyothishiUncleBot/1.0; +https://jyothishiuncle-new.vercel.app)",
-      );
-    }
-    const host = process.env.WORDPRESS_HOST;
-    if (host && !headers.has("Host")) {
-      headers.set("Host", host);
-    }
-
+  const timeoutMs = isLocalHost(origin) ? 1200 : process.env.VERCEL ? 28000 : 12000;
+  const work = (async () => {
     const controller = new AbortController();
-    const timeoutMs = process.env.VERCEL ? 28000 : 20000;
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
-
     try {
       const response = await fetch(url, {
         ...init,
@@ -81,36 +82,87 @@ export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
         cache: "no-store",
         signal: init?.signal || controller.signal,
       });
-
+      const type = response.headers.get("content-type") || "";
       if (!response.ok) {
-        throw new WordpressApiError(
-          `WordPress API ${path} failed (${response.status})`,
-          response.status,
-        );
+        throw new WordpressApiError(`WordPress API ${path} failed (${response.status})`, response.status);
       }
-
-      const data = (await response.json()) as T;
-      if (!skipCache) {
-        getCache.set(url, { expires: Date.now() + GET_CACHE_MS, data });
+      if (!type.includes("json")) {
+        throw new WordpressApiError(`WordPress API ${path} did not return JSON`, 502);
       }
-      return data;
+      return (await response.json()) as T;
     } catch (error) {
       if (error instanceof WordpressApiError) throw error;
-      throw new WordpressApiError(
-        `WordPress did not respond in time (${path}). Start the site in Local, then refresh.`,
-        504,
-      );
+      throw timeoutError(path);
     } finally {
       clearTimeout(timeout);
     }
   })();
 
+  return Promise.race([
+    work,
+    new Promise<T>((_, reject) => {
+      setTimeout(() => reject(timeoutError(path)), timeoutMs + 50);
+    }),
+  ]);
+}
+
+export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  if (process.env.VERCEL_ENV && isLocalWordpress()) {
+    throw new WordpressApiError(
+      `WordPress origin is local and cannot be reached from Vercel (${path}). Set WORDPRESS_URL to a public site.`,
+      503,
+    );
+  }
+
+  const primary = wordpressOrigin();
+  const fallback = wordpressFallbackOrigin();
+  const method = (init?.method || "GET").toUpperCase();
+  const skipCache = method !== "GET" || init?.cache === "no-store";
+  const cacheKey = juUrl(primary, path);
+
   if (!skipCache) {
-    getInflight.set(url, request);
+    const hit = getCache.get(cacheKey);
+    if (hit && hit.expires > Date.now()) {
+      return hit.data as T;
+    }
+    const pending = getInflight.get(cacheKey);
+    if (pending) {
+      return pending as Promise<T>;
+    }
+  }
+
+  const request = (async () => {
+    const useFallback = Boolean(fallback && fallback !== primary);
+    if (isLocalHost(primary) && useFallback) {
+      const remote = fetchJson<T>(fallback, path, init, false);
+      try {
+        const local = await fetchJson<T>(primary, path, init, isLocalHost(primary));
+        if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data: local });
+        return local;
+      } catch {
+        const data = await remote;
+        if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
+        return data;
+      }
+    }
+    try {
+      const data = await fetchJson<T>(primary, path, init, isLocalHost(primary));
+      if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
+      return data;
+    } catch (error) {
+      if (!useFallback) throw error;
+      const data = await fetchJson<T>(fallback, path, init, false);
+      if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
+      return data;
+    }
+  })();
+
+  if (!skipCache) {
+    getInflight.set(cacheKey, request);
     try {
       return (await request) as T;
     } finally {
-      getInflight.delete(url);
+      getInflight.delete(cacheKey);
     }
   }
 
@@ -118,10 +170,10 @@ export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export async function wpMutate<T>(path: string, body: unknown, token?: string | null): Promise<T> {
-  const url = `${wordpressOrigin()}/wp-json/ju/v1${path.startsWith("/") ? path : `/${path}`}`;
+  const url = juUrl(wordpressOrigin(), path);
   const headers = new Headers({ "Content-Type": "application/json" });
   const host = process.env.WORDPRESS_HOST;
-  if (host) headers.set("Host", host);
+  if (host && isLocalWordpress()) headers.set("Host", host);
   if (token) headers.set("Authorization", `Bearer ${token}`);
 
   const response = await fetch(url, {
@@ -142,10 +194,10 @@ export async function wpMutate<T>(path: string, body: unknown, token?: string | 
 }
 
 export async function wpAuthGet<T>(path: string, token: string): Promise<T> {
-  const url = `${wordpressOrigin()}/wp-json/ju/v1${path.startsWith("/") ? path : `/${path}`}`;
+  const url = juUrl(wordpressOrigin(), path);
   const headers = new Headers();
   const host = process.env.WORDPRESS_HOST;
-  if (host) headers.set("Host", host);
+  if (host && isLocalWordpress()) headers.set("Host", host);
   headers.set("Authorization", `Bearer ${token}`);
 
   const response = await fetch(url, { method: "GET", headers, cache: "no-store" });
@@ -166,9 +218,10 @@ export async function wpFetchOptional<T>(path: string): Promise<T | null> {
 
 export function mediaUrl(url?: string | null) {
   if (!url) return null;
-  const origin = wordpressOrigin();
+  const origin = wordpressMediaOrigin();
   return url
     .replace("http://jyothishiuncle.local", origin)
     .replace("https://jyothishiuncle.local", origin)
-    .replace("http://localhost:10101", origin);
+    .replace("http://localhost:10101", origin)
+    .replace("http://127.0.0.1:10101", origin);
 }

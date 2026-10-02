@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { TravelCard } from "@/components/cards/TravelCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
+import { PageHeading } from "@/components/home/SectionHeading";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { imageSrc } from "@/lib/media";
@@ -125,9 +126,7 @@ export function TravelView({
         <div className="pointer-events-none absolute -top-32 left-1/2 h-[520px] w-[720px] -translate-x-1/2 rounded-full bg-secondary-container/20 blur-[140px]" />
         <div className="relative mx-auto flex max-w-5xl flex-col items-center">
           <Eyebrow className="mb-5">{eyebrow}</Eyebrow>
-          <h1 className="max-w-4xl font-serif text-[38px] leading-[46px] tracking-tight text-primary md:text-[56px] md:leading-[68px]">
-            {title}
-          </h1>
+          <PageHeading as="h1" title={title} className="max-w-4xl" />
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-on-surface-variant">{copy}</p>
           <div className="mt-8 grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
             {STATS.map((stat) => (
@@ -170,7 +169,7 @@ export function TravelView({
           <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end">
             <div>
               <span className="text-[11px] font-bold tracking-[0.2em] text-secondary uppercase">Elemental terrain</span>
-              <h2 className="mt-1 font-serif text-[32px] text-on-surface">Current Sacred Expeditions</h2>
+              <PageHeading title="Current Sacred Expeditions" className="mt-1" />
             </div>
             <p className="text-xs text-on-surface-variant">Only 3 to 5 spots left per departure</p>
           </div>
@@ -206,9 +205,7 @@ export function TravelView({
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <span className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Vedic excellence</span>
-            <h2 className="mt-2 font-serif text-[30px] tracking-tight text-on-surface md:text-[40px]">
-              What Makes Our Consecrated Yatras Unique
-            </h2>
+            <PageHeading title="What Makes Our Consecrated Yatras Unique" className="mt-2" />
             <p className="mt-3 text-base leading-relaxed text-on-surface-variant">
               Unlike commercial tourism, our yatras are designed as karmic transformational rituals under orthodox Shastra
               mandates.
@@ -240,9 +237,7 @@ export function TravelView({
           <span className="mb-4 inline-flex items-center rounded-full bg-surface-high/80 px-4 py-1 text-[11px] font-bold tracking-[0.22em] text-primary uppercase">
             Astrological guidance before travel
           </span>
-          <h2 className="max-w-3xl font-serif text-[30px] leading-tight tracking-tight text-primary md:text-[40px]">
-            Seeking a Customized Kundali-Calibrated Pilgrimage?
-          </h2>
+          <PageHeading title="Seeking a Customized Kundali-Calibrated Pilgrimage?" className="max-w-3xl" />
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
             Every soul has a karmic destination where planetary afflictions dissolve. Consult Sri Devadathan Namboothiri
             to determine which sacred temple vortex aligns with your current transit.

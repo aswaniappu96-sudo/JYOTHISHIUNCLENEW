@@ -155,4 +155,5 @@ export type HomePayload = {
   faqs: FaqItem[];
   testimonials: Testimonial[];
   articles: Article[];
+  vendors?: Vendor[];
 };

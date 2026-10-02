@@ -2,26 +2,33 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 import { ScrollSutra } from "@/components/layout/ScrollSutra";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { POOJAS_PATH, PRODUCTS_PATH, isPoojasNav, isProductsNav } from "@/lib/siteRoutes";
+import { LanguageSwitch, OnlineNow, ThemeToggle, TopBarContact } from "@/components/layout/SitePrefs";
+import { usePrefs } from "@/components/prefs/PrefsProvider";
+import { SHELL } from "@/lib/layout";
+import { allSiteServices, type SiteServiceLink } from "@/lib/siteServices";
+import { useJuList } from "@/lib/useJuList";
+import type { Astrologer, AstrologyService } from "@/types/wordpress";
 
 const primaryNav = [
-  { href: "/", label: "Home", match: "home" },
-  { href: "/astrologers", label: "Astrologers", match: "astrologers" },
-  { href: POOJAS_PATH, label: "Poojas", match: "poojas" },
-  { href: PRODUCTS_PATH, label: "Products", match: "products" },
-  { href: "/religious-travel", label: "Temple Yatra", match: "travel" },
+  { href: "/", key: "nav.home" as const, match: "home" },
+  { href: "/#all-services", key: "nav.services" as const, match: "services" },
+  { href: "/astrologers", key: "nav.astrologers" as const, match: "astrologers" },
+  { href: POOJAS_PATH, key: "nav.poojas" as const, match: "poojas" },
+  { href: PRODUCTS_PATH, key: "nav.products" as const, match: "products" },
+  { href: "/religious-travel", key: "nav.yatra" as const, match: "travel" },
 ];
 
 const moreNav = [
-  { href: "/about", label: "About Us" },
-  { href: "/blog", label: "Articles" },
-  { href: "/contact", label: "Contact Us" },
+  { href: "/about", key: "nav.about" as const },
+  { href: "/blog", key: "nav.articles" as const },
+  { href: "/contact", key: "nav.contact" as const },
 ];
 
 const ctaClass =
@@ -29,6 +36,7 @@ const ctaClass =
 
 function isNavActive(pathname: string, tab: string | null, item: (typeof primaryNav)[number]) {
   if (item.match === "home") return pathname === "/";
+  if (item.match === "services") return pathname === "/" || pathname === "/astrologers";
   if (item.match === "astrologers") return pathname === "/astrologers" || pathname.startsWith("/astrologers/");
   if (item.match === "poojas") return isPoojasNav(pathname, tab);
   if (item.match === "products") return isProductsNav(pathname, tab);
@@ -48,7 +56,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className={`relative px-1 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
+      className={`relative px-1 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition ${
         active ? "text-[#8b6414]" : "text-[#b08a1a] hover:text-[#8b6414]"
       }`}
     >
@@ -74,31 +82,165 @@ function AccountIcon() {
   );
 }
 
-export function Header({ logoUrl: _logoUrl }: { logoUrl?: string }) {
+function ServiceMega({
+  items,
+  open,
+  onClose,
+}: {
+  items: SiteServiceLink[];
+  open: boolean;
+  onClose: () => void;
+}) {
+  const consult = items.filter((item) => item.group === "consult");
+  const offer = items.filter((item) => item.group === "offer");
+
+  return (
+    <div
+      className={`absolute top-full left-1/2 z-[90] w-[min(36rem,70vw)] -translate-x-1/2 pt-2 transition ${
+        open ? "visible opacity-100" : "invisible opacity-0 group-hover:visible group-hover:opacity-100"
+      }`}
+    >
+      <div className="relative z-[90] grid gap-4 rounded-xl bg-[#fffbf4] p-4 shadow-[0_12px_32px_rgba(90,60,20,0.12)] ring-1 ring-[#ead9bc]/80 sm:grid-cols-2">
+        <div>
+          <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#b08a1a]">Consultation</p>
+          {consult.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              onClick={onClose}
+              className="block rounded-lg px-3 py-2 hover:bg-[#fff3d6]"
+            >
+              <span className="block text-[13px] font-semibold text-[#8b6914]">{item.label}</span>
+              <span className="block text-[11px] text-[#8b6914]/70">{item.hint}</span>
+            </Link>
+          ))}
+        </div>
+        <div>
+          <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#b08a1a]">Also available</p>
+          {offer.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              onClick={onClose}
+              className="block rounded-lg px-3 py-2 hover:bg-[#fff3d6]"
+            >
+              <span className="block text-[13px] font-semibold text-[#8b6914]">{item.label}</span>
+              <span className="block text-[11px] text-[#8b6914]/70">{item.hint}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Header({
+  logoUrl: _logoUrl,
+  services = [],
+  astrologers = [],
+  phone,
+  whatsapp,
+  instagram,
+  facebook,
+  youtube,
+}: {
+  logoUrl?: string;
+  services?: AstrologyService[];
+  astrologers?: Astrologer[];
+  phone?: string;
+  whatsapp?: string;
+  instagram?: string;
+  facebook?: string;
+  youtube?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [chipsHidden, setChipsHidden] = useState(false);
+  const lastY = useRef(0);
   const { user, logout } = useAuth();
   const { openAuth } = usePortal();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
   const moreActive = moreNav.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`));
+  const wpServices = useJuList<AstrologyService>("/services", services);
+  const catalog = useMemo(() => allSiteServices(wpServices), [wpServices]);
+  const { t } = usePrefs();
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 40) {
+        setChipsHidden(false);
+      } else if (y > lastY.current + 6) {
+        setChipsHidden(true);
+      } else if (y < lastY.current - 6) {
+        setChipsHidden(false);
+      }
+      lastY.current = y;
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("ju-chips-hide", chipsHidden);
+    return () => document.documentElement.classList.remove("ju-chips-hide");
+  }, [chipsHidden]);
 
   return (
-    <header className="fixed top-0 z-50 w-full overflow-visible bg-[#fffbf4]/95 backdrop-blur-md">
-      <div className="relative flex h-20 w-full items-center justify-between px-4 md:px-8 lg:px-10">
+    <header className="fixed top-0 z-50 w-full overflow-visible bg-surface-lowest/95 text-primary backdrop-blur-md">
+      <div className="flex items-center justify-between gap-2 border-b border-outline-variant/60 px-4 py-1.5 md:gap-3 md:px-8 lg:px-10">
+        <div className="flex min-w-0 items-center gap-2 overflow-x-auto [scrollbar-width:none] md:gap-3 [&::-webkit-scrollbar]:hidden">
+          <OnlineNow astrologers={astrologers} />
+          <TopBarContact
+            phone={phone}
+            whatsapp={whatsapp}
+            instagram={instagram}
+            facebook={facebook}
+            youtube={youtube}
+          />
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <LanguageSwitch />
+          <ThemeToggle />
+        </div>
+      </div>
+      <div className="relative flex h-16 w-full items-center justify-between px-4 md:h-20 md:px-8 lg:px-10">
         <Link href="/" className="relative z-10 flex h-full min-w-0 max-w-[48vw] items-center lg:max-w-[280px]">
-          <BrandLogo className="h-14" />
+          <BrandLogo className="h-12 md:h-16" />
         </Link>
 
         <nav
-          className="absolute left-1/2 z-[80] hidden -translate-x-1/2 items-center gap-7 overflow-visible xl:flex"
+          className="absolute left-1/2 z-[80] hidden -translate-x-1/2 items-center gap-5 overflow-visible xl:flex"
           aria-label="Main"
         >
-          {primaryNav.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} active={isNavActive(pathname, tab, item)} />
-          ))}
+          {primaryNav.map((item) =>
+            item.match === "services" ? (
+              <div
+                key={item.href}
+                className="group relative flex h-16 items-center md:h-20"
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+              >
+                <Link
+                  href="/#all-services"
+                  className="flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] text-primary transition hover:text-on-surface"
+                  aria-expanded={servicesOpen}
+                  onClick={() => setServicesOpen(false)}
+                >
+                  {t("nav.services")}
+                  <span className="text-[9px] opacity-80">▾</span>
+                </Link>
+                <ServiceMega items={catalog} open={servicesOpen} onClose={() => setServicesOpen(false)} />
+              </div>
+            ) : (
+              <NavLink key={item.href} href={item.href} label={t(item.key)} active={isNavActive(pathname, tab, item)} />
+            ),
+          )}
           <div
             className="group relative flex h-20 items-center"
             onMouseEnter={() => setMoreOpen(true)}
@@ -106,13 +248,13 @@ export function Header({ logoUrl: _logoUrl }: { logoUrl?: string }) {
           >
             <button
               type="button"
-              className={`flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
+              className={`flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${
                 moreActive ? "text-[#8b6414]" : "text-[#b08a1a] group-hover:text-[#8b6414]"
               }`}
               aria-expanded={moreOpen}
               onClick={() => setMoreOpen(true)}
             >
-              More
+              {t("nav.more")}
               <span className="text-[9px] opacity-80">▾</span>
               {moreActive ? (
                 <span className="absolute bottom-0 left-1/2 h-[2px] w-5 -translate-x-1/2 rounded-full bg-[#c4a227]" />
@@ -131,7 +273,7 @@ export function Header({ logoUrl: _logoUrl }: { logoUrl?: string }) {
                     onClick={() => setMoreOpen(false)}
                     className="rounded-lg px-3 py-2 text-[12px] font-medium tracking-wide text-[#8b6914] hover:bg-[#fff3d6] hover:text-[#b08a1a]"
                   >
-                    {item.label}
+                    {t(item.key)}
                   </Link>
                 ))}
               </div>
@@ -200,20 +342,48 @@ export function Header({ logoUrl: _logoUrl }: { logoUrl?: string }) {
             </span>
           </button>
         </div>
-        <ScrollSutra />
       </div>
 
+      <nav
+        className={`grid border-t border-outline-variant/70 bg-surface-low transition-[grid-template-rows,opacity] duration-300 ${
+          chipsHidden ? "pointer-events-none grid-rows-[0fr] border-t-0 opacity-0" : "grid-rows-[1fr] opacity-100"
+        }`}
+        aria-label="All services"
+        aria-hidden={chipsHidden}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-nowrap gap-2 overflow-x-auto px-4 py-2 [scrollbar-width:none] snap-x snap-mandatory [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:overflow-visible md:px-8 lg:px-10">
+            {catalog.map((item) => (
+              <Link
+                key={item.id}
+                href={item.href}
+                className="shrink-0 snap-start rounded-full border border-outline-variant bg-surface-lowest px-3 py-1.5 text-[11px] font-semibold tracking-wide text-primary transition hover:border-primary hover:bg-primary/10"
+              >
+                {item.short}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </nav>
+      <ScrollSutra />
+
       {open ? (
-        <nav className="border-t border-[#ead9bc]/60 bg-[#fffbf4] px-5 py-4 xl:hidden" aria-label="Mobile">
-          <div className="flex flex-col gap-3 text-sm font-medium tracking-wide text-[#8b6914]">
+        <nav className="max-h-[70vh] overflow-y-auto border-t border-outline-variant/60 bg-surface-lowest px-5 py-4 xl:hidden" aria-label="Mobile">
+          <div className="flex flex-col gap-3 text-sm font-medium tracking-wide text-primary">
             {primaryNav.map((item) => (
               <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
+                {t(item.key)}
+              </Link>
+            ))}
+            <p className="pt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{t("nav.services")}</p>
+            {catalog.map((item) => (
+              <Link key={item.id} href={item.href} onClick={() => setOpen(false)}>
                 {item.label}
               </Link>
             ))}
             {moreNav.map((item) => (
               <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
-                {item.label}
+                {t(item.key)}
               </Link>
             ))}
             <BookConsultationButton className="rounded-full bg-[#c4a227] px-4 py-2 text-sm font-semibold text-white" />

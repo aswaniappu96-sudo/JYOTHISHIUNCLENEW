@@ -249,8 +249,9 @@ export function ConsultationModal({
               required
               name="message"
               rows={4}
+              defaultValue={prefill?.purpose || ""}
               className={fieldClass}
-              placeholder="Share why you are booking — for example marriage matching, jathakam, family guidance, or a question you want clarity on."
+              placeholder="Share why you are booking — for example Kundli, Prashna, matchmaking, family guidance, or a question you want clarity on."
             />
           </Field>
 

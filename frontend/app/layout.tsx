@@ -10,7 +10,7 @@ import { RashiChakraBackdrop } from "@/components/home/RashiChakraWatermark";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { Providers } from "@/components/providers";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getSettings } from "@/lib/api/wordpress";
+import { getAstrologers, getServices, getSettings, settleApi } from "@/lib/api/wordpress";
 import { mediaUrl } from "@/lib/api/client";
 import "./globals.css";
 
@@ -19,6 +19,9 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   display: "swap",
 });
+
+const INDIC_FONTS =
+  "https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Serif+Devanagari:wght@500;600&display=swap";
 
 export const metadata: Metadata = {
   title: {
@@ -41,14 +44,32 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   let settings = null;
+  let services: Awaited<ReturnType<typeof getServices>> = [];
+  let astrologers: Awaited<ReturnType<typeof getAstrologers>> = [];
   try {
-    settings = await getSettings();
+    [settings, services, astrologers] = await Promise.all([
+      getSettings(),
+      settleApi(getServices(), []),
+      settleApi(getAstrologers(), []),
+    ]);
   } catch {
     settings = null;
+    services = [];
+    astrologers = [];
   }
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href={INDIC_FONTS} rel="stylesheet" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("ju_theme");if(t==="dark")document.documentElement.classList.add("dark");var l=localStorage.getItem("ju_lang");if(l){document.documentElement.lang=l;document.documentElement.dataset.lang=l;}}catch(e){}`,
+          }}
+        />
+      </head>
       <body className={`${jakarta.variable} antialiased`} suppressHydrationWarning>
         <UniverseBackground />
         <RashiChakraBackdrop />
@@ -56,10 +77,19 @@ export default async function RootLayout({
         {settings ? <JsonLd settings={settings} /> : null}
         <Providers>
           <div className="relative z-10">
-            <Suspense fallback={<header className="fixed top-0 z-50 h-20 w-full bg-[#fffbf4]/95" />}>
-              <Header logoUrl={mediaUrl(settings?.logo?.full || settings?.logo?.url || settings?.logo_url) || undefined} />
+            <Suspense fallback={<header className="fixed top-0 z-50 h-[10.5rem] w-full bg-surface-lowest/95" />}>
+              <Header
+                logoUrl={mediaUrl(settings?.logo?.full || settings?.logo?.url || settings?.logo_url) || undefined}
+                services={services}
+                astrologers={astrologers}
+                phone={settings?.phone_number}
+                whatsapp={settings?.whatsapp_number}
+                instagram={settings?.social_instagram}
+                facebook={settings?.social_facebook}
+                youtube={settings?.social_youtube}
+              />
             </Suspense>
-            <main className="pt-20">
+            <main className="ju-main pt-[10.5rem]">
               <Suspense fallback={<PageLoading message="Opening page…" />}>{children}</Suspense>
             </main>
             <Footer

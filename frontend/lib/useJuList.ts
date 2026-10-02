@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import { stripOmanDeep } from "@/lib/publicCopy";
 
-const WORDPRESS_PUBLIC = (process.env.NEXT_PUBLIC_WORDPRESS_URL || "https://jyothishiuncle.ct.ws").replace(
-  /\/$/,
-  "",
-);
+const WORDPRESS_PUBLIC = (process.env.NEXT_PUBLIC_WORDPRESS_URL || "").replace(/\/$/, "");
 
 function juListUrl(path: string) {
-  return `${WORDPRESS_PUBLIC}/wp-json/ju/v1${path.startsWith("/") ? path : `/${path}`}`;
+  const juPath = path.startsWith("/") ? path : `/${path}`;
+  if (WORDPRESS_PUBLIC) {
+    return `${WORDPRESS_PUBLIC}/wp-json/ju/v1${juPath}`;
+  }
+  return `/api/wp${juPath}`;
 }
 
 export function useJuList<T>(path: string, initial: T[]): T[] {

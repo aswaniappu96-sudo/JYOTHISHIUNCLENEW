@@ -1,6 +1,5 @@
 "use client";
 
-import { malayalam } from "@/lib/malayalam-font";
 import { RASHIS } from "@/lib/rashis";
 
 export function HoroscopeBand() {
@@ -15,14 +14,12 @@ export function HoroscopeBand() {
               <div className="h-44 w-44 overflow-hidden rounded-full ring-2 ring-primary/70 shadow-[0_0_36px_rgba(255,224,157,0.28)]">
                 <img
                   src={`/rashis/rashi-${rashi.slug}.png?v=3`}
-                  alt={`${rashi.name} · ${rashi.en}`}
+                  alt={`${rashi.sa} · ${rashi.en}`}
                   className="h-full w-full object-cover object-[center_68%]"
                 />
               </div>
-              <p className={`mt-3 text-xl font-bold text-primary ${malayalam.className}`}>{rashi.mal}</p>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-on-surface-variant">
-                {rashi.name} · {rashi.en}
-              </p>
+              <p className="mt-3 text-xl font-bold text-primary">{rashi.sa}</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-on-surface-variant">{rashi.en}</p>
             </article>
           ))}
         </div>

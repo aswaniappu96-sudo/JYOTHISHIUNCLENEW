@@ -21,7 +21,7 @@ export function Footer({
 }) {
   return (
     <footer className="relative z-10 mt-12 w-full bg-surface-lowest/90 pb-8 pt-16 backdrop-blur-2xl">
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+      <div className="mx-auto max-w-[1760px] px-6 lg:px-8">
         <div className="mb-10 flex flex-col items-center text-center">
           <span className="mb-2 text-[11px] font-bold uppercase tracking-[0.25em] text-primary">Sacred Gayatri Invocation</span>
           <blockquote className="max-w-3xl font-serif text-xl italic text-on-surface md:text-2xl">
@@ -40,12 +40,12 @@ export function Footer({
             </p>
           </div>
           <div>
-            <h4 className="mb-4 text-[11px] font-bold uppercase tracking-widest text-primary">Celestial Portals</h4>
+            <h4 className="mb-4 text-[11px] font-bold uppercase tracking-widest text-primary">Services</h4>
             <ul className="space-y-2 text-sm text-on-surface-variant">
-              <li><Link className="hover:text-primary" href="/">Home</Link></li>
+              <li><Link className="hover:text-primary" href="/#consultation">Kundli & Prashna</Link></li>
               <li><Link className="hover:text-primary" href={POOJAS_PATH}>Poojas</Link></li>
               <li><Link className="hover:text-primary" href={PRODUCTS_PATH}>Products</Link></li>
-              <li><Link className="hover:text-primary" href="/astrologers">Astrologers</Link></li>
+              <li><Link className="hover:text-primary" href="/religious-travel">Temple Yatra</Link></li>
             </ul>
           </div>
           <div>

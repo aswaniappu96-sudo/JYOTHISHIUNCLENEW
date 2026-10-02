@@ -449,14 +449,14 @@ class JU_Sample_Content {
 
 			if ( ! $id ) {
 				$id = (int) wp_insert_post(
-					array(
-						'post_title'   => $page['title'],
-						'post_name'    => $page['slug'],
-						'post_content' => $page['content'],
-						'post_status'  => 'publish',
-						'post_type'    => 'page',
-					)
-				);
+				array(
+					'post_title'   => $page['title'],
+					'post_name'    => $page['slug'],
+					'post_content' => $page['content'],
+					'post_status'  => 'publish',
+					'post_type'    => 'page',
+				)
+			);
 			}
 
 			if ( ! $id ) {

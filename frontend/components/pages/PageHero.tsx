@@ -1,4 +1,5 @@
 import { ConchIcon } from "@/components/icons/ConchIcon";
+import { PageHeading } from "@/components/home/SectionHeading";
 
 export function Eyebrow({
   children,
@@ -38,10 +39,13 @@ export function PageHero({
       <div className="pointer-events-none absolute top-0 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-secondary-container/20 blur-[140px]" />
       <div className="relative mx-auto flex max-w-4xl flex-col items-center">
         <Eyebrow className="mb-6">{eyebrow}</Eyebrow>
-        <h1 className="max-w-4xl font-serif text-[38px] leading-[46px] tracking-tight text-primary md:text-[56px] md:leading-[68px]">
-          {title}
-          {titleAccent ? <span className="italic text-primary"> {titleAccent}</span> : null}
-        </h1>
+        {typeof title === "string" ? (
+          <PageHeading as="h1" title={title} lead={titleAccent ? title : undefined} accent={titleAccent} className="max-w-4xl" />
+        ) : (
+          <h1 className="max-w-4xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#1A1106] sm:text-[52px]">
+            {title}
+          </h1>
+        )}
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">{copy}</p>
         {children}
       </div>

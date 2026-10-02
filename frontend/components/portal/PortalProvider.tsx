@@ -17,13 +17,14 @@ import {
 } from "@/lib/whatsapp-return";
 import type { CustomerUser } from "@/types/forms";
 
-export type PortalItem = { slug: string; title: string };
+export type PortalItem = { slug: string; title: string; vendor?: string };
 
 export type ConsultationPrefill = {
   date?: string;
   slots?: { start: string; end: string }[];
   whatsapp?: string;
   astrologerName?: string;
+  purpose?: string;
 };
 
 type PortalKind = "auth" | "pooja" | "product" | "consultation" | "consultation-offer" | "enquiry" | null;
@@ -219,6 +220,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
       ) : null}
       {kind === "consultation" ? (
         <ConsultationModal
+          key={`${consultationPrefill?.purpose || "other"}-${consultationPrefill?.date || ""}`}
           onClose={close}
           claimFree={claimFree}
           prefill={{

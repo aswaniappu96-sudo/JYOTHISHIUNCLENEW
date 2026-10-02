@@ -4,7 +4,7 @@ import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PoojaBookingPanel } from "@/components/pages/PoojaBookingPanel";
 import { PoojaGallery } from "@/components/pages/PoojaGallery";
 import { PoojaVendorsSection } from "@/components/pages/PoojaVendorsSection";
-import { SectionHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionHeading } from "@/components/home/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { htmlListItems, stripPublicPrices } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
@@ -92,9 +92,7 @@ export function PoojaDetailView({
             Traditional Vedic ritual
           </span>
         </div>
-        <h1 className="font-serif text-[30px] leading-[38px] tracking-tight text-primary md:text-[40px] md:leading-[48px]">
-          {title}
-        </h1>
+        <PageHeading as="h1" title={title} />
         {summary ? <p className="max-w-3xl text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
         <ul className="max-w-3xl space-y-2 pt-2 text-sm leading-relaxed text-on-surface-variant md:text-base">
           <li className="flex gap-2.5">
