@@ -41,7 +41,7 @@ export function OnlineNow({ astrologers = [] }: { astrologers?: Astrologer[] }) 
   const people = list.filter((person) => person?.title || person?.slug);
   const photos = people
     .map((person) => mediaUrl(person.featured_image?.full || person.featured_image?.url))
-    .filter(Boolean)
+    .filter((src): src is string => Boolean(src))
     .slice(0, 3);
   const count = people.length;
 
