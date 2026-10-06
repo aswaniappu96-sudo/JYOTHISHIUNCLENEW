@@ -12,6 +12,7 @@ import { Providers } from "@/components/providers";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getAstrologers, getServices, getSettings, settleApi } from "@/lib/api/wordpress";
 import { mediaUrl } from "@/lib/api/client";
+import { HEADER_PAD } from "@/lib/layout";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -77,7 +78,7 @@ export default async function RootLayout({
         {settings ? <JsonLd settings={settings} /> : null}
         <Providers>
           <div className="relative z-10">
-            <Suspense fallback={<header className="fixed top-0 z-50 h-[10.5rem] w-full bg-surface-lowest/95" />}>
+            <Suspense fallback={<header className="fixed top-0 z-50 h-[7.125rem] w-full bg-surface-lowest/95 md:h-[8.125rem]" />}>
               <Header
                 logoUrl={mediaUrl(settings?.logo?.full || settings?.logo?.url || settings?.logo_url) || undefined}
                 services={services}
@@ -89,7 +90,7 @@ export default async function RootLayout({
                 youtube={settings?.social_youtube}
               />
             </Suspense>
-            <main className="ju-main pt-[10.5rem]">
+            <main className={`ju-main ${HEADER_PAD}`}>
               <Suspense fallback={<PageLoading message="Opening page…" />}>{children}</Suspense>
             </main>
             <Footer

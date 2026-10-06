@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { BrandLogo } from "@/components/layout/BrandLogo";
@@ -11,7 +11,6 @@ import { usePortal } from "@/components/portal/PortalProvider";
 import { POOJAS_PATH, PRODUCTS_PATH, isPoojasNav, isProductsNav } from "@/lib/siteRoutes";
 import { LanguageSwitch, OnlineNow, ThemeToggle, TopBarContact } from "@/components/layout/SitePrefs";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { SHELL } from "@/lib/layout";
 import { allSiteServices, type SiteServiceLink } from "@/lib/siteServices";
 import { useJuList } from "@/lib/useJuList";
 import type { Astrologer, AstrologyService } from "@/types/wordpress";
@@ -48,16 +47,24 @@ function NavLink({
   href,
   label,
   active,
+  overHero,
 }: {
   href: string;
   label: string;
   active?: boolean;
+  overHero?: boolean;
 }) {
   return (
     <Link
       href={href}
       className={`relative px-1 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition ${
-        active ? "text-[#8b6414]" : "text-[#b08a1a] hover:text-[#8b6414]"
+        overHero
+          ? active
+            ? "text-[#e5c378]"
+            : "text-[#fff8ec]/90 hover:text-[#e5c378]"
+          : active
+            ? "text-[#8b6414]"
+            : "text-[#b08a1a] hover:text-[#8b6414]"
       }`}
     >
       {label}
@@ -157,8 +164,6 @@ export function Header({
   const [moreOpen, setMoreOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
-  const [chipsHidden, setChipsHidden] = useState(false);
-  const lastY = useRef(0);
   const { user, logout } = useAuth();
   const { openAuth } = usePortal();
   const pathname = usePathname();
@@ -168,32 +173,51 @@ export function Header({
   const wpServices = useJuList<AstrologyService>("/services", services);
   const catalog = useMemo(() => allSiteServices(wpServices), [wpServices]);
   const { t } = usePrefs();
+  const isHome = pathname === "/";
+  const [overHero, setOverHero] = useState(isHome);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (y < 40) {
-        setChipsHidden(false);
-      } else if (y > lastY.current + 6) {
-        setChipsHidden(true);
-      } else if (y < lastY.current - 6) {
-        setChipsHidden(false);
+    if (!isHome) {
+      setOverHero(false);
+      return;
+    }
+    const update = () => {
+      const hero = document.querySelector<HTMLElement>("[data-hero]");
+      if (!hero) {
+        setOverHero(window.scrollY < 80);
+        return;
       }
-      lastY.current = y;
+      setOverHero(hero.getBoundingClientRect().bottom > 96);
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [isHome]);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("ju-chips-hide", chipsHidden);
-    return () => document.documentElement.classList.remove("ju-chips-hide");
-  }, [chipsHidden]);
+  const navTone = overHero ? "text-[#fff8ec]/90 hover:text-[#e5c378]" : "text-primary hover:text-on-surface";
+  const moreTone = overHero
+    ? moreActive
+      ? "text-[#e5c378]"
+      : "text-[#fff8ec]/90 group-hover:text-[#e5c378]"
+    : moreActive
+      ? "text-[#8b6414]"
+      : "text-[#b08a1a] group-hover:text-[#8b6414]";
 
   return (
-    <header className="fixed top-0 z-50 w-full overflow-visible bg-surface-lowest/95 text-primary backdrop-blur-md">
-      <div className="flex items-center justify-between gap-2 border-b border-outline-variant/60 px-4 py-1.5 md:gap-3 md:px-8 lg:px-10">
+    <header
+      className={`fixed top-0 z-50 w-full overflow-visible transition-[background-color,color] duration-300 ${
+        overHero ? "bg-transparent text-[#fff8ec]" : "bg-surface-lowest/95 text-primary backdrop-blur-md"
+      }`}
+    >
+      <div
+        className={`flex items-center justify-between gap-2 px-4 py-1.5 md:gap-3 md:px-8 lg:px-10 ${
+          overHero ? "border-b border-white/10" : "border-b border-outline-variant/60"
+        }`}
+      >
         <div className="flex min-w-0 items-center gap-2 overflow-x-auto [scrollbar-width:none] md:gap-3 [&::-webkit-scrollbar]:hidden">
           <OnlineNow astrologers={astrologers} />
           <TopBarContact
@@ -211,7 +235,7 @@ export function Header({
       </div>
       <div className="relative flex h-16 w-full items-center justify-between px-4 md:h-20 md:px-8 lg:px-10">
         <Link href="/" className="relative z-10 flex h-full min-w-0 max-w-[48vw] items-center lg:max-w-[280px]">
-          <BrandLogo className="h-12 md:h-16" />
+          <BrandLogo className={`h-12 md:h-16 ${overHero ? "drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]" : ""}`} />
         </Link>
 
         <nav
@@ -228,7 +252,7 @@ export function Header({
               >
                 <Link
                   href="/#all-services"
-                  className="flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] text-primary transition hover:text-on-surface"
+                  className={`flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${navTone}`}
                   aria-expanded={servicesOpen}
                   onClick={() => setServicesOpen(false)}
                 >
@@ -238,7 +262,7 @@ export function Header({
                 <ServiceMega items={catalog} open={servicesOpen} onClose={() => setServicesOpen(false)} />
               </div>
             ) : (
-              <NavLink key={item.href} href={item.href} label={t(item.key)} active={isNavActive(pathname, tab, item)} />
+              <NavLink key={item.href} href={item.href} label={t(item.key)} active={isNavActive(pathname, tab, item)} overHero={overHero} />
             ),
           )}
           <div
@@ -248,9 +272,7 @@ export function Header({
           >
             <button
               type="button"
-              className={`flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${
-                moreActive ? "text-[#8b6414]" : "text-[#b08a1a] group-hover:text-[#8b6414]"
-              }`}
+              className={`flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${moreTone}`}
               aria-expanded={moreOpen}
               onClick={() => setMoreOpen(true)}
             >
@@ -330,41 +352,21 @@ export function Header({
           <button
             type="button"
             suppressHydrationWarning
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#ead9bc] xl:hidden"
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-full xl:hidden ${
+              overHero ? "border border-[#f3e6c8]/35" : "border border-[#ead9bc]"
+            }`}
             aria-expanded={open}
             aria-label="Open menu"
             onClick={() => setOpen((value) => !value)}
           >
             <span className="flex flex-col gap-1.5">
-              <span className="block h-px w-4 bg-[#b08a1a]" />
-              <span className="block h-px w-4 bg-[#b08a1a]" />
-              <span className="block h-px w-4 bg-[#b08a1a]" />
+              <span className={`block h-px w-4 ${overHero ? "bg-[#e5c378]" : "bg-[#b08a1a]"}`} />
+              <span className={`block h-px w-4 ${overHero ? "bg-[#e5c378]" : "bg-[#b08a1a]"}`} />
+              <span className={`block h-px w-4 ${overHero ? "bg-[#e5c378]" : "bg-[#b08a1a]"}`} />
             </span>
           </button>
         </div>
       </div>
-
-      <nav
-        className={`grid border-t border-outline-variant/70 bg-surface-low transition-[grid-template-rows,opacity] duration-300 ${
-          chipsHidden ? "pointer-events-none grid-rows-[0fr] border-t-0 opacity-0" : "grid-rows-[1fr] opacity-100"
-        }`}
-        aria-label="All services"
-        aria-hidden={chipsHidden}
-      >
-        <div className="overflow-hidden">
-          <div className="flex flex-nowrap gap-2 overflow-x-auto px-4 py-2 [scrollbar-width:none] snap-x snap-mandatory [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:overflow-visible md:px-8 lg:px-10">
-            {catalog.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className="shrink-0 snap-start rounded-full border border-outline-variant bg-surface-lowest px-3 py-1.5 text-[11px] font-semibold tracking-wide text-primary transition hover:border-primary hover:bg-primary/10"
-              >
-                {item.short}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </nav>
       <ScrollSutra />
 
       {open ? (

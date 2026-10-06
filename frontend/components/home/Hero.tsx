@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { CosmicMandala } from "@/components/home/CosmicMandala";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
@@ -9,7 +10,7 @@ import { mediaUrl } from "@/lib/api/client";
 import { DEFAULT_TIMEZONE, getPanchang, visitorTimeZone, type PanchangSnapshot } from "@/lib/panchang";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { telHref } from "@/lib/html";
-import { SHELL } from "@/lib/layout";
+import { HEADER_PAD, HEADER_PULL, SHELL } from "@/lib/layout";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Astrologer } from "@/types/wordpress";
@@ -54,6 +55,27 @@ const ctaPrimary =
   "inline-flex items-center justify-center rounded-full bg-primary-container px-5 py-2.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_10px_28px_rgba(201,162,39,0.4)] transition hover:brightness-95";
 const ctaGhost =
   "inline-flex items-center justify-center rounded-full border border-[#f3e6c8]/40 bg-[#1c1008]/40 px-5 py-2.5 text-sm font-semibold text-[#fff8ec] backdrop-blur-md transition hover:bg-[#1c1008]/65";
+
+const POPULAR = [
+  { key: "hero.popLove", href: "/#all-services", terms: ["love"] },
+  { key: "hero.popMarriage", href: "/#all-services", terms: ["marriage", "match"] },
+  { key: "hero.popCareer", href: "/#all-services", terms: ["career"] },
+  { key: "hero.popBusiness", href: "/#all-services", terms: ["business"] },
+  { key: "hero.popFinance", href: "/#all-services", terms: ["finance", "money"] },
+  { key: "hero.popKundli", href: "/#all-services", terms: ["kundli", "kundali", "birth", "chart"] },
+  { key: "hero.popVastu", href: "/#all-services", terms: ["vastu"] },
+] as const;
+
+function searchHref(query: string) {
+  const q = query.trim().toLowerCase();
+  if (!q) return "/#astrologers";
+  if (/pooja|homam|puja/.test(q)) return POOJAS_PATH;
+  if (/yatra|temple|travel/.test(q)) return "/religious-travel";
+  if (/horoscope|rashi/.test(q)) return "/#horoscope";
+  const popular = POPULAR.find((item) => item.terms.some((term) => q.includes(term)));
+  if (popular) return popular.href;
+  return "/#astrologers";
+}
 
 function portraitSrc(person?: Astrologer) {
   if (!person) return "";
@@ -134,12 +156,18 @@ export function Hero({
   whatsapp?: string;
 }) {
   const { t } = usePrefs();
+  const router = useRouter();
   const people = useJuList<Astrologer>("/astrologers", astrologers).filter((person) => person?.title || person?.slug);
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [index, setIndex] = useState(0);
-  const slide = SLIDES[index] || SLIDES[0];
+  const [query, setQuery] = useState("");
   const callNumber = usablePhone(phone);
   const chatNumber = usableWhatsapp(whatsapp);
+
+  const goSearch = (event?: FormEvent) => {
+    event?.preventDefault();
+    router.push(searchHref(query));
+  };
 
   const stripItems = [
     { title: "50+", label: t("stat.poojas"), href: POOJAS_PATH },
@@ -169,8 +197,8 @@ export function Hero({
   }, [index]);
 
   return (
-    <section data-hero className="relative z-20 w-full overflow-hidden">
-      <div className="relative min-h-[60vh] overflow-hidden lg:min-h-[72vh]">
+    <section data-hero className={`relative z-20 w-full overflow-hidden ${HEADER_PULL}`}>
+      <div className={`relative min-h-[60vh] overflow-hidden lg:min-h-[72vh] ${HEADER_PAD}`}>
         {SLIDES.map((item, i) => (
           <img
             key={item.src}
@@ -182,6 +210,7 @@ export function Hero({
           />
         ))}
         <div className="absolute inset-0 bg-linear-to-r from-[#1c1008]/88 via-[#1c1008]/42 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-44 bg-linear-to-b from-[#1c1008]/55 to-transparent" />
 
         <div className="pointer-events-none absolute inset-0 z-[8] flex items-center justify-center">
           <CosmicMandala
@@ -205,31 +234,61 @@ export function Hero({
               ))}
             </div>
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#e5c378]">{t(slide.kicker)}</p>
-              <h1 className="mt-2 max-w-xl font-serif text-[32px] font-bold leading-[1.12] tracking-tight text-[#fff8ec] md:text-[44px]">
-                {t(slide.title)}
+              <h1 className="max-w-xl font-serif text-[32px] font-medium leading-[1.08] tracking-[-0.03em] text-[#fff8ec] md:text-[44px]">
+                {t("hero.headingLead")}{" "}
+                <em className="italic text-[#e5c378]">{t("hero.headingAccent")}</em>
               </h1>
-              <ul className="mt-3 flex flex-col gap-2">
-                {(["hero.tick1", "hero.tick2"] as const).map((key) => (
-                  <li key={key} className="flex items-center gap-2 text-sm font-semibold text-[#fff8ec]">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e5c378] text-[#3f2e00]" aria-hidden>
-                      <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none">
-                        <path d="M3.5 8.2 6.4 11.2 12.5 4.8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    {t(key)}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-3 max-w-lg text-sm font-medium leading-relaxed text-[#f3e6c8]">{t(slide.copy)}</p>
+              <p className="mt-4 max-w-lg text-sm font-medium leading-relaxed text-[#f3e6c8] md:text-[15px]">
+                {t("hero.subhead")}
+              </p>
               <div className="mt-5 flex flex-wrap gap-2">
-                <BookConsultationButton className={ctaPrimary}>{t("hero.talk")}</BookConsultationButton>
-                <Link href={POOJAS_PATH} className={ctaGhost}>
-                  {t("hero.pooja")}
-                </Link>
-                <Link href="/#horoscope" className={ctaGhost}>
-                  {t("hero.horoscope")}
-                </Link>
+                <a
+                  href={whatsappUrl(chatNumber, "Namaste. I would like to chat with an astrologer at JyothishiUncle.")}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={ctaPrimary}
+                >
+                  {t("hero.chat")}
+                </a>
+                <a href={telHref(callNumber)} className={ctaGhost}>
+                  {t("hero.call")}
+                </a>
+                <BookConsultationButton className={ctaGhost}>{t("hero.video")}</BookConsultationButton>
+              </div>
+              <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#f3e6c8]/85">
+                <span>{t("hero.trustVerified")}</span>
+                <span aria-hidden className="text-[#e5c378]">|</span>
+                <span>{t("hero.trustPrivate")}</span>
+                <span aria-hidden className="text-[#e5c378]">|</span>
+                <span>{t("hero.trustLanguages")}</span>
+              </p>
+
+              <div className="mt-5 max-w-xl rounded-2xl border border-[#f3e6c8]/25 bg-[#fff8ec]/95 p-4 text-[#1A1106] shadow-[0_12px_28px_rgba(8,4,0,0.28)]">
+                <p className="text-[13px] font-bold">{t("hero.searchLabel")}</p>
+                <form className="mt-2 flex flex-col gap-2 sm:flex-row" onSubmit={goSearch}>
+                  <input
+                    type="search"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder={t("hero.searchPlaceholder")}
+                    className="min-w-0 flex-1 rounded-full border border-[#e5c378]/50 bg-white px-4 py-2.5 text-sm text-[#1A1106] outline-none placeholder:text-[#1A1106]/45 focus:border-[#e5c378]"
+                  />
+                  <button type="submit" className={`${ctaPrimary} sm:shrink-0`}>
+                    {t("hero.searchSubmit")}
+                  </button>
+                </form>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#1A1106]/55">{t("hero.popular")}</span>
+                  {POPULAR.map((item) => (
+                    <Link
+                      key={item.key}
+                      href={item.href}
+                      className="rounded-full border border-[#e5c378]/45 bg-white px-2.5 py-1 text-[12px] font-semibold text-[#1A1106] transition hover:bg-[#e5c378]/25"
+                    >
+                      {t(item.key)}
+                    </Link>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-5 grid max-w-xl grid-cols-2 gap-2 sm:grid-cols-4">

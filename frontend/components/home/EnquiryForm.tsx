@@ -141,7 +141,15 @@ export function EnquiryForm({
             ))}
             {Array.from({ length: 24 }).map((_, i) => {
               const a = ((i * 15) * Math.PI) / 180;
-              return <line key={`l-${i}`} x1="200" y1="200" x2={200 + Math.cos(a) * 360} y2={200 + Math.sin(a) * 360} />;
+              return (
+                <line
+                  key={`l-${i}`}
+                  x1="200"
+                  y1="200"
+                  x2={(200 + Math.cos(a) * 360).toFixed(4)}
+                  y2={(200 + Math.sin(a) * 360).toFixed(4)}
+                />
+              );
             })}
           </g>
         </svg>

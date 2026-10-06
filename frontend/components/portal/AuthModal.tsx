@@ -8,12 +8,14 @@ import { HEAR_ABOUT_OPTIONS, type CustomerUser } from "@/types/forms";
 
 export function AuthModal({
   tab,
+  accountType = "user",
   onClose,
   onAuthenticated,
   firstVisit = false,
   consultationOffer = false,
 }: {
   tab: "login" | "register";
+  accountType?: "user" | "astrologer";
   onClose: () => void;
   onAuthenticated?: (user: CustomerUser) => void;
   firstVisit?: boolean;
@@ -21,8 +23,10 @@ export function AuthModal({
 }) {
   const { refresh } = useAuth();
   const [mode, setMode] = useState<"login" | "register">(tab);
+  const [role, setRole] = useState<"user" | "astrologer">(accountType);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const astrologer = role === "astrologer";
 
   async function onLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,6 +62,10 @@ export function AuthModal({
         source: String(data.get("source") || ""),
         message: String(data.get("message") || ""),
         website: String(data.get("website") || ""),
+        account_type: role,
+        experience: String(data.get("experience") || ""),
+        languages: String(data.get("languages") || ""),
+        specialties: String(data.get("specialties") || ""),
       });
       await refresh();
       if (onAuthenticated) onAuthenticated(result.user);
@@ -71,8 +79,8 @@ export function AuthModal({
 
   return (
     <ModalShell
-      eyebrow={mode === "login" ? "Returning seeker" : "New seeker"}
-      title={mode === "login" ? "Login" : "Create account"}
+      eyebrow={mode === "login" ? "Returning seeker" : astrologer ? "Astrologer registration" : "New seeker"}
+      title={mode === "login" ? "Login" : astrologer ? "Join as an Astrologer" : "Create account"}
       onClose={onClose}
     >
       {consultationOffer ? (
@@ -131,6 +139,17 @@ export function AuthModal({
       ) : (
         <form onSubmit={onRegister} className="grid gap-3">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
+          <Field label="Register as">
+            <select
+              name="account_type"
+              value={role}
+              onChange={(event) => setRole(event.target.value === "astrologer" ? "astrologer" : "user")}
+              className={fieldClass}
+            >
+              <option value="user">User</option>
+              <option value="astrologer">Astrologer</option>
+            </select>
+          </Field>
           <Field label="Name">
             <input required name="name" className={fieldClass} />
           </Field>
@@ -146,6 +165,19 @@ export function AuthModal({
           <Field label="Password (min. 8 characters)">
             <input required minLength={8} type="password" name="password" className={fieldClass} />
           </Field>
+          {astrologer ? (
+            <>
+              <Field label="Years of experience">
+                <input required name="experience" placeholder="e.g. 8" className={fieldClass} />
+              </Field>
+              <Field label="Languages">
+                <input required name="languages" placeholder="English, Hindi" className={fieldClass} />
+              </Field>
+              <Field label="Specialties">
+                <input required name="specialties" placeholder="Kundli, Prashna, Matchmaking" className={fieldClass} />
+              </Field>
+            </>
+          ) : null}
           <Field label="How did you hear about JyothishiUncle?">
             <select name="source" className={fieldClass}>
               {HEAR_ABOUT_OPTIONS.map((source) => (
@@ -153,12 +185,12 @@ export function AuthModal({
               ))}
             </select>
           </Field>
-          <Field label="Query / Message">
+          <Field label={astrologer ? "About your practice" : "Query / Message"}>
             <textarea name="message" rows={3} className={fieldClass} />
           </Field>
           {error ? <p className="text-sm text-lotus">{error}</p> : null}
           <button disabled={busy} className={goldBtn}>
-            {busy ? "Saving…" : "Create account"}
+            {busy ? "Saving…" : astrologer ? "Submit astrologer application" : "Create account"}
           </button>
           {consultationOffer ? (
             <button type="button" onClick={onClose} className="text-sm text-on-surface-variant hover:text-on-surface">

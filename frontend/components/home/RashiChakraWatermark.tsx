@@ -7,7 +7,10 @@ import { RASHIS } from "@/lib/rashis";
 
 function polar(cx: number, cy: number, r: number, deg: number) {
   const rad = ((deg - 90) * Math.PI) / 180;
-  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  return {
+    x: Number((cx + r * Math.cos(rad)).toFixed(4)),
+    y: Number((cy + r * Math.sin(rad)).toFixed(4)),
+  };
 }
 
 export function RashiChakraBackdrop() {

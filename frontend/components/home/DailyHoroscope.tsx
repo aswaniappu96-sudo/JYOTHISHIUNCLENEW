@@ -32,8 +32,8 @@ function ZodiacWheel({ selectedIndex, label }: { selectedIndex: number; label: s
       {hours.map((hour, index) => {
         const angle = (index / 12) * 360 - 90;
         const rad = (angle * Math.PI) / 180;
-        const x = 50 + 42 * Math.cos(rad);
-        const y = 50 + 42 * Math.sin(rad);
+        const x = (50 + 42 * Math.cos(rad)).toFixed(4);
+        const y = (50 + 42 * Math.sin(rad)).toFixed(4);
         const active = index === selectedIndex;
         return (
           <span

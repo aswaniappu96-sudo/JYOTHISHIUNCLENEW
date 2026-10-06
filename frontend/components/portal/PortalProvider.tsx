@@ -30,7 +30,7 @@ export type ConsultationPrefill = {
 type PortalKind = "auth" | "pooja" | "product" | "consultation" | "consultation-offer" | "enquiry" | null;
 
 type PortalContextValue = {
-  openAuth: (tab?: "login" | "register") => void;
+  openAuth: (tab?: "login" | "register", accountType?: "user" | "astrologer") => void;
   openPooja: (item: PortalItem) => void;
   openProduct: (item: PortalItem) => void;
   openConsultation: (prefill?: ConsultationPrefill) => void;
@@ -63,6 +63,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
   const [claimFree, setClaimFree] = useState(false);
   const [authForConsultation, setAuthForConsultation] = useState(false);
   const [authTab, setAuthTab] = useState<"login" | "register">("login");
+  const [authAccountType, setAuthAccountType] = useState<"user" | "astrologer">("user");
   const [enquirySubject, setEnquirySubject] = useState("");
   const [firstVisitAuth, setFirstVisitAuth] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState("");
@@ -137,8 +138,9 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(
     () => ({
-      openAuth: (tab: "login" | "register" = "login") => {
+      openAuth: (tab: "login" | "register" = "login", accountType: "user" | "astrologer" = "user") => {
         setAuthTab(tab);
+        setAuthAccountType(accountType);
         setFirstVisitAuth(false);
         setAuthForConsultation(false);
         setKind("auth");
@@ -185,6 +187,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
       {kind === "auth" && !returnOpen ? (
         <AuthModal
           tab={authTab}
+          accountType={authAccountType}
           firstVisit={firstVisitAuth}
           consultationOffer={authForConsultation}
           onClose={() => {

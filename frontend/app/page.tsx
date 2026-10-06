@@ -24,21 +24,21 @@ export default async function HomePage() {
     <div>
       <Hero astrologers={data.astrologers || []} phone={data.settings.phone_number} whatsapp={data.settings.whatsapp_number} />
       <div className="relative z-10">
-        <AstrologyConsultingSection services={data.services || []} />
-        <QuickServicesSection />
         <AstrologersSection
           astrologers={data.astrologers || []}
           phone={data.settings.phone_number}
           whatsapp={data.settings.whatsapp_number}
         />
+        <AstrologyConsultingSection services={data.services || []} />
+        <QuickServicesSection />
         <DailyHoroscope />
+        <Testimonials testimonials={data.testimonials} />
         <PoojaSection poojas={data.poojas} whatsappNumber={data.settings.whatsapp_number} />
         <PoojaTemplesSection vendors={data.vendors || []} poojas={data.poojas || []} />
         <ProductSection products={data.products} whatsappNumber={data.settings.whatsapp_number} />
         <TravelSection travel={data.travel} whatsappNumber={data.settings.whatsapp_number} />
-        <Testimonials testimonials={data.testimonials} />
-        <ConsultationSection settings={data.settings} services={data.services || []} />
         <BlogSection articles={data.articles} youtubeUrl={data.settings.social_youtube} />
+        <ConsultationSection settings={data.settings} services={data.services || []} />
         <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />
         <EnquiryForm whatsappNumber={data.settings.whatsapp_number} faqs={data.faqs} />
         <CtaSection

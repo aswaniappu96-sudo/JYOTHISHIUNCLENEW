@@ -452,20 +452,6 @@ h3,
   animation-play-state: paused;
 }
 
-.ju-main {
-  transition: padding-top 0.3s ease;
-}
-
-html.ju-chips-hide .ju-main {
-  padding-top: 8rem;
-}
-
-@media (min-width: 768px) {
-  html.ju-chips-hide .ju-main {
-    padding-top: 8.5rem;
-  }
-}
-
 @keyframes hero-strip-marquee {
   from {
     transform: translate3d(0, 0, 0);
