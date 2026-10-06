@@ -184,7 +184,7 @@ function zonedDateTime(timeZone: string, at: Date, hour: number, minute: number)
   return utc;
 }
 
-export function getPanchang(timezone = DEFAULT_TIMEZONE, at = new Date()): PanchangSnapshot {
+function siderealPositions(timezone = DEFAULT_TIMEZONE, at = new Date()) {
   let tz = timezone || DEFAULT_TIMEZONE;
   let moment = at;
   try {
@@ -206,7 +206,6 @@ export function getPanchang(timezone = DEFAULT_TIMEZONE, at = new Date()): Panch
   const sun = norm360(sunLongitude(jd) - ayanamsa);
   const moon = norm360(moonLongitude(jd) - ayanamsa);
   const elongation = norm360(moon - sun);
-
   const tithiIndex = Math.min(29, Math.floor(elongation / 12));
   const shukla = tithiIndex < 15;
   const tithiInPaksha = tithiIndex % 15;
@@ -214,16 +213,33 @@ export function getPanchang(timezone = DEFAULT_TIMEZONE, at = new Date()): Panch
   if (tithiIndex === 14) tithiLabel = "Purnima";
   else if (tithiIndex === 29) tithiLabel = "Amavasya";
   else tithiLabel = `${shukla ? "Shukla" : "Krishna"} ${TITHI_NAMES[tithiInPaksha]}`;
-
   const nakIndex = Math.min(26, Math.floor(moon / NAKSHATRA_SPAN));
   const pada = Math.min(4, Math.floor((moon % NAKSHATRA_SPAN) / PADA_SPAN) + 1);
   const ordinal = ["1st", "2nd", "3rd", "4th"][pada - 1];
-
   return {
     timezone: tz,
     zoneLabel: zoneDisplayName(tz),
+    moon,
+    rashiIndex: Math.min(11, Math.floor(moon / 30)),
+    nakshatraIndex: nakIndex,
+    nakshatraName: NAKSHATRAS[nakIndex],
     nakshatraLabel: `${NAKSHATRAS[nakIndex]} ${ordinal} Pada`,
     tithiLabel,
     pakshaLabel: shukla ? "Shukla Paksha" : "Krishna Paksha",
   };
+}
+
+export function getPanchang(timezone = DEFAULT_TIMEZONE, at = new Date()): PanchangSnapshot {
+  const snap = siderealPositions(timezone, at);
+  return {
+    timezone: snap.timezone,
+    zoneLabel: snap.zoneLabel,
+    nakshatraLabel: snap.nakshatraLabel,
+    tithiLabel: snap.tithiLabel,
+    pakshaLabel: snap.pakshaLabel,
+  };
+}
+
+export function birthOutline(timezone = DEFAULT_TIMEZONE, at = new Date()) {
+  return siderealPositions(timezone, at);
 }

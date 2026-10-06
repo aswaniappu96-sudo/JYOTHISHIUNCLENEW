@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { PageHeading } from "@/components/home/SectionHeading";
-import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
 import { stripHtml, stripPublicPrices } from "@/lib/html";
@@ -39,9 +38,42 @@ function ChipIcon({ kind }: { kind: "time" | "globe" | "pin" }) {
   );
 }
 
+function Mark({ kind }: { kind: "check" | "om" | "star" | "conch" }) {
+  if (kind === "check") {
+    return (
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8B6A3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="M5 12l4 4L19 6" />
+      </svg>
+    );
+  }
+  if (kind === "om") {
+    return <span className="font-serif text-[12px] leading-none text-[#8B6A3A]">ॐ</span>;
+  }
+  if (kind === "star") {
+    return (
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="#8B6A3A" aria-hidden>
+        <path d="M12 2.5 14.6 9h6.4l-5.2 3.9 2 6.1L12 15.4 6.2 19l2-6.1L3 9h6.4L12 2.5Z" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8B6A3A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M5 14c2.5-1 4-3.5 4-6 0-2.2-1.3-4-3-4S3 5.8 3 8c0 4 3.5 7 8 9 4.5-2 8-5 8-9 0-2.2-1.3-4-3-4s-3 1.8-3 4c0 2.5 1.5 5 4 6" />
+      <path d="M12 17v4" />
+    </svg>
+  );
+}
+
+function IconDot({ kind }: { kind: "check" | "om" | "star" | "conch" }) {
+  return (
+    <span className="mt-[1px] inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02)]">
+      <Mark kind={kind} />
+    </span>
+  );
+}
+
 export function AboutTeaser({ excerpt, image: _image }: { excerpt?: string; image?: WPImage }) {
   const { t } = usePrefs();
-  const { openAuth } = usePortal();
   const fromCms = stripPublicPrices(stripHtml(excerpt || "")).trim();
   const lead = fromCms || FALLBACK;
 
@@ -277,87 +309,97 @@ export function AboutTeaser({ excerpt, image: _image }: { excerpt?: string; imag
           </div>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 items-start gap-10 border-t border-[#E9C07A]/40 pt-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <div className="mb-3 flex items-center gap-2.5">
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
-                ॐ
-              </span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("join.kicker")}</span>
+        <div className="mt-14 border-t border-[#E9C07A]/40 pt-10">
+          <div className="mb-3 flex items-center gap-2.5">
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
+              ॐ
+            </span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("trust.kicker")}</span>
+          </div>
+          <PageHeading lead={t("trust.lead")} accent={t("trust.accent")} />
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+            {(
+              [
+                { title: t("trust.verified"), copy: t("trust.verifiedCopy"), mark: "check" as const },
+                { title: t("trust.personal"), copy: t("trust.personalCopy"), mark: "om" as const },
+                { title: t("trust.private"), copy: t("trust.privateCopy"), mark: "star" as const },
+                { title: t("trust.connect"), copy: t("trust.connectCopy"), mark: "conch" as const },
+              ] as const
+            ).map((item) => (
+              <li key={item.title} className="flex gap-3 rounded-[18px] border border-[#EAD9B0] bg-white/80 px-4 py-3.5">
+                <IconDot kind={item.mark} />
+                <div>
+                  <div className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{item.title}</div>
+                  <div className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{item.copy}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-12 grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <div className="mb-3 flex items-center gap-2.5">
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
+                  ॐ
+                </span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("pop.kicker")}</span>
+              </div>
+              <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3.5">
+                {(
+                  [
+                    { title: t("pop.kundli"), copy: t("pop.kundliCopy"), href: "/astrologers", mark: "check" as const },
+                    { title: t("pop.prashna"), copy: t("pop.prashnaCopy"), href: "/#consultation", mark: "om" as const },
+                    { title: t("pop.marriage"), copy: t("pop.marriageCopy"), href: "/astrologers?topic=marriage", mark: "star" as const },
+                    { title: t("pop.career"), copy: t("pop.careerCopy"), href: "/astrologers?topic=career", mark: "conch" as const },
+                    { title: t("pop.business"), copy: t("pop.businessCopy"), href: "/astrologers?topic=business", mark: "check" as const },
+                    { title: t("pop.vastu"), copy: t("pop.vastuCopy"), href: "/astrologers?topic=vastu", mark: "om" as const },
+                    { title: t("pop.remedies"), copy: t("pop.remediesCopy"), href: "/astrologers?topic=remedies", mark: "star" as const },
+                    { title: t("pop.life"), copy: t("pop.lifeCopy"), href: "/astrologers", mark: "conch" as const },
+                  ] as const
+                ).map((item) => (
+                  <li key={item.title}>
+                    <Link href={item.href} className="flex gap-3 rounded-xl px-1 py-0.5 transition hover:bg-[#FFF8EC]">
+                      <IconDot kind={item.mark} />
+                      <div>
+                        <div className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{item.title}</div>
+                        <div className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{item.copy}</div>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <h3 className="font-serif text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[#1E160E] sm:text-[28px]">
-              {t("join.lead")} <em className="italic text-[#9A6F3A]">{t("join.accent")}</em>
-            </h3>
-            <p className="mt-3 max-w-[520px] text-[13.5px] leading-[1.7] text-[#6E6256]">{t("join.copy")}</p>
-            <ul className="mt-5 space-y-3">
-              {[t("join.item1"), t("join.item2"), t("join.item3"), t("join.item4"), t("join.item5"), t("join.item6")].map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span className="mt-[1px] inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02)]">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8B6A3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M5 12l4 4L19 6" />
-                    </svg>
-                  </span>
-                  <div className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{item}</div>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
-              <button
-                type="button"
-                onClick={() => openAuth("register", "astrologer")}
-                className="inline-flex h-[48px] items-center justify-center rounded-full bg-[#E9C07A] px-7 text-[14px] font-semibold tracking-[0.01em] text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition-colors hover:bg-[#E0B46D]"
+
+            <div>
+              <div className="mb-3 flex items-center gap-2.5">
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
+                  ॐ
+                </span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("how.kicker")}</span>
+              </div>
+              <h3 className="font-serif text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[#1E160E] sm:text-[28px]">
+                {t("how.lead")} <em className="italic text-[#9A6F3A]">{t("how.accent")}</em>
+              </h3>
+              <ol className="mt-6 space-y-4">
+                {[t("how.step1"), t("how.step2"), t("how.step3")].map((step, index) => (
+                  <li key={step} className="flex items-start gap-3">
+                    <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[13px] font-medium text-[#8B6A3A]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="pt-1 text-[14px] font-semibold leading-[1.4] text-[#1E160E]">{step}</span>
+                  </li>
+                ))}
+              </ol>
+              <Link
+                href="/astrologers"
+                className="mt-7 inline-flex h-[48px] items-center justify-center rounded-full bg-[#E9C07A] px-7 text-[14px] font-semibold tracking-[0.01em] text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition-colors hover:bg-[#E0B46D]"
               >
-                {t("join.cta")}
+                {t("how.cta")}
                 <span className="ml-2" aria-hidden>
                   →
                 </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => openAuth("login")}
-                className="text-[13.5px] font-semibold text-[#8B6A3A] underline underline-offset-4 hover:text-[#1E160E]"
-              >
-                {t("join.login")}
-              </button>
+              </Link>
             </div>
-          </div>
-
-          <div>
-            <div className="mb-3 flex items-center gap-2.5">
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
-                ॐ
-              </span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("about.guidance")}</span>
-            </div>
-            <h3 className="font-serif text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[#1E160E] sm:text-[28px]">{t("about.why")}</h3>
-            <p className="mt-3 max-w-[520px] text-[13.5px] leading-[1.7] text-[#6E6256]">{t("about.whyCopy")}</p>
-            <ul className="mt-5 space-y-3.5">
-              {(
-                [
-                  { title: t("about.why1Title"), copy: t("about.why1Copy"), mark: "check" as const },
-                  { title: t("about.why2Title"), copy: t("about.why2Copy"), mark: "ring" as const },
-                  { title: t("about.why3Title"), copy: t("about.why3Copy"), mark: "om" as const },
-                ] as const
-              ).map((item) => (
-                <li key={item.title} className="flex gap-3">
-                  <span className="mt-[1px] inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02)]">
-                    {item.mark === "check" ? (
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8B6A3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                        <path d="M5 12l4 4L19 6" />
-                      </svg>
-                    ) : item.mark === "ring" ? (
-                      <span className="font-serif text-[11px] leading-none text-[#8B6A3A]">◍</span>
-                    ) : (
-                      <span className="font-serif text-[12px] leading-none text-[#8B6A3A]">ॐ</span>
-                    )}
-                  </span>
-                  <div>
-                    <div className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{item.title}</div>
-                    <div className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{item.copy}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </Reveal>

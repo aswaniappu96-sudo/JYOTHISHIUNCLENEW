@@ -1,40 +1,9 @@
-import { AstrologerCard, PORTRAITS } from "@/components/pages/AstrologerCard";
+import { AstrologerTalkBoard } from "@/components/pages/AstrologerTalkBoard";
 import { PageHeading } from "@/components/home/SectionHeading";
-import { Eyebrow } from "@/components/pages/PageHero";
-import { decodeWpText } from "@/lib/html";
-import { imageSrc } from "@/lib/media";
-import type { Astrologer, WPPage } from "@/types/wordpress";
+import { PORTRAITS } from "@/lib/astrologer-display";
+import type { Astrologer } from "@/types/wordpress";
 
 export { PORTRAITS };
-
-export function AstrologersHero({ page }: { page?: WPPage | null }) {
-  const heroImage = imageSrc(page?.featured_image);
-  return (
-    <section className="relative overflow-hidden px-4 pt-12 pb-8 text-center md:px-12">
-      {heroImage ? <img src={heroImage} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20" /> : null}
-      <div className="pointer-events-none absolute -top-32 left-1/2 h-[520px] w-[720px] -translate-x-1/2 rounded-full bg-secondary-container/20 blur-[140px]" />
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center">
-        <Eyebrow className="mb-4">{decodeWpText(page?.eyebrow || "Parashara & Surya Siddhanta Lineage · Revered Jyothishis")}</Eyebrow>
-        <PageHeading as="h1" title={decodeWpText(page?.title || "Hereditary Vedic Astrologers & Cosmic Gurus")} className="max-w-4xl" />
-        <p className="mt-4 max-w-3xl text-base leading-relaxed text-on-surface-variant">
-          {decodeWpText(
-            page?.hero_copy ||
-              "Connect in sacred 1-on-1 communion with enlightened masters of Ashtamangala Prashnam, Jathaka Shastra, and Nadi palm leaf wisdom. Every consultation is strictly confidential and spiritually sanctified.",
-          )}
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          {["Surya Siddhanta Ephemeris Core", "Private Sankalpa Audio & Video Chambers", "Centuries of Familial Gurukula Heritage"].map(
-            (item) => (
-              <span key={item} className="rounded-full bg-surface-low px-3 py-1 text-xs text-on-surface shadow-sm">
-                {item}
-              </span>
-            ),
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export function AstrologerGrid({
   astrologers,
@@ -45,49 +14,15 @@ export function AstrologerGrid({
   phone?: string;
   whatsapp?: string;
 }) {
-  const cards = astrologers.length
-    ? astrologers.map((person, i) => ({ person, meta: PORTRAITS[i % PORTRAITS.length] }))
-    : PORTRAITS.map((meta, i) => ({
-        person: {
-          id: i,
-          slug: `astrologer-${i + 1}`,
-          title: "",
-          short_description: "",
-          specialty: "",
-          full_description: "",
-          first_session_note: "First call and chat are free.",
-          featured_image: null,
-          display_order: i,
-        } as Astrologer,
-        meta,
-      }));
-
   return (
-    <section className="px-4 py-12 md:px-12">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end">
-          <div>
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary">Verified Living Masters</span>
-            <PageHeading title="Sacred Consultation Lineage" className="mt-1" />
-          </div>
-          <div className="flex items-center gap-2 text-xs text-on-surface-variant">
-            <span>Synchronized to Lahiri Ayanamsha:</span>
-            <span className="rounded bg-surface-high px-2.5 py-1 text-primary">24° 11&apos; 36&quot;</span>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {cards.map(({ person, meta }) => (
-            <AstrologerCard
-              key={person.id || meta.location}
-              person={person}
-              meta={meta}
-              phone={phone}
-              whatsapp={whatsapp}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+    <AstrologerTalkBoard
+      astrologers={astrologers}
+      phone={phone}
+      whatsapp={whatsapp}
+      photo="full"
+      headingAs="h1"
+      showProof
+    />
   );
 }
 

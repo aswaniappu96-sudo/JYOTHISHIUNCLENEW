@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
@@ -10,10 +10,12 @@ import { mediaUrl } from "@/lib/api/client";
 import { DEFAULT_TIMEZONE, getPanchang, visitorTimeZone, type PanchangSnapshot } from "@/lib/panchang";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { telHref } from "@/lib/html";
+import { OnlineNow } from "@/components/layout/SitePrefs";
 import { HEADER_PAD, HEADER_PULL, SHELL } from "@/lib/layout";
+import { allSiteServices } from "@/lib/siteServices";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
-import type { Astrologer } from "@/types/wordpress";
+import type { Astrologer, AstrologyService } from "@/types/wordpress";
 
 const FALLBACK_PHONE = "+91 84519 89496";
 const FALLBACK_WHATSAPP = "918451989496";
@@ -57,13 +59,13 @@ const ctaGhost =
   "inline-flex items-center justify-center rounded-full border border-[#f3e6c8]/40 bg-[#1c1008]/40 px-5 py-2.5 text-sm font-semibold text-[#fff8ec] backdrop-blur-md transition hover:bg-[#1c1008]/65";
 
 const POPULAR = [
-  { key: "hero.popLove", href: "/#all-services", terms: ["love"] },
-  { key: "hero.popMarriage", href: "/#all-services", terms: ["marriage", "match"] },
-  { key: "hero.popCareer", href: "/#all-services", terms: ["career"] },
-  { key: "hero.popBusiness", href: "/#all-services", terms: ["business"] },
-  { key: "hero.popFinance", href: "/#all-services", terms: ["finance", "money"] },
-  { key: "hero.popKundli", href: "/#all-services", terms: ["kundli", "kundali", "birth", "chart"] },
-  { key: "hero.popVastu", href: "/#all-services", terms: ["vastu"] },
+  { key: "hero.popLove", href: "/astrologers?topic=love", terms: ["love"] },
+  { key: "hero.popMarriage", href: "/astrologers?topic=marriage", terms: ["marriage", "match"] },
+  { key: "hero.popCareer", href: "/astrologers?topic=career", terms: ["career"] },
+  { key: "hero.popBusiness", href: "/astrologers?topic=business", terms: ["business"] },
+  { key: "hero.popFinance", href: "/astrologers?topic=business", terms: ["finance", "money"] },
+  { key: "hero.popKundli", href: "/astrologers?topic=marriage", terms: ["kundli", "kundali", "birth", "chart"] },
+  { key: "hero.popVastu", href: "/astrologers?topic=vastu", terms: ["vastu"] },
 ] as const;
 
 function searchHref(query: string) {
@@ -148,16 +150,21 @@ function AstrologerBills({ people, index }: { people: Astrologer[]; index: numbe
 
 export function Hero({
   astrologers = [],
+  services = [],
   phone,
   whatsapp,
 }: {
   astrologers?: Astrologer[];
+  services?: AstrologyService[];
   phone?: string;
   whatsapp?: string;
 }) {
   const { t } = usePrefs();
   const router = useRouter();
   const people = useJuList<Astrologer>("/astrologers", astrologers).filter((person) => person?.title || person?.slug);
+  const wpServices = useJuList<AstrologyService>("/services", services);
+  const catalog = useMemo(() => allSiteServices(wpServices), [wpServices]);
+  const serviceTrack = catalog.length ? [...catalog, ...catalog] : [];
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [index, setIndex] = useState(0);
   const [query, setQuery] = useState("");
@@ -168,21 +175,6 @@ export function Hero({
     event?.preventDefault();
     router.push(searchHref(query));
   };
-
-  const stripItems = [
-    { title: "50+", label: t("stat.poojas"), href: POOJAS_PATH },
-    { title: t("stat.offlineTitle"), label: t("stat.available"), href: POOJAS_PATH },
-    { title: t("stat.onlineTitle"), label: t("stat.online"), href: "/#all-services" },
-    {
-      title: t("strip.chatTitle"),
-      label: t("strip.chat"),
-      href: whatsappUrl(chatNumber, "Namaste. I would like to chat with an astrologer at JyothishiUncle."),
-    },
-    { title: t("strip.callTitle"), label: t("strip.call"), href: telHref(callNumber) },
-    { title: t("strip.dailyTitle"), label: t("strip.daily"), href: "/#horoscope" },
-    { title: t("strip.kundliTitle"), label: t("strip.kundli"), href: "/#horoscope" },
-  ];
-  const trackItems = [...stripItems, ...stripItems];
 
   useEffect(() => {
     const refresh = () => setPanchang(getPanchang(visitorTimeZone()));
@@ -220,7 +212,7 @@ export function Hero({
         </div>
 
         <div className={`relative z-20 grid min-h-[60vh] items-center gap-4 py-8 lg:min-h-[72vh] lg:grid-cols-12 lg:py-12 ${SHELL}`}>
-          <div className="relative flex items-start gap-4 lg:col-span-7">
+          <div className="relative flex items-start gap-4 pr-16 lg:col-span-7 lg:pr-0">
             <div className="mt-3 flex shrink-0 flex-col items-center gap-2" aria-label="Banner slides">
               {SLIDES.map((item, i) => (
                 <button
@@ -319,45 +311,31 @@ export function Hero({
               </div>
             </div>
           </div>
-          <div className="relative z-[12] lg:col-span-5">
+          <div className="relative z-[12] flex flex-col items-center lg:col-span-5">
             <AstrologerBills people={people} index={index} />
+            <div className="relative z-20 mt-3 flex justify-center lg:mt-4">
+              <OnlineNow astrologers={people} />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="hero-strip-mask relative z-10 overflow-hidden bg-[#1c1008]">
-        <div className="hero-strip-marquee flex w-max">
-          {trackItems.map((item, i) => {
-            const native = item.href.startsWith("http") || item.href.startsWith("tel:");
-            const className =
-              "flex w-[72vw] shrink-0 flex-col items-center justify-center border-r border-[#f3e6c8]/15 px-4 py-3.5 text-center sm:w-[40vw] lg:w-[33.333vw] hover:bg-white/5";
-            const inner = (
-              <>
-                <p className="font-serif text-xl font-bold text-[#e5c378] md:text-2xl">{item.title}</p>
-                <p className="text-[10px] font-semibold tracking-wide text-[#f3e6c8]/85">{item.label}</p>
-              </>
-            );
-            if (native) {
-              return (
-                <a
-                  key={`${item.title}-${i}`}
-                  href={item.href}
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-                  className={className}
-                >
-                  {inner}
-                </a>
-              );
-            }
-            return (
-              <Link key={`${item.title}-${i}`} href={item.href} className={className}>
-                {inner}
+      {serviceTrack.length ? (
+        <div className="hero-strip-mask relative z-10 overflow-hidden bg-[#1c1008]">
+          <div className="hero-strip-marquee flex w-max">
+            {serviceTrack.map((item, i) => (
+              <Link
+                key={`${item.id}-${i}`}
+                href={item.href}
+                className="flex w-[72vw] shrink-0 flex-col items-center justify-center border-r border-[#f3e6c8]/15 px-4 py-3.5 text-center sm:w-[40vw] lg:w-[33.333vw] hover:bg-white/5"
+              >
+                <p className="font-serif text-xl font-bold text-[#e5c378] md:text-2xl">{item.short}</p>
+                <p className="text-[10px] font-semibold tracking-wide text-[#f3e6c8]/85">{item.hint}</p>
               </Link>
-            );
-          })}
+            ))}
+          </div>
         </div>
-      </div>
+      ) : null}
     </section>
   );
 }

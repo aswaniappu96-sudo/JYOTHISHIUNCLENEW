@@ -1,23 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { stripPublicPrices } from "@/lib/html";
-import { useJuList } from "@/lib/useJuList";
 import type { FaqItem } from "@/types/wordpress";
 
-export function FaqAccordion({ faqs }: { faqs: FaqItem[] }) {
+const FAQ_KEYS = [
+  { id: 1, q: "faq.q1", a: "faq.a1" },
+  { id: 2, q: "faq.q2", a: "faq.a2" },
+  { id: 3, q: "faq.q3", a: "faq.a3" },
+  { id: 4, q: "faq.q4", a: "faq.a4" },
+  { id: 5, q: "faq.q5", a: "faq.a5" },
+  { id: 6, q: "faq.q6", a: "faq.a6" },
+  { id: 7, q: "faq.q7", a: "faq.a7" },
+] as const;
+
+export function FaqAccordion({ faqs: _faqs }: { faqs?: FaqItem[] }) {
   const { t } = usePrefs();
-  const list = useJuList<FaqItem>("/faqs", faqs);
   const [open, setOpen] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (open == null && list[0]) {
-      setOpen(list[0].id);
-    }
-  }, [list, open]);
-
-  if (!list.length) return null;
 
   return (
     <div>
@@ -26,7 +25,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqItem[] }) {
         <p className="mt-1.5 text-[13px] text-[#8A7E70]">{t("enquiry.faqCopy")}</p>
       </div>
       <div className="space-y-3">
-        {list.map((faq) => {
+        {FAQ_KEYS.map((faq) => {
           const isOpen = open === faq.id;
           return (
             <div
@@ -44,7 +43,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqItem[] }) {
                 aria-expanded={isOpen}
                 onClick={() => setOpen(isOpen ? null : faq.id)}
               >
-                <span className="text-[14px] font-[650] leading-[1.4] text-[#1E160E]">{faq.question}</span>
+                <span className="text-[14px] font-[650] leading-[1.4] text-[#1E160E]">{t(faq.q)}</span>
                 <span
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[13px] transition-all ${
                     isOpen
@@ -59,10 +58,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqItem[] }) {
                 <div className="overflow-hidden">
                   <div className="px-4 pt-0 pb-4">
                     <div className="mb-3 h-px w-full bg-[#EAD9B0]/60" />
-                    <div
-                      className="prose-ju text-[13px] leading-[1.65] text-[#6B6055]"
-                      dangerouslySetInnerHTML={{ __html: stripPublicPrices(faq.answer || "") }}
-                    />
+                    <p className="text-[13px] leading-[1.65] text-[#6B6055]">{t(faq.a)}</p>
                   </div>
                 </div>
               </div>

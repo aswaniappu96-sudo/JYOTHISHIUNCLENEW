@@ -1,30 +1,28 @@
 import type { Metadata } from "next";
 import { AstrologerWelcomeModal } from "@/components/portal/AstrologerWelcomeModal";
-import { AstrologerGrid, AstrologersHero, JyotishaWisdom } from "@/components/pages/AstrologersView";
+import { AstrologerGrid, JyotishaWisdom } from "@/components/pages/AstrologersView";
 import { AstrologerMatchCta } from "@/components/pages/AstrologerActions";
 import { HoroscopeBand } from "@/components/home/HoroscopeBand";
 import { AstrologyServicesSection } from "@/components/pages/AstrologyServicesSection";
-import { fallbackSettings, getAstrologers, getPage, getServices, getSettings, settleApi } from "@/lib/api/wordpress";
+import { fallbackSettings, getAstrologers, getServices, getSettings, settleApi } from "@/lib/api/wordpress";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Hereditary Vedic Astrologers & Cosmic Gurus",
-  description: "Consecrated Vedic astrologers and gurus at JyothishiUncle. First call and chat are free.",
+  title: "Talk to an Astrologer Now",
+  description: "Choose an astrologer based on expertise, experience, rating and availability.",
 };
 
 export default async function AstrologersPage() {
-  const [astrologers, settings, page, services] = await Promise.all([
+  const [astrologers, settings, services] = await Promise.all([
     settleApi(getAstrologers(), []),
     settleApi(getSettings(), fallbackSettings()),
-    settleApi(getPage("astrologers"), null),
     settleApi(getServices(), []),
   ]);
 
   return (
     <div>
       <AstrologerWelcomeModal />
-      <AstrologersHero page={page} />
       <AstrologerGrid
         astrologers={astrologers}
         phone={settings.phone_number}

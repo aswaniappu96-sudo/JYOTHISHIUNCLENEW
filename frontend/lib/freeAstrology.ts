@@ -66,3 +66,34 @@ export function matchNote(a: string, b: string) {
 export function rashiBySlug(slug: string) {
   return RASHIS.find((item) => item.slug === slug) || RASHIS[0];
 }
+
+function reduceNumber(value: number) {
+  let n = value;
+  while (n > 9 && n !== 11 && n !== 22) {
+    n = String(n)
+      .split("")
+      .reduce((sum, digit) => sum + Number(digit), 0);
+  }
+  return n;
+}
+
+export function lifePathNumber(isoDate: string) {
+  const digits = isoDate.replace(/\D/g, "");
+  if (!digits) return 0;
+  return reduceNumber([...digits].reduce((sum, digit) => sum + Number(digit), 0));
+}
+
+const NAME_MAP: Record<string, number> = {
+  a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8, i: 9,
+  j: 1, k: 2, l: 3, m: 4, n: 5, o: 6, p: 7, q: 8, r: 9,
+  s: 1, t: 2, u: 3, v: 4, w: 5, x: 6, y: 7, z: 8,
+};
+
+export function nameNumber(name: string) {
+  const total = name
+    .toLowerCase()
+    .replace(/[^a-z]/g, "")
+    .split("")
+    .reduce((sum, letter) => sum + (NAME_MAP[letter] || 0), 0);
+  return total ? reduceNumber(total) : 0;
+}

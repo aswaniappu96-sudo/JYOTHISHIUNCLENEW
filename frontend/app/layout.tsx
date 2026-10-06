@@ -8,9 +8,10 @@ import { MandalaTrail } from "@/components/layout/MandalaTrail";
 import { UniverseBackground } from "@/components/layout/UniverseBackground";
 import { RashiChakraBackdrop } from "@/components/home/RashiChakraWatermark";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { PrefsDock } from "@/components/layout/SitePrefs";
 import { Providers } from "@/components/providers";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getAstrologers, getServices, getSettings, settleApi } from "@/lib/api/wordpress";
+import { getServices, getSettings, settleApi } from "@/lib/api/wordpress";
 import { mediaUrl } from "@/lib/api/client";
 import { HEADER_PAD } from "@/lib/layout";
 import "./globals.css";
@@ -46,17 +47,14 @@ export default async function RootLayout({
 }>) {
   let settings = null;
   let services: Awaited<ReturnType<typeof getServices>> = [];
-  let astrologers: Awaited<ReturnType<typeof getAstrologers>> = [];
   try {
-    [settings, services, astrologers] = await Promise.all([
+    [settings, services] = await Promise.all([
       getSettings(),
       settleApi(getServices(), []),
-      settleApi(getAstrologers(), []),
     ]);
   } catch {
     settings = null;
     services = [];
-    astrologers = [];
   }
 
   return (
@@ -78,16 +76,10 @@ export default async function RootLayout({
         {settings ? <JsonLd settings={settings} /> : null}
         <Providers>
           <div className="relative z-10">
-            <Suspense fallback={<header className="fixed top-0 z-50 h-[7.125rem] w-full bg-surface-lowest/95 md:h-[8.125rem]" />}>
+            <Suspense fallback={<header className="fixed top-0 z-50 h-16 w-full bg-surface-lowest/95 md:h-20" />}>
               <Header
                 logoUrl={mediaUrl(settings?.logo?.full || settings?.logo?.url || settings?.logo_url) || undefined}
                 services={services}
-                astrologers={astrologers}
-                phone={settings?.phone_number}
-                whatsapp={settings?.whatsapp_number}
-                instagram={settings?.social_instagram}
-                facebook={settings?.social_facebook}
-                youtube={settings?.social_youtube}
               />
             </Suspense>
             <main className={`ju-main ${HEADER_PAD}`}>
@@ -103,6 +95,7 @@ export default async function RootLayout({
               logoUrl={mediaUrl(settings?.logo?.full || settings?.logo?.url || settings?.logo_url) || undefined}
             />
           </div>
+          <PrefsDock />
           {settings ? (
             <WhatsAppButton
               number={settings.whatsapp_number}

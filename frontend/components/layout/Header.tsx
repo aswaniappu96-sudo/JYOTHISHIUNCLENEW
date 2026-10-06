@@ -9,11 +9,10 @@ import { BrandLogo } from "@/components/layout/BrandLogo";
 import { ScrollSutra } from "@/components/layout/ScrollSutra";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { POOJAS_PATH, PRODUCTS_PATH, isPoojasNav, isProductsNav } from "@/lib/siteRoutes";
-import { LanguageSwitch, OnlineNow, ThemeToggle, TopBarContact } from "@/components/layout/SitePrefs";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { allSiteServices, type SiteServiceLink } from "@/lib/siteServices";
 import { useJuList } from "@/lib/useJuList";
-import type { Astrologer, AstrologyService } from "@/types/wordpress";
+import type { AstrologyService } from "@/types/wordpress";
 
 const primaryNav = [
   { href: "/", key: "nav.home" as const, match: "home" },
@@ -144,21 +143,9 @@ function ServiceMega({
 export function Header({
   logoUrl: _logoUrl,
   services = [],
-  astrologers = [],
-  phone,
-  whatsapp,
-  instagram,
-  facebook,
-  youtube,
 }: {
   logoUrl?: string;
   services?: AstrologyService[];
-  astrologers?: Astrologer[];
-  phone?: string;
-  whatsapp?: string;
-  instagram?: string;
-  facebook?: string;
-  youtube?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
@@ -213,26 +200,6 @@ export function Header({
         overHero ? "bg-transparent text-[#fff8ec]" : "bg-surface-lowest/95 text-primary backdrop-blur-md"
       }`}
     >
-      <div
-        className={`flex items-center justify-between gap-2 px-4 py-1.5 md:gap-3 md:px-8 lg:px-10 ${
-          overHero ? "border-b border-white/10" : "border-b border-outline-variant/60"
-        }`}
-      >
-        <div className="flex min-w-0 items-center gap-2 overflow-x-auto [scrollbar-width:none] md:gap-3 [&::-webkit-scrollbar]:hidden">
-          <OnlineNow astrologers={astrologers} />
-          <TopBarContact
-            phone={phone}
-            whatsapp={whatsapp}
-            instagram={instagram}
-            facebook={facebook}
-            youtube={youtube}
-          />
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <LanguageSwitch />
-          <ThemeToggle />
-        </div>
-      </div>
       <div className="relative flex h-16 w-full items-center justify-between px-4 md:h-20 md:px-8 lg:px-10">
         <Link href="/" className="relative z-10 flex h-full min-w-0 max-w-[48vw] items-center lg:max-w-[280px]">
           <BrandLogo className={`h-12 md:h-16 ${overHero ? "drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]" : ""}`} />

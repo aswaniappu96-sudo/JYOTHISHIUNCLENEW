@@ -54,6 +54,11 @@ export async function getAstrologers(homepage = false) {
   return stripOmanDeep(await settleApi(wpFetch<Astrologer[]>(`/astrologers${query}`), []));
 }
 
+export async function getAstrologer(slug: string) {
+  const item = await wpFetchOptional<Astrologer>(`/astrologers/${slug}`);
+  return item ? stripOmanDeep(item) : null;
+}
+
 export async function getService(slug: string) {
   const item = await wpFetchOptional<AstrologyService>(`/services/${slug}`);
   return item ? stripOmanDeep(item) : null;

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { LOCALES } from "@/lib/i18n";
@@ -46,26 +47,29 @@ export function OnlineNow({ astrologers = [] }: { astrologers?: Astrologer[] }) 
   const count = people.length;
 
   return (
-    <div className="twinkle inline-flex items-center gap-2 rounded-full border border-primary/25 bg-surface-lowest/90 px-2.5 py-1 shadow-sm">
+    <Link
+      href="/#astrologers"
+      className="twinkle inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-3 py-1.5 shadow-[0_8px_24px_rgba(8,4,0,0.16)] transition hover:border-[#C4A227] hover:bg-[#FFFBF0]"
+    >
       <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
-      <p className="hidden text-[11px] font-semibold text-on-surface sm:block">
+      <p className="text-[11px] font-semibold text-[#1E160E]">
         {count ? t("online.now", { n: count }) : t("astro.kicker")}
       </p>
       <div className="flex -space-x-2">
         {photos.length
           ? photos.map((src) => (
-              <img key={src} src={src} alt="" className="h-6 w-6 rounded-full object-cover ring-2 ring-surface-lowest" />
+              <img key={src} src={src} alt="" className="h-6 w-6 rounded-full object-cover ring-2 ring-white" />
             ))
           : people.slice(0, 3).map((person) => (
               <span
                 key={person.id || person.slug}
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-container text-[10px] font-bold text-on-primary ring-2 ring-surface-lowest"
+                className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-container text-[10px] font-bold text-on-primary ring-2 ring-white"
               >
                 {(person.title || "ॐ").trim().charAt(0)}
               </span>
             ))}
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -150,17 +154,17 @@ export function ThemeToggle() {
       type="button"
       suppressHydrationWarning
       onClick={() => setTheme(dark ? "light" : "dark")}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-outline-variant bg-surface-lowest text-primary"
+      className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#b08a1a] shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-[#ead9bc] transition hover:scale-105 hover:bg-[#FFFBF0]"
       aria-label={dark ? t("nav.themeLight") : t("nav.themeDark")}
       title={dark ? t("nav.themeLight") : t("nav.themeDark")}
     >
       {dark ? (
-        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden>
           <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" />
           <path d="M12 3v2M12 19v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M3 12h2M19 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
         </svg>
       ) : (
-        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden>
           <path d="M16 13a6 6 0 0 1-7-7 6.5 6.5 0 1 0 7 7Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
         </svg>
       )}
@@ -179,21 +183,20 @@ export function LanguageSwitch() {
         type="button"
         suppressHydrationWarning
         onClick={() => setOpen((value) => !value)}
-        className="flex h-9 items-center gap-1 rounded-full border border-outline-variant bg-surface-lowest px-3 text-[11px] font-semibold text-primary"
+        className="flex h-12 min-w-12 items-center justify-center rounded-full bg-white px-3 text-[11px] font-bold uppercase tracking-[0.08em] text-[#b08a1a] shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-[#ead9bc] transition hover:scale-105 hover:bg-[#FFFBF0]"
         aria-expanded={open}
         aria-label={t("nav.language")}
       >
-        {current.native}
-        <span className="text-[9px] opacity-70">▾</span>
+        {current.id}
       </button>
       {open ? (
-        <div className="absolute top-full right-0 z-[95] mt-2 w-40 rounded-xl bg-surface-lowest p-1 shadow-[0_12px_32px_rgba(90,60,20,0.16)] ring-1 ring-outline-variant">
+        <div className="absolute top-full right-0 z-[95] mt-2 w-40 rounded-xl bg-white p-1 shadow-[0_12px_32px_rgba(90,60,20,0.16)] ring-1 ring-[#ead9bc]">
           {LOCALES.map((item) => (
             <button
               key={item.id}
               type="button"
               className={`block w-full rounded-lg px-3 py-2 text-left text-[13px] ${
-                item.id === locale ? "bg-primary-container/40 font-semibold text-on-surface" : "text-on-surface hover:bg-surface-low"
+                item.id === locale ? "bg-[#FBF0D9] font-semibold text-[#1E160E]" : "text-[#1E160E] hover:bg-[#FFF8E9]"
               }`}
               onClick={() => {
                 setLocale(item.id);
@@ -205,6 +208,15 @@ export function LanguageSwitch() {
           ))}
         </div>
       ) : null}
+    </div>
+  );
+}
+
+export function PrefsDock() {
+  return (
+    <div className="fixed right-4 top-20 z-[60] flex flex-col items-end gap-2 md:right-7 md:top-24">
+      <LanguageSwitch />
+      <ThemeToggle />
     </div>
   );
 }

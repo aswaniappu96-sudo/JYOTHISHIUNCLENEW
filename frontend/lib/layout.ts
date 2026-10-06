@@ -1,6 +1,6 @@
 export const SHELL = "mx-auto w-full max-w-[1760px] px-4 sm:px-6 lg:px-8";
-export const HEADER_PAD = "pt-[7.125rem] md:pt-[8.125rem]";
-export const HEADER_PULL = "-mt-[7.125rem] md:-mt-[8.125rem]";
+export const HEADER_PAD = "pt-16 md:pt-20";
+export const HEADER_PULL = "-mt-16 md:-mt-20";
 export const SECTION_INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
 export const SECTION = "relative w-full py-5 md:py-6";
 export const KICKER = "text-[11px] font-bold uppercase tracking-[0.22em] text-primary";

@@ -9,14 +9,14 @@ import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 const TILE_W = 190;
 
 const TILES = [
-  { id: "kundli", href: "/#all-services", emoji: "📜", line1: "qs.kundli1", line2: "qs.kundli2" },
+  { id: "kundli", href: "/#free-tools", emoji: "📜", line1: "qs.kundli1", line2: "qs.kundli2" },
   { id: "horoscope", href: "/#horoscope", emoji: "☀️", line1: "qs.daily1", line2: "qs.daily2" },
   { id: "yatra", href: "/religious-travel", emoji: "🛕", line1: "qs.yatra1", line2: "qs.yatra2" },
   { id: "pooja", href: POOJAS_PATH, emoji: "🪔", line1: "qs.pooja1", line2: "qs.pooja2" },
   { id: "video", href: "/#consultation", emoji: "📹", line1: "qs.video1", line2: "qs.video2" },
   { id: "products", href: PRODUCTS_PATH, emoji: "📿", line1: "qs.store1", line2: "qs.store2" },
   { id: "prashna", href: "/#all-services", emoji: "❓", line1: "qs.prashna1", line2: "qs.prashna2" },
-  { id: "matchmaking", href: "/#all-services", emoji: "💞", line1: "qs.match1", line2: "qs.match2" },
+  { id: "matchmaking", href: "/#free-tools", emoji: "💞", line1: "qs.match1", line2: "qs.match2" },
 ] as const;
 
 export function QuickServicesSection() {
