@@ -47,15 +47,17 @@ function juUrl(origin: string, path: string) {
   return `${origin}/wp-json/ju/v1${path.startsWith("/") ? path : `/${path}`}`;
 }
 
-function timeoutError(path: string) {
-  return new WordpressApiError(
-    `WordPress did not respond in time (${path}). Start the site in Local, then refresh.`,
-    504,
-  );
+let localDownUntil = 0;
+
+function localWordpressSkipped() {
+  return Date.now() < localDownUntil;
 }
 
-async function fetchJson<T>(origin: string, path: string, init: RequestInit | undefined, sendLocalHost: boolean): Promise<T> {
-  const url = juUrl(origin, path);
+function markLocalWordpressDown() {
+  localDownUntil = Date.now() + 30_000;
+}
+
+function fetchHeaders(init: RequestInit | undefined, sendLocalHost: boolean) {
   const headers = new Headers(init?.headers);
   if (!headers.has("Accept")) headers.set("Accept", "application/json");
   if (!headers.has("User-Agent")) {
@@ -70,40 +72,44 @@ async function fetchJson<T>(origin: string, path: string, init: RequestInit | un
   } else {
     headers.delete("Host");
   }
+  return headers;
+}
 
-  const timeoutMs = isLocalHost(origin) ? 1200 : process.env.VERCEL ? 28000 : 12000;
-  const work = (async () => {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), timeoutMs);
-    try {
-      const response = await fetch(url, {
-        ...init,
-        headers,
-        cache: "no-store",
-        signal: init?.signal || controller.signal,
-      });
-      const type = response.headers.get("content-type") || "";
-      if (!response.ok) {
-        throw new WordpressApiError(`WordPress API ${path} failed (${response.status})`, response.status);
-      }
-      if (!type.includes("json")) {
-        throw new WordpressApiError(`WordPress API ${path} did not return JSON`, 502);
-      }
-      return (await response.json()) as T;
-    } catch (error) {
-      if (error instanceof WordpressApiError) throw error;
-      throw timeoutError(path);
-    } finally {
-      clearTimeout(timeout);
-    }
-  })();
+async function fetchJsonOrNull<T>(
+  origin: string,
+  path: string,
+  init: RequestInit | undefined,
+  sendLocalHost: boolean,
+): Promise<T | null> {
+  const url = juUrl(origin, path);
+  const headers = fetchHeaders(init, sendLocalHost);
+  const timeoutMs = isLocalHost(origin) ? 1500 : process.env.VERCEL ? 28000 : 12000;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, {
+      ...init,
+      headers,
+      cache: "no-store",
+      signal: init?.signal || controller.signal,
+    });
+    const type = response.headers.get("content-type") || "";
+    if (!response.ok || !type.includes("json")) return null;
+    return (await response.json()) as T;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
-  return Promise.race([
-    work,
-    new Promise<T>((_, reject) => {
-      setTimeout(() => reject(timeoutError(path)), timeoutMs + 50);
-    }),
-  ]);
+async function fetchJson<T>(origin: string, path: string, init: RequestInit | undefined, sendLocalHost: boolean): Promise<T> {
+  const data = await fetchJsonOrNull<T>(origin, path, init, sendLocalHost);
+  if (data != null) return data;
+  throw new WordpressApiError(
+    `WordPress is not reachable (${path}). Start the site in Local, then refresh.`,
+    503,
+  );
 }
 
 export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
@@ -134,27 +140,32 @@ export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const request = (async () => {
     const useFallback = Boolean(fallback && fallback !== primary);
     if (isLocalHost(primary) && useFallback) {
-      const remote = fetchJson<T>(fallback, path, init, false);
-      try {
-        const local = await fetchJson<T>(primary, path, init, isLocalHost(primary));
-        if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data: local });
-        return local;
-      } catch {
-        const data = await remote;
-        if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
-        return data;
+      if (!localWordpressSkipped()) {
+        const local = await fetchJsonOrNull<T>(primary, path, init, true);
+        if (local != null) {
+          if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data: local });
+          return local;
+        }
+        markLocalWordpressDown();
       }
-    }
-    try {
-      const data = await fetchJson<T>(primary, path, init, isLocalHost(primary));
-      if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
-      return data;
-    } catch (error) {
-      if (!useFallback) throw error;
       const data = await fetchJson<T>(fallback, path, init, false);
       if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
       return data;
     }
+    const data = await fetchJsonOrNull<T>(primary, path, init, isLocalHost(primary));
+    if (data != null) {
+      if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
+      return data;
+    }
+    if (!useFallback) {
+      throw new WordpressApiError(
+        `WordPress is not reachable (${path}). Start the site in Local, then refresh.`,
+        503,
+      );
+    }
+    const remote = await fetchJson<T>(fallback, path, init, false);
+    if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data: remote });
+    return remote;
   })();
 
   if (!skipCache) {

@@ -32,7 +32,7 @@ export function PageHeading({
           {parts.lead ? " " : null}
           <span className={`${PAGE_ACCENT} relative inline-block`}>
             <span className="relative z-10">{parts.accent}</span>
-            <span className="absolute right-0 bottom-[0.18em] left-0 -z-0 h-[0.36em] bg-[#FBF0D9]" />
+            <span className="ju-heading-mark absolute right-0 bottom-[0.18em] left-0 -z-0 h-[0.36em]" />
           </span>
         </>
       ) : null}

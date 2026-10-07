@@ -106,32 +106,32 @@ function ServiceMega({
         open ? "visible opacity-100" : "invisible opacity-0 group-hover:visible group-hover:opacity-100"
       }`}
     >
-      <div className="relative z-[90] grid gap-4 rounded-xl bg-[#fffbf4] p-4 shadow-[0_12px_32px_rgba(90,60,20,0.12)] ring-1 ring-[#ead9bc]/80 sm:grid-cols-2">
+      <div className="relative z-[90] grid gap-4 rounded-xl bg-surface-lowest p-4 shadow-[0_12px_32px_rgba(90,60,20,0.12)] ring-1 ring-outline-variant/80 sm:grid-cols-2">
         <div>
-          <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#b08a1a]">Consultation</p>
+          <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Consultation</p>
           {consult.map((item) => (
             <Link
               key={item.id}
               href={item.href}
               onClick={onClose}
-              className="block rounded-lg px-3 py-2 hover:bg-[#fff3d6]"
+              className="block rounded-lg px-3 py-2 hover:bg-surface-low"
             >
-              <span className="block text-[13px] font-semibold text-[#8b6914]">{item.label}</span>
-              <span className="block text-[11px] text-[#8b6914]/70">{item.hint}</span>
+              <span className="block text-[13px] font-semibold text-primary">{item.label}</span>
+              <span className="block text-[11px] text-primary/70">{item.hint}</span>
             </Link>
           ))}
         </div>
         <div>
-          <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#b08a1a]">Also available</p>
+          <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">Also available</p>
           {offer.map((item) => (
             <Link
               key={item.id}
               href={item.href}
               onClick={onClose}
-              className="block rounded-lg px-3 py-2 hover:bg-[#fff3d6]"
+              className="block rounded-lg px-3 py-2 hover:bg-surface-low"
             >
-              <span className="block text-[13px] font-semibold text-[#8b6914]">{item.label}</span>
-              <span className="block text-[11px] text-[#8b6914]/70">{item.hint}</span>
+              <span className="block text-[13px] font-semibold text-primary">{item.label}</span>
+              <span className="block text-[11px] text-primary/70">{item.hint}</span>
             </Link>
           ))}
         </div>
@@ -254,13 +254,13 @@ export function Header({
                 moreOpen ? "visible opacity-100" : "invisible opacity-0 group-hover:visible group-hover:opacity-100"
               }`}
             >
-              <div className="relative z-[90] flex flex-col rounded-xl bg-[#fffbf4] p-2 shadow-[0_12px_32px_rgba(90,60,20,0.12)] ring-1 ring-[#ead9bc]/80">
+              <div className="relative z-[90] flex flex-col rounded-xl bg-surface-lowest p-2 shadow-[0_12px_32px_rgba(90,60,20,0.12)] ring-1 ring-outline-variant/80">
                 {moreNav.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setMoreOpen(false)}
-                    className="rounded-lg px-3 py-2 text-[12px] font-medium tracking-wide text-[#8b6914] hover:bg-[#fff3d6] hover:text-[#b08a1a]"
+                    className="rounded-lg px-3 py-2 text-[12px] font-medium tracking-wide text-primary hover:bg-surface-low hover:text-primary"
                   >
                     {t(item.key)}
                   </Link>
@@ -278,23 +278,23 @@ export function Header({
                 type="button"
                 suppressHydrationWarning
                 onClick={() => setAccountOpen((value) => !value)}
-                className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[#c4a227] bg-white text-[#b08a1a] ring-2 ring-emerald-400"
+                className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[#c4a227] bg-surface-lowest text-primary ring-2 ring-emerald-400"
                 aria-label="Account"
               >
                 {user.name?.[0]?.toUpperCase() || "A"}
                 <span className="absolute -right-0.5 -bottom-0.5 h-2.5 w-2.5 rounded-full border border-white bg-emerald-400" />
               </button>
               {accountOpen ? (
-                <div className="absolute top-full right-0 mt-2 w-48 rounded-xl bg-[#fffbf4] p-2 shadow-[0_12px_32px_rgba(90,60,20,0.12)] ring-1 ring-[#ead9bc]/80">
-                  <Link href="/account" className="block rounded-lg px-3 py-2 text-sm text-[#8b6914] hover:bg-[#fff3d6]" onClick={() => setAccountOpen(false)}>
+                <div className="absolute top-full right-0 mt-2 w-48 rounded-xl bg-surface-lowest p-2 shadow-[0_12px_32px_rgba(90,60,20,0.12)] ring-1 ring-outline-variant/80">
+                  <Link href="/account" className="block rounded-lg px-3 py-2 text-sm text-primary hover:bg-surface-low" onClick={() => setAccountOpen(false)}>
                     Dashboard
                   </Link>
-                  <Link href="/account/bookings" className="block rounded-lg px-3 py-2 text-sm text-[#8b6914] hover:bg-[#fff3d6]" onClick={() => setAccountOpen(false)}>
+                  <Link href="/account/bookings" className="block rounded-lg px-3 py-2 text-sm text-primary hover:bg-surface-low" onClick={() => setAccountOpen(false)}>
                     My Bookings
                   </Link>
                   <button
                     type="button"
-                    className="block w-full rounded-lg px-3 py-2 text-left text-sm text-[#8b6914] hover:bg-[#fff3d6]"
+                    className="block w-full rounded-lg px-3 py-2 text-left text-sm text-primary hover:bg-surface-low"
                     onClick={() => {
                       setAccountOpen(false);
                       logout();
@@ -310,7 +310,7 @@ export function Header({
               type="button"
               suppressHydrationWarning
               onClick={() => openAuth("login")}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[#c4a227] bg-white text-[#b08a1a]"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[#c4a227] bg-surface-lowest text-primary"
               aria-label="Login"
             >
               <AccountIcon />

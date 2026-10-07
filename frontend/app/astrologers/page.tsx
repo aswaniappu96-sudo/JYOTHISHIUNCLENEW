@@ -28,7 +28,7 @@ export default async function AstrologersPage() {
         phone={settings.phone_number}
         whatsapp={settings.whatsapp_number}
       />
-      <AstrologyServicesSection services={services} />
+      <AstrologyServicesSection services={services} whatsappNumber={settings.whatsapp_number} />
       <JyotishaWisdom />
       <HoroscopeBand />
       <AstrologerMatchCta whatsappNumber={settings.whatsapp_number} />

@@ -1,10 +1,13 @@
 "use client";
 
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
 import { stripHtml, stripPublicPrices } from "@/lib/html";
+import type { MsgKey } from "@/lib/i18n";
 import type { WPImage } from "@/types/wordpress";
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
@@ -38,37 +41,327 @@ function ChipIcon({ kind }: { kind: "time" | "globe" | "pin" }) {
   );
 }
 
-function Mark({ kind }: { kind: "check" | "om" | "star" | "conch" }) {
-  if (kind === "check") {
-    return (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8B6A3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-        <path d="M5 12l4 4L19 6" />
-      </svg>
-    );
-  }
-  if (kind === "om") {
-    return <span className="font-serif text-[12px] leading-none text-[#8B6A3A]">ॐ</span>;
-  }
-  if (kind === "star") {
-    return (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="#8B6A3A" aria-hidden>
-        <path d="M12 2.5 14.6 9h6.4l-5.2 3.9 2 6.1L12 15.4 6.2 19l2-6.1L3 9h6.4L12 2.5Z" />
-      </svg>
-    );
-  }
+function ShieldTrust() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8B6A3A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M5 14c2.5-1 4-3.5 4-6 0-2.2-1.3-4-3-4S3 5.8 3 8c0 4 3.5 7 8 9 4.5-2 8-5 8-9 0-2.2-1.3-4-3-4s-3 1.8-3 4c0 2.5 1.5 5 4 6" />
-      <path d="M12 17v4" />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12 3l7 3v6c0 4-2.5 7-7 9-4.5-2-7-5-7-9V6l7-3z" />
+      <path d="M9 12l2 2 4-4" />
     </svg>
   );
 }
 
-function IconDot({ kind }: { kind: "check" | "om" | "star" | "conch" }) {
+function PersonTrust() {
   return (
-    <span className="mt-[1px] inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-white shadow-[0_1px_0_rgba(0,0,0,0.02)]">
-      <Mark kind={kind} />
-    </span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5.5 19c1.2-3 4-5 6.5-5s5.3 2 6.5 5" />
+    </svg>
+  );
+}
+
+function LockTrust() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <rect x="4" y="10" width="16" height="11" rx="2.5" />
+      <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+      <circle cx="12" cy="15.5" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function ChatTrust() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H14a2.5 2.5 0 0 1 2.5 2.5v4A2.5 2.5 0 0 1 14 13H10l-4 3v-3.5A2.5 2.5 0 0 1 5 10v-3.5z" />
+    </svg>
+  );
+}
+
+function KundliGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 4v16M4 12h16" opacity="0.7" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+    </svg>
+  );
+}
+
+function HeartGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <path d="M12 19s-6-4.2-6-8.2A3.8 3.8 0 0 1 12 7a3.8 3.8 0 0 1 6 3.8C18 14.8 12 19 12 19z" />
+    </svg>
+  );
+}
+
+function BriefGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <rect x="3" y="7" width="18" height="11" rx="2" />
+      <path d="M8 7V5a4 4 0 0 1 8 0v2" />
+    </svg>
+  );
+}
+
+function SunGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <circle cx="12" cy="12" r="3.5" />
+      <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6l-1.4 1.4M7 17l-1.4 1.4" />
+    </svg>
+  );
+}
+
+function QuestionGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <path d="M9.5 9a3.5 3.5 0 0 1 6.5 1.5c0 2.5-3.5 3-3.5 5" />
+      <circle cx="12" cy="18" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function CrossGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 8v8M8 12h8" />
+    </svg>
+  );
+}
+
+function HomeGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <path d="M3 11L12 3l9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11z" />
+    </svg>
+  );
+}
+
+function StarGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z" />
+    </svg>
+  );
+}
+
+const TRUST_CARDS = [
+  { title: "trust.verified" as const, copy: "trust.verifiedCopy" as const, icon: ShieldTrust },
+  { title: "trust.personal" as const, copy: "trust.personalCopy" as const, icon: PersonTrust },
+  { title: "trust.private" as const, copy: "trust.privateCopy" as const, icon: LockTrust },
+  { title: "trust.connect" as const, copy: "trust.connectCopy" as const, icon: ChatTrust },
+];
+
+const POPULAR: { title: MsgKey; copy: MsgKey; href: string; icon: () => ReactNode }[] = [
+  { title: "pop.kundli", copy: "pop.kundliCopy", href: "/astrologers", icon: KundliGlyph },
+  { title: "pop.marriage", copy: "pop.marriageCopy", href: "/astrologers?topic=marriage", icon: HeartGlyph },
+  { title: "pop.business", copy: "pop.businessCopy", href: "/astrologers?topic=business", icon: BriefGlyph },
+  { title: "pop.remedies", copy: "pop.remediesCopy", href: "/astrologers?topic=remedies", icon: SunGlyph },
+  { title: "pop.prashna", copy: "pop.prashnaCopy", href: "/#consultation", icon: QuestionGlyph },
+  { title: "pop.career", copy: "pop.careerCopy", href: "/astrologers?topic=career", icon: CrossGlyph },
+  { title: "pop.vastu", copy: "pop.vastuCopy", href: "/astrologers?topic=vastu", icon: HomeGlyph },
+  { title: "pop.life", copy: "pop.lifeCopy", href: "/astrologers", icon: StarGlyph },
+];
+
+function WhyJyothishiUncle() {
+  const { t } = usePrefs();
+  const router = useRouter();
+  const [open, setOpen] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const id = window.setTimeout(() => setToast(null), 2600);
+    return () => window.clearTimeout(id);
+  }, [toast]);
+
+  return (
+    <div id="why" className="relative mt-14 scroll-mt-36 pt-10">
+      <div className="h-px w-full bg-gradient-to-r from-[#EAD9B0]/0 via-[#EAD9B0] to-[#EAD9B0]/0" />
+
+      <div className="mt-10 md:mt-14">
+        <div className="max-w-[760px]">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="inline-block h-px w-8 bg-[#E9C07A]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("trust.kicker")}</span>
+          </div>
+          <PageHeading lead={t("trust.lead")} accent={t("trust.accent")} />
+          <p className="mt-5 max-w-[520px] text-[15.5px] leading-[1.85] text-[#6E6256]">{t("trust.copy")}</p>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          {TRUST_CARDS.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.title}
+                className="group relative flex items-start gap-3 rounded-[18px] border border-[#EAD9B0] bg-white/80 px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18),0_1px_0_0_rgba(245,230,200,0.8)_inset] transition-all duration-300 hover:-translate-y-px hover:shadow-[0_16px_36px_-18px_rgba(61,44,30,0.22)]"
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] shadow-[0_1px_0_0_white_inset]">
+                  <Icon />
+                </div>
+                <div className="min-w-0 pt-0.5">
+                  <h3 className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{t(item.title)}</h3>
+                  <p className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="mt-12 h-px w-full bg-gradient-to-r from-[#EAD9B0]/0 via-[#EAD9B0] to-[#EAD9B0]/0 md:mt-16" />
+
+      <div className="mt-10 grid grid-cols-1 items-start gap-10 md:mt-14 lg:grid-cols-[1.22fr_0.88fr] lg:gap-12">
+        <div>
+          <div className="mb-7 flex items-center gap-3 md:mb-8">
+            <span className="inline-block h-px w-8 bg-[#E9C07A]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("pop.kicker")}</span>
+          </div>
+          <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 md:gap-y-7 lg:pr-8">
+            {POPULAR.map((item) => {
+              const Icon = item.icon;
+              const title = t(item.title);
+              const active = open === item.title;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => {
+                    if (active) router.push(item.href);
+                    else setOpen(item.title);
+                  }}
+                  className={`group flex items-start gap-3 rounded-[14px] p-2 text-left transition-all duration-200 ${
+                    active
+                      ? "border border-[#EAD9B0] bg-white shadow-[0_6px_20px_-14px_rgba(61,44,30,0.25)]"
+                      : "border border-transparent hover:bg-white/60"
+                  }`}
+                >
+                  <span
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
+                      active ? "border-[#1E160E] bg-[#1E160E] text-[#FBF0D9]" : "border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] group-hover:bg-white"
+                    }`}
+                  >
+                    <Icon />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{title}</span>
+                    <span className="mt-0.5 block text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</span>
+                    {active ? (
+                      <span className="mt-2 block rounded-lg border border-[#EAD9B0] bg-[#FFF8EC] px-2.5 py-2 text-[12.5px] leading-[1.6] text-[#6E6256]">
+                        {t("pop.expand")}
+                      </span>
+                    ) : null}
+                  </span>
+                  <span
+                    className={`mt-1.5 flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
+                      active ? "border-[#1E160E] bg-[#1E160E] text-white" : "border-[#EAD9B0] text-[#C9A86A] group-hover:border-[#E9C07A]"
+                    }`}
+                  >
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" className={active ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden>
+                      <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-8 flex items-center gap-2 text-[12.5px] text-[#8B7E6E] md:mt-10">
+            <span className="h-px w-6 bg-[#EAD9B0]" />
+            {t("how.privateNote")}
+          </p>
+        </div>
+
+        <div className="relative lg:-mt-1">
+          <div className="relative overflow-hidden rounded-[24px] border border-[#EAD9B0] bg-white shadow-[0_20px_50px_-24px_rgba(61,44,30,0.22),0_1px_0_0_white_inset]">
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E9C07A]/60 to-transparent" />
+            <div className="absolute right-0 top-0 h-[220px] w-[220px] rounded-full opacity-60 blur-[42px]" style={{ background: "radial-gradient(circle, rgba(232,223,245,0.45) 0%, transparent 70%)" }} />
+            <div className="relative p-7 md:p-8">
+              <div className="mb-3 flex items-center gap-3">
+                <span className="inline-block h-px w-8 bg-[#E9C07A]" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("how.kicker")}</span>
+              </div>
+              <h3 className="font-serif text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[#1A1106] sm:text-[28px]">
+                {t("how.lead")} <span className="italic text-[#9A6F3A]">{t("how.accent")}</span>
+              </h3>
+
+              <ol className="relative mt-8 space-y-6">
+                {(
+                  [
+                    { n: "01", t: "how.step1" as const, d: "how.step1Copy" as const },
+                    { n: "02", t: "how.step2" as const, d: "how.step2Copy" as const },
+                    { n: "03", t: "how.step3" as const, d: "how.step3Copy" as const },
+                  ] as const
+                ).map((step, index) => (
+                  <li key={step.n} className="flex gap-4">
+                    <div className="relative shrink-0">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[13px] font-medium text-[#8B6A3A]">
+                        {step.n}
+                      </div>
+                      {index !== 2 ? <div className="mx-auto mt-2 h-6 w-px bg-[#EAD9B0]" /> : null}
+                    </div>
+                    <div className="min-w-0 pt-1">
+                      <h4 className="text-[14px] font-semibold leading-[1.4] text-[#1E160E]">{t(step.t)}</h4>
+                      <p className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(step.d)}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="mt-8">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setToast(t("how.toast"));
+                    window.setTimeout(() => router.push("/astrologers"), 400);
+                  }}
+                  className="inline-flex h-[48px] w-full items-center justify-center rounded-full bg-[#E9C07A] px-7 text-[14px] font-semibold tracking-[0.01em] text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition-colors hover:bg-[#E0B46D] md:w-auto"
+                >
+                  {t("how.cta")}
+                  <span className="ml-2" aria-hidden>
+                    →
+                  </span>
+                </button>
+                <div className="mt-4 flex items-center gap-2.5 text-[12.5px] text-[#8B7E6E]">
+                  <div className="flex -space-x-1.5">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#EAD9B0] font-serif text-[13px] text-[#5C4A32]">J</span>
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#FBF0D9] font-serif text-[13px] text-[#5C4A32]">U</span>
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#EAD9B0] bg-white text-[12px]">📿</span>
+                  </div>
+                  <span>{t("how.seekers")}</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex h-12 items-center justify-between border-t border-[#FBF0D9] bg-[#1E160E] px-6">
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#E9C07A]" />
+                <span className="text-[11px] tracking-[0.08em] text-[#EAD9B0]">{t("how.liveLine")}</span>
+              </div>
+              <span className="text-[11px] text-[#9C8360]">{t("how.response")}</span>
+            </div>
+          </div>
+
+          <div className="absolute -left-6 top-[42%] hidden -rotate-3 items-center gap-2.5 rounded-[14px] border border-[#EAD9B0] bg-white px-3.5 py-2.5 shadow-[0_10px_30px_-14px_rgba(61,44,30,0.3)] lg:flex">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#1E160E] text-[12px] text-[#E9C686]">✦</span>
+            <div>
+              <p className="text-[11px] font-semibold leading-[1.1] text-[#1E160E]">{t("how.vedic")}</p>
+              <p className="text-[10px] text-[#7A6A5A]">{t("about.parampara")}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {toast ? (
+        <div className="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
+          <div className="pointer-events-auto flex items-center gap-2.5 rounded-full bg-[#3D2C1E] px-5 py-2.5 text-[13px] font-medium text-[#FFF9F0] shadow-[0_12px_30px_-10px_rgba(61,44,30,0.6)]">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#E9C686] text-[11px] text-[#3D2C1E]">✦</span>
+            {toast}
+          </div>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -309,99 +602,7 @@ export function AboutTeaser({ excerpt, image: _image }: { excerpt?: string; imag
           </div>
         </div>
 
-        <div className="mt-14 border-t border-[#E9C07A]/40 pt-10">
-          <div className="mb-3 flex items-center gap-2.5">
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
-              ॐ
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("trust.kicker")}</span>
-          </div>
-          <PageHeading lead={t("trust.lead")} accent={t("trust.accent")} />
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-            {(
-              [
-                { title: t("trust.verified"), copy: t("trust.verifiedCopy"), mark: "check" as const },
-                { title: t("trust.personal"), copy: t("trust.personalCopy"), mark: "om" as const },
-                { title: t("trust.private"), copy: t("trust.privateCopy"), mark: "star" as const },
-                { title: t("trust.connect"), copy: t("trust.connectCopy"), mark: "conch" as const },
-              ] as const
-            ).map((item) => (
-              <li key={item.title} className="flex gap-3 rounded-[18px] border border-[#EAD9B0] bg-white/80 px-4 py-3.5">
-                <IconDot kind={item.mark} />
-                <div>
-                  <div className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{item.title}</div>
-                  <div className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{item.copy}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-12 grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
-            <div>
-              <div className="mb-3 flex items-center gap-2.5">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
-                  ॐ
-                </span>
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("pop.kicker")}</span>
-              </div>
-              <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3.5">
-                {(
-                  [
-                    { title: t("pop.kundli"), copy: t("pop.kundliCopy"), href: "/astrologers", mark: "check" as const },
-                    { title: t("pop.prashna"), copy: t("pop.prashnaCopy"), href: "/#consultation", mark: "om" as const },
-                    { title: t("pop.marriage"), copy: t("pop.marriageCopy"), href: "/astrologers?topic=marriage", mark: "star" as const },
-                    { title: t("pop.career"), copy: t("pop.careerCopy"), href: "/astrologers?topic=career", mark: "conch" as const },
-                    { title: t("pop.business"), copy: t("pop.businessCopy"), href: "/astrologers?topic=business", mark: "check" as const },
-                    { title: t("pop.vastu"), copy: t("pop.vastuCopy"), href: "/astrologers?topic=vastu", mark: "om" as const },
-                    { title: t("pop.remedies"), copy: t("pop.remediesCopy"), href: "/astrologers?topic=remedies", mark: "star" as const },
-                    { title: t("pop.life"), copy: t("pop.lifeCopy"), href: "/astrologers", mark: "conch" as const },
-                  ] as const
-                ).map((item) => (
-                  <li key={item.title}>
-                    <Link href={item.href} className="flex gap-3 rounded-xl px-1 py-0.5 transition hover:bg-[#FFF8EC]">
-                      <IconDot kind={item.mark} />
-                      <div>
-                        <div className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{item.title}</div>
-                        <div className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{item.copy}</div>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <div className="mb-3 flex items-center gap-2.5">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[10px] text-[#8B6A3A]">
-                  ॐ
-                </span>
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("how.kicker")}</span>
-              </div>
-              <h3 className="font-serif text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[#1E160E] sm:text-[28px]">
-                {t("how.lead")} <em className="italic text-[#9A6F3A]">{t("how.accent")}</em>
-              </h3>
-              <ol className="mt-6 space-y-4">
-                {[t("how.step1"), t("how.step2"), t("how.step3")].map((step, index) => (
-                  <li key={step} className="flex items-start gap-3">
-                    <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[13px] font-medium text-[#8B6A3A]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="pt-1 text-[14px] font-semibold leading-[1.4] text-[#1E160E]">{step}</span>
-                  </li>
-                ))}
-              </ol>
-              <Link
-                href="/astrologers"
-                className="mt-7 inline-flex h-[48px] items-center justify-center rounded-full bg-[#E9C07A] px-7 text-[14px] font-semibold tracking-[0.01em] text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition-colors hover:bg-[#E0B46D]"
-              >
-                {t("how.cta")}
-                <span className="ml-2" aria-hidden>
-                  →
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
+        <WhyJyothishiUncle />
       </Reveal>
     </section>
   );

@@ -49,10 +49,10 @@ export function OnlineNow({ astrologers = [] }: { astrologers?: Astrologer[] }) 
   return (
     <Link
       href="/#astrologers"
-      className="twinkle inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-3 py-1.5 shadow-[0_8px_24px_rgba(8,4,0,0.16)] transition hover:border-[#C4A227] hover:bg-[#FFFBF0]"
+      className="twinkle inline-flex items-center gap-2 rounded-full border border-outline-variant bg-surface-lowest px-3 py-1.5 shadow-[0_8px_24px_rgba(8,4,0,0.16)] transition hover:border-primary-container hover:bg-surface-low"
     >
       <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
-      <p className="text-[11px] font-semibold text-[#1E160E]">
+      <p className="text-[11px] font-semibold text-on-surface">
         {count ? t("online.now", { n: count }) : t("astro.kicker")}
       </p>
       <div className="flex -space-x-2">
@@ -154,7 +154,7 @@ export function ThemeToggle() {
       type="button"
       suppressHydrationWarning
       onClick={() => setTheme(dark ? "light" : "dark")}
-      className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#b08a1a] shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-[#ead9bc] transition hover:scale-105 hover:bg-[#FFFBF0]"
+      className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-lowest text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-outline-variant transition hover:scale-105 hover:bg-surface-low"
       aria-label={dark ? t("nav.themeLight") : t("nav.themeDark")}
       title={dark ? t("nav.themeLight") : t("nav.themeDark")}
     >
@@ -183,20 +183,20 @@ export function LanguageSwitch() {
         type="button"
         suppressHydrationWarning
         onClick={() => setOpen((value) => !value)}
-        className="flex h-12 min-w-12 items-center justify-center rounded-full bg-white px-3 text-[11px] font-bold uppercase tracking-[0.08em] text-[#b08a1a] shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-[#ead9bc] transition hover:scale-105 hover:bg-[#FFFBF0]"
+        className="flex h-12 min-w-12 items-center justify-center rounded-full bg-surface-lowest px-3 text-[11px] font-bold uppercase tracking-[0.08em] text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-outline-variant transition hover:scale-105 hover:bg-surface-low"
         aria-expanded={open}
         aria-label={t("nav.language")}
       >
         {current.id}
       </button>
       {open ? (
-        <div className="absolute top-full right-0 z-[95] mt-2 w-40 rounded-xl bg-white p-1 shadow-[0_12px_32px_rgba(90,60,20,0.16)] ring-1 ring-[#ead9bc]">
+        <div className="absolute top-full right-0 z-[95] mt-2 w-40 rounded-xl bg-surface-lowest p-1 shadow-[0_12px_32px_rgba(90,60,20,0.16)] ring-1 ring-outline-variant">
           {LOCALES.map((item) => (
             <button
               key={item.id}
               type="button"
               className={`block w-full rounded-lg px-3 py-2 text-left text-[13px] ${
-                item.id === locale ? "bg-[#FBF0D9] font-semibold text-[#1E160E]" : "text-[#1E160E] hover:bg-[#FFF8E9]"
+                item.id === locale ? "bg-surface-container font-semibold text-on-surface" : "text-on-surface hover:bg-surface-low"
               }`}
               onClick={() => {
                 setLocale(item.id);

@@ -6,9 +6,9 @@ export const SECTION = "relative w-full py-5 md:py-6";
 export const KICKER = "text-[11px] font-bold uppercase tracking-[0.22em] text-primary";
 export const TITLE = "font-serif text-[26px] font-bold leading-tight tracking-tight text-on-surface md:text-[34px]";
 export const DISPLAY_TITLE =
-  "font-serif text-[36px] font-bold leading-[1.08] tracking-tight text-[#1f1408] sm:text-[48px] md:text-[58px]";
+  "font-serif text-[36px] font-bold leading-[1.08] tracking-tight text-on-surface sm:text-[48px] md:text-[58px]";
 export const PAGE_TITLE =
-  "font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#1A1106] sm:text-[52px]";
+  "font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]";
 export const PAGE_ACCENT = "italic text-[#9A6F3A]";
 export const LEAD = "max-w-3xl text-[15px] leading-relaxed text-on-surface md:text-base";
 
