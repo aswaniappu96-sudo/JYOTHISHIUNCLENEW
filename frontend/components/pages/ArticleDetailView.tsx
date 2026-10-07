@@ -1,17 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { ArticleCard } from "@/components/pages/ArticleCard";
 import { ArticlePanchangRail } from "@/components/pages/ArticlePanchangRail";
 import { ArticleShareBar } from "@/components/pages/ArticleShareBar";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
+import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { articleCategory, formatArticleDate, readingMinutes, stripHtml, stripPublicPrices } from "@/lib/html";
+import { useLocalized, withLocale } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Article, Astrologer, Product } from "@/types/wordpress";
 
 export function ArticleDetailView({
-  article,
+  article: raw,
   related,
   whatsappNumber,
   author,
@@ -23,6 +27,9 @@ export function ArticleDetailView({
   author?: Astrologer | null;
   product?: Product | null;
 }) {
+  const { locale } = usePrefs();
+  const article = useLocalized(raw);
+  const authorLoc = author ? withLocale(author, locale) : null;
   const src = imageSrc(article.featured_image);
   const category = articleCategory(article);
   const mins = readingMinutes(article.content || article.excerpt);
@@ -30,8 +37,8 @@ export function ArticleDetailView({
   const content = stripPublicPrices(article.content);
   const tags = article.tags.filter(Boolean);
   const authorName = article.writer_name?.trim() || "JyothishiUncle";
-  const authorPhoto = imageSrc(author?.featured_image);
-  const authorNote = stripPublicPrices(stripHtml(author?.full_description || author?.short_description || ""));
+  const authorPhoto = imageSrc(authorLoc?.featured_image);
+  const authorNote = stripPublicPrices(stripHtml(authorLoc?.full_description || authorLoc?.short_description || ""));
   const productSrc = imageSrc(product?.featured_image);
   const waHref = whatsappNumber
     ? whatsappUrl(whatsappNumber, `Hello, I read “${article.title}” and would like guidance.`)
@@ -178,8 +185,8 @@ export function ArticleDetailView({
             <div className="flex-1 text-center md:text-left">
               <div className="mb-2 flex flex-col justify-between gap-1 md:flex-row md:items-center">
                 <h3 className="font-serif text-[22px] leading-8 text-primary">{authorName}</h3>
-                {author?.specialty ? (
-                  <span className="text-[11px] font-bold tracking-widest text-secondary uppercase">{author.specialty}</span>
+                {authorLoc?.specialty ? (
+                  <span className="text-[11px] font-bold tracking-widest text-secondary uppercase">{authorLoc.specialty}</span>
                 ) : null}
               </div>
               <p className="mb-3 text-sm leading-relaxed text-on-surface-variant">

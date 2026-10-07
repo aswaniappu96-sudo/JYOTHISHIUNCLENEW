@@ -5,6 +5,7 @@ import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { imageSrc } from "@/lib/media";
+import { useLocalizedList } from "@/lib/localized";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -165,7 +166,7 @@ function ChatGlyph() {
 export function PoojaSection({ poojas, whatsappNumber = "" }: { poojas: Pooja[]; whatsappNumber?: string }) {
   const { t } = usePrefs();
   const list = useJuList<Pooja>("/poojas", poojas);
-  const cards = (list.length ? list : FALLBACKS).slice(0, 4);
+  const cards = useLocalizedList((list.length ? list : FALLBACKS).slice(0, 4));
   const chatHref = whatsappNumber.trim()
     ? whatsappUrl(whatsappNumber, "Namaste. I would like to ask about a temple pooja.")
     : "";
@@ -194,7 +195,7 @@ export function PoojaSection({ poojas, whatsappNumber = "" }: { poojas: Pooja[];
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {cards.map((pooja, index) => {
-            const look = poojaLook(pooja.title);
+            const look = poojaLook(`${pooja.slug} ${pooja.title}`);
             const src = imageSrc(pooja.featured_image);
             return (
               <article

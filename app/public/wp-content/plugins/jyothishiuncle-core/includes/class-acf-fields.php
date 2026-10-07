@@ -20,6 +20,7 @@ class JU_ACF_Fields {
 		self::product();
 		self::service();
 		self::astrologer();
+		self::content_translations();
 		self::vendor();
 		self::site_pages();
 		self::travel();
@@ -32,6 +33,100 @@ class JU_ACF_Fields {
 		self::product_enquiry();
 		self::travel_booking();
 		self::consultation_booking();
+	}
+
+	private static function content_translations() {
+		self::translation_group(
+			'pooja_i18n',
+			'Pooja translations',
+			'pooja',
+			array(
+				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+				array( 'name' => 'short_description', 'label' => 'Short description', 'type' => 'textarea' ),
+				array( 'name' => 'full_description', 'label' => 'Full description', 'type' => 'wysiwyg' ),
+				array( 'name' => 'benefits', 'label' => 'Benefits', 'type' => 'wysiwyg' ),
+				array( 'name' => 'requirements', 'label' => 'Requirements', 'type' => 'wysiwyg' ),
+			)
+		);
+		self::translation_group(
+			'product_i18n',
+			'Product translations',
+			'product',
+			array(
+				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+				array( 'name' => 'short_description', 'label' => 'Short description', 'type' => 'textarea' ),
+				array( 'name' => 'full_description', 'label' => 'Full description', 'type' => 'wysiwyg' ),
+				array( 'name' => 'product_info', 'label' => 'Product information', 'type' => 'wysiwyg' ),
+			)
+		);
+		self::translation_group(
+			'astrologer_i18n',
+			'Astrologer translations',
+			'astrologer',
+			array(
+				array( 'name' => 'title', 'label' => 'Name', 'type' => 'text' ),
+				array( 'name' => 'specialty', 'label' => 'Specialty', 'type' => 'text' ),
+				array( 'name' => 'location', 'label' => 'Location', 'type' => 'text' ),
+				array( 'name' => 'short_description', 'label' => 'Short description', 'type' => 'textarea' ),
+				array( 'name' => 'full_description', 'label' => 'Full biography', 'type' => 'wysiwyg' ),
+				array( 'name' => 'first_session_note', 'label' => 'First session note', 'type' => 'text' ),
+			)
+		);
+		self::translation_group(
+			'article_i18n',
+			'Article translations',
+			'post',
+			array(
+				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+				array( 'name' => 'excerpt', 'label' => 'Excerpt', 'type' => 'textarea' ),
+				array( 'name' => 'content', 'label' => 'Article body', 'type' => 'wysiwyg' ),
+			)
+		);
+	}
+
+	private static function translation_group( $key, $title, $post_type, $fields ) {
+		$acf_fields = array();
+		$locales    = class_exists( 'JU_I18n' ) ? JU_I18n::content_locales() : array();
+		if ( ! $locales ) {
+			$locales = array(
+				array( 'id' => 'hi', 'native' => 'हिन्दी' ),
+				array( 'id' => 'ta', 'native' => 'தமிழ்' ),
+				array( 'id' => 'ml', 'native' => 'മലയാളം' ),
+				array( 'id' => 'kn', 'native' => 'ಕನ್ನಡ' ),
+				array( 'id' => 'te', 'native' => 'తెలుగు' ),
+			);
+		}
+
+		foreach ( $locales as $locale ) {
+			$id = sanitize_key( $locale['id'] );
+			$acf_fields[] = array(
+				'key'       => 'field_' . $key . '_tab_' . $id,
+				'label'     => $locale['native'],
+				'name'      => '',
+				'type'      => 'tab',
+				'placement' => 'top',
+			);
+			foreach ( $fields as $field ) {
+				$name         = $field['name'] . '_' . $id;
+				$acf_fields[] = self::field(
+					'field_' . $key . '_' . $name,
+					$name,
+					$field['label'],
+					$field['type'],
+					'Leave blank to keep the English text.'
+				);
+			}
+		}
+
+		acf_add_local_field_group(
+			array(
+				'key'        => 'group_' . $key,
+				'title'      => $title,
+				'fields'     => $acf_fields,
+				'location'   => self::location( $post_type ),
+				'menu_order' => 20,
+			)
+		);
 	}
 
 	private static function pooja() {
@@ -224,6 +319,20 @@ class JU_ACF_Fields {
 				'fields'   => array_merge(
 					self::person_fields( 'registration' ),
 					array(
+						array(
+							'key'           => 'field_reg_account_type',
+							'label'         => 'Register as',
+							'name'          => 'account_type',
+							'type'          => 'select',
+							'choices'       => array(
+								'user'       => 'User',
+								'astrologer' => 'Astrologer',
+							),
+							'default_value' => 'user',
+						),
+						self::field( 'field_reg_experience', 'experience', 'Years of experience', 'text' ),
+						self::field( 'field_reg_languages', 'languages', 'Languages', 'text' ),
+						self::field( 'field_reg_specialties', 'specialties', 'Specialties', 'text' ),
 						self::field( 'field_reg_source', 'source', 'How they heard about us', 'text' ),
 						self::field( 'field_reg_message', 'message', 'Message', 'textarea' ),
 						array(

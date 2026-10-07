@@ -53,6 +53,8 @@ class JU_REST {
 		$origins = array(
 			'http://localhost:3000',
 			'http://127.0.0.1:3000',
+			'http://localhost:3001',
+			'http://127.0.0.1:3001',
 		);
 
 		$site = home_url();
@@ -76,6 +78,7 @@ class JU_REST {
 		register_rest_route( self::NS, '/health', array_merge( $public, array( 'callback' => array( __CLASS__, 'health' ) ) ) );
 		register_rest_route( self::NS, '/home', array_merge( $public, array( 'callback' => array( __CLASS__, 'home' ) ) ) );
 		register_rest_route( self::NS, '/settings', array_merge( $public, array( 'callback' => array( __CLASS__, 'settings' ) ) ) );
+		register_rest_route( self::NS, '/i18n', array_merge( $public, array( 'callback' => array( 'JU_I18n', 'rest' ) ) ) );
 
 		self::collection( '/poojas', 'poojas' );
 		self::item( '/poojas/(?P<slug>[a-z0-9-]+)', 'pooja' );
@@ -242,6 +245,7 @@ class JU_REST {
 			'logo_url'                  => $logo && ! empty( $logo['url'] ) ? $logo['url'] : JU_CORE_URL . 'assets/logo-placeholder.svg',
 			'hero_image'                => $hero,
 			'about_teaser_image'        => $about_photo,
+			'i18n'                      => JU_I18n::get_all(),
 		);
 	}
 

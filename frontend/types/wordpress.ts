@@ -40,7 +40,10 @@ export type SiteSettings = {
   logo: WPImage;
   hero_image: WPImage;
   about_teaser_image: WPImage;
+  i18n?: Record<string, Record<string, string>>;
 };
+
+export type ContentI18n = Partial<Record<string, Partial<Record<string, string>>>>;
 
 export type ContentCard = {
   id: number;
@@ -50,6 +53,7 @@ export type ContentCard = {
   featured_image: WPImage;
   display_order: number;
   show_on_homepage?: boolean;
+  i18n?: ContentI18n;
 };
 
 export type Pooja = ContentCard & {
@@ -125,6 +129,7 @@ export type Article = {
   categories: string[];
   tags: string[];
   writer_name?: string;
+  i18n?: ContentI18n;
 };
 
 export type WPPage = {

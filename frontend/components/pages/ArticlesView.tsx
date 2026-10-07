@@ -7,6 +7,7 @@ import { ArticleCard } from "@/components/pages/ArticleCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { formatArticleDate, readingMinutes } from "@/lib/html";
+import { useLocalizedList } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Article, WPPage } from "@/types/wordpress";
@@ -22,6 +23,7 @@ export function ArticlesView({
   page?: WPPage | null;
   whatsappNumber: string;
 }) {
+  const items = useLocalizedList(articles);
   const categories = useMemo(() => {
     const names = [...new Set(articles.flatMap((item) => item.categories).filter(Boolean))].filter(
       (name) => name.toLowerCase() !== "uncategorized",
@@ -32,7 +34,7 @@ export function ArticlesView({
   const [active, setActive] = useState("All");
   const [shown, setShown] = useState(PAGE_SIZE);
 
-  const filtered = active === "All" ? articles : articles.filter((item) => item.categories.includes(active));
+  const filtered = active === "All" ? items : items.filter((item) => item.categories.includes(active));
   const featured = filtered[0];
   const rest = filtered.slice(1);
   const visible = rest.slice(0, shown);

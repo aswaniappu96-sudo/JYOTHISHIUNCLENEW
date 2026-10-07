@@ -109,8 +109,10 @@ class JU_Admin_Lists {
 				$subject = JU_REST_Serialize::meta( $post_id, 'subject' );
 				echo esc_html( $subject ? $subject : JU_REST_Serialize::meta( $post_id, 'mobile' ) );
 			} elseif ( 'website_registration' === $type ) {
+				$kind = (string) JU_REST_Serialize::meta( $post_id, 'account_type' );
 				$source = JU_REST_Serialize::meta( $post_id, 'source' );
-				echo esc_html( $source ? $source : JU_REST_Serialize::meta( $post_id, 'mobile' ) );
+				$label = 'astrologer' === $kind ? 'Astrologer' : 'User';
+				echo esc_html( $label . ( $source ? ' · ' . $source : '' ) );
 			} else {
 				echo esc_html( JU_REST_Serialize::meta( $post_id, 'mobile' ) );
 			}

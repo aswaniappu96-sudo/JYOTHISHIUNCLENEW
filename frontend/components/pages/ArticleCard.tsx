@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { articleCategory, formatArticleDate, readingMinutes } from "@/lib/html";
+import { useLocalized } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import type { Article } from "@/types/wordpress";
 
-export function ArticleCard({ article }: { article: Article }) {
+export function ArticleCard({ article: raw }: { article: Article }) {
+  const article = useLocalized(raw);
   const src = imageSrc(article.featured_image);
   const category = articleCategory(article);
   const mins = readingMinutes(article.content || article.excerpt);

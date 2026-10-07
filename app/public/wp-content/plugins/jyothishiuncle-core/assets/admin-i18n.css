@@ -1,0 +1,21 @@
+.ju-i18n-wrap details {
+  margin: 16px 0;
+  padding: 8px 14px 4px;
+  border: 1px solid #dcdcde;
+  background: #fff;
+}
+
+.ju-i18n-wrap summary {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 0;
+}
+
+.ju-i18n-panel[hidden] {
+  display: none !important;
+}
+
+.ju-i18n-tabs {
+  margin: 12px 0 0;
+}

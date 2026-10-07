@@ -24,6 +24,7 @@ const en = {
   "nav.themeLight": "Light mode",
   "nav.themeDark": "Dark mode",
   "nav.language": "Language",
+  "nav.search": "Search",
   "online.now": "{n} astrologers online now",
   "hero.kicker1": "Consultation · Video",
   "hero.title1": "Talk, book pooja, and read today’s chart",
@@ -569,6 +570,7 @@ const hi: Record<keyof typeof en, string> = {
   "nav.themeLight": "लाइट मोड",
   "nav.themeDark": "डार्क मोड",
   "nav.language": "भाषा",
+  "nav.search": "खोजें",
   "online.now": "अभी {n} ज्योतिषी ऑनलाइन",
   "hero.kicker1": "परामर्श · वीडियो",
   "hero.title1": "बात करें, पूजा बुक करें, आज की कुंडली पढ़ें",
@@ -1114,6 +1116,7 @@ const ta: Record<keyof typeof en, string> = {
   "nav.themeLight": "வெளிர் முறை",
   "nav.themeDark": "இருள் முறை",
   "nav.language": "மொழி",
+  "nav.search": "தேடு",
   "online.now": "இப்போது {n} ஜோதிடர்கள் ஆன்லைன்",
   "hero.kicker1": "ஆலோசனை · வீடியோ",
   "hero.title1": "பேசுங்கள், பூஜை பதிவு செய்யுங்கள், இன்றைய சாதகம்",
@@ -1659,6 +1662,7 @@ const ml: Record<keyof typeof en, string> = {
   "nav.themeLight": "ലൈറ്റ് മോഡ്",
   "nav.themeDark": "ഡാർക്ക് മോഡ്",
   "nav.language": "ഭാഷ",
+  "nav.search": "തിരയുക",
   "online.now": "ഇപ്പോൾ {n} ജ്യോതിഷികൾ ഓൺലൈൻ",
   "hero.kicker1": "കൺസൾട്ടേഷൻ · വീഡിയോ",
   "hero.title1": "സംസാരിക്കുക, പൂജ ബുക്ക് ചെയ്യുക, ഇന്നത്തെ ജാതകം",
@@ -2204,6 +2208,7 @@ const kn: Record<keyof typeof en, string> = {
   "nav.themeLight": "ಲೈಟ್ ಮೋಡ್",
   "nav.themeDark": "ಡಾರ್ಕ್ ಮೋಡ್",
   "nav.language": "ಭಾಷೆ",
+  "nav.search": "ಹುಡುಕಿ",
   "online.now": "ಈಗ {n} ಜ್ಯೋತಿಷಿಗಳು ಆನ್‌ಲೈನ್",
   "hero.kicker1": "ಸಲಹೆ · ವೀಡಿಯೊ",
   "hero.title1": "ಮಾತನಾಡಿ, ಪೂಜೆ ಬುಕ್ ಮಾಡಿ, ಇಂದಿನ ಜಾತಕ",
@@ -2749,6 +2754,7 @@ const te: Record<keyof typeof en, string> = {
   "nav.themeLight": "లైట్ మోడ్",
   "nav.themeDark": "డార్క్ మోడ్",
   "nav.language": "భాష",
+  "nav.search": "వెతకండి",
   "online.now": "ఇప్పుడు {n} జ్యోతిష్కులు ఆన్‌లైన్",
   "hero.kicker1": "సంప్రదింపు · వీడియో",
   "hero.title1": "మాట్లాడండి, పూజ బుక్ చేయండి, నేటి జాతకం",
@@ -3287,8 +3293,16 @@ export function isLocale(value: string | null | undefined): value is Locale {
   return LOCALES.some((item) => item.id === value);
 }
 
-export function translate(locale: Locale, key: keyof typeof en, vars?: Record<string, string | number>) {
-  let text = MESSAGES[locale][key] || MESSAGES.en[key] || key;
+export type I18nOverrides = Partial<Record<Locale, Partial<Record<string, string>>>>;
+
+export function translate(
+  locale: Locale,
+  key: keyof typeof en,
+  vars?: Record<string, string | number>,
+  overrides?: I18nOverrides,
+) {
+  const fromWp = overrides?.[locale]?.[key] || overrides?.en?.[key];
+  let text = (fromWp && String(fromWp).trim()) || MESSAGES[locale][key] || MESSAGES.en[key] || key;
   if (vars) {
     for (const [name, value] of Object.entries(vars)) {
       text = text.replace(`{${name}}`, String(value));

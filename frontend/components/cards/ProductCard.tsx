@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ProductEnquiryButton } from "@/components/booking/ProductEnquiryButton";
 import { stripPublicPrices } from "@/lib/html";
+import { useLocalized } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Product } from "@/types/wordpress";
@@ -36,7 +39,7 @@ function WhatsAppLink({ href }: { href: string }) {
 }
 
 export function ProductCard({
-  product,
+  product: raw,
   whatsappNumber,
   variant = "standard",
 }: {
@@ -44,6 +47,7 @@ export function ProductCard({
   whatsappNumber: string;
   variant?: "standard" | "featured" | "compact" | "tile" | "rail";
 }) {
+  const product = useLocalized(raw);
   const title = stripPublicPrices(product.title);
   const summary = stripPublicPrices(product.short_description);
   const src = imageSrc(product.featured_image, FALLBACK);

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { KICKER, LEAD, SECTION_INNER } from "@/lib/layout";
+import { useLocalizedList } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 import type { Pooja, Product, TravelDestination } from "@/types/wordpress";
@@ -36,6 +37,8 @@ export function CategoryDesk({
 }) {
   const [tab, setTab] = useState<Tab>("pooja");
   const { t } = usePrefs();
+  const poojaItems = useLocalizedList(poojas);
+  const productItems = useLocalizedList(products);
   const current = tabs.find((item) => item.id === tab) || tabs[0];
 
   return (
@@ -67,7 +70,7 @@ export function CategoryDesk({
         <div className="mt-6">
           {tab === "pooja" ? (
             <div className={cardGrid}>
-              {poojas.slice(0, 8).map((item) => (
+              {poojaItems.slice(0, 8).map((item) => (
                 <Link key={item.id} href={`/pooja/${item.slug}`} className={`${cardClass} overflow-hidden p-0`}>
                   {imageSrc(item.featured_image) ? (
                     <img src={imageSrc(item.featured_image)} alt={item.title} className="relative z-[1] h-28 w-full object-cover" />
@@ -90,7 +93,7 @@ export function CategoryDesk({
 
           {tab === "store" ? (
             <div className={cardGrid}>
-              {products.slice(0, 8).map((item) => (
+              {productItems.slice(0, 8).map((item) => (
                 <Link key={item.id} href={`/product/${item.slug}`} className={`${cardClass} overflow-hidden p-0`}>
                   {imageSrc(item.featured_image) ? (
                     <img src={imageSrc(item.featured_image)} alt={item.title} className="relative z-[1] h-28 w-full object-cover" />

@@ -142,6 +142,7 @@ const emptySettings: SiteSettings = {
   logo_url: "",
   logo: null,
   hero_image: null,
+  i18n: {},
   about_teaser_image: null,
 };
 

@@ -5,6 +5,7 @@ import { ProductEnquiryButton } from "@/components/booking/ProductEnquiryButton"
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripPublicPrices } from "@/lib/html";
+import { useLocalizedList } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { PRODUCTS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
@@ -119,7 +120,7 @@ export function ProductSection({
 }) {
   const { t } = usePrefs();
   const list = useJuList<Product>("/products", products);
-  const cards = list.slice(0, 4);
+  const cards = useLocalizedList(list.slice(0, 4));
   if (!cards.length) return null;
 
   return (
@@ -149,7 +150,7 @@ export function ProductSection({
             const summary = stripPublicPrices(product.short_description);
             const src = imageSrc(product.featured_image);
             const loved = index === 0 || index === cards.length - 1;
-            const kind = productKind(title);
+            const kind = productKind(`${product.slug} ${title}`);
             const notes = notesFor(index, t);
             const waHref = whatsappNumber
               ? whatsappUrl(whatsappNumber, product.whatsapp_message || `Namaste. I would like to know more about ${title}.`)

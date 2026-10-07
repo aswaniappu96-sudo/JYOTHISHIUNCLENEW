@@ -91,10 +91,14 @@ class JU_Registration_Schedule {
 						<thead>
 							<tr>
 								<th>Registered</th>
+								<th>Type</th>
 								<th>Name</th>
 								<th>Phone</th>
 								<th>Email</th>
 								<th>Location</th>
+								<th>Experience</th>
+								<th>Languages</th>
+								<th>Specialties</th>
 								<th>How they heard</th>
 								<th>Message</th>
 								<th>Status</th>
@@ -104,12 +108,13 @@ class JU_Registration_Schedule {
 						<tbody>
 							<?php if ( ! $rows ) : ?>
 								<tr>
-									<td colspan="9">No website registrations yet.</td>
+									<td colspan="13">No website registrations yet.</td>
 								</tr>
 							<?php endif; ?>
 							<?php foreach ( $rows as $row ) : ?>
 								<tr class="ju-schedule-row ju-status-<?php echo esc_attr( $row['status'] ); ?>">
 									<td><?php echo esc_html( $row['registered'] ); ?></td>
+									<td><?php echo esc_html( 'astrologer' === $row['account_type'] ? 'Astrologer' : 'User' ); ?></td>
 									<td>
 										<input type="hidden" name="rows[<?php echo (int) $row['id']; ?>][id]" value="<?php echo (int) $row['id']; ?>" />
 										<strong><?php echo esc_html( $row['name'] ); ?></strong>
@@ -117,6 +122,9 @@ class JU_Registration_Schedule {
 									<td><?php echo esc_html( $row['mobile'] ); ?></td>
 									<td><?php echo esc_html( $row['email'] ); ?></td>
 									<td><?php echo esc_html( $row['location'] ); ?></td>
+									<td><?php echo esc_html( $row['experience'] ); ?></td>
+									<td><?php echo esc_html( $row['languages'] ); ?></td>
+									<td><?php echo esc_html( $row['specialties'] ); ?></td>
 									<td><?php echo esc_html( $row['source'] ); ?></td>
 									<td class="ju-schedule-reason"><?php echo esc_html( $row['message'] ); ?></td>
 									<td>
@@ -235,6 +243,10 @@ class JU_Registration_Schedule {
 			'location'      => (string) get_user_meta( $user->ID, 'ju_location', true ),
 			'source'        => (string) get_user_meta( $user->ID, 'ju_source', true ),
 			'message'       => (string) get_user_meta( $user->ID, 'ju_intro_message', true ),
+			'account_type'  => (string) get_user_meta( $user->ID, 'ju_account_type', true ) ?: 'user',
+			'experience'    => (string) get_user_meta( $user->ID, 'ju_experience', true ),
+			'languages'     => (string) get_user_meta( $user->ID, 'ju_languages', true ),
+			'specialties'   => (string) get_user_meta( $user->ID, 'ju_specialties', true ),
 			'user_id'       => $user->ID,
 			'status'        => (string) get_user_meta( $user->ID, 'ju_reg_status', true ) ?: 'new',
 		);
@@ -288,6 +300,10 @@ class JU_Registration_Schedule {
 				'location'   => (string) JU_REST_Serialize::meta( $id, 'location' ),
 				'source'     => (string) JU_REST_Serialize::meta( $id, 'source' ),
 				'message'    => (string) JU_REST_Serialize::meta( $id, 'message' ),
+				'account_type' => (string) JU_REST_Serialize::meta( $id, 'account_type', 'user' ),
+				'experience'   => (string) JU_REST_Serialize::meta( $id, 'experience' ),
+				'languages'    => (string) JU_REST_Serialize::meta( $id, 'languages' ),
+				'specialties'  => (string) JU_REST_Serialize::meta( $id, 'specialties' ),
 				'status'     => $status && isset( self::status_choices()[ $status ] ) ? $status : 'new',
 			);
 		}

@@ -196,6 +196,7 @@ class JU_Settings {
 
 	public static function sanitize( $input ) {
 		$defaults = self::defaults();
+		$current  = self::get();
 		$input    = is_array( $input ) ? $input : array();
 		$out      = array();
 
@@ -221,13 +222,14 @@ class JU_Settings {
 		);
 
 		foreach ( $text_keys as $key ) {
-			$out[ $key ] = isset( $input[ $key ] ) ? sanitize_text_field( $input[ $key ] ) : $defaults[ $key ];
+			$fallback    = isset( $current[ $key ] ) ? $current[ $key ] : $defaults[ $key ];
+			$out[ $key ] = isset( $input[ $key ] ) ? sanitize_text_field( $input[ $key ] ) : $fallback;
 		}
 
-		$out['admin_notify_email']        = isset( $input['admin_notify_email'] ) ? sanitize_email( $input['admin_notify_email'] ) : $defaults['admin_notify_email'];
-		$out['address']                   = isset( $input['address'] ) ? sanitize_textarea_field( $input['address'] ) : $defaults['address'];
-		$out['hero_subtitle']             = isset( $input['hero_subtitle'] ) ? sanitize_textarea_field( $input['hero_subtitle'] ) : $defaults['hero_subtitle'];
-		$out['about_excerpt']             = isset( $input['about_excerpt'] ) ? wp_kses_post( $input['about_excerpt'] ) : $defaults['about_excerpt'];
+		$out['admin_notify_email']        = isset( $input['admin_notify_email'] ) ? sanitize_email( $input['admin_notify_email'] ) : $current['admin_notify_email'];
+		$out['address']                   = isset( $input['address'] ) ? sanitize_textarea_field( $input['address'] ) : $current['address'];
+		$out['hero_subtitle']             = isset( $input['hero_subtitle'] ) ? sanitize_textarea_field( $input['hero_subtitle'] ) : $current['hero_subtitle'];
+		$out['about_excerpt']             = isset( $input['about_excerpt'] ) ? wp_kses_post( $input['about_excerpt'] ) : $current['about_excerpt'];
 		$out['consultation_slot_minutes'] = isset( $input['consultation_slot_minutes'] ) ? (string) absint( $input['consultation_slot_minutes'] ) : '30';
 		$out['show_prices_on_website']    = empty( $input['show_prices_on_website'] ) ? '0' : '1';
 
@@ -297,12 +299,6 @@ class JU_Settings {
 							<input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[phone_number]" id="ju_phone" type="text" class="regular-text" value="<?php echo esc_attr( $s['phone_number'] ); ?>">
 						</td>
 					</tr>
-					<tr>
-						<th scope="row"><label for="ju_address">Address / location</label></th>
-						<td>
-							<textarea name="<?php echo esc_attr( self::OPTION_KEY ); ?>[address]" id="ju_address" class="large-text" rows="3"><?php echo esc_textarea( $s['address'] ); ?></textarea>
-						</td>
-					</tr>
 				</table>
 
 				<h2>Homepage photos</h2>
@@ -322,29 +318,7 @@ class JU_Settings {
 					</tr>
 				</table>
 
-				<h2>Homepage text</h2>
-				<table class="form-table" role="presentation">
-					<tr>
-						<th scope="row"><label for="ju_tagline">Tagline</label></th>
-						<td><input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[site_tagline]" id="ju_tagline" type="text" class="large-text" value="<?php echo esc_attr( $s['site_tagline'] ); ?>"></td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="ju_hero_title">Hero title</label></th>
-						<td><input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[hero_title]" id="ju_hero_title" type="text" class="large-text" value="<?php echo esc_attr( $s['hero_title'] ); ?>"></td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="ju_hero_sub">Hero subtitle</label></th>
-						<td><textarea name="<?php echo esc_attr( self::OPTION_KEY ); ?>[hero_subtitle]" id="ju_hero_sub" class="large-text" rows="3"><?php echo esc_textarea( $s['hero_subtitle'] ); ?></textarea></td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="ju_about">About excerpt</label></th>
-						<td><textarea name="<?php echo esc_attr( self::OPTION_KEY ); ?>[about_excerpt]" id="ju_about" class="large-text" rows="5"><?php echo esc_textarea( $s['about_excerpt'] ); ?></textarea></td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="ju_footer">Footer text</label></th>
-						<td><input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[footer_text]" id="ju_footer" type="text" class="large-text" value="<?php echo esc_attr( $s['footer_text'] ); ?>"></td>
-					</tr>
-				</table>
+				<?php JU_I18n::render_home_tabs(); ?>
 
 				<h2>Consultation calendar</h2>
 				<p>Times are stored in the consultation timezone. The public website converts them to each visitor’s local clock. Meetings are online only.</p>

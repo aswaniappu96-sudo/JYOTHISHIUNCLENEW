@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ProductCard } from "@/components/cards/ProductCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
@@ -5,6 +7,7 @@ import { ProductEnquireForm } from "@/components/pages/ProductEnquireForm";
 import { ProductGallery } from "@/components/pages/ProductGallery";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { htmlListItems, htmlParagraphs, stripPublicPrices, telHref } from "@/lib/html";
+import { useLocalized } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { PRODUCTS_PATH } from "@/lib/siteRoutes";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -53,7 +56,7 @@ function assurancePair(item: string): [string, string] {
 }
 
 export function ProductDetailView({
-  product,
+  product: raw,
   settings,
   related = [],
   testimonials = [],
@@ -63,6 +66,7 @@ export function ProductDetailView({
   related?: Product[];
   testimonials?: Testimonial[];
 }) {
+  const product = useLocalized(raw);
   const title = stripPublicPrices(product.title);
   const summary = stripPublicPrices(product.short_description);
   const aboutHtml = stripPublicPrices(product.full_description);

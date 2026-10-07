@@ -74,7 +74,7 @@ export default async function RootLayout({
         <RashiChakraBackdrop />
         <MandalaTrail />
         {settings ? <JsonLd settings={settings} /> : null}
-        <Providers>
+        <Providers initialStrings={settings?.i18n || {}}>
           <div className="relative z-10">
             <Suspense fallback={<header className="fixed top-0 z-50 h-16 w-full bg-surface-lowest/95 md:h-20" />}>
               <Header

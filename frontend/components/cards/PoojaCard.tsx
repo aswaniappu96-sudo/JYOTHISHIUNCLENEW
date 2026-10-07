@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
+import { useLocalized } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import type { Pooja } from "@/types/wordpress";
 
@@ -21,12 +24,13 @@ function DetailsLink({ slug }: { slug: string }) {
 }
 
 export function PoojaCard({
-  pooja,
+  pooja: raw,
   variant = "standard",
 }: {
   pooja: Pooja;
   variant?: "standard" | "featured" | "compact" | "tile" | "rail";
 }) {
+  const pooja = useLocalized(raw);
   const src = imageSrc(pooja.featured_image, FALLBACKS[Math.abs(pooja.id) % FALLBACKS.length]);
 
   if (variant === "featured") {

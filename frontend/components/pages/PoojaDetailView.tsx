@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
@@ -7,6 +9,7 @@ import { PoojaVendorsSection } from "@/components/pages/PoojaVendorsSection";
 import { PageHeading, SectionHeading } from "@/components/home/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { htmlListItems, stripPublicPrices } from "@/lib/html";
+import { useLocalized } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -39,7 +42,7 @@ const PHASES = [
 ];
 
 export function PoojaDetailView({
-  pooja,
+  pooja: raw,
   settings,
   relatedPoojas = [],
   vendors = [],
@@ -49,6 +52,7 @@ export function PoojaDetailView({
   relatedPoojas?: Pooja[];
   vendors?: Vendor[];
 }) {
+  const pooja = useLocalized(raw);
   const title = stripPublicPrices(pooja.title);
   const summary = stripPublicPrices(pooja.short_description);
   const about = stripPublicPrices(pooja.full_description);

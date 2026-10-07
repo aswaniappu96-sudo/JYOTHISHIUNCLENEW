@@ -1,4 +1,6 @@
 import { decodeWpText } from "@/lib/html";
+import type { Locale } from "@/lib/i18n";
+import { withLocale } from "@/lib/localized";
 import { publicSpecialtyLine } from "@/lib/siteServices";
 import type { Astrologer } from "@/types/wordpress";
 
@@ -106,11 +108,12 @@ function specialtyTags(text: string) {
     .slice(0, 4);
 }
 
-export function buildAstrologerViews(list: Astrologer[]): AstrologerView[] {
+export function buildAstrologerViews(list: Astrologer[], locale: Locale = "en"): AstrologerView[] {
   const ids = list.map((person) => Number(person.id) || 0);
   const newest = new Set([...ids].sort((a, b) => b - a).slice(0, Math.min(2, ids.length)));
 
-  return list.map((person, index) => {
+  return list.map((raw, index) => {
+    const person = withLocale(raw, locale);
     const meta = PORTRAITS[index % PORTRAITS.length];
     const name = decodeWpText(person.title || "");
     const location = decodeWpText(person.location || "") || meta.location;
@@ -161,7 +164,7 @@ export function filterAstrologers(
   return next;
 }
 
-export function astrologerViewFor(person: Astrologer, list: Astrologer[]): AstrologerView {
-  const views = buildAstrologerViews(list.length ? list : [person]);
+export function astrologerViewFor(person: Astrologer, list: Astrologer[], locale: Locale = "en"): AstrologerView {
+  const views = buildAstrologerViews(list.length ? list : [person], locale);
   return views.find((item) => item.person.slug === person.slug || item.person.id === person.id) || views[0];
 }

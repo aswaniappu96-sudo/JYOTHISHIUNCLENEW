@@ -95,12 +95,12 @@ function AstrologerTalkBoardInner({
   id,
   topic,
 }: BoardProps & { topic: GuidanceTopicId | null }) {
-  const { t } = usePrefs();
+  const { t, locale } = usePrefs();
   const [filter, setFilter] = useState<AstrologerFilter>("all");
   const list = useJuList<Astrologer>("/astrologers", astrologers);
   const views = useMemo(
-    () => buildAstrologerViews(list.filter((person) => Boolean(person?.title || person?.slug))),
-    [list],
+    () => buildAstrologerViews(list.filter((person) => Boolean(person?.title || person?.slug)), locale),
+    [list, locale],
   );
   const shown = useMemo(() => filterAstrologers(views, filter, topic), [views, filter, topic]);
   const callNumber = usablePhone(phone);

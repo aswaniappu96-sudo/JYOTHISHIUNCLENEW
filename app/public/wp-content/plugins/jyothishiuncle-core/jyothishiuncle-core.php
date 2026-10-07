@@ -2,7 +2,7 @@
 /**
  * Plugin Name: JyothishiUncle Core
  * Description: Custom post types, site settings, galleries, and sample content for the JyothishiUncle headless website. The public site is Next.js — do not install a page-builder theme.
- * Version: 0.6.0
+ * Version: 0.8.0
  * Author: JyothishiUncle
  * Requires at least: 6.4
  * Requires PHP: 8.1
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JU_CORE_VERSION', '0.6.0' );
+define( 'JU_CORE_VERSION', '0.8.0' );
 define( 'JU_CORE_FILE', __FILE__ );
 define( 'JU_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'JU_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -23,6 +23,7 @@ define( 'JU_CORE_URL', plugin_dir_url( __FILE__ ) );
 require_once JU_CORE_DIR . 'includes/class-roles.php';
 require_once JU_CORE_DIR . 'includes/class-post-types.php';
 require_once JU_CORE_DIR . 'includes/class-settings.php';
+require_once JU_CORE_DIR . 'includes/class-i18n.php';
 require_once JU_CORE_DIR . 'includes/class-acf-fields.php';
 require_once JU_CORE_DIR . 'includes/class-gallery-meta.php';
 require_once JU_CORE_DIR . 'includes/class-admin.php';
@@ -72,8 +73,11 @@ add_action( 'after_setup_theme', array( 'JU_Admin', 'theme_supports' ) );
 add_action( 'wp_dashboard_setup', array( 'JU_Admin', 'dashboard_widget' ) );
 add_action( 'admin_init', array( 'JU_Settings', 'register' ) );
 add_action( 'admin_menu', array( 'JU_Settings', 'menu' ) );
+add_action( 'admin_menu', array( 'JU_I18n', 'menu' ) );
 add_action( 'admin_init', array( 'JU_Settings', 'redirect_page_shortcuts' ) );
+add_action( 'admin_init', array( 'JU_I18n', 'handle_save' ) );
 add_action( 'admin_enqueue_scripts', array( 'JU_Settings', 'assets' ) );
+add_action( 'admin_enqueue_scripts', array( 'JU_I18n', 'assets' ) );
 add_action( 'admin_menu', array( 'JU_Admin', 'adjust_menus' ), 99 );
 add_action( 'admin_enqueue_scripts', array( 'JU_Admin', 'assets' ) );
 add_action( 'admin_enqueue_scripts', array( 'JU_Gallery_Meta', 'assets' ) );

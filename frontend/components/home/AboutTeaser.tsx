@@ -366,8 +366,8 @@ function WhyJyothishiUncle() {
 }
 
 export function AboutTeaser({ excerpt, image: _image }: { excerpt?: string; image?: WPImage }) {
-  const { t } = usePrefs();
-  const fromCms = stripPublicPrices(stripHtml(excerpt || "")).trim();
+  const { t, copy } = usePrefs();
+  const fromCms = stripPublicPrices(stripHtml(copy("about_excerpt", excerpt || ""))).trim();
   const lead = fromCms || FALLBACK;
 
   const chips = [

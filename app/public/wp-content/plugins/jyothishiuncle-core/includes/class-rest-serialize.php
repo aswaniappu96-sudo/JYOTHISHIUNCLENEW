@@ -25,6 +25,11 @@ class JU_REST_Serialize {
 				'gallery'          => self::gallery( $post->ID ),
 				'booking_enabled'  => (bool) self::meta( $post->ID, 'booking_enabled', true ),
 				'whatsapp_message' => (string) self::meta( $post->ID, 'whatsapp_message', 'Hello, I am interested in ' . $post->post_title . '.' ),
+				'i18n'             => self::i18n_pack(
+					$post->ID,
+					array( 'title', 'short_description', 'full_description', 'benefits', 'requirements' ),
+					array( 'full_description', 'benefits', 'requirements' )
+				),
 			)
 		);
 	}
@@ -48,6 +53,11 @@ class JU_REST_Serialize {
 				'availability'     => (string) self::meta( $post->ID, 'availability', 'in_stock' ),
 				'gallery'          => self::gallery( $post->ID ),
 				'whatsapp_message' => (string) self::meta( $post->ID, 'whatsapp_message', 'Hello, I am interested in ' . $post->post_title . '.' ),
+				'i18n'             => self::i18n_pack(
+					$post->ID,
+					array( 'title', 'short_description', 'full_description', 'product_info' ),
+					array( 'full_description', 'product_info' )
+				),
 			)
 		);
 	}
@@ -72,6 +82,11 @@ class JU_REST_Serialize {
 				'location'           => (string) self::meta( $post->ID, 'location' ),
 				'full_description'   => self::html_meta( $post->ID, 'full_description', $post->post_content ),
 				'first_session_note' => (string) self::meta( $post->ID, 'first_session_note', 'First call and chat are free.' ),
+				'i18n'               => self::i18n_pack(
+					$post->ID,
+					array( 'title', 'specialty', 'location', 'short_description', 'full_description', 'first_session_note' ),
+					array( 'full_description' )
+				),
 			)
 		);
 	}
@@ -126,6 +141,11 @@ class JU_REST_Serialize {
 			'categories'    => is_wp_error( $cats ) ? array() : array_values( $cats ),
 			'tags'          => is_wp_error( $tags ) ? array() : array_values( $tags ),
 			'writer_name'   => sanitize_text_field( (string) self::meta( $post->ID, 'writer_name' ) ),
+			'i18n'          => self::i18n_pack(
+				$post->ID,
+				array( 'title', 'excerpt', 'content' ),
+				array( 'content' )
+			),
 		);
 	}
 
@@ -159,6 +179,41 @@ class JU_REST_Serialize {
 			'display_order'     => (int) self::meta( $post->ID, 'display_order', 10 ),
 			'show_on_homepage'  => self::bool_meta( $post->ID, 'show_on_homepage' ),
 		);
+	}
+
+	public static function i18n_pack( $post_id, $keys, $html_keys = array() ) {
+		$out     = array();
+		$locales = class_exists( 'JU_I18n' ) ? JU_I18n::content_locales() : array();
+		if ( ! $locales ) {
+			$locales = array(
+				array( 'id' => 'hi' ),
+				array( 'id' => 'ta' ),
+				array( 'id' => 'ml' ),
+				array( 'id' => 'kn' ),
+				array( 'id' => 'te' ),
+			);
+		}
+
+		foreach ( $locales as $locale ) {
+			$id   = sanitize_key( $locale['id'] );
+			$pack = array();
+			foreach ( $keys as $key ) {
+				$raw = self::meta( $post_id, $key . '_' . $id, '' );
+				if ( '' === $raw || null === $raw || false === $raw ) {
+					continue;
+				}
+				$text = (string) $raw;
+				if ( '' === trim( wp_strip_all_tags( $text ) ) ) {
+					continue;
+				}
+				$pack[ $key ] = in_array( $key, $html_keys, true ) ? wp_kses_post( $text ) : $text;
+			}
+			if ( $pack ) {
+				$out[ $id ] = $pack;
+			}
+		}
+
+		return $out;
 	}
 
 	public static function meta( $post_id, $key, $default = '' ) {

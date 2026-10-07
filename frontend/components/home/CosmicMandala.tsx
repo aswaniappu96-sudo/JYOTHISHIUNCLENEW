@@ -1,9 +1,10 @@
 const sizeClass = {
   md: "h-[220px] w-[220px] sm:h-[300px] sm:w-[300px] lg:h-[360px] lg:w-[360px]",
   lg: "h-[300px] w-[300px] sm:h-[420px] sm:w-[420px] lg:h-[520px] lg:w-[520px]",
+  fill: "h-full w-full",
 };
 
-export function CosmicMandala({ className = "", size = "lg" }: { className?: string; size?: "md" | "lg" }) {
+export function CosmicMandala({ className = "", size = "lg" }: { className?: string; size?: "md" | "lg" | "fill" }) {
   return (
     <div
       className={`relative flex select-none items-center justify-center ${sizeClass[size]} ${className}`}
@@ -29,7 +30,7 @@ export function CosmicMandala({ className = "", size = "lg" }: { className?: str
         <circle cx="138" cy="445" fill="currentColor" r="3.5" />
         <circle cx="55" cy="362" fill="currentColor" r="4" />
         <circle cx="25" cy="250" fill="currentColor" r="5" />
-        <circle cx="55" cy="138" fill="currentColor" r="3.5" />
+        <circle cx="55" cy="138" fill="currentColor" r="4" />
         <circle cx="138" cy="55" fill="currentColor" r="4" />
       </svg>
       <svg className="mandala-spin-rev mandala-gold-emit absolute h-[78%] w-[78%]" fill="none" viewBox="0 0 400 400">
@@ -42,11 +43,11 @@ export function CosmicMandala({ className = "", size = "lg" }: { className?: str
         />
         <circle cx="200" cy="200" r="140" stroke="currentColor" strokeDasharray="2 6" strokeWidth="0.75" />
       </svg>
-      <div className="relative flex h-40 w-40 items-center justify-center sm:h-52 sm:w-52">
+      <div className="relative flex h-[32%] w-[32%] items-center justify-center">
         <div className="om-gold-halo pointer-events-none absolute inset-[-28%] rounded-full" />
         <div className="relative flex h-full w-full items-center justify-center rounded-full bg-linear-to-tr from-primary-container/25 via-surface-low/80 to-primary-container/20">
-          <div className="om-gold-core relative z-10 flex h-24 w-24 items-center justify-center rounded-full sm:h-28 sm:w-28">
-            <span className="font-serif text-4xl font-bold text-on-primary drop-shadow-[0_1px_0_rgba(255,248,212,0.8)] sm:text-5xl">
+          <div className="om-gold-core relative z-10 flex h-[62%] w-[62%] items-center justify-center rounded-full">
+            <span className="font-serif text-2xl font-bold text-on-primary drop-shadow-[0_1px_0_rgba(255,248,212,0.8)] sm:text-4xl lg:text-5xl">
               ॐ
             </span>
           </div>

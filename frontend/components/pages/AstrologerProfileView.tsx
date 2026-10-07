@@ -78,11 +78,11 @@ export function AstrologerProfileView({
   phone?: string;
   whatsapp?: string;
 }) {
-  const { t } = usePrefs();
+  const { t, locale } = usePrefs();
   const { openConsultation } = usePortal();
   const all = [person, ...related.filter((item) => item.slug !== person.slug)];
-  const view = astrologerViewFor(person, all);
-  const others = buildAstrologerViews(related.filter((item) => item.slug !== person.slug)).slice(0, 4);
+  const view = astrologerViewFor(person, all, locale);
+  const others = buildAstrologerViews(related.filter((item) => item.slug !== person.slug), locale).slice(0, 4);
   const src = mediaUrl(person.featured_image?.full || person.featured_image?.url);
   const glyph = (view.name || "ॐ").trim().charAt(0);
   const callNumber = usablePhone(phone);

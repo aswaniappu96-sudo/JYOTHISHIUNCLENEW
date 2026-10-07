@@ -8,6 +8,7 @@ import { mediaUrl } from "@/lib/api/client";
 import { telHref } from "@/lib/html";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { useJuList } from "@/lib/useJuList";
+import { MobileSearchDock } from "@/components/home/HeroSearch";
 import type { Astrologer } from "@/types/wordpress";
 
 const FALLBACK_PHONE = "+91 84519 89496";
@@ -217,6 +218,7 @@ export function PrefsDock() {
     <div className="fixed right-4 top-20 z-[60] flex flex-col items-end gap-2 md:right-7 md:top-24">
       <LanguageSwitch />
       <ThemeToggle />
+      <MobileSearchDock />
     </div>
   );
 }

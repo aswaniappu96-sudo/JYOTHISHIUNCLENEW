@@ -64,10 +64,14 @@ class JU_Export {
 			$rows = self::posts(
 				'website_registration',
 				array(
+					'Type'           => 'account_type',
 					'Name'           => 'customer_name',
 					'Email'          => 'email',
 					'Mobile'         => 'mobile',
 					'Location'       => 'location',
+					'Experience'     => 'experience',
+					'Languages'      => 'languages',
+					'Specialties'    => 'specialties',
 					'How they heard' => 'source',
 					'Message'        => 'message',
 					'Status'         => 'status',
@@ -157,9 +161,13 @@ class JU_Export {
 		foreach ( $users as $user ) {
 			$out[] = array(
 				'Name'               => $user->display_name,
+				'Type'               => (string) get_user_meta( $user->ID, 'ju_account_type', true ) ?: 'user',
 				'Email'              => $user->user_email,
 				'Mobile'             => (string) get_user_meta( $user->ID, 'ju_mobile', true ),
 				'Location'           => (string) get_user_meta( $user->ID, 'ju_location', true ),
+				'Experience'         => (string) get_user_meta( $user->ID, 'ju_experience', true ),
+				'Languages'          => (string) get_user_meta( $user->ID, 'ju_languages', true ),
+				'Specialties'        => (string) get_user_meta( $user->ID, 'ju_specialties', true ),
 				'How they heard'     => (string) get_user_meta( $user->ID, 'ju_source', true ),
 				'Message'            => (string) get_user_meta( $user->ID, 'ju_intro_message', true ),
 				'Status'             => (string) get_user_meta( $user->ID, 'ju_reg_status', true ),

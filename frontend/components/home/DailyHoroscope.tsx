@@ -116,6 +116,7 @@ export function DailyHoroscope() {
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [tz, setTz] = useState(DEFAULT_TIMEZONE);
   const scroller = useRef<HTMLDivElement>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
   const skipScroll = useRef(false);
 
   const [kundli, setKundli] = useState({ name: "", date: "", time: "", place: "" });
@@ -165,6 +166,11 @@ export function DailyHoroscope() {
     setSelected(rashi);
     const index = HOROSCOPE_RASHIS.findIndex((item) => item.slug === rashi.slug);
     if (index >= 0) scrollToIndex(index, smooth);
+    if (typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches) {
+      window.setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+    }
   };
 
   const onSliderScroll = () => {
@@ -249,7 +255,7 @@ export function DailyHoroscope() {
             </div>
 
             <div className="mt-8 grid items-start gap-4 lg:grid-cols-[minmax(240px,300px)_minmax(240px,280px)_minmax(320px,1fr)] lg:gap-5">
-              <div className="rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)] sm:p-6">
+              <div className="hidden rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)] sm:p-6 lg:block">
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#1A1106]/55">{t("daily.wheel")}</p>
                   <span className="rounded-full border border-[#e5c378] bg-white px-2.5 py-1 text-[10px] font-semibold text-[#1A1106]">
@@ -335,7 +341,12 @@ export function DailyHoroscope() {
                 </div>
               </div>
 
-              <div className="flex flex-col rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)]" style={{ minHeight: SLIDER_H }}>
+              <div
+                ref={detailRef}
+                id="horoscope-detail"
+                className="flex scroll-mt-36 flex-col rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)]"
+                style={{ minHeight: SLIDER_H }}
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="font-serif text-[22px] font-medium leading-tight text-[#1A1106]">

@@ -418,6 +418,13 @@ class JU_Submissions {
 		$location = sanitize_text_field( (string) ( $request->get_param( 'location' ) ?: $request->get_param( 'address' ) ) );
 		$source   = sanitize_text_field( (string) $request->get_param( 'source' ) );
 		$message  = sanitize_textarea_field( (string) $request->get_param( 'message' ) );
+		$account  = sanitize_key( (string) $request->get_param( 'account_type' ) );
+		if ( 'astrologer' !== $account ) {
+			$account = 'user';
+		}
+		$experience  = sanitize_text_field( (string) $request->get_param( 'experience' ) );
+		$languages   = sanitize_text_field( (string) $request->get_param( 'languages' ) );
+		$specialties = sanitize_text_field( (string) $request->get_param( 'specialties' ) );
 
 		if ( ! is_email( $email ) || strlen( $password ) < 8 ) {
 			return new WP_Error( 'ju_invalid', 'Enter a valid email and a password of at least 8 characters.', array( 'status' => 400 ) );
@@ -425,6 +432,10 @@ class JU_Submissions {
 		if ( ! $name || ! $mobile ) {
 			return new WP_Error( 'ju_invalid', 'Name and phone number are required.', array( 'status' => 400 ) );
 		}
+		if ( 'astrologer' === $account && ( ! $experience || ! $languages || ! $specialties ) ) {
+			return new WP_Error( 'ju_invalid', 'Experience, languages and specialties are required for astrologer registration.', array( 'status' => 400 ) );
+		}
+
 		if ( email_exists( $email ) ) {
 			return new WP_Error( 'ju_exists', 'An account with this email already exists. Please log in.', array( 'status' => 409 ) );
 		}
@@ -447,6 +458,10 @@ class JU_Submissions {
 		update_user_meta( $user_id, 'ju_location', $location );
 		update_user_meta( $user_id, 'ju_source', $source );
 		update_user_meta( $user_id, 'ju_intro_message', $message );
+		update_user_meta( $user_id, 'ju_account_type', $account );
+		update_user_meta( $user_id, 'ju_experience', $experience );
+		update_user_meta( $user_id, 'ju_languages', $languages );
+		update_user_meta( $user_id, 'ju_specialties', $specialties );
 		update_user_meta( $user_id, 'ju_profile_complete', 1 );
 		update_user_meta( $user_id, 'ju_reg_status', 'new' );
 		$user = get_user_by( 'id', $user_id );
@@ -461,22 +476,33 @@ class JU_Submissions {
 				'location'      => $location,
 				'source'        => $source,
 				'message'       => $message,
+				'account_type'  => $account,
+				'experience'    => $experience,
+				'languages'     => $languages,
+				'specialties'   => $specialties,
 				'user_id'       => $user_id,
 				'status'        => 'new',
 			)
 		);
 
+		$is_astro = 'astrologer' === $account;
 		JU_Mail::notify(
-			'[JyothishiUncle] New client registration — ' . $name,
+			$is_astro ? '[JyothishiUncle] New astrologer registration — ' . $name : '[JyothishiUncle] New client registration — ' . $name,
 			array(
-				'Name'     => $name,
-				'Email'    => $email,
-				'Phone'    => $mobile,
-				'Location' => $location,
-				'Source'   => $source,
-				'Message'  => $message,
+				'Type'         => $is_astro ? 'Astrologer' : 'User',
+				'Name'         => $name,
+				'Email'        => $email,
+				'Phone'        => $mobile,
+				'Location'     => $location,
+				'Experience'   => $experience,
+				'Languages'    => $languages,
+				'Specialties'  => $specialties,
+				'Source'       => $source,
+				'Message'      => $message,
 			),
-			'A new client registered on the website. Details are saved in Registrations → Registrations (Excel).'
+			$is_astro
+				? 'A new astrologer registered on the website. Details are saved in Registrations → Registrations (Excel).'
+				: 'A new client registered on the website. Details are saved in Registrations → Registrations (Excel).'
 		);
 
 		return rest_ensure_response(

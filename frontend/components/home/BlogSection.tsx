@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripHtml, stripPublicPrices } from "@/lib/html";
+import { useLocalizedList } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
@@ -68,18 +69,20 @@ export function BlogSection({
 }) {
   const { t } = usePrefs();
   const list = useJuList<Article>("/articles", articles);
+  const localized = useLocalizedList(list);
   const [topic, setTopic] = useState<Topic>("All");
 
   const filtered = useMemo(() => {
-    if (topic === "All") return list;
-    return list.filter((item) => articleTopic(item) === topic);
-  }, [list, topic]);
+    if (topic === "All") return localized;
+    const allowed = new Set(list.filter((item) => articleTopic(item) === topic).map((item) => item.id));
+    return localized.filter((item) => allowed.has(item.id));
+  }, [list, localized, topic]);
 
-  if (!list.length) return null;
+  if (!localized.length) return null;
 
-  const featured = filtered[0] || list[0];
+  const featured = filtered[0] || localized[0];
   const rail = filtered.slice(1, 4);
-  const grid = (topic === "All" ? list.slice(3) : filtered).slice(0, 6);
+  const grid = (topic === "All" ? localized.slice(3) : filtered).slice(0, 6);
   const youtube = youtubeUrl || "https://www.youtube.com";
 
   return (

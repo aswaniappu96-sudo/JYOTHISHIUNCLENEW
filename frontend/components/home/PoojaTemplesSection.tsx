@@ -5,6 +5,7 @@ import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { usePortal } from "@/components/portal/PortalProvider";
+import { useLocalizedList } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { useJuList } from "@/lib/useJuList";
 import type { Pooja, Vendor } from "@/types/wordpress";
@@ -113,7 +114,8 @@ export function PoojaTemplesSection({
   const { t } = usePrefs();
   const { openPooja } = usePortal();
   const temples = useJuList<Vendor>("/vendors", vendors);
-  const rites = useJuList<Pooja>("/poojas", poojas);
+  const ritesRaw = useJuList<Pooja>("/poojas", poojas);
+  const rites = useLocalizedList(ritesRaw);
   const [active, setActive] = useState(0);
   const selected = temples[Math.min(active, Math.max(temples.length - 1, 0))];
   const related = useMemo(() => (selected ? poojasForTemple(selected, rites) : []), [selected, rites]);

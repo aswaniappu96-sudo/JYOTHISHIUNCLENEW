@@ -1,12 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { ConsultationBookPanel } from "@/components/home/ConsultationBookPanel";
 import type { SelectedConsultationDay } from "@/components/home/HomeConsultationCalendar";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { CONSULTATION_ONLY_LABEL } from "@/lib/consultation";
 import { consultServicesFromWp, type SiteServiceLink } from "@/lib/siteServices";
 import { useJuList } from "@/lib/useJuList";
 import type { AstrologyService, SiteSettings } from "@/types/wordpress";
@@ -76,24 +76,37 @@ export function ConsultationSection({
   services: AstrologyService[];
 }) {
   const { t } = usePrefs();
-  const { openConsultation } = usePortal();
+  const { user } = useAuth();
+  const { openAuth } = usePortal();
   const wpServices = useJuList<AstrologyService>("/services", services);
   const consult = useMemo(() => consultServicesFromWp(wpServices), [wpServices]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [day, setDay] = useState<SelectedConsultationDay | null>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
+  const pendingCalendar = useRef(false);
   const activeId = selectedId ?? consult[0]?.id ?? OTHER_ID;
   const selected = consult.find((item) => item.id === activeId);
   const purpose = activeId === OTHER_ID ? "" : selected?.label || "";
 
-  const openForService = (id: string, label: string) => {
+  const scrollToCalendar = () => {
+    calendarRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  useEffect(() => {
+    if (!user || !pendingCalendar.current) return;
+    pendingCalendar.current = false;
+    const id = window.setTimeout(scrollToCalendar, 220);
+    return () => window.clearTimeout(id);
+  }, [user]);
+
+  const openForService = (id: string) => {
     setSelectedId(id);
-    openConsultation({
-      date: day?.date,
-      slots: day?.slots,
-      whatsapp: settings.whatsapp_number,
-      astrologerName: CONSULTATION_ONLY_LABEL,
-      purpose: id === OTHER_ID ? "" : label,
-    });
+    if (!user) {
+      pendingCalendar.current = true;
+      openAuth("login");
+      return;
+    }
+    scrollToCalendar();
   };
 
   return (
@@ -123,16 +136,10 @@ export function ConsultationSection({
         </div>
 
         <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-stretch">
-          <div className="flex w-full min-h-0 flex-col self-stretch lg:w-[58%]">
-            <ConsultationBookPanel
-              whatsappNumber={settings.whatsapp_number}
-              purpose={purpose}
-              selected={day}
-              onSelected={setDay}
-            />
-          </div>
-
-          <div className="flex w-full min-h-0 flex-col self-stretch rounded-[20px] border border-[#EAD9B0] bg-white p-5 shadow-[0_8px_30px_-12px_rgba(120,90,30,0.12)] lg:w-[42%] md:p-6">
+          <div
+            id="consultation-services"
+            className="order-1 flex w-full min-h-0 scroll-mt-36 flex-col self-stretch rounded-[20px] border border-[#EAD9B0] bg-white p-5 shadow-[0_8px_30px_-12px_rgba(120,90,30,0.12)] lg:order-2 lg:w-[42%] md:p-6"
+          >
             <div className="flex items-center justify-between">
               <h3 className="text-[12px] font-semibold tracking-[0.14em] text-[#B87E3B]">{t("video.choose")}</h3>
               <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF8EB] px-2.5 py-1 text-[10px] font-medium text-[#8A6A3A] ring-1 ring-[#EAD9B0]">
@@ -147,7 +154,7 @@ export function ConsultationSection({
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => openForService(item.id, item.label)}
+                    onClick={() => openForService(item.id)}
                     className={[
                       "group relative flex w-full items-start gap-3.5 rounded-[16px] border px-3.5 py-3.5 text-left transition-all",
                       active
@@ -193,7 +200,7 @@ export function ConsultationSection({
 
               <button
                 type="button"
-                onClick={() => openForService(OTHER_ID, "")}
+                onClick={() => openForService(OTHER_ID)}
                 className={[
                   "group relative flex w-full items-start gap-3.5 rounded-[16px] border px-3.5 py-3.5 text-left transition-all",
                   activeId === OTHER_ID
@@ -241,6 +248,19 @@ export function ConsultationSection({
                 </div>
               </div>
             </div>
+          </div>
+
+          <div
+            ref={calendarRef}
+            id="consultation-calendar"
+            className="order-2 flex w-full min-h-0 scroll-mt-36 flex-col self-stretch lg:order-1 lg:w-[58%]"
+          >
+            <ConsultationBookPanel
+              whatsappNumber={settings.whatsapp_number}
+              purpose={purpose}
+              selected={day}
+              onSelected={setDay}
+            />
           </div>
         </div>
 
