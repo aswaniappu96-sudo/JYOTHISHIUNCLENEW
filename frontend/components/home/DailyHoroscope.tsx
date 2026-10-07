@@ -15,6 +15,8 @@ import {
 } from "@/lib/panchang";
 import { RASHIS } from "@/lib/rashis";
 
+type RashiSlug = (typeof RASHIS)[number]["slug"];
+
 const CARD_H = 92;
 const CARD_GAP = 10;
 const VISIBLE = 4;
@@ -121,7 +123,7 @@ export function DailyHoroscope() {
 
   const [kundli, setKundli] = useState({ name: "", date: "", time: "", place: "" });
   const [kundliOut, setKundliOut] = useState<ReturnType<typeof birthOutline> | null>(null);
-  const [match, setMatch] = useState({ a: RASHIS[0].slug, b: RASHIS[6].slug });
+  const [match, setMatch] = useState<{ a: RashiSlug; b: RashiSlug }>({ a: RASHIS[0].slug, b: RASHIS[6].slug });
   const [calcDate, setCalcDate] = useState({ date: "", time: "" });
   const [calcOut, setCalcOut] = useState<ReturnType<typeof birthOutline> | null>(null);
   const [num, setNum] = useState({ name: "", date: "" });
@@ -460,7 +462,7 @@ export function DailyHoroscope() {
             <ToolCard>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label={t("daily.boy")}>
-                  <select className={fieldClass} value={match.a} onChange={(e) => setMatch({ ...match, a: e.target.value })}>
+                  <select className={fieldClass} value={match.a} onChange={(e) => setMatch({ ...match, a: e.target.value as RashiSlug })}>
                     {RASHIS.map((item) => (
                       <option key={item.slug} value={item.slug}>
                         {item.sa} · {item.en}
@@ -469,7 +471,7 @@ export function DailyHoroscope() {
                   </select>
                 </Field>
                 <Field label={t("daily.girl")}>
-                  <select className={fieldClass} value={match.b} onChange={(e) => setMatch({ ...match, b: e.target.value })}>
+                  <select className={fieldClass} value={match.b} onChange={(e) => setMatch({ ...match, b: e.target.value as RashiSlug })}>
                     {RASHIS.map((item) => (
                       <option key={item.slug} value={item.slug}>
                         {item.sa} · {item.en}
