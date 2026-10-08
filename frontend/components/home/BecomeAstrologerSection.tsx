@@ -142,13 +142,13 @@ export function BecomeAstrologerSection() {
 
           <div className="relative mx-auto w-full max-w-[640px] lg:max-w-none">
             <div
-              className="pointer-events-none absolute left-[8%] top-[18%] h-[72%] w-[84%] rounded-[46%] bg-[#E9C07A]/28 blur-[42px]"
+              className="pointer-events-none absolute left-[6%] top-[12%] h-[78%] w-[88%] rounded-[32px] bg-[#E9C07A]/22 blur-[36px]"
               aria-hidden
             />
             <img
-              src="/images/join-astrologer-art.jpg"
-              alt=""
-              className="relative z-10 h-auto w-full object-contain mix-blend-multiply"
+              src="/images/join-astrologer-studio.jpg"
+              alt="Astrologer offering chat, call, and video consultations"
+              className="relative z-10 h-auto w-full rounded-[28px] object-cover shadow-[0_22px_48px_rgba(46,32,12,0.16)]"
             />
           </div>
         </div>
