@@ -54,22 +54,42 @@ export function ServicesView({
             {page?.hero_copy ||
               "Ancient Shastric Poojas, Vedic Homams & Consecrated Planetary Artifacts calibrated precisely to your individual birth Nakshatra, Dasha coordinates, and planetary afflictions."}
           </p>
-          <div className="flex items-center gap-1 rounded-full bg-surface-lowest/80 p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
+          <div
+            role="tablist"
+            aria-label="Poojas or products"
+            className="mx-auto flex w-full max-w-[280px] items-center rounded-full border border-[#EAD9B0]/80 bg-white/85 p-0.5 shadow-[0_4px_14px_rgba(46,32,12,0.08)] backdrop-blur-md sm:max-w-none sm:w-auto sm:p-1"
+          >
             <Link
               href={POOJAS_PATH}
               replace
               scroll={false}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-lg font-semibold transition ${tab === "poojas" ? "bg-primary-container text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.4)]" : "text-on-surface-variant hover:text-primary"}`}
+              role="tab"
+              aria-label="Poojas"
+              aria-selected={tab === "poojas"}
+              className={`inline-flex flex-1 items-center justify-center rounded-full px-3 py-1.5 text-[12px] font-semibold whitespace-nowrap transition sm:flex-none sm:px-5 sm:py-2 sm:text-[13px] md:text-[14px] ${
+                tab === "poojas"
+                  ? "bg-primary-container text-on-primary shadow-[0_0_12px_rgba(229,195,120,0.28)]"
+                  : "text-on-surface-variant hover:text-primary"
+              }`}
             >
-              Poojas & Consecrated Homams
+              <span className="sm:hidden">Poojas</span>
+              <span className="hidden sm:inline">Poojas & Homams</span>
             </Link>
             <Link
               href={PRODUCTS_PATH}
               replace
               scroll={false}
-              className={`flex items-center gap-2 rounded-full px-5 py-2 text-lg font-semibold transition ${tab === "products" ? "bg-primary-container text-on-primary shadow-[0_0_20px_rgba(229,195,120,0.4)]" : "text-on-surface-variant hover:text-primary"}`}
+              role="tab"
+              aria-label="Products"
+              aria-selected={tab === "products"}
+              className={`inline-flex flex-1 items-center justify-center rounded-full px-3 py-1.5 text-[12px] font-semibold whitespace-nowrap transition sm:flex-none sm:px-5 sm:py-2 sm:text-[13px] md:text-[14px] ${
+                tab === "products"
+                  ? "bg-primary-container text-on-primary shadow-[0_0_12px_rgba(229,195,120,0.28)]"
+                  : "text-on-surface-variant hover:text-primary"
+              }`}
             >
-              Sacred Planetary Products
+              <span className="sm:hidden">Products</span>
+              <span className="hidden sm:inline">Sacred Products</span>
             </Link>
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs text-on-surface-variant/80">

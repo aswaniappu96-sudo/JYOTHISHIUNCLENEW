@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { LOCALES } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/api/client";
@@ -214,8 +214,51 @@ export function LanguageSwitch() {
 }
 
 export function PrefsDock() {
+  const [idle, setIdle] = useState(true);
+  const hiding = useRef(false);
+
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 767px)");
+    let tid = 0;
+
+    const show = () => {
+      window.clearTimeout(tid);
+      tid = 0;
+      hiding.current = false;
+      setIdle(true);
+    };
+
+    const hide = () => {
+      if (!mobile.matches) return;
+      if (!hiding.current) {
+        hiding.current = true;
+        setIdle(false);
+      }
+      window.clearTimeout(tid);
+      tid = window.setTimeout(show, 420);
+    };
+
+    const onBreakpoint = () => {
+      if (!mobile.matches) show();
+    };
+
+    window.addEventListener("scroll", hide, { passive: true, capture: true });
+    window.addEventListener("scrollend", show, { passive: true });
+    mobile.addEventListener("change", onBreakpoint);
+    return () => {
+      window.removeEventListener("scroll", hide, { capture: true });
+      window.removeEventListener("scrollend", show);
+      mobile.removeEventListener("change", onBreakpoint);
+      window.clearTimeout(tid);
+    };
+  }, []);
+
   return (
-    <div className="fixed right-4 top-20 z-[60] flex flex-col items-end gap-2 md:right-7 md:top-24">
+    <div
+      className={`fixed right-4 top-20 z-[60] flex flex-col items-end gap-2 transition-[opacity,transform] duration-200 ease-out md:right-7 md:top-24 md:pointer-events-auto md:translate-x-0 md:opacity-100 ${
+        idle ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-5 opacity-0"
+      }`}
+    >
       <LanguageSwitch />
       <ThemeToggle />
       <MobileSearchDock />
