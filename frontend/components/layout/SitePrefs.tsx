@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { LOCALES } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/api/client";
@@ -213,55 +213,72 @@ export function LanguageSwitch() {
   );
 }
 
+function ToolsGlyph({ open }: { open: boolean }) {
+  if (open) {
+    return (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden>
+        <path d="M7 7l10 10M17 7 7 17" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>
+      <circle cx="12" cy="6.5" r="1.45" />
+      <circle cx="12" cy="12" r="1.45" />
+      <circle cx="12" cy="17.5" r="1.45" />
+    </svg>
+  );
+}
+
 export function PrefsDock() {
-  const [idle, setIdle] = useState(true);
-  const hiding = useRef(false);
+  const [expanded, setExpanded] = useState(false);
+  const [away, setAway] = useState(false);
 
   useEffect(() => {
-    const mobile = window.matchMedia("(max-width: 767px)");
-    let tid = 0;
-
-    const show = () => {
-      window.clearTimeout(tid);
-      tid = 0;
-      hiding.current = false;
-      setIdle(true);
+    let idle = 0;
+    const onScroll = () => {
+      setExpanded(false);
+      setAway(true);
+      window.clearTimeout(idle);
+      idle = window.setTimeout(() => setAway(false), 380);
     };
-
-    const hide = () => {
-      if (!mobile.matches) return;
-      if (!hiding.current) {
-        hiding.current = true;
-        setIdle(false);
-      }
-      window.clearTimeout(tid);
-      tid = window.setTimeout(show, 420);
-    };
-
-    const onBreakpoint = () => {
-      if (!mobile.matches) show();
-    };
-
-    window.addEventListener("scroll", hide, { passive: true, capture: true });
-    window.addEventListener("scrollend", show, { passive: true });
-    mobile.addEventListener("change", onBreakpoint);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", hide, { capture: true });
-      window.removeEventListener("scrollend", show);
-      mobile.removeEventListener("change", onBreakpoint);
-      window.clearTimeout(tid);
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(idle);
     };
   }, []);
 
   return (
     <div
-      className={`fixed right-4 top-20 z-[60] flex flex-col items-end gap-2 transition-[opacity,transform] duration-200 ease-out md:right-7 md:top-24 md:pointer-events-auto md:translate-x-0 md:opacity-100 ${
-        idle ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-5 opacity-0"
+      className={`fixed right-4 top-20 z-[60] flex flex-col items-end gap-2 transition duration-200 ease-out md:right-7 md:top-24 ${
+        away ? "pointer-events-none translate-x-3 opacity-0 md:pointer-events-auto md:translate-x-0 md:opacity-100" : "opacity-100"
       }`}
     >
-      <LanguageSwitch />
-      <ThemeToggle />
-      <MobileSearchDock />
+      <div className="hidden flex-col items-end gap-2 md:flex">
+        <LanguageSwitch />
+        <ThemeToggle />
+      </div>
+
+      <div className="flex flex-col items-end gap-2 md:hidden">
+        {expanded ? (
+          <>
+            <LanguageSwitch />
+            <ThemeToggle />
+            <MobileSearchDock />
+          </>
+        ) : null}
+        <button
+          type="button"
+          suppressHydrationWarning
+          onClick={() => setExpanded((value) => !value)}
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-lowest text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-outline-variant transition hover:scale-105 hover:bg-surface-low"
+          aria-expanded={expanded}
+          aria-label={expanded ? "Hide tools" : "Language, theme and search"}
+        >
+          <ToolsGlyph open={expanded} />
+        </button>
+      </div>
     </div>
   );
 }
