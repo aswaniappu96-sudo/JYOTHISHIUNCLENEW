@@ -7,13 +7,13 @@ import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 
 const POPULAR = [
-  { key: "hero.popLove", href: "/astrologers?topic=love", terms: ["love"] },
-  { key: "hero.popMarriage", href: "/astrologers?topic=marriage", terms: ["marriage", "match"] },
-  { key: "hero.popCareer", href: "/astrologers?topic=career", terms: ["career"] },
-  { key: "hero.popBusiness", href: "/astrologers?topic=business", terms: ["business"] },
-  { key: "hero.popFinance", href: "/astrologers?topic=business", terms: ["finance", "money"] },
-  { key: "hero.popKundli", href: "/astrologers?topic=marriage", terms: ["kundli", "kundali", "birth", "chart"] },
-  { key: "hero.popVastu", href: "/astrologers?topic=vastu", terms: ["vastu"] },
+  { key: "hero.popLove", href: "/#pop-marriage", terms: ["love"] },
+  { key: "hero.popMarriage", href: "/#pop-marriage", terms: ["marriage", "match"] },
+  { key: "hero.popCareer", href: "/#pop-career", terms: ["career"] },
+  { key: "hero.popBusiness", href: "/#pop-business", terms: ["business"] },
+  { key: "hero.popFinance", href: "/#pop-business", terms: ["finance", "money"] },
+  { key: "hero.popKundli", href: "/#pop-kundli", terms: ["kundli", "kundali", "birth", "chart"] },
+  { key: "hero.popVastu", href: "/#pop-vastu", terms: ["vastu"] },
 ] as const;
 
 const ctaPrimary =

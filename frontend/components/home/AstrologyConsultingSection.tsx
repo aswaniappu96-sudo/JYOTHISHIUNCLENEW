@@ -4,7 +4,8 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { guidanceTopicHref, type GuidanceTopicId } from "@/lib/astrologer-display";
+import { type GuidanceTopicId } from "@/lib/astrologer-display";
+import { popularAccordionHref } from "@/lib/siteServices";
 import { SECTION_INNER } from "@/lib/layout";
 import type { MsgKey } from "@/lib/i18n";
 
@@ -248,7 +249,7 @@ export function AstrologyConsultingSection() {
             return (
               <Link
                 key={item.id}
-                href={guidanceTopicHref(item.id)}
+                href={popularAccordionHref(item.id)}
                 className="group relative flex min-h-[214px] flex-col overflow-hidden rounded-[22px] border border-[#EFE3C8] bg-white p-4 shadow-[0_10px_28px_-20px_rgba(26,17,6,0.28)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-18px_rgba(154,90,18,0.28)]"
               >
                 <span className={`pointer-events-none absolute -right-2 -top-3 opacity-[0.18] ${item.wash}`} aria-hidden>

@@ -60,7 +60,10 @@ class JU_Admin {
 			array( 'Yatra bookings', admin_url( 'edit.php?post_type=travel_booking&page=ju-travel-schedule' ), 'Left menu → Yatra Bookings → Yatra bookings (Excel)', 'Website yatra form bookings are saved here even if WhatsApp is not sent. Change preferred dates or status.' ),
 			array( 'Client enquiries', admin_url( 'edit.php?post_type=customer_enquiry&page=ju-enquiry-schedule' ), 'Left menu → Customer Enquiries → Client enquiries (Excel)', 'Website enquiry form submissions are saved here. Admin also gets an email for each new client enquiry. Change status after you reply.' ),
 			array( 'Registrations', admin_url( 'edit.php?post_type=website_registration&page=ju-registration-schedule' ), 'Left menu → Registrations → Registrations (Excel)', 'Website Register form details are saved here as a separate Excel sheet, not mixed with client enquiries.' ),
-			array( 'Privacy / Terms', admin_url( 'edit.php?post_type=page' ), 'Left menu → Pages', 'Open Privacy Policy or Terms & Conditions and edit the text.' ),
+			array( 'Terms & Conditions', admin_url( 'admin.php?page=ju-edit-terms' ), 'JyothishiUncle → Terms & Conditions', 'Full terms text. Address, email, and phone on this page stay in sync with Home page → Contact.' ),
+			array( 'Privacy Policy', admin_url( 'admin.php?page=ju-edit-privacy' ), 'JyothishiUncle → Privacy Policy', 'Full privacy text. Address, email, and phone on this page stay in sync with Home page → Contact. Replace [Add Full Name] for the Grievance Officer.' ),
+			array( 'Disclaimer', admin_url( 'admin.php?page=ju-edit-disclaimer' ), 'JyothishiUncle → Disclaimer', 'Full disclaimer text. Support email stays in sync with Home page → Contact. Replace [Add Your Company Legal Name Here].' ),
+			array( 'Refund Policy', admin_url( 'admin.php?page=ju-edit-refund' ), 'JyothishiUncle → Refund Policy', 'Delivery, cancellation and refund terms. Address and email stay in sync with Home page → Contact.' ),
 		);
 		?>
 		<div class="wrap ju-settings-wrap ju-help-wrap">

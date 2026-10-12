@@ -94,7 +94,7 @@ export async function getTestimonials() {
 export async function getPage(slug: string) {
   const page = await wpFetchOptional<WPPage>(`/pages/${slug}`);
   if (!page) return null;
-  return stripOmanDeep({
+  const decoded = {
     ...page,
     title: decodeWpText(page.title || ""),
     eyebrow: decodeWpText(page.eyebrow || ""),
@@ -105,7 +105,11 @@ export async function getPage(slug: string) {
     image_1_copy: decodeWpText(page.image_1_copy || ""),
     image_2_title: decodeWpText(page.image_2_title || ""),
     image_2_copy: decodeWpText(page.image_2_copy || ""),
-  });
+  };
+  if (/^(terms|privacy-policy|refund-policy|disclaimer)$/.test(slug)) {
+    return decoded;
+  }
+  return stripOmanDeep(decoded);
 }
 
 export async function getConsultationAvailability(service?: string, month?: string) {
@@ -120,6 +124,7 @@ const emptySettings: SiteSettings = {
   site_tagline: "JyothishiUncle",
   whatsapp_number: "",
   phone_number: "",
+  contact_email: "support@jyothishiuncle.com",
   address: "",
   hero_title: "JyothishiUncle",
   hero_subtitle: "Pooja, astrology consultation, and spiritual guidance worldwide.",

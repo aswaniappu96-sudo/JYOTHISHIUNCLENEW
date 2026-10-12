@@ -5,7 +5,7 @@ import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PoojaBookingPanel } from "@/components/pages/PoojaBookingPanel";
 import { PoojaGallery } from "@/components/pages/PoojaGallery";
-import { PoojaVendorsSection } from "@/components/pages/PoojaVendorsSection";
+import { PoojaTemplesSection } from "@/components/home/PoojaTemplesSection";
 import { PageHeading, SectionHeading } from "@/components/home/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { htmlListItems, stripPublicPrices } from "@/lib/html";
@@ -114,12 +114,6 @@ export function PoojaDetailView({
         </ul>
       </div>
 
-      {vendors.length ? (
-        <div className="mb-10">
-          <PoojaVendorsSection vendors={vendors} />
-        </div>
-      ) : null}
-
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
         <div className="flex flex-col space-y-10 lg:col-span-7">
           {uniqueImages.length ? <PoojaGallery images={uniqueImages} title={title} /> : null}
@@ -208,6 +202,12 @@ export function PoojaDetailView({
           />
         </div>
       </div>
+
+      {vendors.length ? (
+        <div className="mt-12">
+          <PoojaTemplesSection vendors={vendors} poojas={[pooja, ...relatedPoojas]} phone={settings.phone_number} />
+        </div>
+      ) : null}
 
       <div className="mt-12 space-y-4 rounded-3xl bg-surface-low p-6 shadow-2xl md:p-8">
         <div className="mx-auto max-w-2xl space-y-1 text-center">

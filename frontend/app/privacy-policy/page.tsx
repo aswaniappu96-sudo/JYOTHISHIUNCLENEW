@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
-import { getPage, settleApi } from "@/lib/api/wordpress";
+import { fallbackSettings, getPage, getSettings, settleApi } from "@/lib/api/wordpress";
 import { PageIntro } from "@/components/layout/PageIntro";
+import { applyPrivacyContact, PRIVACY_FALLBACK } from "@/lib/privacyHtml";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = { title: "Privacy policy" };
 
 export default async function PrivacyPage() {
-  const page = await settleApi(getPage("privacy-policy"), null);
+  const [page, settings] = await Promise.all([
+    settleApi(getPage("privacy-policy"), null),
+    settleApi(getSettings(), fallbackSettings()),
+  ]);
+  const fromCms = page?.content && !/sample privacy text/i.test(page.content) ? page.content : "";
+  const html = applyPrivacyContact(fromCms || PRIVACY_FALLBACK, settings);
+
   return (
     <>
-      <PageIntro eyebrow="Legal" title={page?.title || "Privacy policy"} />
-      <article
-        className="prose-ju mx-auto max-w-3xl px-5 py-16"
-        dangerouslySetInnerHTML={{
-          __html:
-            page?.content ||
-            "<p>We collect name, email, mobile, location, and messages when you enquire or book. This information is used to respond to you and is not sold.</p>",
-        }}
+      <PageIntro
+        eyebrow="Legal"
+        title={page?.title || "Privacy Policy"}
+        copy="Last updated 12th October 2026"
+        wide
       />
+      <article className="prose-ju prose-legal mx-auto w-full max-w-[1400px] px-5 pb-16 sm:px-8 lg:px-[56px]" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );
 }

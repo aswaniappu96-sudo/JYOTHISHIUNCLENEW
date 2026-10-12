@@ -9,7 +9,6 @@ import { DailyHoroscope } from "@/components/home/DailyHoroscope";
 import { EnquiryForm } from "@/components/home/EnquiryForm";
 import { Hero } from "@/components/home/Hero";
 import { PoojaSection } from "@/components/home/PoojaSection";
-import { PoojaTemplesSection } from "@/components/home/PoojaTemplesSection";
 import { ProductSection } from "@/components/home/ProductSection";
 import { QuickServicesSection } from "@/components/home/QuickServicesSection";
 import { Testimonials } from "@/components/home/Testimonials";
@@ -38,10 +37,14 @@ export default async function HomePage() {
         <AstrologyConsultingSection />
         <QuickServicesSection />
         <DailyHoroscope />
-        <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />
+        <AboutTeaser
+          excerpt={data.settings.about_excerpt}
+          image={data.settings.about_teaser_image}
+          phone={data.settings.phone_number}
+          whatsapp={data.settings.whatsapp_number}
+        />
         <ConsultationSection settings={data.settings} services={data.services || []} />
-        <PoojaSection poojas={data.poojas} whatsappNumber={data.settings.whatsapp_number} />
-        <PoojaTemplesSection vendors={data.vendors || []} poojas={data.poojas || []} />
+        <PoojaSection poojas={data.poojas} vendors={data.vendors || []} whatsappNumber={data.settings.whatsapp_number} />
         <ProductSection products={data.products} whatsappNumber={data.settings.whatsapp_number} />
         <TravelSection travel={data.travel} whatsappNumber={data.settings.whatsapp_number} />
         <Testimonials testimonials={data.testimonials} />

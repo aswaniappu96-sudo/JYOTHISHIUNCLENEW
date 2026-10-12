@@ -111,32 +111,24 @@ export function ArticleDetailView({
 
       {src ? (
         <div className="mx-auto mb-12 max-w-6xl px-4 md:px-12">
-          <div className="relative overflow-hidden rounded-2xl bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
-            <img
-              src={src}
-              alt={article.featured_image?.alt || article.title}
-              className="h-[360px] w-full object-cover object-center md:h-[540px]"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-surface-lowest via-surface/40 to-transparent" />
-            <div className="absolute right-6 bottom-6 left-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-              <div className="max-w-xl">
-                <span className="rounded bg-surface-highest/80 px-2.5 py-1 text-[11px] font-bold tracking-widest text-primary uppercase backdrop-blur-md">
-                  {category}
-                </span>
-                {excerpt ? (
-                  <p className="mt-2 line-clamp-3 font-serif text-[22px] leading-8 text-on-surface drop-shadow-md">
-                    {excerpt}
-                  </p>
-                ) : null}
-              </div>
+          <div className="relative overflow-hidden rounded-2xl bg-[#F7F0E2] shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
+            <div className="relative aspect-[16/9] w-full">
+              <img
+                src={src}
+                alt={article.featured_image?.alt || article.title}
+                className="h-full w-full object-contain object-center"
+              />
             </div>
+            <span className="absolute left-4 top-4 rounded bg-white px-2.5 py-1 text-[11px] font-bold tracking-widest text-primary uppercase shadow-sm">
+              {category}
+            </span>
           </div>
         </div>
       ) : null}
 
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-4 pb-12 lg:grid-cols-12 md:px-12">
         <article className="flex flex-col gap-7 lg:col-span-8">
-          {excerpt && !src ? (
+          {excerpt ? (
             <div className="relative overflow-hidden rounded-2xl bg-surface-container/60 p-7 shadow-lg backdrop-blur-xl">
               <p className="font-serif text-[22px] leading-8 text-primary italic">{excerpt}</p>
             </div>

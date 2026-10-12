@@ -12,6 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class JU_Sample_Content {
 
 	const FLAG = 'ju_sample_content_installed';
+	const TERMS_VERSION   = '2026-10-12';
+	const PRIVACY_VERSION    = '2026-10-12';
+	const DISCLAIMER_VERSION = '2026-10-12';
+	const REFUND_VERSION     = '2026-10-12';
 
 	public static function notice() {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -63,6 +67,10 @@ class JU_Sample_Content {
 		self::astrologers();
 		self::vendors();
 		self::ensure_contact_page();
+		self::ensure_terms_page();
+		self::ensure_privacy_page();
+		self::ensure_disclaimer_page();
+		self::ensure_refund_page();
 
 		update_option( self::FLAG, 1 );
 	}
@@ -72,6 +80,10 @@ class JU_Sample_Content {
 		self::vendors();
 		self::pages();
 		self::ensure_contact_page();
+		self::ensure_terms_page();
+		self::ensure_privacy_page();
+		self::ensure_disclaimer_page();
+		self::ensure_refund_page();
 		self::services();
 	}
 
@@ -434,12 +446,22 @@ class JU_Sample_Content {
 			array(
 				'title'   => 'Privacy Policy',
 				'slug'    => 'privacy-policy',
-				'content' => '<p>This is sample privacy text. Replace it before the website goes live.</p><p>We collect name, email, mobile, location, and messages when you enquire or book. This information is used to respond to you and is not sold.</p>',
+				'content' => self::privacy_page_html(),
 			),
 			array(
 				'title'   => 'Terms & Conditions',
 				'slug'    => 'terms',
-				'content' => '<p>This is sample terms text. Replace it before the website goes live.</p><p>Consultations are online. Bookings are requests until the JyothishiUncle team confirms the time and sends a meeting link. Fees are agreed privately.</p>',
+				'content' => self::terms_page_html(),
+			),
+			array(
+				'title'   => 'Disclaimer',
+				'slug'    => 'disclaimer',
+				'content' => self::disclaimer_page_html(),
+			),
+			array(
+				'title'   => 'Refund Policy',
+				'slug'    => 'refund-policy',
+				'content' => self::refund_page_html(),
 			),
 		);
 
@@ -642,6 +664,147 @@ class JU_Sample_Content {
 				)
 			);
 		}
+	}
+
+	private static function terms_page_html() {
+		$s = class_exists( 'JU_Settings' ) ? JU_Settings::get() : array();
+		return ju_terms_html(
+			isset( $s['address'] ) ? (string) $s['address'] : '',
+			isset( $s['phone_number'] ) ? (string) $s['phone_number'] : '',
+			isset( $s['admin_notify_email'] ) ? (string) $s['admin_notify_email'] : 'support@jyothishiuncle.com'
+		);
+	}
+
+	public static function ensure_terms_page() {
+		$html     = self::terms_page_html();
+		$existing = get_page_by_path( 'terms' );
+		$version  = (string) get_option( 'ju_terms_version', '' );
+		$payload  = array(
+			'post_title'   => 'Terms & Conditions',
+			'post_name'    => 'terms',
+			'post_content' => $html,
+			'post_status'  => 'publish',
+			'post_type'    => 'page',
+		);
+
+		if ( $existing ) {
+			$current = (string) $existing->post_content;
+			$stale   = false !== strpos( $current, 'sample terms text' ) || false === strpos( $current, 'Last Updated:</strong> 12th October 2026' );
+			if ( $version === self::TERMS_VERSION && ! $stale ) {
+				return;
+			}
+			$payload['ID'] = (int) $existing->ID;
+			wp_update_post( $payload );
+		} else {
+			wp_insert_post( $payload );
+		}
+
+		update_option( 'ju_terms_version', self::TERMS_VERSION );
+	}
+
+	private static function privacy_page_html() {
+		$s = class_exists( 'JU_Settings' ) ? JU_Settings::get() : array();
+		return ju_privacy_html(
+			isset( $s['address'] ) ? (string) $s['address'] : '',
+			isset( $s['phone_number'] ) ? (string) $s['phone_number'] : '',
+			isset( $s['admin_notify_email'] ) ? (string) $s['admin_notify_email'] : 'support@jyothishiuncle.com'
+		);
+	}
+
+	public static function ensure_privacy_page() {
+		$html     = self::privacy_page_html();
+		$existing = get_page_by_path( 'privacy-policy' );
+		$version  = (string) get_option( 'ju_privacy_version', '' );
+		$payload  = array(
+			'post_title'   => 'Privacy Policy',
+			'post_name'    => 'privacy-policy',
+			'post_content' => $html,
+			'post_status'  => 'publish',
+			'post_type'    => 'page',
+		);
+
+		if ( $existing ) {
+			$current = (string) $existing->post_content;
+			$stale   = false !== strpos( $current, 'sample privacy text' ) || false === strpos( $current, 'Last Updated:</strong> 12th October 2026' );
+			if ( $version === self::PRIVACY_VERSION && ! $stale ) {
+				return;
+			}
+			$payload['ID'] = (int) $existing->ID;
+			wp_update_post( $payload );
+		} else {
+			wp_insert_post( $payload );
+		}
+
+		update_option( 'ju_privacy_version', self::PRIVACY_VERSION );
+	}
+
+	private static function disclaimer_page_html() {
+		$s = class_exists( 'JU_Settings' ) ? JU_Settings::get() : array();
+		return ju_disclaimer_html(
+			isset( $s['admin_notify_email'] ) ? (string) $s['admin_notify_email'] : 'support@jyothishiuncle.com'
+		);
+	}
+
+	public static function ensure_disclaimer_page() {
+		$html     = self::disclaimer_page_html();
+		$existing = get_page_by_path( 'disclaimer' );
+		$version  = (string) get_option( 'ju_disclaimer_version', '' );
+		$payload  = array(
+			'post_title'   => 'Disclaimer',
+			'post_name'    => 'disclaimer',
+			'post_content' => $html,
+			'post_status'  => 'publish',
+			'post_type'    => 'page',
+		);
+
+		if ( $existing ) {
+			$current = (string) $existing->post_content;
+			$stale   = false !== strpos( $current, 'traditional astrology guidance' ) || false === strpos( $current, 'Last Updated:</strong> 12th October 2026' );
+			if ( $version === self::DISCLAIMER_VERSION && ! $stale ) {
+				return;
+			}
+			$payload['ID'] = (int) $existing->ID;
+			wp_update_post( $payload );
+		} else {
+			wp_insert_post( $payload );
+		}
+
+		update_option( 'ju_disclaimer_version', self::DISCLAIMER_VERSION );
+	}
+
+	private static function refund_page_html() {
+		$s = class_exists( 'JU_Settings' ) ? JU_Settings::get() : array();
+		return ju_refund_html(
+			isset( $s['address'] ) ? (string) $s['address'] : '',
+			isset( $s['admin_notify_email'] ) ? (string) $s['admin_notify_email'] : 'support@jyothishiuncle.com'
+		);
+	}
+
+	public static function ensure_refund_page() {
+		$html     = self::refund_page_html();
+		$existing = get_page_by_path( 'refund-policy' );
+		$version  = (string) get_option( 'ju_refund_version', '' );
+		$payload  = array(
+			'post_title'   => 'Refund Policy',
+			'post_name'    => 'refund-policy',
+			'post_content' => $html,
+			'post_status'  => 'publish',
+			'post_type'    => 'page',
+		);
+
+		if ( $existing ) {
+			$current = (string) $existing->post_content;
+			$stale   = false !== strpos( $current, 'Fees are agreed privately' ) || false === strpos( $current, 'Last Updated:</strong> 12th October 2026' );
+			if ( $version === self::REFUND_VERSION && ! $stale ) {
+				return;
+			}
+			$payload['ID'] = (int) $existing->ID;
+			wp_update_post( $payload );
+		} else {
+			wp_insert_post( $payload );
+		}
+
+		update_option( 'ju_refund_version', self::REFUND_VERSION );
 	}
 
 	private static function ensure_contact_page() {

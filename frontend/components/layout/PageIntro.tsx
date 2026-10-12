@@ -5,16 +5,18 @@ export function PageIntro({
   title,
   copy,
   image,
+  wide = false,
 }: {
   eyebrow: string;
   title: string;
   copy?: string;
   image?: string;
+  wide?: boolean;
 }) {
   return (
-    <section className="relative overflow-hidden px-5 py-16">
+    <section className="relative overflow-hidden py-16">
       {image ? <img src={image} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20" /> : null}
-      <div className="relative mx-auto max-w-4xl">
+      <div className={`relative mx-auto w-full ${wide ? "max-w-[1400px] px-5 sm:px-8 lg:px-[56px]" : "max-w-4xl px-5"}`}>
         <p className="text-xs uppercase tracking-[0.28em] text-primary">{eyebrow}</p>
         <PageHeading as="h1" title={title} className="mt-4" />
         {copy ? <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">{copy}</p> : null}

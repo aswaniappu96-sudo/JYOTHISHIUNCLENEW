@@ -58,34 +58,22 @@ export function ProductCard({
 
   if (variant === "featured") {
     return (
-      <article className="group relative flex h-full min-h-[420px] overflow-hidden rounded-2xl bg-surface-low shadow-xl lg:min-h-0">
-        <img
-          src={src}
-          alt={title}
-          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-[#1a1408]/90 via-[#1a1408]/35 to-transparent" />
-        <span className="absolute top-4 left-4 z-10 rounded-full bg-primary-container/90 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-primary uppercase">
-          {available}
-        </span>
-        <div className="relative z-10 mt-auto flex w-full flex-col gap-4 p-6 md:p-8">
-          <h3 className="font-serif text-[28px] leading-tight text-[#fffbf3] md:text-[34px]">{title}</h3>
-          {summary ? <p className="max-w-xl line-clamp-3 text-sm leading-6 text-[#fffbf3]/85">{summary}</p> : null}
-          <div className="flex flex-wrap gap-2">
+      <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#F7F0E2]">
+          <img src={src} alt={title} className="h-full w-full object-cover object-center" />
+          <span className="absolute top-4 left-4 z-10 rounded-full bg-primary-container/90 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-primary uppercase">
+            {available}
+          </span>
+        </div>
+        <div className="flex flex-1 flex-col gap-4 p-6 md:p-8">
+          <h3 className="font-serif text-[28px] leading-tight text-on-surface md:text-[34px]">{title}</h3>
+          {summary ? <p className="max-w-xl line-clamp-3 text-sm leading-6 text-on-surface-variant">{summary}</p> : null}
+          <div className="mt-auto flex flex-wrap gap-2">
             <DetailsLink slug={product.slug} />
             <ProductEnquiryButton product={product}>Buy</ProductEnquiryButton>
-            {waHref ? (
-              <a
-                href={waHref}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-[#fffbf3]/50 bg-transparent px-5 py-2.5 text-sm font-semibold text-[#fffbf3] transition hover:bg-[#fffbf3]/15"
-              >
-                WhatsApp
-              </a>
-            ) : null}
+            {waHref ? <WhatsAppLink href={waHref} /> : null}
           </div>
-          <p className="text-xs text-[#fffbf3]/70">Fees shared privately</p>
+          <p className="text-xs text-on-surface-variant">Fees shared privately</p>
         </div>
       </article>
     );
@@ -93,9 +81,9 @@ export function ProductCard({
 
   if (variant === "rail") {
     return (
-      <article className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-surface-lowest shadow-md ring-1 ring-primary/10 transition hover:-translate-y-0.5 hover:ring-primary/35">
-        <div className="relative h-44 overflow-hidden">
-          <img src={src} alt={title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+      <article className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#F7F0E2]">
+          <img src={src} alt={title} className="h-full w-full object-cover object-center" />
           <span className="absolute top-2 left-2 rounded-full bg-surface-lowest/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-primary">
             {available}
           </span>
@@ -115,9 +103,9 @@ export function ProductCard({
 
   if (variant === "tile") {
     return (
-      <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-surface-low shadow-lg">
-        <div className="relative h-40 overflow-hidden">
-          <img src={src} alt={title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+      <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#F7F0E2]">
+          <img src={src} alt={title} className="h-full w-full object-cover object-center" />
           <span className="absolute top-3 left-3 rounded-full bg-surface-lowest/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
             {available}
           </span>
@@ -138,14 +126,9 @@ export function ProductCard({
 
   if (variant === "compact") {
     return (
-      <article className="group flex h-full min-h-[200px] flex-col overflow-hidden rounded-2xl bg-surface-low shadow-xl sm:flex-row">
-        <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-auto sm:w-[44%]">
-          <img
-            src={src}
-            alt={title}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-surface-low/70 to-transparent sm:bg-linear-to-r" />
+      <article className="group flex h-full min-h-[200px] flex-col overflow-hidden rounded-2xl border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)] sm:flex-row">
+        <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#F7F0E2] sm:aspect-auto sm:h-auto sm:w-[44%]">
+          <img src={src} alt={title} className="h-full w-full object-cover object-center" />
         </div>
         <div className="flex flex-1 flex-col justify-between gap-3 p-5">
           <div>
@@ -166,21 +149,16 @@ export function ProductCard({
   }
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-surface-low shadow-xl">
-      <div className="relative h-80 overflow-hidden">
-        <img
-          src={src}
-          alt={title}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-surface-low via-surface-low/40 to-transparent" />
-        <span className="absolute top-4 left-4 rounded-full bg-surface-lowest/80 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-primary uppercase backdrop-blur-md">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]">
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#F7F0E2]">
+        <img src={src} alt={title} className="h-full w-full object-cover object-center" />
+        <span className="absolute top-4 left-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-primary uppercase shadow-sm">
           {available}
         </span>
-        <h3 className="absolute right-4 bottom-4 left-4 font-serif text-[22px] leading-tight text-on-surface">{title}</h3>
       </div>
       <div className="flex flex-1 flex-col p-6">
-        {summary ? <p className="line-clamp-3 text-sm leading-6 text-on-surface-variant">{summary}</p> : null}
+        <h3 className="font-serif text-[22px] leading-tight text-on-surface">{title}</h3>
+        {summary ? <p className="mt-2 line-clamp-3 text-sm leading-6 text-on-surface-variant">{summary}</p> : null}
         <div className="mt-5 flex flex-wrap gap-2">
           <DetailsLink slug={product.slug} />
           <ProductEnquiryButton product={product}>Buy</ProductEnquiryButton>

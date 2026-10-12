@@ -2,7 +2,7 @@
 /**
  * Plugin Name: JyothishiUncle Core
  * Description: Custom post types, site settings, galleries, and sample content for the JyothishiUncle headless website. The public site is Next.js — do not install a page-builder theme.
- * Version: 0.8.0
+ * Version: 0.8.4
  * Author: JyothishiUncle
  * Requires at least: 6.4
  * Requires PHP: 8.1
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JU_CORE_VERSION', '0.8.0' );
+define( 'JU_CORE_VERSION', '0.8.4' );
 define( 'JU_CORE_FILE', __FILE__ );
 define( 'JU_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'JU_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -27,6 +27,10 @@ require_once JU_CORE_DIR . 'includes/class-i18n.php';
 require_once JU_CORE_DIR . 'includes/class-acf-fields.php';
 require_once JU_CORE_DIR . 'includes/class-gallery-meta.php';
 require_once JU_CORE_DIR . 'includes/class-admin.php';
+require_once JU_CORE_DIR . 'includes/terms-html.php';
+require_once JU_CORE_DIR . 'includes/privacy-html.php';
+require_once JU_CORE_DIR . 'includes/disclaimer-html.php';
+require_once JU_CORE_DIR . 'includes/refund-html.php';
 require_once JU_CORE_DIR . 'includes/class-sample-content.php';
 require_once JU_CORE_DIR . 'includes/class-rest-serialize.php';
 require_once JU_CORE_DIR . 'includes/class-availability.php';

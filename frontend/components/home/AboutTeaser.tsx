@@ -6,9 +6,19 @@ import { useRouter } from "next/navigation";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
-import { stripHtml, stripPublicPrices } from "@/lib/html";
+import { stripHtml, stripPublicPrices, telHref } from "@/lib/html";
 import type { MsgKey } from "@/lib/i18n";
+import { usableWhatsapp } from "@/components/layout/SitePrefs";
+import { whatsappUrl } from "@/lib/whatsapp";
 import type { WPImage } from "@/types/wordpress";
+
+const FALLBACK_PHONE = "+91 84519 89496";
+
+function usablePhone(value?: string) {
+  const text = (value || "").trim();
+  if (!text || /0000/.test(text) || text.replace(/\D/g, "") === "96800000000") return FALLBACK_PHONE;
+  return text;
+}
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
 
@@ -147,6 +157,44 @@ function StarGlyph() {
   );
 }
 
+function ModeChatGlyph() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" aria-hidden>
+      <path
+        d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7A2.5 2.5 0 0 1 16.5 16H11l-4 3.2V16H7.5A2.5 2.5 0 0 1 5 13.5v-7Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ModeCallGlyph() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" aria-hidden>
+      <path
+        d="M7.2 4.8c.4-.4 1.1-.5 1.6-.2l2.2 1.3c.5.3.7.9.5 1.4L10.8 9.8a11.2 11.2 0 0 0 3.4 3.4l2.5-.7c.5-.2 1.1 0 1.4.5l1.3 2.2c.3.5.2 1.2-.2 1.6l-1.1 1.1c-.5.5-1.2.7-1.9.5-3.3-.9-6.3-3.2-8.6-5.5S3.3 8.3 2.4 5c-.2-.7 0-1.4.5-1.9L4 2.9Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ModeVideoGlyph() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" aria-hidden>
+      <rect x="3" y="7" width="12" height="10" rx="2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M15 11.2 20 8.5v7l-5-2.7v-1.6Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+const modeBtn =
+  "flex h-9 w-9 items-center justify-center rounded-full border border-[#EAD9B0] bg-white text-[#8B6A3A] shadow-[0_1px_0_0_rgba(255,255,255,0.8)_inset] transition hover:bg-[#FBF0D9]";
+
 const TRUST_CARDS = [
   { title: "trust.verified" as const, copy: "trust.verifiedCopy" as const, icon: ShieldTrust },
   { title: "trust.personal" as const, copy: "trust.personalCopy" as const, icon: PersonTrust },
@@ -154,22 +202,28 @@ const TRUST_CARDS = [
   { title: "trust.connect" as const, copy: "trust.connectCopy" as const, icon: ChatTrust },
 ];
 
-const POPULAR: { title: MsgKey; copy: MsgKey; href: string; icon: () => ReactNode }[] = [
-  { title: "pop.kundli", copy: "pop.kundliCopy", href: "/astrologers", icon: KundliGlyph },
-  { title: "pop.marriage", copy: "pop.marriageCopy", href: "/astrologers?topic=marriage", icon: HeartGlyph },
-  { title: "pop.business", copy: "pop.businessCopy", href: "/astrologers?topic=business", icon: BriefGlyph },
-  { title: "pop.remedies", copy: "pop.remediesCopy", href: "/astrologers?topic=remedies", icon: SunGlyph },
-  { title: "pop.prashna", copy: "pop.prashnaCopy", href: "/#consultation", icon: QuestionGlyph },
-  { title: "pop.career", copy: "pop.careerCopy", href: "/astrologers?topic=career", icon: CrossGlyph },
-  { title: "pop.vastu", copy: "pop.vastuCopy", href: "/astrologers?topic=vastu", icon: HomeGlyph },
-  { title: "pop.life", copy: "pop.lifeCopy", href: "/astrologers", icon: StarGlyph },
+const POPULAR: { title: MsgKey; copy: MsgKey; consult: string; icon: () => ReactNode }[] = [
+  { title: "pop.kundli", copy: "pop.kundliCopy", consult: "kundli", icon: KundliGlyph },
+  { title: "pop.marriage", copy: "pop.marriageCopy", consult: "marriage", icon: HeartGlyph },
+  { title: "pop.business", copy: "pop.businessCopy", consult: "business", icon: BriefGlyph },
+  { title: "pop.remedies", copy: "pop.remediesCopy", consult: "remedies", icon: SunGlyph },
+  { title: "pop.prashna", copy: "pop.prashnaCopy", consult: "prashna", icon: QuestionGlyph },
+  { title: "pop.career", copy: "pop.careerCopy", consult: "career", icon: CrossGlyph },
+  { title: "pop.vastu", copy: "pop.vastuCopy", consult: "other", icon: HomeGlyph },
+  { title: "pop.life", copy: "pop.lifeCopy", consult: "other", icon: StarGlyph },
 ];
 
-function WhyJyothishiUncle() {
+function accordionDomId(title: MsgKey) {
+  return String(title).replace(".", "-");
+}
+
+function WhyJyothishiUncle({ phone, whatsapp }: { phone?: string; whatsapp?: string }) {
   const { t } = usePrefs();
   const router = useRouter();
   const [open, setOpen] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const chatNumber = usableWhatsapp(whatsapp);
+  const callHref = telHref(usablePhone(phone));
 
   useEffect(() => {
     if (!toast) return;
@@ -177,11 +231,41 @@ function WhyJyothishiUncle() {
     return () => window.clearTimeout(id);
   }, [toast]);
 
+  useEffect(() => {
+    const openFromId = (raw: string) => {
+      const id = raw.replace(/^#/, "").trim();
+      const match = POPULAR.find((item) => accordionDomId(item.title) === id);
+      if (!match) return;
+      setOpen(match.title);
+      window.setTimeout(() => {
+        document.getElementById(accordionDomId(match.title))?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 60);
+    };
+    openFromId(window.location.hash);
+    const onHash = () => openFromId(window.location.hash);
+    const onOpen = (event: Event) => openFromId(String((event as CustomEvent<string>).detail || ""));
+    const onDocClick = (event: MouseEvent) => {
+      const link = (event.target as HTMLElement | null)?.closest?.('a[href*="#pop-"]');
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      const hash = href.slice(href.indexOf("#") + 1);
+      window.setTimeout(() => openFromId(hash), 0);
+    };
+    window.addEventListener("hashchange", onHash);
+    window.addEventListener("ju:open-popular", onOpen);
+    document.addEventListener("click", onDocClick);
+    return () => {
+      window.removeEventListener("hashchange", onHash);
+      window.removeEventListener("ju:open-popular", onOpen);
+      document.removeEventListener("click", onDocClick);
+    };
+  }, []);
+
   return (
-    <div id="why" className="relative mt-14 scroll-mt-36 pt-10">
+    <div id="why" className="relative mt-8 scroll-mt-36 pt-6 md:mt-10 md:pt-8">
       <div className="h-px w-full bg-gradient-to-r from-[#EAD9B0]/0 via-[#EAD9B0] to-[#EAD9B0]/0" />
 
-      <div className="mt-10 md:mt-14">
+      <div className="mt-8 md:mt-10">
         <div className="max-w-[760px]">
           <div className="mb-6 flex items-center gap-3">
             <span className="inline-block h-px w-8 bg-[#E9C07A]" />
@@ -212,9 +296,9 @@ function WhyJyothishiUncle() {
         </div>
       </div>
 
-      <div className="mt-12 h-px w-full bg-gradient-to-r from-[#EAD9B0]/0 via-[#EAD9B0] to-[#EAD9B0]/0 md:mt-16" />
+      <div className="mt-8 h-px w-full bg-gradient-to-r from-[#EAD9B0]/0 via-[#EAD9B0] to-[#EAD9B0]/0 md:mt-10" />
 
-      <div className="mt-10 grid grid-cols-1 items-start gap-10 md:mt-14 lg:grid-cols-[1.22fr_0.88fr] lg:gap-12">
+      <div className="mt-8 grid grid-cols-1 items-stretch gap-8 md:mt-10 lg:grid-cols-[1.22fr_0.88fr] lg:gap-10">
         <div>
           <div className="mb-7 flex items-center gap-3 md:mb-8">
             <span className="inline-block h-px w-8 bg-[#E9C07A]" />
@@ -225,60 +309,85 @@ function WhyJyothishiUncle() {
               const Icon = item.icon;
               const title = t(item.title);
               const active = open === item.title;
+              const chatHref = whatsappUrl(
+                chatNumber,
+                `Namaste. I would like to chat about ${title} with an astrologer at JyothishiUncle.`,
+              );
               return (
-                <button
+                <div
                   key={item.title}
-                  type="button"
-                  onClick={() => {
-                    if (active) router.push(item.href);
-                    else setOpen(item.title);
-                  }}
-                  className={`group flex items-start gap-3 rounded-[14px] p-2 text-left transition-all duration-200 ${
+                  id={accordionDomId(item.title)}
+                  className={`scroll-mt-36 rounded-[14px] p-2 transition-all duration-200 ${
                     active
                       ? "border border-[#EAD9B0] bg-white shadow-[0_6px_20px_-14px_rgba(61,44,30,0.25)]"
                       : "border border-transparent hover:bg-white/60"
                   }`}
                 >
-                  <span
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
-                      active ? "border-[#1E160E] bg-[#1E160E] text-[#FBF0D9]" : "border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] group-hover:bg-white"
-                    }`}
+                  <button
+                    type="button"
+                    aria-expanded={active}
+                    onClick={() => setOpen(active ? null : item.title)}
+                    className="group flex w-full items-start gap-3 text-left"
                   >
-                    <Icon />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{title}</span>
-                    <span className="mt-0.5 block text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</span>
-                    {active ? (
-                      <span className="mt-2 block rounded-lg border border-[#EAD9B0] bg-[#FFF8EC] px-2.5 py-2 text-[12.5px] leading-[1.6] text-[#6E6256]">
-                        {t("pop.expand")}
-                      </span>
-                    ) : null}
-                  </span>
-                  <span
-                    className={`mt-1.5 flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
-                      active ? "border-[#1E160E] bg-[#1E160E] text-white" : "border-[#EAD9B0] text-[#C9A86A] group-hover:border-[#E9C07A]"
-                    }`}
-                  >
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" className={active ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden>
-                      <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </button>
+                    <span
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
+                        active ? "border-[#1E160E] bg-[#1E160E] text-[#FBF0D9]" : "border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] group-hover:bg-white"
+                      }`}
+                    >
+                      <Icon />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{title}</span>
+                      <span className="mt-0.5 block text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</span>
+                    </span>
+                    <span
+                      className={`mt-1.5 flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
+                        active ? "border-[#1E160E] bg-[#1E160E] text-white" : "border-[#EAD9B0] text-[#C9A86A] group-hover:border-[#E9C07A]"
+                      }`}
+                    >
+                      <svg width="10" height="10" viewBox="0 0 12 12" fill="none" className={active ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden>
+                        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </button>
+                  {active ? (
+                    <div className="mt-2 ml-12 rounded-[16px] border border-[#EAD9B0] bg-[#FBF6EC] px-3 py-2.5">
+                      <p className="text-[11px] font-semibold tracking-[0.04em] text-[#9C8360]">{t("trust.connectCopy")}</p>
+                      <div className="mt-2 flex items-center gap-2">
+                        <a href={chatHref} target="_blank" rel="noreferrer" className={modeBtn} aria-label={t("hero.chat")}>
+                          <ModeChatGlyph />
+                        </a>
+                        <a href={callHref} className={modeBtn} aria-label={t("hero.call")}>
+                          <ModeCallGlyph />
+                        </a>
+                        <button
+                          type="button"
+                          className={modeBtn}
+                          aria-label={t("hero.video")}
+                          onClick={() => {
+                            window.dispatchEvent(new CustomEvent("ju:consult-video", { detail: item.consult }));
+                          }}
+                        >
+                          <ModeVideoGlyph />
+                        </button>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               );
             })}
           </div>
-          <p className="mt-8 flex items-center gap-2 text-[12.5px] text-[#8B7E6E] md:mt-10">
+          <p className="mt-6 flex items-center gap-2 text-[12.5px] text-[#8B7E6E]">
             <span className="h-px w-6 bg-[#EAD9B0]" />
             {t("how.privateNote")}
           </p>
         </div>
 
-        <div className="relative lg:-mt-1">
-          <div className="relative overflow-hidden rounded-[24px] border border-[#EAD9B0] bg-white shadow-[0_20px_50px_-24px_rgba(61,44,30,0.22),0_1px_0_0_white_inset]">
+        <div className="relative flex h-full lg:-mt-1">
+          <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[24px] border border-[#EAD9B0] bg-white shadow-[0_20px_50px_-24px_rgba(61,44,30,0.22),0_1px_0_0_white_inset]">
             <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E9C07A]/60 to-transparent" />
             <div className="absolute right-0 top-0 h-[220px] w-[220px] rounded-full opacity-60 blur-[42px]" style={{ background: "radial-gradient(circle, rgba(232,223,245,0.45) 0%, transparent 70%)" }} />
-            <div className="relative p-7 md:p-8">
+            <div className="relative flex flex-1 flex-col p-6 md:p-7">
               <div className="mb-3 flex items-center gap-3">
                 <span className="inline-block h-px w-8 bg-[#E9C07A]" />
                 <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("how.kicker")}</span>
@@ -287,7 +396,7 @@ function WhyJyothishiUncle() {
                 {t("how.lead")} <span className="italic text-[#9A6F3A]">{t("how.accent")}</span>
               </h3>
 
-              <ol className="relative mt-8 space-y-6">
+              <ol className="relative mt-5 space-y-4">
                 {(
                   [
                     { n: "01", t: "how.step1" as const, d: "how.step1Copy" as const },
@@ -310,7 +419,7 @@ function WhyJyothishiUncle() {
                 ))}
               </ol>
 
-              <div className="mt-8">
+              <div className="mt-auto pt-6">
                 <button
                   type="button"
                   onClick={() => {
@@ -365,7 +474,17 @@ function WhyJyothishiUncle() {
   );
 }
 
-export function AboutTeaser({ excerpt, image: _image }: { excerpt?: string; image?: WPImage }) {
+export function AboutTeaser({
+  excerpt,
+  image: _image,
+  phone,
+  whatsapp,
+}: {
+  excerpt?: string;
+  image?: WPImage;
+  phone?: string;
+  whatsapp?: string;
+}) {
   const { t, copy } = usePrefs();
   const fromCms = stripPublicPrices(stripHtml(copy("about_excerpt", excerpt || ""))).trim();
   const lead = fromCms || FALLBACK;
@@ -602,7 +721,7 @@ export function AboutTeaser({ excerpt, image: _image }: { excerpt?: string; imag
           </div>
         </div>
 
-        <WhyJyothishiUncle />
+        <WhyJyothishiUncle phone={phone} whatsapp={whatsapp} />
       </Reveal>
     </section>
   );

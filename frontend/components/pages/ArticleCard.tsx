@@ -15,12 +15,12 @@ export function ArticleCard({ article: raw }: { article: Article }) {
   return (
     <article className="group flex h-full flex-col justify-between rounded-xl bg-surface-container p-6 shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-1 hover:bg-surface-high">
       <div>
-        <div className="relative mb-5 h-48 w-full overflow-hidden rounded-lg bg-surface-lowest">
+        <div className="relative mb-5 aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#F7F0E2]">
           {src ? (
             <img
               src={src}
               alt={article.featured_image?.alt || article.title}
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              className="h-full w-full object-contain object-center"
             />
           ) : (
             <div className="h-full w-full bg-linear-to-br from-surface-lowest to-secondary-container/40" />

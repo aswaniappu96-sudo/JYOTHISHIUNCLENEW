@@ -222,11 +222,11 @@ function ToolsGlyph({ open }: { open: boolean }) {
     );
   }
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>
-      <circle cx="12" cy="6.5" r="1.45" />
-      <circle cx="12" cy="12" r="1.45" />
-      <circle cx="12" cy="17.5" r="1.45" />
-    </svg>
+    <img
+      src="/images/tools-collapse.png"
+      alt=""
+      className="h-full w-full rounded-full object-cover"
+    />
   );
 }
 
@@ -272,7 +272,11 @@ export function PrefsDock() {
           type="button"
           suppressHydrationWarning
           onClick={() => setExpanded((value) => !value)}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-lowest text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] ring-1 ring-outline-variant transition hover:scale-105 hover:bg-surface-low"
+          className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-full text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] transition hover:scale-105 ${
+            expanded
+              ? "bg-surface-lowest ring-1 ring-outline-variant hover:bg-surface-low"
+              : "bg-[#E8D9C4] p-0 ring-0"
+          }`}
           aria-expanded={expanded}
           aria-label={expanded ? "Hide tools" : "Language, theme and search"}
         >

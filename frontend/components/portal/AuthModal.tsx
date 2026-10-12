@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { Field, ModalShell, fieldClass, goldBtn } from "@/components/portal/ModalShell";
+import { Field, ModalShell, fieldClass, ghostBtn, goldBtn } from "@/components/portal/ModalShell";
 import { loginCustomer, registerCustomer } from "@/lib/api/submit";
 import { HEAR_ABOUT_OPTIONS, type CustomerUser } from "@/types/forms";
 
@@ -85,7 +85,7 @@ export function AuthModal({
     >
       {consultationOffer ? (
         <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
-          Login to book and get 10 min free consultation. You can cancel and continue without the free slot.
+          Login to use this booking. Click Cancel to continue with the consultation form without login.
         </p>
       ) : firstVisit ? (
         <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
@@ -123,8 +123,8 @@ export function AuthModal({
             {busy ? "Signing in…" : "Login"}
           </button>
           {consultationOffer ? (
-            <button type="button" onClick={onClose} className="text-sm text-on-surface-variant hover:text-on-surface">
-              Cancel — continue without free
+            <button type="button" onClick={onClose} className={ghostBtn}>
+              Cancel
             </button>
           ) : firstVisit ? (
             <button
@@ -193,8 +193,8 @@ export function AuthModal({
             {busy ? "Saving…" : astrologer ? "Submit astrologer application" : "Create account"}
           </button>
           {consultationOffer ? (
-            <button type="button" onClick={onClose} className="text-sm text-on-surface-variant hover:text-on-surface">
-              Cancel — continue without free
+            <button type="button" onClick={onClose} className={ghostBtn}>
+              Cancel
             </button>
           ) : firstVisit ? (
             <button

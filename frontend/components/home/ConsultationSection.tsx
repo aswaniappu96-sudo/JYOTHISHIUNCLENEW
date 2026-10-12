@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useAuth } from "@/components/auth/AuthProvider";
 import { ConsultationBookPanel } from "@/components/home/ConsultationBookPanel";
 import type { SelectedConsultationDay } from "@/components/home/HomeConsultationCalendar";
 import { PageHeading } from "@/components/home/SectionHeading";
-import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { consultServicesFromWp, type SiteServiceLink } from "@/lib/siteServices";
+import { consultServicesFromWp, popularAccordionId, type SiteServiceLink } from "@/lib/siteServices";
 import { useJuList } from "@/lib/useJuList";
 import type { AstrologyService, SiteSettings } from "@/types/wordpress";
 
@@ -76,41 +74,62 @@ export function ConsultationSection({
   services: AstrologyService[];
 }) {
   const { t } = usePrefs();
-  const { user } = useAuth();
-  const { openAuth } = usePortal();
   const wpServices = useJuList<AstrologyService>("/services", services);
   const consult = useMemo(() => consultServicesFromWp(wpServices), [wpServices]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [day, setDay] = useState<SelectedConsultationDay | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
-  const pendingCalendar = useRef(false);
   const activeId = selectedId ?? consult[0]?.id ?? OTHER_ID;
   const selected = consult.find((item) => item.id === activeId);
   const purpose = activeId === OTHER_ID ? "" : selected?.label || "";
 
-  const scrollToCalendar = () => {
-    calendarRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const selectService = (id: string) => {
+    setSelectedId(id);
+  };
+
+  const openPopularFor = (label: string) => {
+    const accordionId = popularAccordionId(label);
+    window.dispatchEvent(new CustomEvent("ju:open-popular", { detail: accordionId }));
+    if (window.location.hash !== `#${accordionId}`) {
+      window.history.replaceState(null, "", `#${accordionId}`);
+    }
+  };
+
+  const chooseService = (id: string) => {
+    selectService(id);
+    if (id === OTHER_ID) {
+      window.setTimeout(() => {
+        calendarRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+      return;
+    }
+    const item = consult.find((row) => row.id === id);
+    openPopularFor(item?.label || "life");
   };
 
   useEffect(() => {
-    if (!user || !pendingCalendar.current) return;
-    pendingCalendar.current = false;
-    const id = window.setTimeout(scrollToCalendar, 220);
-    return () => window.clearTimeout(id);
-  }, [user]);
-
-  const openForService = (id: string) => {
-    setSelectedId(id);
-    if (!user) {
-      pendingCalendar.current = true;
-      openAuth("login");
-      return;
-    }
-    scrollToCalendar();
-  };
+    const onVideo = (event: Event) => {
+      const hint = String((event as CustomEvent<string>).detail || "").toLowerCase();
+      const hit = consult.find((item) => {
+        const blob = `${item.id} ${item.label}`.toLowerCase();
+        if (hint === "kundli") return /kundli|birth|jathak/.test(blob);
+        if (hint === "marriage") return /match/.test(blob);
+        if (hint === "prashna") return /prashna/.test(blob);
+        if (hint === "remedies") return /remed/.test(blob);
+        if (hint === "business" || hint === "career") return /family|career|business/.test(blob);
+        return false;
+      });
+      selectService(hit?.id || OTHER_ID);
+      window.setTimeout(() => {
+        calendarRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    };
+    window.addEventListener("ju:consult-video", onVideo);
+    return () => window.removeEventListener("ju:consult-video", onVideo);
+  }, [consult]);
 
   return (
-    <section id="consultation" className="relative w-full overflow-hidden scroll-mt-36 py-12 md:py-16 lg:py-20">
+    <section id="consultation" className="relative w-full overflow-hidden scroll-mt-36 pt-6 pb-12 md:pt-8 md:pb-14 lg:pb-16">
       <div className="pointer-events-none absolute inset-0 opacity-[0.045]">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden>
           <defs>
@@ -154,7 +173,7 @@ export function ConsultationSection({
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => openForService(item.id)}
+                    onClick={() => chooseService(item.id)}
                     className={[
                       "group relative flex w-full items-start gap-3.5 rounded-[16px] border px-3.5 py-3.5 text-left transition-all",
                       active
@@ -200,7 +219,7 @@ export function ConsultationSection({
 
               <button
                 type="button"
-                onClick={() => openForService(OTHER_ID)}
+                onClick={() => chooseService(OTHER_ID)}
                 className={[
                   "group relative flex w-full items-start gap-3.5 rounded-[16px] border px-3.5 py-3.5 text-left transition-all",
                   activeId === OTHER_ID

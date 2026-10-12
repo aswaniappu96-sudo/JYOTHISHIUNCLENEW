@@ -158,32 +158,30 @@ export function ProductSection({
             return (
               <article
                 key={product.id}
-                className={`relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#EAD9B0]/80 bg-linear-to-b ${CARDS[index % CARDS.length]} shadow-[0_10px_28px_rgba(30,22,14,0.05)]`}
+                className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]"
               >
-                <div className="relative px-4 pt-4">
-                  <div className="flex items-start justify-between">
-                    <span
-                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.08em] ${
-                        loved ? "bg-[#c9a227] text-[#1A1106]" : "bg-[#d7ead6] text-[#2f6b3a]"
-                      }`}
-                    >
-                      {loved ? `★ ${t("store.loved")}` : `✦ ${t("store.energized")}`}
-                    </span>
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#EAD9B0] bg-white/70 text-[#b8873a]">
-                      <HeartGlyph />
-                    </span>
-                  </div>
-                  <div className="mt-6 mb-4 flex justify-center">
-                    <div className="relative flex h-[92px] w-[92px] items-center justify-center overflow-hidden rounded-[22px] border border-white bg-white shadow-[0_8px_20px_rgba(30,22,14,0.08)]">
-                      {src ? (
-                        <img src={src} alt={title} className="h-full w-full object-cover" />
-                      ) : (
-                        <KindGlyph kind={kind} />
-                      )}
+                <div className={`relative aspect-[4/3] overflow-hidden ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${CARDS[index % CARDS.length]}`}`}>
+                  {src ? (
+                    <img src={src} alt={title} className="absolute inset-0 h-full w-full object-cover object-center" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <KindGlyph kind={kind} />
                     </div>
-                  </div>
-                  <p className="mb-3 text-center">
-                    <span className="inline-flex rounded-full bg-white/80 px-3 py-1 text-[11px] font-medium text-[#7a6448]">
+                  )}
+                  <span
+                    className={`absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.08em] ${
+                      loved ? "bg-[#c9a227] text-[#1A1106]" : "bg-[#d7ead6] text-[#2f6b3a]"
+                    }`}
+                  >
+                    {loved ? `★ ${t("store.loved")}` : `✦ ${t("store.energized")}`}
+                  </span>
+                  <span className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[#EAD9B0] bg-white/90 text-[#b8873a]">
+                    <HeartGlyph />
+                  </span>
+                </div>
+                <div className="px-4 pt-3">
+                  <p className="text-center">
+                    <span className="inline-flex rounded-full bg-[#FFF8EC] px-3 py-1 text-[11px] font-medium text-[#7a6448]">
                       {t("store.after")}
                     </span>
                   </p>

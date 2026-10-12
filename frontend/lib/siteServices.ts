@@ -143,6 +143,23 @@ function consultDuration(label: string, minutes?: number) {
   return 30;
 }
 
+/** Popular Astrology Services accordion id — Family guidance opens Life Guidance. */
+export function popularAccordionId(label: string): string {
+  const key = (label || "").toLowerCase();
+  if (/kundli|birth|jathak/.test(key)) return "pop-kundli";
+  if (/match|marriage|love/.test(key)) return "pop-marriage";
+  if (/prashna/.test(key)) return "pop-prashna";
+  if (/remed/.test(key)) return "pop-remedies";
+  if (/career/.test(key)) return "pop-career";
+  if (/business/.test(key)) return "pop-business";
+  if (/vastu/.test(key)) return "pop-vastu";
+  return "pop-life";
+}
+
+export function popularAccordionHref(label: string): string {
+  return `/#${popularAccordionId(label)}`;
+}
+
 export function consultServicesFromWp(services: AstrologyService[]): SiteServiceLink[] {
   const fromWp = (services || [])
     .filter((service) => service?.title)
@@ -155,7 +172,7 @@ export function consultServicesFromWp(services: AstrologyService[]): SiteService
         short: label.replace(" guidance", ""),
         hint: publicServiceHint(service.title, raw) || "Video consulting",
         detail: publicServiceDetail(service.title, raw),
-        href: "/#consultation",
+        href: popularAccordionHref(label),
         group: "consult" as const,
         durationMinutes: consultDuration(label, service.duration_minutes || undefined),
       };
@@ -170,7 +187,7 @@ export function consultServicesFromWp(services: AstrologyService[]): SiteService
     short: item.title.replace(" guidance", ""),
     hint: item.hint,
     detail: publicServiceDetail(item.title, item.hint),
-    href: "/#consultation",
+    href: popularAccordionHref(item.title),
     group: "consult" as const,
     durationMinutes: consultDuration(item.title),
   }));

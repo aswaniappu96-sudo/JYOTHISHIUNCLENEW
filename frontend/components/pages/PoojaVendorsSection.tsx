@@ -11,18 +11,30 @@ function vendorCopy(vendor: Vendor) {
   return fromHtml.length > 180 ? `${fromHtml.slice(0, 177).trim()}…` : fromHtml;
 }
 
-export function PoojaVendorsSection({ vendors }: { vendors: Vendor[] }) {
+export function PoojaVendorsSection({ vendors, embed = false }: { vendors: Vendor[]; embed?: boolean }) {
   if (!vendors.length) return null;
 
   return (
-    <section id="pooja-temples" className="scroll-mt-28 space-y-8">
-      <SectionHeading
-        eyebrow="Pooja temples"
-        title="Pooja Temples"
-        badge="Temples"
-        copy="Pooja can be arranged through various temples. Choose a temple in the booking form for an online or offline ritual."
-      />
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+    <section id="pooja-temples" className={embed ? "scroll-mt-28 space-y-4" : "scroll-mt-28 space-y-8"}>
+      {embed ? (
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="h-[2px] w-8 bg-primary" />
+            <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Pooja temples</span>
+          </div>
+          <p className="text-sm leading-relaxed text-on-surface-variant">
+            Pooja can be arranged through various temples. Choose a temple in the booking form for an online or offline ritual.
+          </p>
+        </div>
+      ) : (
+        <SectionHeading
+          eyebrow="Pooja temples"
+          title="Pooja Temples"
+          badge="Temples"
+          copy="Pooja can be arranged through various temples. Choose a temple in the booking form for an online or offline ritual."
+        />
+      )}
+      <div className={`grid grid-cols-1 gap-4 ${embed ? "sm:grid-cols-3" : "gap-6 md:grid-cols-3"}`}>
         {vendors.map((vendor) => {
           const src = imageSrc(vendor.featured_image);
           const copy = vendorCopy(vendor);
@@ -31,14 +43,14 @@ export function PoojaVendorsSection({ vendors }: { vendors: Vendor[] }) {
           return (
             <article
               key={vendor.id || vendor.slug}
-              className="overflow-hidden rounded-2xl bg-surface-low p-4 shadow-xl"
+              className="overflow-hidden rounded-2xl border border-[#EAD9B0] bg-white p-4 shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]"
             >
               {src ? (
-                <div className="mb-4 aspect-[16/10] overflow-hidden rounded-xl bg-surface-container">
-                  <img src={src} alt={vendor.title} className="h-full w-full object-cover" />
+                <div className="mb-4 aspect-square overflow-hidden rounded-xl bg-[#F7F0E2]">
+                  <img src={src} alt={vendor.title} className="h-full w-full object-contain object-center" />
                 </div>
               ) : (
-                <div className="mb-4 flex aspect-[16/10] items-center justify-center rounded-xl bg-surface-container font-serif text-4xl text-primary/35">
+                <div className="mb-4 flex aspect-square items-center justify-center rounded-xl bg-[#F7F0E2] font-serif text-4xl text-primary/35">
                   ॐ
                 </div>
               )}

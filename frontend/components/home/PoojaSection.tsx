@@ -9,7 +9,8 @@ import { useLocalizedList } from "@/lib/localized";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
-import type { Pooja } from "@/types/wordpress";
+import { PoojaTemplesSection } from "@/components/home/PoojaTemplesSection";
+import type { Pooja, Vendor } from "@/types/wordpress";
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
 
@@ -163,7 +164,15 @@ function ChatGlyph() {
   );
 }
 
-export function PoojaSection({ poojas, whatsappNumber = "" }: { poojas: Pooja[]; whatsappNumber?: string }) {
+export function PoojaSection({
+  poojas,
+  vendors = [],
+  whatsappNumber = "",
+}: {
+  poojas: Pooja[];
+  vendors?: Vendor[];
+  whatsappNumber?: string;
+}) {
   const { t } = usePrefs();
   const list = useJuList<Pooja>("/poojas", poojas);
   const cards = useLocalizedList((list.length ? list : FALLBACKS).slice(0, 4));
@@ -200,11 +209,18 @@ export function PoojaSection({ poojas, whatsappNumber = "" }: { poojas: Pooja[];
             return (
               <article
                 key={pooja.id}
-                className="flex h-full flex-col overflow-hidden rounded-[22px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_rgba(30,22,14,0.05)]"
+                className="flex h-full flex-col overflow-hidden rounded-[22px] border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]"
               >
-                <div className={`relative h-[132px] overflow-hidden bg-linear-to-b ${HEADS[index % HEADS.length]}`}>
-                  {src ? <img src={src} alt={pooja.title} className="absolute inset-0 h-full w-full object-cover" /> : null}
-                  <div className={`absolute inset-0 bg-linear-to-b ${HEADS[index % HEADS.length]} ${src ? "opacity-30" : ""}`} />
+                <div className={`relative aspect-[4/3] overflow-hidden ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${HEADS[index % HEADS.length]}`}`}>
+                  {src ? (
+                    <img src={src} alt={pooja.title} className="absolute inset-0 h-full w-full object-cover object-center" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full border border-[#F0DEB3] bg-[#FFF8EC] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                        <DeityIcon kind={look.icon} />
+                      </div>
+                    </div>
+                  )}
                   {index === 0 ? (
                     <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1 rounded-full bg-[#1E160E] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#FBF0D9]">
                       ★ {t("pooja.booked")}
@@ -217,13 +233,6 @@ export function PoojaSection({ poojas, whatsappNumber = "" }: { poojas: Pooja[];
                     </span>
                     {t("pooja.live")}
                   </span>
-                  {!src ? (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full border border-[#F0DEB3] bg-[#FFF8EC] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-                        <DeityIcon kind={look.icon} />
-                      </div>
-                    </div>
-                  ) : null}
                 </div>
 
                 <div className="flex flex-1 flex-col px-4 pt-3 pb-4">
@@ -268,6 +277,10 @@ export function PoojaSection({ poojas, whatsappNumber = "" }: { poojas: Pooja[];
               </article>
             );
           })}
+        </div>
+
+        <div className="mt-8">
+          <PoojaTemplesSection vendors={vendors} poojas={list.length ? list : FALLBACKS} />
         </div>
 
         <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center">

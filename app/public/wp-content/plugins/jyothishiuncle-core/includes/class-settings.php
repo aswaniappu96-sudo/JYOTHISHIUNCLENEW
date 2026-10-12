@@ -143,6 +143,38 @@ class JU_Settings {
 		);
 		add_submenu_page(
 			'ju-settings',
+			'Terms & Conditions',
+			'Terms & Conditions',
+			'edit_pages',
+			'ju-edit-terms',
+			'__return_null'
+		);
+		add_submenu_page(
+			'ju-settings',
+			'Privacy Policy',
+			'Privacy Policy',
+			'edit_pages',
+			'ju-edit-privacy',
+			'__return_null'
+		);
+		add_submenu_page(
+			'ju-settings',
+			'Disclaimer',
+			'Disclaimer',
+			'edit_pages',
+			'ju-edit-disclaimer',
+			'__return_null'
+		);
+		add_submenu_page(
+			'ju-settings',
+			'Refund Policy',
+			'Refund Policy',
+			'edit_pages',
+			'ju-edit-refund',
+			'__return_null'
+		);
+		add_submenu_page(
+			'ju-settings',
 			'How to edit',
 			'How to edit',
 			'edit_pages',
@@ -163,6 +195,10 @@ class JU_Settings {
 			'ju-edit-travel'     => 'religious-travel',
 			'ju-edit-articles'   => 'articles',
 			'ju-edit-contact'    => 'contact',
+			'ju-edit-terms'      => 'terms',
+			'ju-edit-privacy'    => 'privacy-policy',
+			'ju-edit-disclaimer' => 'disclaimer',
+			'ju-edit-refund'     => 'refund-policy',
 		);
 		$key = sanitize_key( wp_unslash( $_GET['page'] ) );
 		if ( ! isset( $map[ $key ] ) ) {
@@ -290,13 +326,21 @@ class JU_Settings {
 						<th scope="row"><label for="ju_email">Admin email</label></th>
 						<td>
 							<input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[admin_notify_email]" id="ju_email" type="email" class="regular-text" value="<?php echo esc_attr( $s['admin_notify_email'] ); ?>">
-							<p class="description">Booking and enquiry emails go here.</p>
+							<p class="description">Booking emails go here. This is also the public contact email on Terms and Contact.</p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="ju_phone">Phone</label></th>
 						<td>
 							<input name="<?php echo esc_attr( self::OPTION_KEY ); ?>[phone_number]" id="ju_phone" type="text" class="regular-text" value="<?php echo esc_attr( $s['phone_number'] ); ?>">
+							<p class="description">Shown on Contact and Terms pages.</p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="ju_address">Address</label></th>
+						<td>
+							<textarea name="<?php echo esc_attr( self::OPTION_KEY ); ?>[address]" id="ju_address" class="large-text" rows="3"><?php echo esc_textarea( $s['address'] ); ?></textarea>
+							<p class="description">Shown on Contact and Terms pages. Leave blank if you only serve online.</p>
 						</td>
 					</tr>
 				</table>

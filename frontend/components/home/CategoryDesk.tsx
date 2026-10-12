@@ -73,7 +73,9 @@ export function CategoryDesk({
               {poojaItems.slice(0, 8).map((item) => (
                 <Link key={item.id} href={`/pooja/${item.slug}`} className={`${cardClass} overflow-hidden p-0`}>
                   {imageSrc(item.featured_image) ? (
-                    <img src={imageSrc(item.featured_image)} alt={item.title} className="relative z-[1] h-28 w-full object-cover" />
+                    <div className="relative z-[1] aspect-[4/3] bg-[#F7F0E2]">
+                      <img src={imageSrc(item.featured_image)} alt={item.title} className="h-full w-full object-cover object-center" />
+                    </div>
                   ) : null}
                   <div className="relative z-[1] flex flex-1 flex-col p-5">
                     <p className="font-serif text-[20px] leading-snug text-[#fff8ec]">{item.title}</p>
@@ -96,7 +98,9 @@ export function CategoryDesk({
               {productItems.slice(0, 8).map((item) => (
                 <Link key={item.id} href={`/product/${item.slug}`} className={`${cardClass} overflow-hidden p-0`}>
                   {imageSrc(item.featured_image) ? (
-                    <img src={imageSrc(item.featured_image)} alt={item.title} className="relative z-[1] h-28 w-full object-cover" />
+                    <div className="relative z-[1] aspect-[4/3] bg-[#F7F0E2]">
+                      <img src={imageSrc(item.featured_image)} alt={item.title} className="h-full w-full object-cover object-center" />
+                    </div>
                   ) : null}
                   <div className="relative z-[1] flex flex-1 flex-col p-5">
                     <p className="font-serif text-[20px] leading-snug text-[#fff8ec]">{item.title}</p>

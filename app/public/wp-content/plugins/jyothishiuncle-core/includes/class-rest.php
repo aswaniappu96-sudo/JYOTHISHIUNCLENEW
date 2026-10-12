@@ -217,6 +217,7 @@ class JU_REST {
 				'site_tagline'              => $s['site_tagline'],
 				'whatsapp_number'           => $s['whatsapp_number'],
 				'phone_number'              => $s['phone_number'],
+				'contact_email'             => $s['admin_notify_email'],
 				'address'                   => $s['address'],
 				'hero_title'                => $s['hero_title'],
 				'hero_subtitle'             => $s['hero_subtitle'],

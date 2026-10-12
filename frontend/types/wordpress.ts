@@ -17,6 +17,7 @@ export type SiteSettings = {
   site_tagline: string;
   whatsapp_number: string;
   phone_number: string;
+  contact_email?: string;
   address: string;
   hero_title: string;
   hero_subtitle: string;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { PageHeading } from "@/components/home/SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripHtml, stripPublicPrices } from "@/lib/html";
 import { useLocalizedList } from "@/lib/localized";
@@ -81,8 +82,8 @@ export function BlogSection({
   if (!localized.length) return null;
 
   const featured = filtered[0] || localized[0];
-  const rail = filtered.slice(1, 4);
-  const grid = (topic === "All" ? localized.slice(3) : filtered).slice(0, 6);
+  const rail = filtered.slice(1, 5);
+  const grid = (topic === "All" ? localized.slice(5) : filtered).slice(0, 6);
   const youtube = youtubeUrl || "https://www.youtube.com";
 
   return (
@@ -137,9 +138,9 @@ export function BlogSection({
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[1.25fr_0.85fr] lg:items-start">
+        <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
           <FeaturedCard article={featured} fallback={FALLBACKS[0]} />
-          <div className="flex flex-col gap-4">
+          <div className="flex min-h-0 flex-col gap-4">
             {rail.length ? (
               rail.map((article, index) => (
                 <RailCard key={article.id} article={article} fallback={FALLBACKS[(index + 1) % FALLBACKS.length]} />
@@ -149,12 +150,6 @@ export function BlogSection({
                 <p className="font-serif text-[14px] text-[#9A8A7A]">{t("articles.empty")}</p>
               </div>
             )}
-            <div className="flex items-center gap-3 rounded-[16px] border border-[#EAD9B0] bg-[#FFFAE8] px-4 py-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[14px] ring-1 ring-[#EAD9B0]">ॐ</div>
-              <p className="text-[12px] leading-[1.4] text-[#6B5E53]">
-                <span className="font-semibold text-[#4A3C2E]">{t("articles.serviceNote")}</span> {t("articles.serviceNote2")}
-              </p>
-            </div>
           </div>
         </div>
 
@@ -196,15 +191,14 @@ function FeaturedCard({ article, fallback }: { article: Article; fallback: strin
   const excerpt = stripPublicPrices(stripHtml(article.excerpt || ""));
 
   return (
-    <article className="group relative overflow-hidden rounded-[24px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_-16px_rgba(184,126,59,0.25)] transition hover:shadow-[0_16px_40px_-18px_rgba(184,126,59,0.3)]">
-      <Link href={`/blog/${article.slug}`} className={`relative flex h-[168px] w-full items-center justify-center overflow-hidden bg-linear-to-br md:h-[196px] ${fallback}`}>
-        {src ? <img src={src} alt={article.title} className="absolute inset-0 h-full w-full object-cover" /> : null}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.55),transparent_55%)]" />
-        <div className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1 text-[11px] font-medium tracking-wide text-[#8A6A3A] backdrop-blur">
+    <article className="group relative flex flex-col overflow-hidden rounded-[20px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_-16px_rgba(184,126,59,0.25)] transition hover:shadow-[0_16px_40px_-18px_rgba(184,126,59,0.3)]">
+      <Link href={`/blog/${article.slug}`} className={`relative block h-[210px] w-full overflow-hidden sm:h-[252px] ${src ? "bg-[#F7F0E2]" : `bg-linear-to-br ${fallback}`}`}>
+        {src ? <img src={src} alt={article.title} className="absolute inset-0 h-full w-full object-cover object-top" /> : null}
+        <div className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[10px] font-medium tracking-wide text-[#8A6A3A] shadow-sm">
           FEATURED • EDITOR&apos;S PICK
         </div>
       </Link>
-      <div className="p-6 md:p-7">
+      <Reveal className="p-4 md:p-5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-[#FFF2D6] px-3 py-1 text-[10px] font-semibold tracking-[0.14em] text-[#8A5A1F]">
             {categoryLabel(topic)}
@@ -212,17 +206,17 @@ function FeaturedCard({ article, fallback }: { article: Article; fallback: strin
           <span className="text-[12px] text-[#9A8A7A]">•</span>
           <span className="text-[12px] text-[#9A8A7A]">{mins} min</span>
         </div>
-        <h3 className="mt-4 font-serif text-[20px] font-bold leading-[1.25] tracking-[-0.01em] text-[#221C16] md:text-[22px]">
+        <h3 className="mt-2.5 font-serif text-[17px] font-bold leading-[1.3] tracking-[-0.01em] text-[#221C16] md:text-[19px]">
           <Link href={`/blog/${article.slug}`}>{article.title}</Link>
         </h3>
-        {excerpt ? <p className="mt-2.5 line-clamp-2 text-[14px] leading-[1.6] text-[#7A6E64]">{excerpt}</p> : null}
+        {excerpt ? <p className="mt-2 line-clamp-2 text-[13px] leading-[1.55] text-[#7A6E64]">{excerpt}</p> : null}
         {article.writer_name ? (
-          <div className="mt-4 flex items-center gap-2 text-[12px] text-[#9A8A7A]">
+          <div className="mt-3 flex items-center gap-2 text-[12px] text-[#9A8A7A]">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#FFFBF0] text-[11px] ring-1 ring-[#EAD9B0]">ॐ</span>
             {article.writer_name}
           </div>
         ) : null}
-        <div className="mt-6 flex items-center justify-between gap-3 border-t border-[#F5E8C6]/70 pt-5">
+        <div className="mt-4 flex items-center justify-between gap-3 border-t border-[#F5E8C6]/70 pt-3.5">
           <Link href={`/blog/${article.slug}`} className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#B87E3B] transition hover:gap-2">
             Read guide →
           </Link>
@@ -230,7 +224,7 @@ function FeaturedCard({ article, fallback }: { article: Article; fallback: strin
             {service.label}
           </Link>
         </div>
-      </div>
+      </Reveal>
     </article>
   );
 }
@@ -243,8 +237,8 @@ function RailCard({ article, fallback }: { article: Article; fallback: string })
 
   return (
     <article className="group flex gap-4 rounded-[18px] border border-[#EAD9B0] bg-white p-3.5 shadow-[0_4px_16px_-12px_rgba(184,126,59,0.25)] transition hover:shadow-[0_10px_28px_-16px_rgba(184,126,59,0.28)]">
-      <Link href={`/blog/${article.slug}`} className={`relative h-[80px] w-[80px] shrink-0 overflow-hidden rounded-[12px] bg-linear-to-br ${fallback}`}>
-        {src ? <img src={src} alt={article.title} className="h-full w-full object-cover" /> : null}
+      <Link href={`/blog/${article.slug}`} className={`relative h-[80px] w-[80px] shrink-0 overflow-hidden rounded-[12px] ${src ? "bg-[#F7F0E2]" : `bg-linear-to-br ${fallback}`}`}>
+        {src ? <img src={src} alt={article.title} className="h-full w-full object-cover object-center" /> : null}
       </Link>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
@@ -277,8 +271,8 @@ function GridCard({ article }: { article: Article; fallback: string }) {
   return (
     <article className="flex flex-col overflow-hidden rounded-[18px] border border-[#EAD9B0] bg-white p-4 transition hover:shadow-[0_10px_24px_-16px_rgba(184,126,59,0.28)]">
       {src ? (
-        <Link href={`/blog/${article.slug}`} className="mb-3 block overflow-hidden rounded-[12px]">
-          <img src={src} alt={article.title} className="h-28 w-full object-cover" />
+        <Link href={`/blog/${article.slug}`} className="relative mb-3 block aspect-[16/9] overflow-hidden rounded-[12px] bg-[#F7F0E2]">
+          <img src={src} alt={article.title} className="h-full w-full object-contain object-center" />
         </Link>
       ) : null}
       <div className="flex items-start justify-between gap-2">

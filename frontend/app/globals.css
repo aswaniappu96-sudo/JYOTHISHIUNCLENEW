@@ -240,8 +240,28 @@ h3,
   list-style: disc;
 }
 
+.prose-ju ol {
+  margin: 0.75rem 0 1.25rem;
+  padding-left: 1.25rem;
+  list-style: decimal;
+}
+
 .prose-ju li + li {
   margin-top: 0.35rem;
+}
+
+.prose-ju.prose-legal h2 {
+  margin: 1.75rem 0 0.75rem;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.prose-ju.prose-legal h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .universe-bg {

@@ -111,17 +111,16 @@ export function ArticlesView({
         <div className="relative z-10 mx-auto mb-20 max-w-6xl">
           <div className="group relative overflow-hidden rounded-2xl bg-surface-low shadow-[0_20px_60px_rgba(0,0,0,0.55)]">
             <div className="grid min-h-[460px] grid-cols-1 lg:grid-cols-12">
-              <div className="relative h-72 overflow-hidden sm:h-96 lg:col-span-7 lg:h-auto">
+              <div className="relative h-72 overflow-hidden bg-[#F7F0E2] sm:h-96 lg:col-span-7 lg:h-auto">
                 {featuredSrc ? (
                   <img
                     src={featuredSrc}
                     alt={featured.featured_image?.alt || featured.title}
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    className="h-full w-full object-contain object-center"
                   />
                 ) : (
                   <div className="h-full w-full bg-linear-to-br from-surface-lowest to-secondary-container/50" />
                 )}
-                <div className="absolute inset-0 bg-linear-to-t from-surface-low via-surface-low/20 to-transparent lg:bg-linear-to-r lg:from-transparent lg:via-surface-low/40 lg:to-surface-low" />
                 <div className="absolute top-4 left-4 flex items-center gap-2 rounded-md bg-surface-lowest/80 px-3 py-1.5 backdrop-blur-md">
                   <span className="text-[11px] font-bold tracking-widest text-on-surface uppercase">
                     {featured.categories[0] || "Featured reading"}
