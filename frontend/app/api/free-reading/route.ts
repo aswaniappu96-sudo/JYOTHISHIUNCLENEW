@@ -26,12 +26,10 @@ function cleanFacts(input: unknown): FreeReadingFacts {
 
 function sanitizeReading(reading: Partial<FreeReading>): Partial<FreeReading> {
   const next: Partial<FreeReading> = {};
-  (Object.keys(reading) as (keyof FreeReading)[]).forEach((key) => {
-    const value = reading[key];
-    if (typeof value === "string" && value.trim()) {
-      next[key] = stripPublicPrices(value).replace(/\s+/g, " ").trim().slice(0, 900);
-    }
-  });
+  for (const [key, value] of Object.entries(reading)) {
+    if (typeof value !== "string" || !value.trim()) continue;
+    (next as Record<string, string>)[key] = stripPublicPrices(value).replace(/\s+/g, " ").trim().slice(0, 900);
+  }
   return next;
 }
 

@@ -346,11 +346,11 @@ export function buildLocalReading(kind: FreeReadingKind, facts: FreeReadingFacts
 
 export function mergeReading(base: FreeReading, incoming: Partial<FreeReading> | null | undefined): FreeReading {
   if (!incoming) return base;
-  const next = { ...base };
-  (Object.keys(incoming) as (keyof FreeReading)[]).forEach((key) => {
-    const value = incoming[key];
-    if (typeof value === "string" && value.trim()) next[key] = value.trim();
-  });
+  const next: FreeReading = { ...base };
+  for (const [key, value] of Object.entries(incoming)) {
+    if (typeof value !== "string" || !value.trim()) continue;
+    (next as Record<string, string | string[]>)[key] = value.trim();
+  }
   return next;
 }
 
