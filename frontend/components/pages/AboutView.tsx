@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { CategoryDesk } from "@/components/home/CategoryDesk";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { AboutMantraCta } from "@/components/pages/AboutMantraCta";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { Eyebrow } from "@/components/pages/PageHero";
+import { useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import type { Pooja, Product, TravelDestination, WPPage } from "@/types/wordpress";
@@ -60,24 +63,25 @@ export function AboutView({
   products?: Product[];
   travel?: TravelDestination[];
 }) {
-  const portrait = imageSrc(page?.featured_image, PORTRAIT);
-  const ritual1 = imageSrc(page?.image_1, HOMAM);
-  const ritual2 = imageSrc(page?.image_2, NAVAGRAHA);
-  const customTitle = page?.title && !/^about( us)?$/i.test(page.title) ? page.title : null;
-  const cmsHtml = page?.content && !/This is sample copy/i.test(page.content) ? page.content : undefined;
+  const loc = useLocalizedPage(page);
+  const portrait = imageSrc(loc?.featured_image, PORTRAIT);
+  const ritual1 = imageSrc(loc?.image_1, HOMAM);
+  const ritual2 = imageSrc(loc?.image_2, NAVAGRAHA);
+  const customTitle = loc?.title && !/^about( us)?$/i.test(loc.title) ? loc.title : null;
+  const cmsHtml = loc?.content && !/This is sample copy/i.test(loc.content) ? loc.content : undefined;
 
   return (
     <div>
       <section className="relative overflow-hidden px-4 pt-8 pb-16 text-center md:px-12">
         <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center">
-          <Eyebrow className="mb-6">{page?.eyebrow || "Guru-Shishya Parampara · Vedic Lineage"}</Eyebrow>
+          <Eyebrow className="mb-6">{loc?.eyebrow || "Guru-Shishya Parampara · Vedic Lineage"}</Eyebrow>
           {customTitle ? (
             <PageHeading as="h1" title={customTitle} className="max-w-4xl" />
           ) : (
             <PageHeading as="h1" lead="The Unbroken Lineage of" accent="Stellar Seers" className="max-w-4xl" />
           )}
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
-            {page?.hero_copy ||
+            {loc?.hero_copy ||
               "Deep in the celestial soils of ancient Bharat, wisdom descends like golden light. From Sage Parashara to the palm leaf Thaliola masters, our lineage is rooted in eternal cosmic mathematics."}
           </p>
           <div className="relative mt-12 flex w-full max-w-3xl flex-col items-center">
@@ -128,18 +132,18 @@ export function AboutView({
           <div className="relative flex justify-center lg:col-span-5">
             <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl bg-linear-to-b from-primary/30 via-secondary-container/20 to-surface-lowest p-2 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_-5px_rgba(229,195,120,0.25)]">
               <div className="relative h-full w-full overflow-hidden rounded-xl">
-                <img alt={page?.portrait_name || "Jyothishi Uncle portrait"} className="h-full w-full object-cover object-center" src={portrait} />
+                <img alt={loc?.portrait_name || "Jyothishi Uncle portrait"} className="h-full w-full object-cover object-center" src={portrait} />
                 <div className="absolute inset-0 bg-linear-to-t from-surface-lowest/90 via-surface-lowest/20 to-transparent" />
                 <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-surface-lowest/80 px-3 py-1 backdrop-blur-md">
                   <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">Guruvayur Diksha</span>
                 </div>
                 <div className="absolute right-4 bottom-4 left-4 rounded-xl bg-surface-high/80 p-4 backdrop-blur-xl">
                   <div className="mb-1 flex items-center justify-between">
-                    <span className="font-serif text-[22px] text-primary">{page?.portrait_name || "Sri Devadathan Namboothiri"}</span>
+                    <span className="font-serif text-[22px] text-primary">{loc?.portrait_name || "Sri Devadathan Namboothiri"}</span>
                     <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-secondary">ESTD. 1989</span>
                   </div>
                   <p className="text-xs text-on-surface-variant">
-                    {page?.portrait_caption || "“Jyothishi Uncle” — Chief Custodian of Jyotishya Marga & Vedic Astral Mechanics."}
+                    {loc?.portrait_caption || "“Jyothishi Uncle” — Chief Custodian of Jyotishya Marga & Vedic Astral Mechanics."}
                   </p>
                 </div>
               </div>
@@ -207,16 +211,16 @@ export function AboutView({
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <article className="flex flex-col overflow-hidden rounded-2xl bg-surface-low shadow-xl">
               <div className="relative h-80 overflow-hidden">
-                <img alt={page?.image_1_title || "Maha Mrityunjaya fire homam"} className="h-full w-full object-cover" src={ritual1} />
+                <img alt={loc?.image_1_title || "Maha Mrityunjaya fire homam"} className="h-full w-full object-cover" src={ritual1} />
                 <div className="absolute inset-0 bg-linear-to-t from-surface-low via-surface-low/30 to-transparent" />
                 <span className="absolute top-4 left-4 rounded-full bg-surface-lowest/80 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-primary backdrop-blur-md">
                   Maha Agni Hotra
                 </span>
-                <span className="absolute bottom-4 left-4 font-serif text-[22px] text-on-surface">{page?.image_1_title || "Maha Mrityunjaya & Navagraha Homam"}</span>
+                <span className="absolute bottom-4 left-4 font-serif text-[22px] text-on-surface">{loc?.image_1_title || "Maha Mrityunjaya & Navagraha Homam"}</span>
               </div>
               <div className="flex flex-col space-y-4 p-6">
                 <p className="text-sm text-on-surface-variant">
-                  {page?.image_1_copy ||
+                  {loc?.image_1_copy ||
                     "Performed at the Brahmamuhurtha, holy Samidha wood, Desi Cow Ghee, and 108 medicinal herbs are offered into the blazing Agni. Every ritual includes your individual Sankalpa with Nakshatra, Gotra, and Rashi chanted verbatim."}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -228,16 +232,16 @@ export function AboutView({
             </article>
             <article className="flex flex-col overflow-hidden rounded-2xl bg-surface-low shadow-xl">
               <div className="relative h-80 overflow-hidden">
-                <img alt={page?.image_2_title || "Navagraha planetary deities"} className="h-full w-full object-cover" src={ritual2} />
+                <img alt={loc?.image_2_title || "Navagraha planetary deities"} className="h-full w-full object-cover" src={ritual2} />
                 <div className="absolute inset-0 bg-linear-to-t from-surface-low via-surface-low/30 to-transparent" />
                 <span className="absolute top-4 left-4 rounded-full bg-surface-lowest/80 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-secondary backdrop-blur-md">
                   Navagraha Sanctum
                 </span>
-                <span className="absolute bottom-4 left-4 font-serif text-[22px] text-on-surface">{page?.image_2_title || "Planetary Prana Pratishtha"}</span>
+                <span className="absolute bottom-4 left-4 font-serif text-[22px] text-on-surface">{loc?.image_2_title || "Planetary Prana Pratishtha"}</span>
               </div>
               <div className="flex flex-col space-y-4 p-6">
                 <p className="text-sm text-on-surface-variant">
-                  {page?.image_2_copy ||
+                  {loc?.image_2_copy ||
                     "Targeted planetary pacification addressing Sade Sati, Rahu-Ketu doshas, and Manglik afflictions. Idols are energized through ancient Abhishekam with Panchamritam, accompanied by sacred Yantras blessed directly by Jyothishi Uncle."}
                 </p>
                 <div className="flex flex-wrap gap-2">

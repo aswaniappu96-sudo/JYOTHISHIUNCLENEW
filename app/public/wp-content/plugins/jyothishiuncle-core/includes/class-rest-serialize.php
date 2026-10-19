@@ -40,6 +40,11 @@ class JU_REST_Serialize {
 			array(
 				'location'         => (string) self::meta( $post->ID, 'location' ),
 				'full_description' => self::html_meta( $post->ID, 'full_description', $post->post_content ),
+				'i18n'             => self::i18n_pack(
+					$post->ID,
+					array( 'title', 'location', 'short_description', 'full_description' ),
+					array( 'full_description' )
+				),
 			)
 		);
 	}
@@ -70,6 +75,11 @@ class JU_REST_Serialize {
 				'duration_minutes'  => (int) self::meta( $post->ID, 'duration_minutes', 30 ),
 				'booking_enabled'   => (bool) self::meta( $post->ID, 'booking_enabled', true ),
 				'whatsapp_message'  => (string) self::meta( $post->ID, 'whatsapp_message', 'Hello, I would like to book an astrology consultation.' ),
+				'i18n'              => self::i18n_pack(
+					$post->ID,
+					array( 'title', 'short_description', 'full_description' ),
+					array( 'full_description' )
+				),
 			)
 		);
 	}
@@ -101,6 +111,11 @@ class JU_REST_Serialize {
 				'phone'              => (string) self::meta( $post->ID, 'phone' ),
 				'gallery'            => self::gallery( $post->ID ),
 				'whatsapp_message'   => (string) self::meta( $post->ID, 'whatsapp_message', 'Hello, I need guidance for ' . $post->post_title . '.' ),
+				'i18n'               => self::i18n_pack(
+					$post->ID,
+					array( 'title', 'location', 'short_description', 'full_description', 'travel_information' ),
+					array( 'full_description', 'travel_information' )
+				),
 			)
 		);
 	}
@@ -166,6 +181,11 @@ class JU_REST_Serialize {
 			'image_2'          => self::field_image( $post->ID, 'image_2' ),
 			'image_2_title'    => (string) self::meta( $post->ID, 'image_2_title' ),
 			'image_2_copy'     => (string) self::meta( $post->ID, 'image_2_copy' ),
+			'i18n'             => self::i18n_pack(
+				$post->ID,
+				array( 'title', 'eyebrow', 'hero_copy', 'content', 'portrait_name', 'portrait_caption', 'image_1_title', 'image_1_copy', 'image_2_title', 'image_2_copy' ),
+				array( 'content' )
+			),
 		);
 	}
 

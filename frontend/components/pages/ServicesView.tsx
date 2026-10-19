@@ -9,6 +9,7 @@ import { PoojaVendorsSection } from "@/components/pages/PoojaVendorsSection";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { Eyebrow } from "@/components/pages/PageHero";
+import { useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH, PRODUCTS_PATH, servicesTab } from "@/lib/siteRoutes";
 import type { Pooja, Product, Vendor, WPPage } from "@/types/wordpress";
@@ -31,7 +32,8 @@ export function ServicesView({
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = servicesTab(searchParams.get("tab") ?? initialTab);
-  const heroImage = imageSrc(page?.featured_image);
+  const loc = useLocalizedPage(page);
+  const heroImage = imageSrc(loc?.featured_image);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -48,10 +50,10 @@ export function ServicesView({
         {heroImage ? <img src={heroImage} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20" /> : null}
         <div className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[700px] -translate-x-1/2 rounded-full bg-secondary-container/25 blur-[120px]" />
         <div className="relative mx-auto flex max-w-5xl flex-col items-center">
-          <Eyebrow className="mb-4">{page?.eyebrow || "Vedic Tantric Shastra · Anushthana Protocols"}</Eyebrow>
-          <PageHeading as="h1" title={page?.title || "Sacred Services & Divine Consecrations"} className="mb-3 max-w-4xl" />
+          <Eyebrow className="mb-4">{loc?.eyebrow || "Vedic Tantric Shastra · Anushthana Protocols"}</Eyebrow>
+          <PageHeading as="h1" title={loc?.title || "Sacred Services & Divine Consecrations"} className="mb-3 max-w-4xl" />
           <p className="mb-8 max-w-3xl text-base leading-relaxed text-on-surface-variant">
-            {page?.hero_copy ||
+            {loc?.hero_copy ||
               "Ancient Shastric Poojas, Vedic Homams & Consecrated Planetary Artifacts calibrated precisely to your individual birth Nakshatra, Dasha coordinates, and planetary afflictions."}
           </p>
           <div

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: JyothishiUncle Core
  * Description: Custom post types, site settings, galleries, and sample content for the JyothishiUncle headless website. The public site is Next.js — do not install a page-builder theme.
- * Version: 0.8.4
+ * Version: 0.8.6
  * Author: JyothishiUncle
  * Requires at least: 6.4
  * Requires PHP: 8.1
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JU_CORE_VERSION', '0.8.4' );
+define( 'JU_CORE_VERSION', '0.8.6' );
 define( 'JU_CORE_FILE', __FILE__ );
 define( 'JU_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'JU_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -84,6 +84,7 @@ add_action( 'admin_enqueue_scripts', array( 'JU_Settings', 'assets' ) );
 add_action( 'admin_enqueue_scripts', array( 'JU_I18n', 'assets' ) );
 add_action( 'admin_menu', array( 'JU_Admin', 'adjust_menus' ), 99 );
 add_action( 'admin_enqueue_scripts', array( 'JU_Admin', 'assets' ) );
+add_action( 'enqueue_block_editor_assets', array( 'JU_Admin', 'assets' ) );
 add_action( 'admin_enqueue_scripts', array( 'JU_Gallery_Meta', 'assets' ) );
 add_action( 'add_meta_boxes', array( 'JU_Gallery_Meta', 'boxes' ) );
 add_action( 'save_post', array( 'JU_Gallery_Meta', 'save' ) );

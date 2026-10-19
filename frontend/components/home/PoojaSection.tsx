@@ -175,7 +175,7 @@ export function PoojaSection({
 }) {
   const { t } = usePrefs();
   const list = useJuList<Pooja>("/poojas", poojas);
-  const cards = useLocalizedList((list.length ? list : FALLBACKS).slice(0, 4));
+  const cards = useLocalizedList((list.length ? list : FALLBACKS).slice(0, 3));
   const chatHref = whatsappNumber.trim()
     ? whatsappUrl(whatsappNumber, "Namaste. I would like to ask about a temple pooja.")
     : "";
@@ -202,18 +202,22 @@ export function PoojaSection({
           </Link>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((pooja, index) => {
             const look = poojaLook(`${pooja.slug} ${pooja.title}`);
-            const src = imageSrc(pooja.featured_image);
+            const src = imageSrc(
+              pooja.featured_image?.full
+                ? { ...pooja.featured_image, url: pooja.featured_image.full }
+                : pooja.featured_image,
+            );
             return (
               <article
                 key={pooja.id}
                 className="flex h-full flex-col overflow-hidden rounded-[22px] border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]"
               >
-                <div className={`relative aspect-[4/3] overflow-hidden ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${HEADS[index % HEADS.length]}`}`}>
+                <div className={`relative h-[250px] overflow-hidden sm:h-[280px] ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${HEADS[index % HEADS.length]}`}`}>
                   {src ? (
-                    <img src={src} alt={pooja.title} className="absolute inset-0 h-full w-full object-cover object-center" />
+                    <img src={src} alt={pooja.title} className="absolute inset-0 h-full w-full object-cover object-top" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full border border-[#F0DEB3] bg-[#FFF8EC] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">

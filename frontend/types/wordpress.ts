@@ -149,6 +149,7 @@ export type WPPage = {
   image_2?: WPImage;
   image_2_title?: string;
   image_2_copy?: string;
+  i18n?: ContentI18n;
 };
 
 export type HomePayload = {

@@ -6,6 +6,7 @@ import type {
   Article,
   AstrologyService,
   Astrologer,
+  ContentI18n,
   FaqItem,
   HomePayload,
   Pooja,
@@ -16,6 +17,20 @@ import type {
   Vendor,
   WPPage,
 } from "@/types/wordpress";
+
+function decodeI18n(i18n?: ContentI18n): ContentI18n | undefined {
+  if (!i18n) return i18n;
+  const out: ContentI18n = {};
+  for (const [locale, pack] of Object.entries(i18n)) {
+    if (!pack) continue;
+    const next: Record<string, string> = {};
+    for (const [key, value] of Object.entries(pack)) {
+      if (value) next[key] = decodeWpText(value);
+    }
+    out[locale] = next;
+  }
+  return out;
+}
 
 export async function getSettings() {
   return stripOmanDeep(await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings));
@@ -105,6 +120,7 @@ export async function getPage(slug: string) {
     image_1_copy: decodeWpText(page.image_1_copy || ""),
     image_2_title: decodeWpText(page.image_2_title || ""),
     image_2_copy: decodeWpText(page.image_2_copy || ""),
+    i18n: decodeI18n(page.i18n),
   };
   if (/^(terms|privacy-policy|refund-policy|disclaimer)$/.test(slug)) {
     return decoded;

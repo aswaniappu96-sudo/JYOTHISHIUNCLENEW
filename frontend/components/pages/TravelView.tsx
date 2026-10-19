@@ -7,6 +7,7 @@ import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { useLocalizedList, useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { TravelDestination, WPPage } from "@/types/wordpress";
@@ -91,22 +92,24 @@ export function TravelView({
 }) {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["id"]>("all");
   const [visible, setVisible] = useState(PAGE_SIZE);
-  const heroImage = imageSrc(page?.featured_image);
+  const loc = useLocalizedPage(page);
+  const places = useLocalizedList(destinations);
+  const heroImage = imageSrc(loc?.featured_image);
 
   const eyebrow =
-    page?.eyebrow && !STALE_TITLES.has(page.eyebrow) ? page.eyebrow : "Tirtha Yatra · Consecrated pilgrimages";
+    loc?.eyebrow && !STALE_TITLES.has(loc.eyebrow) ? loc.eyebrow : "Tirtha Yatra · Consecrated pilgrimages";
   const title =
-    page?.title && !STALE_TITLES.has(page.title) ? page.title : "Sacred Temple Yatras & Himalayan Sanctuaries";
+    loc?.title && !STALE_TITLES.has(loc.title) ? loc.title : "Sacred Temple Yatras & Himalayan Sanctuaries";
   const copy =
-    page?.hero_copy && !page.hero_copy.includes(STALE_COPY)
-      ? page.hero_copy
+    loc?.hero_copy && !loc.hero_copy.includes(STALE_COPY)
+      ? loc.hero_copy
       : "Immersive spiritual journeys led by consecrated Vedic scholars. Experience high-frequency temple vortices, private sanctum pujas, and planetary alignments at primordial sacred sites.";
 
   const filtered = useMemo(() => {
     const active = FILTERS.find((item) => item.id === filter) || FILTERS[0];
-    if (active.id === "all") return destinations;
-    return destinations.filter((item) => active.match(haystack(item)));
-  }, [destinations, filter]);
+    if (active.id === "all") return places;
+    return places.filter((item) => active.match(haystack(item)));
+  }, [places, filter]);
 
   const shown = filtered.slice(0, visible);
   const remaining = Math.max(0, filtered.length - shown.length);

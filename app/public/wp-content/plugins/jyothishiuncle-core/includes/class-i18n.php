@@ -345,7 +345,7 @@ class JU_I18n {
 		?>
 		<div class="wrap ju-settings-wrap ju-i18n-wrap">
 			<h1>Language content</h1>
-			<p>Edit menu, banner, buttons, and footer text for each language. Leave a box blank to keep the built-in default. Photos, phone numbers, and WhatsApp stay on the <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-settings' ) ); ?>">Home page</a>. Pooja, product, astrologer, and article translations are on each item — open it and use the language tabs under the English fields.</p>
+			<p>Edit menu, banner, buttons, and footer text for each language. Leave a box blank to keep the built-in default. Photos, phone numbers, and WhatsApp stay on the <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-settings' ) ); ?>">Home page</a>. About, Contact, legal pages, poojas, products, astrologers, travel, temples, and articles each have their own language bar — open the item and switch English / Hindi / Tamil / Malayalam / Kannada / Telugu.</p>
 
 			<?php if ( ! empty( $_GET['updated'] ) ) : ?>
 				<div class="notice notice-success is-dismissible"><p>Language content saved.</p></div>

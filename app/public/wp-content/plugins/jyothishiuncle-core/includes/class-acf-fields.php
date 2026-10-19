@@ -82,9 +82,42 @@ class JU_ACF_Fields {
 				array( 'name' => 'content', 'label' => 'Article body', 'type' => 'wysiwyg' ),
 			)
 		);
+		self::translation_group(
+			'travel_i18n',
+			'Travel translations',
+			'religious_travel',
+			array(
+				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+				array( 'name' => 'location', 'label' => 'Location', 'type' => 'text' ),
+				array( 'name' => 'short_description', 'label' => 'Short description', 'type' => 'textarea' ),
+				array( 'name' => 'full_description', 'label' => 'Full description', 'type' => 'wysiwyg' ),
+				array( 'name' => 'travel_information', 'label' => 'Travel information', 'type' => 'wysiwyg' ),
+			)
+		);
+		self::translation_group(
+			'service_i18n',
+			'Service translations',
+			'astrology_service',
+			array(
+				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+				array( 'name' => 'short_description', 'label' => 'Short description', 'type' => 'textarea' ),
+				array( 'name' => 'full_description', 'label' => 'Full description', 'type' => 'wysiwyg' ),
+			)
+		);
+		self::translation_group(
+			'vendor_i18n',
+			'Temple translations',
+			'vendor',
+			array(
+				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+				array( 'name' => 'location', 'label' => 'Location', 'type' => 'text' ),
+				array( 'name' => 'short_description', 'label' => 'Short description', 'type' => 'textarea' ),
+				array( 'name' => 'full_description', 'label' => 'Full description', 'type' => 'wysiwyg' ),
+			)
+		);
 	}
 
-	private static function translation_group( $key, $title, $post_type, $fields ) {
+	private static function translation_group( $key, $title, $post_type, $fields, $intro = '' ) {
 		$acf_fields = array();
 		$locales    = class_exists( 'JU_I18n' ) ? JU_I18n::content_locales() : array();
 		if ( ! $locales ) {
@@ -96,6 +129,23 @@ class JU_ACF_Fields {
 				array( 'id' => 'te', 'native' => 'తెలుగు' ),
 			);
 		}
+
+		$acf_fields[] = array(
+			'key'       => 'field_' . $key . '_tab_en',
+			'label'     => 'English',
+			'name'      => '',
+			'type'      => 'tab',
+			'placement' => 'top',
+		);
+		$acf_fields[] = array(
+			'key'     => 'field_' . $key . '_en_note',
+			'label'   => 'English',
+			'name'    => '',
+			'type'    => 'message',
+			'message' => $intro
+				? $intro
+				: 'Edit English in the Title and fields above this box. Then click Hindi, Tamil, Malayalam, Kannada, or Telugu. Leave a box blank to keep the English text on the website.',
+		);
 
 		foreach ( $locales as $locale ) {
 			$id = sanitize_key( $locale['id'] );
@@ -124,7 +174,8 @@ class JU_ACF_Fields {
 				'title'      => $title,
 				'fields'     => $acf_fields,
 				'location'   => self::location( $post_type ),
-				'menu_order' => 20,
+				'position'   => 'acf_after_title',
+				'menu_order' => 0,
 			)
 		);
 	}
@@ -561,23 +612,83 @@ class JU_ACF_Fields {
 	}
 
 	private static function site_pages() {
+		$locales = class_exists( 'JU_I18n' ) ? JU_I18n::content_locales() : array();
+		if ( ! $locales ) {
+			$locales = array(
+				array( 'id' => 'hi', 'native' => 'हिन्दी' ),
+				array( 'id' => 'ta', 'native' => 'தமிழ்' ),
+				array( 'id' => 'ml', 'native' => 'മലയാളം' ),
+				array( 'id' => 'kn', 'native' => 'ಕನ್ನಡ' ),
+				array( 'id' => 'te', 'native' => 'తెలుగు' ),
+			);
+		}
+
+		$fields   = array();
+		$fields[] = array(
+			'key'       => 'field_page_tab_en',
+			'label'     => 'English',
+			'name'      => '',
+			'type'      => 'tab',
+			'placement' => 'top',
+		);
+		$fields[] = array(
+			'key'     => 'field_page_i18n_help',
+			'label'   => 'How to edit this page',
+			'name'    => '',
+			'type'    => 'message',
+			'message' => '<strong>Language switcher:</strong> use the tabs English / Hindi / Tamil / Malayalam / Kannada / Telugu. English title and body are the fields above this box. Then click Save.',
+		);
+		$fields[] = self::field( 'field_page_eyebrow', 'eyebrow', 'Small heading (eyebrow)', 'text', 'Short gold label above the title. Example: Vedic Lineage.' );
+		$fields[] = self::field( 'field_page_hero_copy', 'hero_copy', 'Intro text under the title', 'textarea', 'Shown under the page title on the public website.' );
+		$fields[] = self::field( 'field_page_portrait_name', 'portrait_name', 'Portrait name (About page)', 'text', 'Name on the portrait plaque. Used on About only.' );
+		$fields[] = self::field( 'field_page_portrait_note', 'portrait_caption', 'Portrait caption (About page)', 'text' );
+		$fields[] = self::image_field( 'field_page_image_1', 'image_1', 'Photo 2', 'Set Featured image (right sidebar) first — that is Photo 1. Photo 2: About homam, Contact second large photo. Optional on other pages.' );
+		$fields[] = self::field( 'field_page_image_1_title', 'image_1_title', 'Photo 2 title', 'text' );
+		$fields[] = self::field( 'field_page_image_1_copy', 'image_1_copy', 'Photo 2 text', 'textarea' );
+		$fields[] = self::image_field( 'field_page_image_2', 'image_2', 'Photo 3', 'About: Navagraha photo. Optional extra photo on other pages.' );
+		$fields[] = self::field( 'field_page_image_2_title', 'image_2_title', 'Photo 3 title', 'text' );
+		$fields[] = self::field( 'field_page_image_2_copy', 'image_2_copy', 'Photo 3 text', 'textarea' );
+
+		$translated = array(
+			array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+			array( 'name' => 'eyebrow', 'label' => 'Small heading (eyebrow)', 'type' => 'text' ),
+			array( 'name' => 'hero_copy', 'label' => 'Intro text under the title', 'type' => 'textarea' ),
+			array( 'name' => 'content', 'label' => 'Page body', 'type' => 'wysiwyg' ),
+			array( 'name' => 'portrait_name', 'label' => 'Portrait name', 'type' => 'text' ),
+			array( 'name' => 'portrait_caption', 'label' => 'Portrait caption', 'type' => 'text' ),
+			array( 'name' => 'image_1_title', 'label' => 'Photo 2 title', 'type' => 'text' ),
+			array( 'name' => 'image_1_copy', 'label' => 'Photo 2 text', 'type' => 'textarea' ),
+			array( 'name' => 'image_2_title', 'label' => 'Photo 3 title', 'type' => 'text' ),
+			array( 'name' => 'image_2_copy', 'label' => 'Photo 3 text', 'type' => 'textarea' ),
+		);
+
+		foreach ( $locales as $locale ) {
+			$id       = sanitize_key( $locale['id'] );
+			$fields[] = array(
+				'key'       => 'field_page_tab_' . $id,
+				'label'     => $locale['native'],
+				'name'      => '',
+				'type'      => 'tab',
+				'placement' => 'top',
+			);
+			foreach ( $translated as $field ) {
+				$name     = $field['name'] . '_' . $id;
+				$fields[] = self::field(
+					'field_page_i18n_' . $name,
+					$name,
+					$field['label'],
+					$field['type'],
+					'Leave blank to keep the English text on the website.'
+				);
+			}
+		}
+
 		acf_add_local_field_group(
 			array(
-				'key'      => 'group_ju_site_pages',
-				'title'    => 'Page photos & headings',
-				'fields'   => array(
-					self::field( 'field_page_eyebrow', 'eyebrow', 'Small heading (eyebrow)', 'text', 'Short gold label above the title. Example: Vedic Lineage.' ),
-					self::field( 'field_page_hero_copy', 'hero_copy', 'Intro text under the title', 'textarea', 'Shown under the page title on the public website.' ),
-					self::field( 'field_page_portrait_name', 'portrait_name', 'Portrait name (About page)', 'text', 'Name on the portrait plaque. Used on About only.' ),
-					self::field( 'field_page_portrait_note', 'portrait_caption', 'Portrait caption (About page)', 'text' ),
-					self::image_field( 'field_page_image_1', 'image_1', 'Photo 2', 'Set Featured image (right sidebar) first — that is Photo 1. Photo 2: About homam, Contact second large photo. Optional on other pages.' ),
-					self::field( 'field_page_image_1_title', 'image_1_title', 'Photo 2 title', 'text' ),
-					self::field( 'field_page_image_1_copy', 'image_1_copy', 'Photo 2 text', 'textarea' ),
-					self::image_field( 'field_page_image_2', 'image_2', 'Photo 3', 'About: Navagraha photo. Optional extra photo on other pages.' ),
-					self::field( 'field_page_image_2_title', 'image_2_title', 'Photo 3 title', 'text' ),
-					self::field( 'field_page_image_2_copy', 'image_2_copy', 'Photo 3 text', 'textarea' ),
-				),
-				'location' => array(
+				'key'        => 'group_ju_site_pages',
+				'title'      => 'Page photos, headings & languages',
+				'fields'     => $fields,
+				'location'   => array(
 					array(
 						array(
 							'param'    => 'post_type',
@@ -586,6 +697,8 @@ class JU_ACF_Fields {
 						),
 					),
 				),
+				'position'   => 'acf_after_title',
+				'menu_order' => 0,
 			)
 		);
 	}

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import type { Locale } from "@/lib/i18n";
+import type { WPPage } from "@/types/wordpress";
 
 export type ItemI18n = Partial<Record<string, Partial<Record<string, string>>>>;
 
@@ -31,4 +32,11 @@ export function useLocalized<T extends WithI18n>(item: T): T {
 export function useLocalizedList<T extends WithI18n>(items: T[]): T[] {
   const { locale } = usePrefs();
   return useMemo(() => withLocaleList(items, locale), [items, locale]);
+}
+
+const EMPTY_PAGE: WPPage = { id: 0, slug: "", title: "", content: "" };
+
+export function useLocalizedPage(page: WPPage | null | undefined): WPPage | null {
+  const loc = useLocalized(page ?? EMPTY_PAGE);
+  return page ? loc : null;
 }

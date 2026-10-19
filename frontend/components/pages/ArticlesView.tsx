@@ -7,7 +7,7 @@ import { ArticleCard } from "@/components/pages/ArticleCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { formatArticleDate, readingMinutes } from "@/lib/html";
-import { useLocalizedList } from "@/lib/localized";
+import { useLocalizedList, useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { Article, WPPage } from "@/types/wordpress";
@@ -24,6 +24,7 @@ export function ArticlesView({
   whatsappNumber: string;
 }) {
   const items = useLocalizedList(articles);
+  const loc = useLocalizedPage(page);
   const categories = useMemo(() => {
     const names = [...new Set(articles.flatMap((item) => item.categories).filter(Boolean))].filter(
       (name) => name.toLowerCase() !== "uncategorized",
@@ -39,7 +40,7 @@ export function ArticlesView({
   const rest = filtered.slice(1);
   const visible = rest.slice(0, shown);
 
-  const featuredSrc = imageSrc(featured?.featured_image) || imageSrc(page?.featured_image);
+  const featuredSrc = imageSrc(featured?.featured_image) || imageSrc(loc?.featured_image);
 
   return (
     <div className="relative w-full overflow-hidden px-4 pb-16 md:px-12">
@@ -49,13 +50,13 @@ export function ArticlesView({
         <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-surface-high/70 px-4 py-1.5 shadow-[0_0_20px_rgba(229,195,120,0.15)] backdrop-blur-md">
           <ConchIcon className="h-3 w-3" />
           <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">
-            {page?.eyebrow || "Vedic Shastra · Sacred Wisdom"}
+            {loc?.eyebrow || "Vedic Shastra · Sacred Wisdom"}
           </span>
           <span className="text-xs text-secondary">☉</span>
         </div>
-        <PageHeading as="h1" title={page?.title || "Illuminations of the Rishis: Vedic Wisdom & Astrological Articles"} className="mb-6 max-w-4xl" />
+        <PageHeading as="h1" title={loc?.title || "Illuminations of the Rishis: Vedic Wisdom & Astrological Articles"} className="mb-6 max-w-4xl" />
         <p className="mx-auto max-w-3xl text-base leading-relaxed text-on-surface-variant">
-          {page?.hero_copy ||
+          {loc?.hero_copy ||
             "Quiet reading on pooja, consultation, and temple journeys — written for families seeking clear, traditional guidance."}
         </p>
         {categories.length ? (

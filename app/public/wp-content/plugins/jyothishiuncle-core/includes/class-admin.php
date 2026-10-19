@@ -42,28 +42,28 @@ class JU_Admin {
 		$rows = array(
 			array( 'Home', admin_url( 'admin.php?page=ju-settings' ), 'JyothishiUncle → Home page', 'Logo, hero photo, homepage titles by language, WhatsApp, address, footer.' ),
 			array( 'Language content', admin_url( 'admin.php?page=ju-language' ), 'JyothishiUncle → Language content', 'English, Hindi, Tamil, Malayalam, Kannada, Telugu: menu, banner, buttons, footer.' ),
-			array( 'About', admin_url( 'admin.php?page=ju-edit-about' ), 'JyothishiUncle → About page', 'Title, intro, editor text, Featured image (portrait), Photo 2, Photo 3.' ),
-			array( 'Services heading', admin_url( 'admin.php?page=ju-edit-services' ), 'JyothishiUncle → Services page', 'Page title, intro, and hero photo. Pooja/product cards are not on this screen.' ),
+			array( 'About', admin_url( 'admin.php?page=ju-edit-about' ), 'JyothishiUncle → About page', 'English title, intro, editor, Featured image. Language bar: English / Hindi / Tamil / Malayalam / Kannada / Telugu.' ),
+			array( 'Services heading', admin_url( 'admin.php?page=ju-edit-services' ), 'JyothishiUncle → Services page', 'Page title, intro, hero photo, and language tabs. Pooja/product cards are not on this screen.' ),
 			array( 'Pooja cards', admin_url( 'edit.php?post_type=pooja' ), 'Left menu → Poojas', 'Each pooja: English title and text, Featured image, gallery. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
 			array( 'Pooja temples', admin_url( 'edit.php?post_type=vendor' ), 'Left menu → Pooja Temples', 'Temples that can host online or offline poojas. They appear on the pooja page and in the booking form.' ),
 			array( 'Product cards', admin_url( 'edit.php?post_type=product' ), 'Left menu → Products', 'Each product: English title and text, Featured image, gallery. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
-			array( 'Astrologers heading', admin_url( 'admin.php?page=ju-edit-astrologers' ), 'JyothishiUncle → Astrologers page', 'Page title, intro, and hero photo.' ),
+			array( 'Astrologers heading', admin_url( 'admin.php?page=ju-edit-astrologers' ), 'JyothishiUncle → Astrologers page', 'Page title, intro, hero photo, and language tabs.' ),
 			array( 'Astrologer cards', admin_url( 'edit.php?post_type=astrologer' ), 'Left menu → Astrologers', 'Each astrologer: English name, bio, location, portrait. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
-			array( 'Travel heading', admin_url( 'admin.php?page=ju-edit-travel' ), 'JyothishiUncle → Religious Travel page', 'Page title, intro, and hero photo.' ),
-			array( 'Travel places', admin_url( 'edit.php?post_type=religious_travel' ), 'Left menu → Religious Travel', 'Each destination: title, text, Featured image, gallery.' ),
-			array( 'Articles heading', admin_url( 'admin.php?page=ju-edit-articles' ), 'JyothishiUncle → Articles page', 'Listing page title, intro, and hero photo.' ),
+			array( 'Travel heading', admin_url( 'admin.php?page=ju-edit-travel' ), 'JyothishiUncle → Religious Travel page', 'Page title, intro, hero photo, and language tabs.' ),
+			array( 'Travel places', admin_url( 'edit.php?post_type=religious_travel' ), 'Left menu → Religious Travel', 'Each destination: title, text, Featured image, gallery. Language tabs: English, Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
+			array( 'Articles heading', admin_url( 'admin.php?page=ju-edit-articles' ), 'JyothishiUncle → Articles page', 'Listing page title, intro, hero photo, and language tabs.' ),
 			array( 'Article posts', admin_url( 'edit.php' ), 'Left menu → Articles', 'Each article: English title, excerpt, content, Featured image, Writer name. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
-			array( 'Contact', admin_url( 'admin.php?page=ju-edit-contact' ), 'JyothishiUncle → Contact page', 'Title, intro, editor text, Featured image, Photo 2.' ),
+			array( 'Contact', admin_url( 'admin.php?page=ju-edit-contact' ), 'JyothishiUncle → Contact page', 'Title, intro, editor, Featured image, Photo 2, and language tabs.' ),
 			array( 'Consultation schedule', admin_url( 'edit.php?post_type=consultation_booking&page=ju-consultation-schedule' ), 'Left menu → Schedule Consultations → Schedule (Excel)', 'Change date or time, mark meeting finished, or delete. Locked dates leave the public calendar until finished or deleted.' ),
 			array( 'Pooja bookings', admin_url( 'edit.php?post_type=pooja_booking&page=ju-pooja-schedule' ), 'Left menu → Pooja Bookings → Pooja bookings (Excel)', 'Website pooja bookings are saved here even if WhatsApp is not sent. Change date, online/offline, pooja temple, or status.' ),
 			array( 'Product bookings', admin_url( 'edit.php?post_type=product_enquiry&page=ju-product-schedule' ), 'Left menu → Product Bookings → Product bookings (Excel)', 'Website Buy form bookings are saved here even if WhatsApp is not sent. Change quantity or status.' ),
 			array( 'Yatra bookings', admin_url( 'edit.php?post_type=travel_booking&page=ju-travel-schedule' ), 'Left menu → Yatra Bookings → Yatra bookings (Excel)', 'Website yatra form bookings are saved here even if WhatsApp is not sent. Change preferred dates or status.' ),
 			array( 'Client enquiries', admin_url( 'edit.php?post_type=customer_enquiry&page=ju-enquiry-schedule' ), 'Left menu → Customer Enquiries → Client enquiries (Excel)', 'Website enquiry form submissions are saved here. Admin also gets an email for each new client enquiry. Change status after you reply.' ),
 			array( 'Registrations', admin_url( 'edit.php?post_type=website_registration&page=ju-registration-schedule' ), 'Left menu → Registrations → Registrations (Excel)', 'Website Register form details are saved here as a separate Excel sheet, not mixed with client enquiries.' ),
-			array( 'Terms & Conditions', admin_url( 'admin.php?page=ju-edit-terms' ), 'JyothishiUncle → Terms & Conditions', 'Full terms text. Address, email, and phone on this page stay in sync with Home page → Contact.' ),
-			array( 'Privacy Policy', admin_url( 'admin.php?page=ju-edit-privacy' ), 'JyothishiUncle → Privacy Policy', 'Full privacy text. Address, email, and phone on this page stay in sync with Home page → Contact. Replace [Add Full Name] for the Grievance Officer.' ),
-			array( 'Disclaimer', admin_url( 'admin.php?page=ju-edit-disclaimer' ), 'JyothishiUncle → Disclaimer', 'Full disclaimer text. Support email stays in sync with Home page → Contact. Replace [Add Your Company Legal Name Here].' ),
-			array( 'Refund Policy', admin_url( 'admin.php?page=ju-edit-refund' ), 'JyothishiUncle → Refund Policy', 'Delivery, cancellation and refund terms. Address and email stay in sync with Home page → Contact.' ),
+			array( 'Terms & Conditions', admin_url( 'admin.php?page=ju-edit-terms' ), 'JyothishiUncle → Terms & Conditions', 'English body in the editor. Use language tabs for Hindi, Tamil, Malayalam, Kannada, Telugu. Contact details stay in sync with Home page.' ),
+			array( 'Privacy Policy', admin_url( 'admin.php?page=ju-edit-privacy' ), 'JyothishiUncle → Privacy Policy', 'English body in the editor. Use language tabs for each language. Replace [Add Full Name] for the Grievance Officer.' ),
+			array( 'Disclaimer', admin_url( 'admin.php?page=ju-edit-disclaimer' ), 'JyothishiUncle → Disclaimer', 'English body in the editor. Use language tabs for each language. Replace [Add Your Company Legal Name Here].' ),
+			array( 'Refund Policy', admin_url( 'admin.php?page=ju-edit-refund' ), 'JyothishiUncle → Refund Policy', 'English body in the editor. Use language tabs for each language. Address and email stay in sync with Home page.' ),
 		);
 		?>
 		<div class="wrap ju-settings-wrap ju-help-wrap">
@@ -71,7 +71,7 @@ class JU_Admin {
 			<p>The public website is not edited with a page builder. You change text and photos here in WordPress, then they appear on the Next.js site.</p>
 
 			<h2>1. Website pages (headings and page photos)</h2>
-			<p>Use the <strong>JyothishiUncle</strong> menu. Open the page, change the title and text, then set <strong>Featured image</strong> in the right sidebar. Click Update.</p>
+			<p>Use the <strong>JyothishiUncle</strong> menu. Open the page, change the English title and text, then use the <strong>language bar</strong> (English, Hindi, Tamil, Malayalam, Kannada, Telugu) to edit each language. Set <strong>Featured image</strong> in the right sidebar. Click Update.</p>
 
 			<h2>2. Left-sidebar items (cards and posts)</h2>
 			<p>Poojas, Products, Astrologers, Pooja Temples, Religious Travel, and Articles are lists. Open one item, edit it, set its Featured image, then Update. Add a new item with Add New. Do not create a new WordPress Page for each pooja or article.</p>
@@ -116,6 +116,56 @@ class JU_Admin {
 			JU_CORE_URL . 'assets/admin.css',
 			array(),
 			JU_CORE_VERSION
+		);
+
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		$types  = array( 'page', 'pooja', 'product', 'astrologer', 'post', 'religious_travel', 'astrology_service', 'vendor' );
+		$editor = $screen && ! empty( $screen->post_type ) && in_array( $screen->post_type, $types, true ) && (
+			in_array( $hook, array( 'post.php', 'post-new.php' ), true )
+			|| doing_action( 'enqueue_block_editor_assets' )
+			|| in_array( $screen->base, array( 'post', 'page' ), true )
+		);
+		if ( ! $editor ) {
+			return;
+		}
+
+		$locales = array();
+		if ( class_exists( 'JU_I18n' ) ) {
+			foreach ( JU_I18n::locales() as $locale ) {
+				if ( empty( $locale['id'] ) ) {
+					continue;
+				}
+				$locales[] = array(
+					'id'     => sanitize_key( $locale['id'] ),
+					'native' => isset( $locale['native'] ) ? (string) $locale['native'] : strtoupper( (string) $locale['id'] ),
+				);
+			}
+		}
+		if ( ! $locales ) {
+			$locales = array(
+				array( 'id' => 'en', 'native' => 'English' ),
+				array( 'id' => 'hi', 'native' => 'हिन्दी' ),
+				array( 'id' => 'ta', 'native' => 'தமிழ்' ),
+				array( 'id' => 'ml', 'native' => 'മലയാളം' ),
+				array( 'id' => 'kn', 'native' => 'ಕನ್ನಡ' ),
+				array( 'id' => 'te', 'native' => 'తెలుగు' ),
+			);
+		}
+
+		wp_enqueue_script(
+			'ju-editor-i18n',
+			JU_CORE_URL . 'assets/admin-editor-i18n.js',
+			array(),
+			JU_CORE_VERSION,
+			true
+		);
+		wp_localize_script(
+			'ju-editor-i18n',
+			'JU_EDITOR_I18N',
+			array(
+				'locales' => $locales,
+				'hint'    => 'English uses the title and editor on this screen. Other languages use the matching tab in translations.',
+			)
 		);
 	}
 
@@ -195,7 +245,7 @@ class JU_Admin {
 				'contact'           => ' Contact: Featured image is the first large photo. Photo 2 is the second large photo.',
 			);
 			$note = isset( $extra[ $slug ] ) ? $extra[ $slug ] : ' Page title, intro text, and Featured image appear on the matching website page.';
-			echo '<div class="notice notice-info"><p>' . $base . esc_html( $note ) . '</p></div>';
+			echo '<div class="notice notice-info"><p>' . $base . esc_html( $note ) . ' Use the language bar to edit English, Hindi, Tamil, Malayalam, Kannada, and Telugu.</p></div>';
 			return;
 		}
 

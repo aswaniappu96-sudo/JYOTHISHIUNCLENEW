@@ -110,3 +110,35 @@
   color: #1e7e34;
   font-weight: 600;
 }
+
+.ju-lang-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 16px;
+  padding: 12px 14px;
+  background: #fff8e7;
+  border: 1px solid #e5c378;
+  border-radius: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.interface-interface-skeleton__content > .ju-lang-bar,
+.editor-visual-editor .ju-lang-bar,
+.edit-post-visual-editor .ju-lang-bar {
+  margin: 12px 24px 8px;
+}
+
+.ju-lang-bar-label {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.ju-lang-bar-hint {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  color: #646970;
+}

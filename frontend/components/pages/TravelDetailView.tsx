@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { TravelCard } from "@/components/cards/TravelCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
@@ -5,6 +7,7 @@ import { TravelEnquireForm } from "@/components/pages/TravelEnquireForm";
 import { TravelGallery } from "@/components/pages/TravelGallery";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { htmlListItems, htmlParagraphs, stripPublicPrices, telHref } from "@/lib/html";
+import { useLocalized, useLocalizedList } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { SiteSettings, TravelDestination } from "@/types/wordpress";
@@ -28,11 +31,13 @@ export function TravelDetailView({
   settings: SiteSettings;
   related?: TravelDestination[];
 }) {
-  const title = stripPublicPrices(travel.title);
-  const summary = stripPublicPrices(travel.short_description);
-  const location = stripPublicPrices(travel.location);
-  const aboutHtml = stripPublicPrices(travel.full_description);
-  const infoHtml = stripPublicPrices(travel.travel_information);
+  const loc = useLocalized(travel);
+  const nearby = useLocalizedList(related);
+  const title = stripPublicPrices(loc.title);
+  const summary = stripPublicPrices(loc.short_description);
+  const location = stripPublicPrices(loc.location);
+  const aboutHtml = stripPublicPrices(loc.full_description);
+  const infoHtml = stripPublicPrices(loc.travel_information);
   const aboutParagraphs = htmlParagraphs(aboutHtml);
   const infoItems = htmlListItems(infoHtml);
   const infoParagraphs = htmlParagraphs(infoHtml);
@@ -278,12 +283,12 @@ export function TravelDetailView({
         </div>
       </section>
 
-      {related.length ? (
+      {nearby.length ? (
         <section className="mx-auto max-w-7xl px-4 py-16 md:px-12">
           <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Other yatras</p>
           <h2 className="mt-1 font-serif text-[32px] text-on-surface">More temple journeys</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {related.map((item) => (
+            {nearby.map((item) => (
               <TravelCard key={item.id} travel={item} whatsappNumber={whatsapp} />
             ))}
           </div>
