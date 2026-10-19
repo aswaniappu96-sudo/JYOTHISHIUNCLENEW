@@ -36,7 +36,7 @@ export default async function HomePage() {
         />
         <AstrologyConsultingSection />
         <QuickServicesSection />
-        <DailyHoroscope />
+        <DailyHoroscope phone={data.settings.phone_number} whatsapp={data.settings.whatsapp_number} />
         <AboutTeaser
           excerpt={data.settings.about_excerpt}
           image={data.settings.about_teaser_image}

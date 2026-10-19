@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { FreeReadingPanel } from "@/components/home/FreeReadingPanel";
+import { TarotPiles } from "@/components/home/TarotPiles";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { dailyRashiReading, HOROSCOPE_RASHIS } from "@/lib/dailyHoroscope";
 import { lifePathNumber, luckyForRashi, matchNote, nameNumber } from "@/lib/freeAstrology";
+import { buildLocalReading, drawTarotCard, enhanceReading, type FreeReading, type FreeReadingKind } from "@/lib/freeReadings";
 import {
   DEFAULT_TIMEZONE,
   birthOutline,
@@ -22,16 +25,34 @@ const CARD_GAP = 10;
 const VISIBLE = 4;
 const SLIDER_H = CARD_H * VISIBLE + CARD_GAP * (VISIBLE - 1);
 
-type ToolId = "kundli" | "match" | "horoscope" | "rashi" | "nakshatra" | "numerology";
+type ToolId = "kundli" | "match" | "horoscope" | "rashi" | "nakshatra" | "numerology" | "tarot";
 
-const TOOLS: { id: ToolId; label: "daily.tabKundli" | "daily.tabMatch" | "daily.tabHoroscope" | "daily.tabRashi" | "daily.tabNakshatra" | "daily.tabNumerology" }[] = [
+const TOOLS: { id: ToolId; label: "daily.tabKundli" | "daily.tabMatch" | "daily.tabHoroscope" | "daily.tabRashi" | "daily.tabNakshatra" | "daily.tabNumerology" | "daily.tabTarot" }[] = [
   { id: "kundli", label: "daily.tabKundli" },
   { id: "match", label: "daily.tabMatch" },
   { id: "horoscope", label: "daily.tabHoroscope" },
   { id: "rashi", label: "daily.tabRashi" },
   { id: "nakshatra", label: "daily.tabNakshatra" },
   { id: "numerology", label: "daily.tabNumerology" },
+  { id: "tarot", label: "daily.tabTarot" },
 ];
+
+const TAROT_TYPES = [
+  { id: "daily", label: "daily.tarotDaily" },
+  { id: "love", label: "daily.tarotLove" },
+  { id: "relation", label: "daily.tarotRelation" },
+  { id: "career", label: "daily.tarotCareer" },
+  { id: "family", label: "daily.tarotFamily" },
+  { id: "breakup", label: "daily.tarotBreakup" },
+  { id: "contact", label: "daily.tarotContact" },
+  { id: "other", label: "daily.tarotOther" },
+] as const;
+
+const TAROT_PILES = [
+  { id: 1, label: "daily.tarotPile1", role: "daily.tarotPast" },
+  { id: 2, label: "daily.tarotPile2", role: "daily.tarotPresent" },
+  { id: 3, label: "daily.tarotPile3", role: "daily.tarotFuture" },
+] as const;
 
 function ArrowGlyph() {
   return (
@@ -103,16 +124,16 @@ function Field({
   );
 }
 
-function ToolCard({ children }: { children: React.ReactNode }) {
+function ToolCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className="rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)] sm:p-6">
+    <div className={`rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)] sm:p-6 ${className}`}>
       {children}
     </div>
   );
 }
 
-export function DailyHoroscope() {
-  const { t } = usePrefs();
+export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?: string } = {}) {
+  const { t, locale } = usePrefs();
   const [tab, setTab] = useState<ToolId>("horoscope");
   const [selected, setSelected] = useState<(typeof RASHIS)[number]>(RASHIS[0]);
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
@@ -120,14 +141,26 @@ export function DailyHoroscope() {
   const scroller = useRef<HTMLDivElement>(null);
   const detailRef = useRef<HTMLDivElement>(null);
   const skipScroll = useRef(false);
+  const insightSeq = useRef(0);
 
+  const [contact, setContact] = useState({ phone: phone || "", whatsapp: whatsapp || "" });
   const [kundli, setKundli] = useState({ name: "", date: "", time: "", place: "" });
   const [kundliOut, setKundliOut] = useState<ReturnType<typeof birthOutline> | null>(null);
-  const [match, setMatch] = useState<{ a: RashiSlug; b: RashiSlug }>({ a: RASHIS[0].slug, b: RASHIS[6].slug });
-  const [calcDate, setCalcDate] = useState({ date: "", time: "" });
+  const [match, setMatch] = useState<{ a: RashiSlug; b: RashiSlug; boyName: string; girlName: string }>({
+    a: RASHIS[0].slug,
+    b: RASHIS[6].slug,
+    boyName: "",
+    girlName: "",
+  });
+  const [calcDate, setCalcDate] = useState({ date: "", time: "", name: "" });
   const [calcOut, setCalcOut] = useState<ReturnType<typeof birthOutline> | null>(null);
   const [num, setNum] = useState({ name: "", date: "" });
   const [numOut, setNumOut] = useState<{ life: number; name: number } | null>(null);
+  const [tarot, setTarot] = useState({ type: "daily", name: "", partner: "", situation: "" });
+  const [tarotCards, setTarotCards] = useState<Record<number, string>>({});
+  const [tarotDrawKeys, setTarotDrawKeys] = useState<Record<number, number>>({ 1: 0, 2: 0, 3: 0 });
+  const [insight, setInsight] = useState<FreeReading | null>(null);
+  const [insightBusy, setInsightBusy] = useState(false);
 
   useEffect(() => {
     const zone = visitorTimeZone();
@@ -136,11 +169,31 @@ export function DailyHoroscope() {
   }, []);
 
   useEffect(() => {
+    if (phone && whatsapp) {
+      setContact({ phone, whatsapp });
+      return;
+    }
+    fetch("/api/settings")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { phone_number?: string; whatsapp_number?: string } | null) => {
+        setContact({
+          phone: phone || data?.phone_number || "",
+          whatsapp: whatsapp || data?.whatsapp_number || "",
+        });
+      })
+      .catch(() => undefined);
+  }, [phone, whatsapp]);
+
+  useEffect(() => {
     const applyTool = () => {
       const fromQuery = new URLSearchParams(window.location.search).get("tool");
       const fromHash = window.location.hash.replace(/^#/, "");
       const candidate = fromQuery || fromHash;
-      if (TOOLS.some((item) => item.id === candidate)) setTab(candidate as ToolId);
+      if (TOOLS.some((item) => item.id === candidate)) {
+        setTab(candidate as ToolId);
+        setInsight(null);
+        setInsightBusy(false);
+      }
     };
     applyTool();
     window.addEventListener("hashchange", applyTool);
@@ -199,6 +252,52 @@ export function DailyHoroscope() {
   const rashiFrom = (out: ReturnType<typeof birthOutline> | null) =>
     out ? RASHIS[out.rashiIndex] || RASHIS[0] : null;
 
+  const loadInsight = (kind: FreeReadingKind, facts: Record<string, string | number | undefined>) => {
+    const seq = ++insightSeq.current;
+    setInsight(buildLocalReading(kind, facts));
+    setInsightBusy(true);
+    enhanceReading(kind, facts, locale).then((next) => {
+      if (seq !== insightSeq.current) return;
+      setInsight(next);
+      setInsightBusy(false);
+    });
+  };
+
+  const tarotFacts = (cards?: Record<number, string>) => {
+    const drawn = cards || tarotCards;
+    const typeMeta = TAROT_TYPES.find((item) => item.id === tarot.type);
+    return {
+      type: tarot.type,
+      typeLabel: typeMeta ? t(typeMeta.label) : tarot.type,
+      name: tarot.name,
+      partner: tarot.partner,
+      situation: tarot.situation,
+      card1: drawn[1],
+      card2: drawn[2],
+      card3: drawn[3],
+    };
+  };
+
+  const pickTarotPile = (pile: number) => {
+    const exclude = ([1, 2, 3] as const)
+      .filter((id) => id !== pile && tarotCards[id])
+      .map((id) => tarotCards[id]);
+    const card = drawTarotCard({ ...tarotFacts(), pile }, exclude);
+    const next = { ...tarotCards, [pile]: card };
+    setTarotCards(next);
+    setTarotDrawKeys((keys) => ({ ...keys, [pile]: (keys[pile] || 0) + 1 }));
+    setInsight(null);
+    setInsightBusy(false);
+  };
+
+  const threeReady = Boolean(tarotCards[1] && tarotCards[2] && tarotCards[3]);
+
+  const changeTab = (id: ToolId) => {
+    setTab(id);
+    setInsight(null);
+    setInsightBusy(false);
+  };
+
   const tabOn = "border-2 border-[#e5c378] bg-[#e5c378] text-[#1A1106]";
   const tabOff = "border-2 border-[#e5c378]/50 bg-white text-[#1A1106]/70 hover:border-[#e5c378]";
 
@@ -218,7 +317,7 @@ export function DailyHoroscope() {
               <button
                 key={tool.id}
                 type="button"
-                onClick={() => setTab(tool.id)}
+                onClick={() => changeTab(tool.id)}
                 className={`rounded-full px-3.5 py-1.5 text-[12px] font-bold sm:px-4 sm:text-[13px] ${on ? tabOn : tabOff}`}
                 aria-pressed={on}
               >
@@ -395,7 +494,7 @@ export function DailyHoroscope() {
         ) : null}
 
         {tab === "kundli" ? (
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <div className="mt-8 grid items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <ToolCard>
               <form
                 className="grid gap-3"
@@ -407,7 +506,19 @@ export function DailyHoroscope() {
                   const name = String(form.get("name") || kundli.name);
                   const place = String(form.get("place") || kundli.place);
                   setKundli({ name, date, time, place });
-                  setKundliOut(runBirth(date, time));
+                  const out = runBirth(date, time);
+                  setKundliOut(out);
+                  if (!out) return;
+                  const moon = rashiFrom(out);
+                  loadInsight("kundli", {
+                    name,
+                    dob: date,
+                    time,
+                    place,
+                    moon: moon ? `${moon.sa} · ${moon.en}` : "",
+                    nakshatra: out.nakshatraLabel,
+                    tithi: `${out.tithiLabel} · ${out.pakshaLabel}`,
+                  });
                 }}
               >
                 <Field label={t("daily.name")}>
@@ -429,87 +540,122 @@ export function DailyHoroscope() {
                 </button>
               </form>
             </ToolCard>
-            <ToolCard>
-              {kundliOut ? (
-                <>
-                  <p className="font-serif text-[22px] font-medium text-[#1A1106]">{kundli.name || t("daily.tabKundli")}</p>
-                  <p className="mt-1 text-[13px] text-[#1A1106]/50">{kundli.place}</p>
-                  <dl className="mt-4 grid gap-2 text-[14px]">
-                    <div>
-                      <dt className="font-bold text-tertiary">{t("daily.moonRashi")}</dt>
-                      <dd className="mt-0.5">{rashiFrom(kundliOut)?.sa} · {rashiFrom(kundliOut)?.en}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-tertiary">{t("daily.nakshatra")}</dt>
-                      <dd className="mt-0.5">{kundliOut.nakshatraLabel}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-tertiary">{t("daily.tithi")}</dt>
-                      <dd className="mt-0.5">{kundliOut.tithiLabel} · {kundliOut.pakshaLabel}</dd>
-                    </div>
-                  </dl>
-                </>
-              ) : (
-                <p className="text-[14px] leading-relaxed text-[#1A1106]/60">{t("daily.outline")}</p>
-              )}
-              <p className="mt-4 text-[12px] leading-relaxed text-[#1A1106]/50">{t("daily.outline")}</p>
-            </ToolCard>
+            <FreeReadingPanel
+              title={t("daily.readingTitle")}
+              facts={
+                kundliOut
+                  ? [
+                      { label: t("daily.birthDetails"), value: [kundli.name, kundli.date, kundli.time, kundli.place].filter(Boolean).join(" · ") },
+                      { label: t("daily.moonSign"), value: rashiFrom(kundliOut) ? `${rashiFrom(kundliOut)?.sa} · ${rashiFrom(kundliOut)?.en}` : "" },
+                      { label: t("daily.nakshatra"), value: kundliOut.nakshatraLabel },
+                      { label: t("daily.tithi"), value: `${kundliOut.tithiLabel} · ${kundliOut.pakshaLabel}` },
+                    ]
+                  : []
+              }
+              reading={kundliOut ? insight : null}
+              busy={insightBusy}
+              empty={t("daily.outline")}
+              phone={contact.phone}
+              whatsapp={contact.whatsapp}
+              purpose={`Free Kundli reading follow-up${kundli.name ? ` for ${kundli.name}` : ""}.`}
+            />
           </div>
         ) : null}
 
         {tab === "match" ? (
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <div className="mt-8 grid items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <ToolCard>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field label={t("daily.boy")}>
-                  <select className={fieldClass} value={match.a} onChange={(e) => setMatch({ ...match, a: e.target.value as RashiSlug })}>
-                    {RASHIS.map((item) => (
-                      <option key={item.slug} value={item.slug}>
-                        {item.sa} · {item.en}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label={t("daily.girl")}>
-                  <select className={fieldClass} value={match.b} onChange={(e) => setMatch({ ...match, b: e.target.value as RashiSlug })}>
-                    {RASHIS.map((item) => (
-                      <option key={item.slug} value={item.slug}>
-                        {item.sa} · {item.en}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-              </div>
+              <form
+                className="grid gap-3"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  loadInsight("match", {
+                    boyName: match.boyName,
+                    girlName: match.girlName,
+                    rashiA: `${matchA.sa} · ${matchA.en}`,
+                    rashiB: `${matchB.sa} · ${matchB.en}`,
+                    score: matchResult.score,
+                  });
+                }}
+              >
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label={t("daily.boy")}>
+                    <input className={fieldClass} value={match.boyName} onChange={(e) => setMatch({ ...match, boyName: e.target.value })} placeholder={t("daily.name")} />
+                  </Field>
+                  <Field label={t("daily.girl")}>
+                    <input className={fieldClass} value={match.girlName} onChange={(e) => setMatch({ ...match, girlName: e.target.value })} placeholder={t("daily.name")} />
+                  </Field>
+                  <Field label={t("daily.moonRashi")}>
+                    <select className={fieldClass} value={match.a} onChange={(e) => setMatch({ ...match, a: e.target.value as RashiSlug })}>
+                      {RASHIS.map((item) => (
+                        <option key={item.slug} value={item.slug}>
+                          {item.sa} · {item.en}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                  <Field label={t("daily.moonRashi")}>
+                    <select className={fieldClass} value={match.b} onChange={(e) => setMatch({ ...match, b: e.target.value as RashiSlug })}>
+                      {RASHIS.map((item) => (
+                        <option key={item.slug} value={item.slug}>
+                          {item.sa} · {item.en}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                </div>
+                <button type="submit" className={goldBtn}>
+                  {t("daily.show")}
+                </button>
+              </form>
             </ToolCard>
-            <ToolCard>
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-tertiary">{t("daily.matchScore")}</p>
-              <p className="mt-2 font-serif text-[40px] font-medium leading-none text-[#1A1106]">
-                {matchResult.score}
-                <span className="text-[18px] text-[#1A1106]/40"> / 10</span>
-              </p>
-              <p className="mt-2 text-[15px] font-semibold text-[#1A1106]">
-                {matchA.sa} · {matchB.sa}
-              </p>
-              <p className="mt-3 text-[14px] leading-relaxed text-[#1A1106]/70">{matchResult.line}</p>
-              <p className="mt-4 text-[12px] leading-relaxed text-[#1A1106]/50">{t("daily.outline")}</p>
-            </ToolCard>
+            <FreeReadingPanel
+              title={t("daily.tabMatch")}
+              facts={[
+                { label: t("daily.matchScore"), value: `${matchResult.score} / 10` },
+                { label: t("daily.boy"), value: [match.boyName, matchA.sa].filter(Boolean).join(" · ") },
+                { label: t("daily.girl"), value: [match.girlName, matchB.sa].filter(Boolean).join(" · ") },
+              ]}
+              reading={insight}
+              busy={insightBusy}
+              empty={t("daily.outline")}
+              phone={contact.phone}
+              whatsapp={contact.whatsapp}
+              purpose="Kundli matching follow-up."
+            />
           </div>
         ) : null}
 
         {tab === "rashi" || tab === "nakshatra" ? (
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <div className="mt-8 grid items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <ToolCard>
               <form
                 className="grid gap-3"
                 onSubmit={(event) => {
                   event.preventDefault();
                   const form = new FormData(event.currentTarget);
+                  const name = String(form.get("name") || calcDate.name);
                   const date = String(form.get("date") || calcDate.date);
                   const time = String(form.get("time") || calcDate.time);
-                  setCalcDate({ date, time });
-                  setCalcOut(runBirth(date, time));
+                  setCalcDate({ name, date, time });
+                  const out = runBirth(date, time);
+                  setCalcOut(out);
+                  if (!out) return;
+                  const moon = rashiFrom(out);
+                  loadInsight(tab, {
+                    name,
+                    dob: date,
+                    time,
+                    moon: moon ? `${moon.sa} · ${moon.en}` : "",
+                    rashi: moon?.sa,
+                    nakshatra: out.nakshatraLabel,
+                    tithi: out.tithiLabel,
+                  });
                 }}
               >
+                <Field label={t("daily.name")}>
+                  <input name="name" className={fieldClass} value={calcDate.name} onChange={(e) => setCalcDate({ ...calcDate, name: e.target.value })} />
+                </Field>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <Field label={t("daily.dob")}>
                     <input name="date" type="date" className={fieldClass} value={calcDate.date} onChange={(e) => setCalcDate({ ...calcDate, date: e.target.value })} required />
@@ -523,40 +669,30 @@ export function DailyHoroscope() {
                 </button>
               </form>
             </ToolCard>
-            <ToolCard>
-              {calcOut && tab === "rashi" ? (
-                <>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-tertiary">{t("daily.moonRashi")}</p>
-                  <div className="mt-4 flex items-center gap-4">
-                    <img
-                      src={`/rashis/rashi-${rashiFrom(calcOut)?.slug}.png?v=3`}
-                      alt=""
-                      className="h-16 w-16 rounded-full object-cover object-[center_68%] ring-2 ring-[#e5c378]"
-                    />
-                    <div>
-                      <p className="font-serif text-[24px] font-medium text-[#1A1106]">{rashiFrom(calcOut)?.sa}</p>
-                      <p className="text-[14px] text-[#1A1106]/50">{rashiFrom(calcOut)?.en}</p>
-                    </div>
-                  </div>
-                </>
-              ) : null}
-              {calcOut && tab === "nakshatra" ? (
-                <>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-tertiary">{t("daily.nakshatra")}</p>
-                  <p className="mt-3 font-serif text-[24px] font-medium text-[#1A1106]">{calcOut.nakshatraLabel}</p>
-                  <p className="mt-2 text-[14px] text-[#1A1106]/60">
-                    {t("daily.moonRashi")}: {rashiFrom(calcOut)?.sa} · {calcOut.tithiLabel}
-                  </p>
-                </>
-              ) : null}
-              {!calcOut ? <p className="text-[14px] leading-relaxed text-[#1A1106]/60">{t("daily.outline")}</p> : null}
-              <p className="mt-4 text-[12px] leading-relaxed text-[#1A1106]/50">{t("daily.outline")}</p>
-            </ToolCard>
+            <FreeReadingPanel
+              title={tab === "rashi" ? t("daily.tabRashi") : t("daily.tabNakshatra")}
+              facts={
+                calcOut
+                  ? [
+                      { label: t("daily.birthDetails"), value: [calcDate.name, calcDate.date, calcDate.time].filter(Boolean).join(" · ") },
+                      { label: t("daily.moonSign"), value: rashiFrom(calcOut) ? `${rashiFrom(calcOut)?.sa} · ${rashiFrom(calcOut)?.en}` : "" },
+                      { label: t("daily.nakshatra"), value: calcOut.nakshatraLabel },
+                      { label: t("daily.tithi"), value: calcOut.tithiLabel },
+                    ]
+                  : []
+              }
+              reading={calcOut ? insight : null}
+              busy={insightBusy}
+              empty={t("daily.outline")}
+              phone={contact.phone}
+              whatsapp={contact.whatsapp}
+              purpose={tab === "rashi" ? "Moon rashi reading follow-up." : "Nakshatra reading follow-up."}
+            />
           </div>
         ) : null}
 
         {tab === "numerology" ? (
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <div className="mt-8 grid items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <ToolCard>
               <form
                 className="grid gap-3"
@@ -566,7 +702,10 @@ export function DailyHoroscope() {
                   const name = String(form.get("name") || num.name);
                   const date = String(form.get("date") || num.date);
                   setNum({ name, date });
-                  setNumOut({ life: lifePathNumber(date), name: nameNumber(name) });
+                  const life = lifePathNumber(date);
+                  const nameNo = nameNumber(name);
+                  setNumOut({ life, name: nameNo });
+                  loadInsight("numerology", { name, dob: date, lifePath: life, nameNumber: nameNo });
                 }}
               >
                 <Field label={t("daily.name")}>
@@ -580,24 +719,113 @@ export function DailyHoroscope() {
                 </button>
               </form>
             </ToolCard>
+            <FreeReadingPanel
+              title={t("daily.tabNumerology")}
+              facts={
+                numOut
+                  ? [
+                      { label: t("daily.birthDetails"), value: [num.name, num.date].filter(Boolean).join(" · ") },
+                      { label: t("daily.lifePath"), value: String(numOut.life) },
+                      { label: t("daily.nameNo"), value: String(numOut.name) },
+                    ]
+                  : []
+              }
+              reading={numOut ? insight : null}
+              busy={insightBusy}
+              empty={t("daily.outline")}
+              phone={contact.phone}
+              whatsapp={contact.whatsapp}
+              purpose="Numerology reading follow-up."
+            />
+          </div>
+        ) : null}
+
+        {tab === "tarot" ? (
+          <div className="mt-8 grid items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
             <ToolCard>
-              {numOut ? (
-                <>
-                  <p className="font-serif text-[22px] font-medium text-[#1A1106]">{num.name}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-[#e5c378]/70 bg-[#fff8ec] px-3 py-1 text-[12px] font-semibold text-[#1A1106]">
-                      {t("daily.lifePath")} · {numOut.life}
-                    </span>
-                    <span className="rounded-full border border-[#e5c378]/70 bg-[#fff8ec] px-3 py-1 text-[12px] font-semibold text-[#1A1106]">
-                      {t("daily.nameNo")} · {numOut.name}
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <p className="text-[14px] leading-relaxed text-[#1A1106]/60">{t("daily.outline")}</p>
-              )}
-              <p className="mt-4 text-[12px] leading-relaxed text-[#1A1106]/50">{t("daily.outline")}</p>
+              <form
+                className="grid gap-3"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (!threeReady) return;
+                  loadInsight("tarot", tarotFacts());
+                }}
+              >
+                <Field label={t("daily.tarotType")}>
+                  <select
+                    className={fieldClass}
+                    value={tarot.type}
+                    onChange={(e) => {
+                      setTarot({ ...tarot, type: e.target.value });
+                      setTarotCards({});
+                      setTarotDrawKeys({ 1: 0, 2: 0, 3: 0 });
+                      setInsight(null);
+                      setInsightBusy(false);
+                    }}
+                  >
+                    {TAROT_TYPES.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {t(item.label)}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label={t("daily.tarotName")}>
+                    <input className={fieldClass} value={tarot.name} onChange={(e) => setTarot({ ...tarot, name: e.target.value })} />
+                  </Field>
+                  <Field label={t("daily.tarotPartner")}>
+                    <input
+                      className={fieldClass}
+                      value={tarot.partner}
+                      onChange={(e) => setTarot({ ...tarot, partner: e.target.value })}
+                    />
+                  </Field>
+                </div>
+                <Field label={t("daily.tarotSituation")}>
+                  <textarea
+                    className={`${fieldClass} min-h-[96px] resize-y`}
+                    value={tarot.situation}
+                    onChange={(e) => setTarot({ ...tarot, situation: e.target.value })}
+                    placeholder={t("daily.tarotPlaceholder")}
+                  />
+                </Field>
+                <div>
+                  <p className={labelClass}>{t("daily.tarotPiles")}</p>
+                  <p className="mt-1 text-[13px] leading-relaxed text-[#1A1106]/60">{t("daily.tarotPileHint")}</p>
+                  <TarotPiles
+                    labels={TAROT_PILES.map((pile) => ({ title: t(pile.label), role: t(pile.role) }))}
+                    cards={tarotCards}
+                    drawKeys={tarotDrawKeys}
+                    onPick={pickTarotPile}
+                  />
+                </div>
+                <button type="submit" className={`${goldBtn} disabled:opacity-45`} disabled={!threeReady}>
+                  {t("daily.tarotRead")}
+                </button>
+              </form>
             </ToolCard>
+            <div>
+              <FreeReadingPanel
+                title={t("daily.tabTarot")}
+                facts={[
+                  { label: t("daily.tarotType"), value: t(TAROT_TYPES.find((item) => item.id === tarot.type)?.label || "daily.tarotDaily") },
+                  { label: t("daily.name"), value: tarot.name },
+                  { label: t("daily.tarotPartner"), value: tarot.partner },
+                  { label: t("daily.tarotPast"), value: tarotCards[1] || "" },
+                  { label: t("daily.tarotPresent"), value: tarotCards[2] || "" },
+                  { label: t("daily.tarotFuture"), value: tarotCards[3] || "" },
+                ]}
+                reading={insight}
+                busy={insightBusy}
+                empty={threeReady ? t("daily.tarotReady") : t("daily.tarotPileHint")}
+                phone={contact.phone}
+                whatsapp={contact.whatsapp}
+                purpose={`Tarot detailed reading${tarot.name ? ` for ${tarot.name}` : ""}${tarot.partner ? ` and ${tarot.partner}` : ""}.`}
+                callTeam
+                tarot
+              />
+            </div>
           </div>
         ) : null}
       </div>

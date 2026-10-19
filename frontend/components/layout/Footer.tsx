@@ -110,6 +110,7 @@ export function Footer({
     { href: "/?tool=rashi#free-tools", key: "footer.rashi" },
     { href: "/?tool=nakshatra#free-tools", key: "footer.nakshatra" },
     { href: "/?tool=numerology#free-tools", key: "footer.numerology" },
+    { href: "/?tool=tarot#free-tools", key: "footer.tarot" },
   ];
 
   const spiritual: FootItem[] = [
