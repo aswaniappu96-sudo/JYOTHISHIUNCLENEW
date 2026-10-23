@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Articles",
-  description: "Vedic wisdom, pooja notes, and consultation guidance from JyothishiUncle.",
+  description: "Vedic wisdom, pooja notes, and consultation guidance from MaharshiOm.",
 };
 
 export default async function BlogPage() {

@@ -1,3 +1,5 @@
+import { BrandMark, BrandText } from "@/components/brand/BrandText";
+import { isBrandName } from "@/lib/brand";
 import { KICKER, LEAD, PAGE_ACCENT, PAGE_TITLE, splitHeading } from "@/lib/layout";
 
 export function SectionChip({ children }: { children: string }) {
@@ -24,19 +26,26 @@ export function PageHeading({
   className?: string;
 }) {
   const parts = splitHeading(title, lead, accent);
+  const brandLead = isBrandName(parts.lead);
+  const brandAccent = isBrandName(parts.accent);
   return (
     <Tag className={`${PAGE_TITLE} ${className}`.trim()}>
-      {parts.lead}
+      {brandLead ? <BrandMark /> : <BrandText>{parts.lead}</BrandText>}
       {parts.accent ? (
         <>
           {parts.lead ? " " : null}
-          <span className={`${PAGE_ACCENT} relative inline-block`}>
-            <span className="relative z-10">{parts.accent}</span>
-            <span className="ju-heading-mark absolute right-0 bottom-[0.18em] left-0 -z-0 h-[0.36em]" />
+          <span className={`${brandAccent ? "" : PAGE_ACCENT} relative inline-block`}>
+            <span className="relative z-10">{brandAccent ? <BrandMark /> : <BrandText>{parts.accent}</BrandText>}</span>
+            {brandAccent ? null : <span className="ju-heading-mark absolute right-0 bottom-[0.18em] left-0 -z-0 h-[0.36em]" />}
           </span>
         </>
       ) : null}
-      {rest ? <> {rest}</> : null}
+      {rest ? (
+        <>
+          {" "}
+          <BrandText>{rest}</BrandText>
+        </>
+      ) : null}
     </Tag>
   );
 }

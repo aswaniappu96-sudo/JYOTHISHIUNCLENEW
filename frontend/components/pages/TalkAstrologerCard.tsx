@@ -89,8 +89,8 @@ export function TalkAstrologerCard({
   const chatHref = whatsappUrl(
     whatsapp,
     view.name
-      ? `Namaste. I would like to chat with ${view.name} at JyothishiUncle.`
-      : "Namaste. I would like to chat with an astrologer at JyothishiUncle.",
+      ? `Namaste. I would like to chat with ${view.name} at MaharshiOm.`
+      : "Namaste. I would like to chat with an astrologer at MaharshiOm.",
   );
 
   return (

@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandText } from "@/components/brand/BrandText";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ConchIcon } from "@/components/icons/ConchIcon";
@@ -29,7 +30,7 @@ export function CtaSection({
               <span className="font-serif text-2xl text-primary">ॐ</span>
             </div>
             <PageHeading lead={t("cta.lead")} accent={t("cta.accent")} className="mb-3 text-center" />
-            <p className="mx-auto mb-7 max-w-2xl text-base leading-relaxed text-[#3a2a14]">{t("cta.copy")}</p>
+            <p className="mx-auto mb-7 max-w-2xl text-base leading-relaxed text-[#3a2a14]"><BrandText>{t("cta.copy")}</BrandText></p>
             <div className="mb-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
               <BookConsultationButton className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-primary via-primary-container to-primary px-5 py-2.5 text-sm font-semibold text-on-primary shadow-[0_0_25px_rgba(229,195,120,0.45)]">
                 Book your 1-on-1 consultation →
@@ -38,7 +39,7 @@ export function CtaSection({
                 Explore sacred pooja & homams
               </ButtonLink>
               <ButtonLink
-                href={whatsappUrl(whatsappNumber, "Hello, I would like to know more about JyothishiUncle.")}
+                href={whatsappUrl(whatsappNumber, "Hello, I would like to know more about MaharshiOm.")}
                 variant="ghost"
                 external
               >

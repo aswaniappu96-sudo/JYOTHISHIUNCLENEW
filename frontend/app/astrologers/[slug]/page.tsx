@@ -14,7 +14,7 @@ export async function generateMetadata({
   const item = await getAstrologer(slug);
   return {
     title: item?.title ? `${item.title} · Astrologer` : "Astrologer",
-    description: item?.short_description || item?.specialty || "Talk to an astrologer at JyothishiUncle.",
+    description: item?.short_description || item?.specialty || "Talk to an astrologer at MaharshiOm.",
     openGraph: {
       title: item?.title,
       description: item?.short_description || item?.specialty,

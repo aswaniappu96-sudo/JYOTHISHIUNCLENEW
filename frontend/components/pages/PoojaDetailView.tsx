@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PoojaBookingPanel } from "@/components/pages/PoojaBookingPanel";
@@ -124,7 +125,7 @@ export function PoojaDetailView({
                 <span className="h-[2px] w-8 bg-primary" />
                 <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">About this pooja</span>
               </div>
-              <div className="prose-ju text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: about }} />
+              <CmsHtml className="prose-ju text-base leading-relaxed" html={about} />
             </div>
           ) : null}
 
@@ -148,7 +149,7 @@ export function PoojaDetailView({
                 <span className="h-[2px] w-8 bg-primary" />
                 <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Benefits</span>
               </div>
-              <div className="prose-ju" dangerouslySetInnerHTML={{ __html: benefitsHtml }} />
+              <CmsHtml className="prose-ju" html={benefitsHtml} />
             </div>
           ) : null}
 
@@ -172,7 +173,7 @@ export function PoojaDetailView({
           ) : requirementsHtml ? (
             <div className="space-y-3 rounded-2xl bg-surface-low p-6 shadow-xl">
               <h2 className="font-serif text-[22px] text-on-surface">Requirements</h2>
-              <div className="prose-ju" dangerouslySetInnerHTML={{ __html: requirementsHtml }} />
+              <CmsHtml className="prose-ju" html={requirementsHtml} />
             </div>
           ) : null}
 

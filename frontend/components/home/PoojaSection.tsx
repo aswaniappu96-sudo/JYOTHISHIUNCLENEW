@@ -175,7 +175,7 @@ export function PoojaSection({
 }) {
   const { t } = usePrefs();
   const list = useJuList<Pooja>("/poojas", poojas);
-  const cards = useLocalizedList((list.length ? list : FALLBACKS).slice(0, 3));
+  const cards = useLocalizedList((list.length ? list : FALLBACKS).slice(0, 4));
   const chatHref = whatsappNumber.trim()
     ? whatsappUrl(whatsappNumber, "Namaste. I would like to ask about a temple pooja.")
     : "";
@@ -202,7 +202,7 @@ export function PoojaSection({
           </Link>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((pooja, index) => {
             const look = poojaLook(`${pooja.slug} ${pooja.title}`);
             const src = imageSrc(

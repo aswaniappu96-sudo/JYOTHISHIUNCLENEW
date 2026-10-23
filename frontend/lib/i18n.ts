@@ -1,3 +1,5 @@
+import { rewriteBrandText } from "@/lib/brand";
+
 export const LOCALES = [
   { id: "en", native: "English", english: "English" },
   { id: "hi", native: "हिन्दी", english: "Hindi" },
@@ -221,7 +223,7 @@ const en = {
   "daily.personality": "Personality",
   "daily.strengths": "Strengths",
   "daily.relationships": "Relationships",
-  "daily.generalNote": "This is a general astrological interpretation from your birth-chart outline. It is not a full kundli, and it is not medical, legal, or financial advice. A JyothishiUncle astrologer can read the complete chart on a call, chat, or video.",
+  "daily.generalNote": "This is a general astrological interpretation from your birth-chart outline. It is not a full kundli, and it is not medical, legal, or financial advice. A MaharshiOm astrologer can read the complete chart on a call, chat, or video.",
   "daily.callConsult": "Call Consultation",
   "daily.chatConsult": "Chat Consultation",
   "daily.videoConsult": "Video Consultation",
@@ -458,7 +460,7 @@ const en = {
   "about.live": "LIVE · Offline poojas available",
   "about.years": "500+",
   "about.est": "Est. 1524",
-  "trust.kicker": "Why JyothishiUncle",
+  "trust.kicker": "Why MaharshiOm",
   "trust.lead": "Guidance You Can",
   "trust.accent": "Trust",
   "trust.verified": "Verified Astrologers",
@@ -507,7 +509,7 @@ const en = {
   "join.kicker": "Join Our Astrologer Network",
   "join.lead": "Are You an",
   "join.accent": "Astrologer?",
-  "join.copy": "Turn your expertise into meaningful consultations and grow your astrology practice with JyothishiUncle.",
+  "join.copy": "Turn your expertise into meaningful consultations and grow your astrology practice with MaharshiOm.",
   "join.item1": "Build Your Professional Profile",
   "join.item2": "Connect With New Clients",
   "join.item3": "Chat, Call & Video Consultations",
@@ -526,7 +528,7 @@ const en = {
   "enquiry.email": "Email address",
   "enquiry.location": "Location / country",
   "enquiry.subject": "Subject",
-  "enquiry.hear": "How did you hear about JyothishiUncle?",
+  "enquiry.hear": "How did you hear about MaharshiOm?",
   "enquiry.query": "Your query / spiritual message",
   "enquiry.private": "We keep this private to your Sankalpa.",
   "enquiry.submit": "Send Sacred Enquiry",
@@ -543,11 +545,11 @@ const en = {
   "enquiry.faqTitle": "Frequently asked questions",
   "enquiry.faqCopy": "Answers about consultations, astrologers, video, and payments.",
   "faq.q1": "What is an astrology consultation?",
-  "faq.a1": "A personal session with a JyothishiUncle astrologer. You share your question and birth details, then receive guidance on kundli, prashna, matching, career, family, vastu, or remedies — by chat, call, or video.",
+  "faq.a1": "A personal session with a MaharshiOm astrologer. You share your question and birth details, then receive guidance on kundli, prashna, matching, career, family, vastu, or remedies — by chat, call, or video.",
   "faq.q2": "How do I choose an astrologer?",
   "faq.a2": "Open Talk to an Astrologer Now. Use All, Online Now, Top Rated, or New Astrologers, or pick a guidance topic. Read the profile, then start Chat, Call, or Video.",
-  "faq.q3": "Are JyothishiUncle astrologers verified?",
-  "faq.a3": "Yes. Every astrologer on JyothishiUncle goes through a verification process before they consult.",
+  "faq.q3": "Are MaharshiOm astrologers verified?",
+  "faq.a3": "Yes. Every astrologer on MaharshiOm goes through a verification process before they consult.",
   "faq.q4": "How does video consultation work?",
   "faq.a4": "Choose an astrologer and a time, then book a video session. After confirmation you receive a meeting link. The reading is live, one-to-one, and based on your birth details.",
   "faq.q5": "Can I consult an astrologer anonymously?",
@@ -570,7 +572,7 @@ const en = {
   "enquiry.contactSla": "We review enquiries during working hours.",
   "cta.lead": "Your Questions Deserve",
   "cta.accent": "Personalized Guidance",
-  "cta.copy": "Connect with a JyothishiUncle astrologer today.",
+  "cta.copy": "Connect with a MaharshiOm astrologer today.",
   "footer.about": "About Us",
   "footer.contact": "Contact Us",
   "footer.careers": "Careers",
@@ -605,7 +607,7 @@ const en = {
   "footer.refund": "Refund Policy",
   "footer.disclaimer": "Disclaimer",
   "footer.social": "Social",
-  "footer.copy": "© JyothishiUncle",
+  "footer.copy": "© MaharshiOm",
 };
 
 const hi: Record<keyof typeof en, string> = {
@@ -1106,7 +1108,7 @@ const hi: Record<keyof typeof en, string> = {
   "join.kicker": "हमारे ज्योतिषी नेटवर्क से जुड़ें",
   "join.lead": "क्या आप",
   "join.accent": "ज्योतिषी हैं?",
-  "join.copy": "अपनी विशेषज्ञता को अर्थपूर्ण परामर्श में बदलें और JyothishiUncle के साथ अपना ज्योतिष अभ्यास बढ़ाएँ।",
+  "join.copy": "अपनी विशेषज्ञता को अर्थपूर्ण परामर्श में बदलें और MaharshiOm के साथ अपना ज्योतिष अभ्यास बढ़ाएँ।",
   "join.item1": "अपना पेशेवर प्रोफ़ाइल बनाएँ",
   "join.item2": "नए ग्राहकों से जुड़ें",
   "join.item3": "चैट, कॉल और वीडियो परामर्श",
@@ -1705,7 +1707,7 @@ const ta: Record<keyof typeof en, string> = {
   "join.kicker": "எங்கள் ஜோதிடர் வலையமைப்பில் சேருங்கள்",
   "join.lead": "நீங்கள்",
   "join.accent": "ஜோதிடரா?",
-  "join.copy": "உங்கள் நிபுணத்துவத்தை பொருளுள்ள ஆலோசனையாக மாற்றி, JyothishiUncle-உடன் உங்கள் ஜோதிட பயிற்சியை வளர்த்துக் கொள்ளுங்கள்.",
+  "join.copy": "உங்கள் நிபுணத்துவத்தை பொருளுள்ள ஆலோசனையாக மாற்றி, MaharshiOm-உடன் உங்கள் ஜோதிட பயிற்சியை வளர்த்துக் கொள்ளுங்கள்.",
   "join.item1": "உங்கள் தொழில்முறை சுயவிவரத்தை உருவாக்குங்கள்",
   "join.item2": "புதிய வாடிக்கையாளர்களுடன் இணையுங்கள்",
   "join.item3": "அரட்டை, அழைப்பு மற்றும் வீடியோ ஆலோசனைகள்",
@@ -2304,7 +2306,7 @@ const ml: Record<keyof typeof en, string> = {
   "join.kicker": "ഞങ്ങളുടെ ജ്യോതിഷി ശൃംഖലയിൽ ചേരുക",
   "join.lead": "നിങ്ങൾ ഒരു",
   "join.accent": "ജ്യോതിഷിയാണോ?",
-  "join.copy": "നിങ്ങളുടെ വിദഗ്ധത അർത്ഥവത്തായ കൺസൾട്ടേഷനാക്കി JyothishiUncle-ൽ ജ്യോതിഷ പ്രാക്ടീസ് വളർത്തുക.",
+  "join.copy": "നിങ്ങളുടെ വിദഗ്ധത അർത്ഥവത്തായ കൺസൾട്ടേഷനാക്കി MaharshiOm-ൽ ജ്യോതിഷ പ്രാക്ടീസ് വളർത്തുക.",
   "join.item1": "നിങ്ങളുടെ പ്രൊഫഷണൽ പ്രൊഫൈൽ ഉണ്ടാക്കുക",
   "join.item2": "പുതിയ ക്ലയന്റുകളുമായി ബന്ധപ്പെടുക",
   "join.item3": "ചാറ്റ്, കോൾ, വീഡിയോ കൺസൾട്ടേഷനുകൾ",
@@ -2903,7 +2905,7 @@ const kn: Record<keyof typeof en, string> = {
   "join.kicker": "ನಮ್ಮ ಜ್ಯೋತಿಷಿ ಜಾಲಕ್ಕೆ ಸೇರಿ",
   "join.lead": "ನೀವು",
   "join.accent": "ಜ್ಯೋತಿಷಿಯೇ?",
-  "join.copy": "ನಿಮ್ಮ ಪರಿಣತಿಯನ್ನು ಅರ್ಥಪೂರ್ಣ ಸಮಾಲೋಚನೆಯಾಗಿ ಮಾಡಿ ಮತ್ತು JyothishiUncle ಜೊತೆ ಅಭ್ಯಾಸವನ್ನು ಬೆಳೆಸಿ.",
+  "join.copy": "ನಿಮ್ಮ ಪರಿಣತಿಯನ್ನು ಅರ್ಥಪೂರ್ಣ ಸಮಾಲೋಚನೆಯಾಗಿ ಮಾಡಿ ಮತ್ತು MaharshiOm ಜೊತೆ ಅಭ್ಯಾಸವನ್ನು ಬೆಳೆಸಿ.",
   "join.item1": "ನಿಮ್ಮ ವೃತ್ತಿಪರ ಪ್ರೊಫೈಲ್ ನಿರ್ಮಿಸಿ",
   "join.item2": "ಹೊಸ ಗ್ರಾಹಕರೊಂದಿಗೆ ಸಂಪರ್ಕಿಸಿ",
   "join.item3": "ಚಾಟ್, ಕರೆ ಮತ್ತು ವೀಡಿಯೊ ಸಲಹೆಗಳು",
@@ -3502,7 +3504,7 @@ const te: Record<keyof typeof en, string> = {
   "join.kicker": "మా జ్యోతిష్కుల నెట్‌వర్క్‌లో చేరండి",
   "join.lead": "మీరు",
   "join.accent": "జ్యోతిష్కుడా?",
-  "join.copy": "మీ నైపుణ్యాన్ని అర్థవంతమైన సంప్రదింపుగా మార్చి JyothishiUncleతో మీ అభ్యాసాన్ని పెంచుకోండి.",
+  "join.copy": "మీ నైపుణ్యాన్ని అర్థవంతమైన సంప్రదింపుగా మార్చి MaharshiOmతో మీ అభ్యాసాన్ని పెంచుకోండి.",
   "join.item1": "మీ ప్రొఫెషనల్ ప్రొఫైల్ నిర్మించండి",
   "join.item2": "కొత్త క్లయింట్లతో కనెక్ట్ అవ్వండి",
   "join.item3": "చాట్, కాల్ మరియు వీడియో సంప్రదింపులు",
@@ -3626,5 +3628,5 @@ export function translate(
       text = text.replace(`{${name}}`, String(value));
     }
   }
-  return text;
+  return rewriteBrandText(text);
 }

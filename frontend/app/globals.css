@@ -26,6 +26,7 @@
   --ink: #1f1408;
   --lotus: #c45c55;
   --paper: #fff8ec;
+  --brand-om: #9c1f0e;
   --font-hi: "Noto Sans Devanagari";
   --font-ta: "Noto Sans Tamil";
   --font-ml: "Noto Sans Malayalam";
@@ -61,6 +62,8 @@
   --color-ink: var(--ink);
   --color-lotus: var(--lotus);
   --color-paper: var(--paper);
+  --color-brand-om: var(--brand-om);
+  --font-brand: var(--font-brand), "Cinzel", serif;
   --font-sans: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
   --font-serif: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
 }
@@ -101,6 +104,18 @@ h2,
 h3,
 .font-serif {
   font-family: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
+}
+
+.brand-mark {
+  font-family: var(--font-brand), Cinzel, serif;
+  color: var(--brand-om);
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.03em;
+}
+
+html.dark .brand-mark {
+  color: #f26b3c;
 }
 
 ::selection {
@@ -543,6 +558,7 @@ h3,
 
 html.dark {
   color-scheme: dark;
+  --brand-om: #f26b3c;
   --surface: #14100b;
   --surface-lowest: #1b140e;
   --surface-low: #221910;

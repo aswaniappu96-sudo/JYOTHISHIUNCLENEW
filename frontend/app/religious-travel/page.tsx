@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Sacred Temple Yatras & Himalayan Sanctuaries",
-  description: "Consecrated temple yatras and pilgrimage guidance from JyothishiUncle. Dates and dakshina are confirmed privately.",
+  description: "Consecrated temple yatras and pilgrimage guidance from MaharshiOm. Dates and dakshina are confirmed privately.",
 };
 
 export default async function TravelIndexPage() {

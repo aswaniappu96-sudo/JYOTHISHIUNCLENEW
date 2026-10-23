@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { BrandText } from "@/components/brand/BrandText";
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { TravelCard } from "@/components/cards/TravelCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { TravelEnquireForm } from "@/components/pages/TravelEnquireForm";
@@ -187,7 +189,7 @@ export function TravelDetailView({
             <div className="space-y-3">
               <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">About this yatra</p>
               <h2 className="font-serif text-[32px] text-on-surface">The path, simply explained</h2>
-              <div className="prose-ju max-w-4xl text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: aboutHtml }} />
+              <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={aboutHtml} />
             </div>
           ) : null}
           {infoHtml ? (
@@ -213,7 +215,7 @@ export function TravelDetailView({
                   ))}
                 </div>
               ) : (
-                <div className="prose-ju max-w-4xl" dangerouslySetInnerHTML={{ __html: infoHtml }} />
+                <CmsHtml className="prose-ju max-w-4xl" html={infoHtml} />
               )}
             </div>
           ) : null}
@@ -259,7 +261,7 @@ export function TravelDetailView({
             <div>
               <p className="text-[11px] font-bold tracking-[0.2em] text-secondary uppercase">Yatra desk</p>
               <h3 className="font-serif text-xl text-on-surface">Questions before this sacred journey?</h3>
-              <p className="mt-1 text-sm text-on-surface-variant">Speak with the JyothishiUncle team on a call or WhatsApp.</p>
+              <p className="mt-1 text-sm text-on-surface-variant">Speak with the <BrandText>MaharshiOm</BrandText> team on a call or WhatsApp.</p>
             </div>
             <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
               {phone ? (

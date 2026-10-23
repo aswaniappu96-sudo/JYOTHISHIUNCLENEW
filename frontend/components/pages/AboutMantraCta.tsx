@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandText } from "@/components/brand/BrandText";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { devanagari } from "@/lib/devanagari-font";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
@@ -92,7 +93,7 @@ export function AboutMantraCta() {
         </p>
         <div className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
           <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container px-6 py-3 text-sm font-semibold text-on-primary shadow-[0_8px_24px_rgba(201,162,39,0.35)] transition hover:brightness-95 sm:w-auto">
-            Book Consultation With JyothishiUncle
+            Book Consultation With <BrandText>MaharshiOm</BrandText>
           </BookConsultationButton>
           <Link
             href={POOJAS_PATH}

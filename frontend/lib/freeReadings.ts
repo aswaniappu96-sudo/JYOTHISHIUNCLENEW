@@ -23,10 +23,10 @@ export type FreeReading = {
 export type FreeReadingFacts = Record<string, string | number | undefined | null>;
 
 const GENERAL_NOTE =
-  "This is a general astrological interpretation from your birth-chart outline. It is not a full kundli, and it is not medical, legal, or financial advice. A JyothishiUncle astrologer can read the complete chart on a call, chat, or video.";
+  "This is a general astrological interpretation from your birth-chart outline. It is not a full kundli, and it is not medical, legal, or financial advice. A MaharshiOm astrologer can read the complete chart on a call, chat, or video.";
 
 const TAROT_NOTE =
-  "This free tarot draw is a reflective prompt, not a prediction or a substitute for a personal reading. For a detailed session, call the JyothishiUncle team.";
+  "This free tarot draw is a reflective prompt, not a prediction or a substitute for a personal reading. For a detailed session, call the MaharshiOm team.";
 
 const RASHI_PERSONALITY: Record<string, { personality: string; strengths: string; career: string; relationships: string }> = {
   medam: {
@@ -139,7 +139,7 @@ const TAROT_DECK: { card: string; overview: string; guidance: string; caution: s
   { card: "The High Priestess", overview: "The answer is arriving through intuition and timing, not through force.", guidance: "Sit quiet. Notice what repeats in dreams, messages, and delays.", caution: "Do not chase a closed door tonight." },
   { card: "The Empress", overview: "Care, body, and creation want room. Something can grow if you feed it.", guidance: "Nourish the bond or the project with daily, ordinary kindness.", caution: "Do not give until you are empty." },
   { card: "The Emperor", overview: "Structure is the blessing. A plan, a call, a rule will steady the house.", guidance: "Take the responsible seat. Book the talk instead of waiting.", caution: "Control is not the same as care." },
-  { card: "The Hierophant", overview: "Tradition, a teacher, or family custom can guide this chapter.", guidance: "Ask an elder or a JyothishiUncle astrologer before a big vow.", caution: "Do not follow a crowd against your own dharma." },
+  { card: "The Hierophant", overview: "Tradition, a teacher, or family custom can guide this chapter.", guidance: "Ask an elder or a MaharshiOm astrologer before a big vow.", caution: "Do not follow a crowd against your own dharma." },
   { card: "The Lovers", overview: "A heart choice is on the table. Alignment matters more than winning.", guidance: "Speak the truth of the bond. Choose the path you can live with at dawn.", caution: "A triangle of attention cannot stay hidden." },
   { card: "The Chariot", overview: "Willpower can move this. Two horses — emotion and duty — must face the same way.", guidance: "Pick a direction for 7 days and do not look sideways.", caution: "Force without rest crashes the cart." },
   { card: "Strength", overview: "Soft courage wins. The wild feeling can be held, not fought.", guidance: "Stay kind and firm. Do not answer heat with heat.", caution: "Swallowing the roar forever will make it louder later." },

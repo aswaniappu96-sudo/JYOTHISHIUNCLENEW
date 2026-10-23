@@ -1,3 +1,4 @@
+import { markBrandHtml } from "@/lib/brand";
 import type { SiteSettings } from "@/types/wordpress";
 import { publicContactEmail } from "@/lib/termsHtml";
 
@@ -15,8 +16,8 @@ export function privacyGrievanceHtml(settings?: Pick<SiteSettings, "contact_emai
   const phone = (settings?.phone_number || "").trim();
   return [
     "<p>Name: [Add Full Name]</p>",
-    "<p>Designation: Grievance Officer - JyothishiUncle</p>",
-    `<p>Email: <a href="mailto:${email}">${email}</a> / <a href="mailto:grievance@jyothishiuncle.com">grievance@jyothishiuncle.com</a></p>`,
+    "<p>Designation: Grievance Officer - MaharshiOm</p>",
+    `<p>Email: <a href="mailto:${email}">${email}</a> / <a href="mailto:grievance@maharshiom.com">grievance@maharshiom.com</a></p>`,
     `<p>Address: ${address ? escapeHtml(address) : "[Add Your Registered Company Address, Kochi / Tirur]"}</p>`,
     `<p>Phone: ${phone ? escapeHtml(phone) : "[Add Support Number]"}</p>`,
     "<p>Time: Monday to Saturday, 10 AM to 6 PM IST</p>",
@@ -40,12 +41,12 @@ export function applyPrivacyContact(html: string, settings?: SiteSettings | null
   if (phone) {
     next = next.replace(/\[Add Support Number\]/g, escapeHtml(phone));
   }
-  return next;
+  return markBrandHtml(next);
 }
 
 export const PRIVACY_FALLBACK = `
 <p><strong>Last Updated:</strong> 12th October 2026</p>
-<p>www.jyothishiuncle.com ("We", "Us", "Our", "JyothishiUncle") is committed to protecting the privacy of its users ("You", "Your", "User"). This Privacy Policy explains how we collect, use, store, share and protect your information when you use our website, mobile application and services.</p>
+<p>www.maharshiom.com ("We", "Us", "Our", "MaharshiOm") is committed to protecting the privacy of its users ("You", "Your", "User"). This Privacy Policy explains how we collect, use, store, share and protect your information when you use our website, mobile application and services.</p>
 <p>This Privacy Policy is published in compliance with Section 43A of the Information Technology Act, 2000, the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011, and the Digital Personal Data Protection Act, 2023.</p>
 <p>This Policy should be read together with our Terms and Conditions.</p>
 
@@ -100,7 +101,7 @@ export const PRIVACY_FALLBACK = `
 
 <h2>8. DATA RETENTION AND DELETION</h2>
 <p>We retain your personal data for as long as your account is active or as needed to provide services and to comply with legal and tax obligations.</p>
-<p>You have the right to delete your account. You can request account deletion from the App Menu &gt; My Profile &gt; Delete Account or by emailing us at <a href="mailto:support@jyothishiuncle.com">support@jyothishiuncle.com</a>. Upon deletion, we will delete your personal data within 30 days except for data we are required to retain by law, for pending orders, or for dispute resolution.</p>
+<p>You have the right to delete your account. You can request account deletion from the App Menu &gt; My Profile &gt; Delete Account or by emailing us at <a href="mailto:support@maharshiom.com">support@maharshiom.com</a>. Upon deletion, we will delete your personal data within 30 days except for data we are required to retain by law, for pending orders, or for dispute resolution.</p>
 
 <h2>9. YOUR RIGHTS</h2>
 <p>As per the Digital Personal Data Protection Act, 2023, you have the right to:</p>
@@ -109,7 +110,7 @@ export const PRIVACY_FALLBACK = `
 <p>c) Request deletion of your data.</p>
 <p>d) Withdraw consent for use of your data, with the understanding that it may restrict your use of our services.</p>
 <p>e) Grievance redressal.</p>
-<p>To exercise these rights, contact us at <a href="mailto:support@jyothishiuncle.com">support@jyothishiuncle.com</a>.</p>
+<p>To exercise these rights, contact us at <a href="mailto:support@maharshiom.com">support@maharshiom.com</a>.</p>
 
 <h2>10. SECURITY MEASURES</h2>
 <p>We implement industry-standard physical, technical and administrative security measures including SSL encryption, secure servers and restricted access. Your payment information is always transmitted in encrypted form on the payment gateway page.</p>
@@ -132,8 +133,8 @@ export const PRIVACY_FALLBACK = `
 <p>In accordance with the Information Technology Act, 2000 and rules made thereunder, the name and contact details of the Grievance Officer are provided below:</p>
 <!-- ju-grievance-start -->
 <p>Name: [Add Full Name]</p>
-<p>Designation: Grievance Officer - JyothishiUncle</p>
-<p>Email: <a href="mailto:support@jyothishiuncle.com">support@jyothishiuncle.com</a> / <a href="mailto:grievance@jyothishiuncle.com">grievance@jyothishiuncle.com</a></p>
+<p>Designation: Grievance Officer - MaharshiOm</p>
+<p>Email: <a href="mailto:support@maharshiom.com">support@maharshiom.com</a> / <a href="mailto:grievance@maharshiom.com">grievance@maharshiom.com</a></p>
 <p>Address: [Add Your Registered Company Address, Kochi / Tirur]</p>
 <p>Phone: [Add Support Number]</p>
 <p>Time: Monday to Saturday, 10 AM to 6 PM IST</p>

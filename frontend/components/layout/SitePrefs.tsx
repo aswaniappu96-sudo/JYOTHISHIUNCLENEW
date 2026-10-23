@@ -14,9 +14,9 @@ import type { Astrologer } from "@/types/wordpress";
 const FALLBACK_PHONE = "+91 84519 89496";
 const FALLBACK_WHATSAPP = "918451989496";
 const FALLBACK_SOCIAL = {
-  instagram: "https://www.instagram.com/jyothishiuncle",
-  facebook: "https://www.facebook.com/jyothishiuncle",
-  youtube: "https://www.youtube.com/@jyothishiuncle",
+  instagram: "https://www.instagram.com/maharshiom",
+  facebook: "https://www.facebook.com/maharshiom",
+  youtube: "https://www.youtube.com/@maharshiom",
 };
 
 function usablePhone(value?: string) {
@@ -133,7 +133,7 @@ export function TopBarContact({
         </svg>
       </a>
       <a
-        href={whatsappUrl(wa, "Hello, I would like to know more about JyothishiUncle.")}
+        href={whatsappUrl(wa, "Hello, I would like to know more about MaharshiOm.")}
         target="_blank"
         rel="noreferrer"
         className={iconBtnClass()}

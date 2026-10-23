@@ -1,5 +1,6 @@
 "use client";
 
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { applyDisclaimerContact, DISCLAIMER_FALLBACK } from "@/lib/disclaimerHtml";
 import { applyPrivacyContact, PRIVACY_FALLBACK } from "@/lib/privacyHtml";
@@ -54,9 +55,9 @@ export function LocalizedLegalDoc({
   return (
     <>
       <PageIntro eyebrow={loc?.eyebrow || "Legal"} title={loc?.title || doc.title} copy={copy} wide />
-      <article
+      <CmsHtml
         className="prose-ju prose-legal mx-auto w-full max-w-[1400px] px-5 pb-16 sm:px-8 lg:px-[56px]"
-        dangerouslySetInnerHTML={{ __html: html }}
+        html={html}
       />
     </>
   );

@@ -31,7 +31,7 @@ export function FreeConsultActions({
   const { t } = usePrefs();
   const callNumber = usablePhone(phone);
   const chatNumber = usableWhatsapp(whatsapp);
-  const chatHref = whatsappUrl(chatNumber, `Namaste. ${purpose || "I would like a consultation at JyothishiUncle."}`);
+  const chatHref = whatsappUrl(chatNumber, `Namaste. ${purpose || "I would like a consultation at MaharshiOm."}`);
   const callHref = telHref(callNumber);
 
   return (

@@ -121,7 +121,7 @@ function publicServiceDetail(title: string, raw: string): string {
   if (/family/.test(lower)) {
     return "For children, parents, home. Education, career, health and peace.";
   }
-  return cleaned || "Personal video consulting with a JyothishiUncle astrologer.";
+  return cleaned || "Personal video consulting with a MaharshiOm astrologer.";
 }
 
 function uniqueByLabel(items: SiteServiceLink[]): SiteServiceLink[] {

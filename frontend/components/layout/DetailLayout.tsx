@@ -1,3 +1,5 @@
+import { BrandText } from "@/components/brand/BrandText";
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { MediaFrame } from "@/components/ui/MediaFrame";
@@ -34,7 +36,7 @@ export function DetailLayout({
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-primary">{eyebrow}</p>
             <PageHeading as="h1" title={title} className="mt-4" />
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">{summary}</p>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base"><BrandText>{summary}</BrandText></p>
             <div className="mt-8 flex flex-wrap gap-3">
               {extraActions}
               <ButtonLink href={whatsappUrl(whatsappNumber, whatsappMessage)} variant="ghost" external>
@@ -51,7 +53,7 @@ export function DetailLayout({
           .map((section) => (
             <div key={section.title} className="mb-10">
               <h2 className="font-serif text-3xl text-primary">{section.title}</h2>
-              <div className="prose-ju mt-4" dangerouslySetInnerHTML={{ __html: section.html }} />
+              <CmsHtml className="prose-ju mt-4" html={section.html} />
             </div>
           ))}
         {gallery.length ? (

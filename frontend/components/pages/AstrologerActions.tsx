@@ -29,8 +29,8 @@ export function AstrologerActions({
     ? whatsappUrl(
         number,
         name
-          ? `Namaste. I would like to chat with ${name} at JyothishiUncle.`
-          : "Namaste. I would like to chat with an astrologer at JyothishiUncle.",
+          ? `Namaste. I would like to chat with ${name} at MaharshiOm.`
+          : "Namaste. I would like to chat with an astrologer at MaharshiOm.",
       )
     : "";
 

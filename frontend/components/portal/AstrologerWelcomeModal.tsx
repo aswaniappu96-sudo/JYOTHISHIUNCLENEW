@@ -72,7 +72,7 @@ export function AstrologerWelcomeModal() {
         </div>
         <h3 className="font-serif text-3xl text-primary sm:text-4xl">First Call & Chat Free!</h3>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-on-surface-variant">
-          Welcome to JyothishiUncle Sanctuary — connect with our consecrated gurus for your first 5-minute divine
+          Welcome to MaharshiOm Sanctuary — connect with our consecrated gurus for your first 5-minute divine
           consultation at zero dakshina.
         </p>
         <div className="my-6 grid grid-cols-2 gap-3 text-left">

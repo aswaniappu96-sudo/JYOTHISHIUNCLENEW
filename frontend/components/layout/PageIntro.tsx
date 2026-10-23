@@ -1,3 +1,4 @@
+import { BrandText } from "@/components/brand/BrandText";
 import { PageHeading } from "@/components/home/SectionHeading";
 
 export function PageIntro({
@@ -19,7 +20,11 @@ export function PageIntro({
       <div className={`relative mx-auto w-full ${wide ? "max-w-[1400px] px-5 sm:px-8 lg:px-[56px]" : "max-w-4xl px-5"}`}>
         <p className="text-xs uppercase tracking-[0.28em] text-primary">{eyebrow}</p>
         <PageHeading as="h1" title={title} className="mt-4" />
-        {copy ? <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">{copy}</p> : null}
+        {copy ? (
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">
+            <BrandText>{copy}</BrandText>
+          </p>
+        ) : null}
       </div>
     </section>
   );

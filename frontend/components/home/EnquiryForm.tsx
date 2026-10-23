@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import { BrandText } from "@/components/brand/BrandText";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { PageHeading } from "@/components/home/SectionHeading";
@@ -115,7 +116,7 @@ export function EnquiryForm({
           <h3 className="text-[13.5px] font-bold text-[#1E160E]">{t("enquiry.unsure")}</h3>
           <p className="mt-1 text-[12.5px] leading-[1.5] text-[#7A7167]">{t("enquiry.unsureCopy")}</p>
           <a
-            href={whatsappUrl(wa, "Namaste. I have a question about JyothishiUncle.")}
+            href={whatsappUrl(wa, "Namaste. I have a question about MaharshiOm.")}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#1DA851]/30 bg-white px-3.5 py-2 text-[12.5px] font-semibold text-[#1DA851] transition-all hover:border-[#1DA851]/50 hover:bg-[#EAF7EE]"
@@ -300,7 +301,7 @@ export function EnquiryForm({
 
               <div className="space-y-2">
                 <label className={LABEL} htmlFor="enquiry-source">
-                  {t("enquiry.hear")}
+                  <BrandText>{t("enquiry.hear")}</BrandText>
                 </label>
                 <div className="relative">
                   <select

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BrandText } from "@/components/brand/BrandText";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import type { FaqItem } from "@/types/wordpress";
 
@@ -43,7 +44,7 @@ export function FaqAccordion({ faqs: _faqs }: { faqs?: FaqItem[] }) {
                 aria-expanded={isOpen}
                 onClick={() => setOpen(isOpen ? null : faq.id)}
               >
-                <span className="text-[14px] font-[650] leading-[1.4] text-[#1E160E]">{t(faq.q)}</span>
+                <span className="text-[14px] font-[650] leading-[1.4] text-[#1E160E]"><BrandText>{t(faq.q)}</BrandText></span>
                 <span
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[13px] transition-all ${
                     isOpen
@@ -58,7 +59,7 @@ export function FaqAccordion({ faqs: _faqs }: { faqs?: FaqItem[] }) {
                 <div className="overflow-hidden">
                   <div className="px-4 pt-0 pb-4">
                     <div className="mb-3 h-px w-full bg-[#EAD9B0]/60" />
-                    <p className="text-[13px] leading-[1.65] text-[#6B6055]">{t(faq.a)}</p>
+                    <p className="text-[13px] leading-[1.65] text-[#6B6055]"><BrandText>{t(faq.a)}</BrandText></p>
                   </div>
                 </div>
               </div>

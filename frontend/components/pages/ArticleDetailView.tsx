@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { BrandText } from "@/components/brand/BrandText";
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { ArticleCard } from "@/components/pages/ArticleCard";
 import { ArticlePanchangRail } from "@/components/pages/ArticlePanchangRail";
@@ -36,7 +38,7 @@ export function ArticleDetailView({
   const excerpt = stripPublicPrices(stripHtml(article.excerpt));
   const content = stripPublicPrices(article.content);
   const tags = article.tags.filter(Boolean);
-  const authorName = article.writer_name?.trim() || "JyothishiUncle";
+  const authorName = article.writer_name?.trim() || "MaharshiOm";
   const authorPhoto = imageSrc(authorLoc?.featured_image);
   const authorNote = stripPublicPrices(stripHtml(authorLoc?.full_description || authorLoc?.short_description || ""));
   const productSrc = imageSrc(product?.featured_image);
@@ -134,7 +136,7 @@ export function ArticleDetailView({
             </div>
           ) : null}
 
-          <div className="prose-ju text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: content }} />
+          <CmsHtml className="prose-ju text-base leading-relaxed" html={content} />
 
           <div className="relative overflow-hidden rounded-2xl bg-linear-to-b from-surface-high via-surface-container to-surface-low p-7 shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
             <div className="pointer-events-none absolute -top-12 -right-12 h-48 w-48 rounded-full bg-primary-container/20 blur-3xl" />
@@ -176,17 +178,19 @@ export function ArticleDetailView({
             )}
             <div className="flex-1 text-center md:text-left">
               <div className="mb-2 flex flex-col justify-between gap-1 md:flex-row md:items-center">
-                <h3 className="font-serif text-[22px] leading-8 text-primary">{authorName}</h3>
+                <h3 className="font-serif text-[22px] leading-8 text-primary"><BrandText>{authorName}</BrandText></h3>
                 {authorLoc?.specialty ? (
                   <span className="text-[11px] font-bold tracking-widest text-secondary uppercase">{authorLoc.specialty}</span>
                 ) : null}
               </div>
               <p className="mb-3 text-sm leading-relaxed text-on-surface-variant">
-                {authorNote ||
-                  "Guidance from JyothishiUncle for pooja, consultation, and spiritual questions worldwide."}
+                <BrandText>
+                  {authorNote ||
+                    "Guidance from MaharshiOm for pooja, consultation, and spiritual questions worldwide."}
+                </BrandText>
               </p>
               <Link href={author ? "/astrologers" : "/about"} className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
-                {author ? "View astrologers" : "About JyothishiUncle"}
+                {author ? "View astrologers" : <>About <BrandText>MaharshiOm</BrandText></>}
                 <span aria-hidden>→</span>
               </Link>
             </div>

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { BrandText } from "@/components/brand/BrandText";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { ArticleCard } from "@/components/pages/ArticleCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
@@ -146,7 +147,7 @@ export function ArticlesView({
                 <div className="-mx-6 -mb-6 flex flex-col justify-between gap-4 bg-surface-container/50 p-6 sm:-mx-10 sm:-mb-10 sm:flex-row sm:items-center sm:p-10">
                   <div>
                     <p className="text-sm font-semibold text-on-surface">
-                      {featured.writer_name?.trim() || "JyothishiUncle"}
+                      {featured.writer_name?.trim() || <BrandText>MaharshiOm</BrandText>}
                     </p>
                     <p className="text-xs text-on-surface-variant">{formatArticleDate(featured.date)}</p>
                   </div>

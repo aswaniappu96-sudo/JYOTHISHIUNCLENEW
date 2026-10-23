@@ -178,7 +178,7 @@ export function AuthModal({
               </Field>
             </>
           ) : null}
-          <Field label="How did you hear about JyothishiUncle?">
+          <Field label="How did you hear about MaharshiOm?">
             <select name="source" className={fieldClass}>
               {HEAR_ABOUT_OPTIONS.map((source) => (
                 <option key={source}>{source}</option>

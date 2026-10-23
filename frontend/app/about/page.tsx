@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page?.title || "About us",
     description:
       page?.hero_copy ||
-      "The unbroken lineage of stellar seers — Sri Devadathan Namboothiri, ESTD 1989. Vedic astrology, homam, and compassionate guidance from JyothishiUncle.",
+      "The unbroken lineage of stellar seers — Sri Devadathan Namboothiri, ESTD 1989. Vedic astrology, homam, and compassionate guidance from MaharshiOm.",
   };
 }
 

@@ -1,6 +1,7 @@
 import { Suspense } from "react";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Cinzel, Plus_Jakarta_Sans } from "next/font/google";
 import type { Metadata } from "next";
+import { BRAND_NAME } from "@/lib/brand";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { PageLoading } from "@/components/layout/PageLoading";
@@ -22,18 +23,25 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+const brandFont = Cinzel({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-brand",
+  display: "swap",
+});
+
 const INDIC_FONTS =
   "https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Serif+Devanagari:wght@500;600&display=swap";
 
 export const metadata: Metadata = {
   title: {
-    default: "JyothishiUncle",
-    template: "%s · JyothishiUncle",
+    default: BRAND_NAME,
+    template: `%s · ${BRAND_NAME}`,
   },
   description: "Pooja, astrology consultation, and spiritual guidance worldwide.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://maharshiom.com"),
   openGraph: {
-    title: "JyothishiUncle",
+    title: BRAND_NAME,
     description: "Pooja, astrology consultation, and spiritual guidance worldwide.",
     type: "website",
   },
@@ -69,7 +77,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${jakarta.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${jakarta.variable} ${brandFont.variable} antialiased`} suppressHydrationWarning>
         <UniverseBackground />
         <RashiChakraBackdrop />
         <MandalaTrail />
@@ -99,7 +107,7 @@ export default async function RootLayout({
           {settings ? (
             <WhatsAppButton
               number={settings.whatsapp_number}
-              message="Hello, I would like to know more about JyothishiUncle services."
+              message={`Hello, I would like to know more about ${BRAND_NAME} services.`}
             />
           ) : null}
         </Providers>

@@ -63,7 +63,7 @@ function fetchHeaders(init: RequestInit | undefined, sendLocalHost: boolean) {
   if (!headers.has("User-Agent")) {
     headers.set(
       "User-Agent",
-      "Mozilla/5.0 (compatible; JyothishiUncleBot/1.0; +https://jyothishiuncle-new.vercel.app)",
+      "Mozilla/5.0 (compatible; MaharshiOmBot/1.0; +https://maharshiom.com)",
     );
   }
   const host = process.env.WORDPRESS_HOST;

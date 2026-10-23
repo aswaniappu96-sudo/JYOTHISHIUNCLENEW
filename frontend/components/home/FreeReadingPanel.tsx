@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandText } from "@/components/brand/BrandText";
 import { FreeConsultActions } from "@/components/home/FreeConsultActions";
 import { TarotFace } from "@/components/home/TarotPiles";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
@@ -87,7 +88,7 @@ export function FreeReadingPanel({
               </section>
             ) : null,
           )}
-          <p className="text-xs leading-relaxed text-on-surface-variant">{reading.note || t("daily.generalNote")}</p>
+          <p className="text-xs leading-relaxed text-on-surface-variant"><BrandText>{reading.note || t("daily.generalNote")}</BrandText></p>
           {busy ? <p className="text-xs font-semibold text-[#9A6F3A]">{t("daily.generating")}</p> : null}
           <FreeConsultActions phone={phone} whatsapp={whatsapp} purpose={purpose} callTeam={callTeam} />
         </div>

@@ -42,13 +42,13 @@ async function askGemini(kind: FreeReadingKind, facts: FreeReadingFacts, locale:
   const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
   if (!key) return null;
   const prompt = [
-    "You are a JyothishiUncle Vedic astrologer writing a free, general reading for a public Indian astrology website.",
+    "You are a MaharshiOm Vedic astrologer writing a free, general reading for a public Indian astrology website.",
     "Tone: warm, practical, pan-Indian. No prices, no rupee rates, no medical/legal/financial guarantees.",
     "Do not use Oman or Kerala as a site theme. Do not invent years of experience or client counts.",
     `Write in locale "${locale}". If unsure, use clear English.`,
     `Return JSON only with keys: ${schemaFor(kind)}. Each value 2-4 short sentences.`,
     kind === "tarot"
-      ? "This is a three-card spread. Keep card1 as Past, card2 as Present, card3 as Future. If a partner name is given, speak to both people. Address breakup, contact, or another-relation notes if the user wrote them. End with a gentle invitation to call the JyothishiUncle team for a detailed reading."
+      ? "This is a three-card spread. Keep card1 as Past, card2 as Present, card3 as Future. If a partner name is given, speak to both people. Address breakup, contact, or another-relation notes if the user wrote them. End with a gentle invitation to call the MaharshiOm team for a detailed reading."
       : "Use the birth-chart facts (moon sign, nakshatra, tithi, names, place). This is an outline, not a full kundli.",
     `Kind: ${kind}`,
     `Facts: ${JSON.stringify(facts)}`,

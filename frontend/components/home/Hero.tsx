@@ -194,7 +194,7 @@ export function Hero({
   const [index, setIndex] = useState(0);
   const callNumber = usablePhone(phone);
   const chatNumber = usableWhatsapp(whatsapp);
-  const chatHref = whatsappUrl(chatNumber, "Namaste. I would like to chat with an astrologer at JyothishiUncle.");
+  const chatHref = whatsappUrl(chatNumber, "Namaste. I would like to chat with an astrologer at MaharshiOm.");
   const callHref = telHref(callNumber);
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { ProductCard } from "@/components/cards/ProductCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { ProductEnquireForm } from "@/components/pages/ProductEnquireForm";
@@ -218,7 +219,7 @@ export function ProductDetailView({
             <div className="space-y-3">
               <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">About this product</p>
               <h2 className="font-serif text-[32px] text-on-surface">Prepared with care</h2>
-              <div className="prose-ju max-w-4xl text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: aboutHtml }} />
+              <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={aboutHtml} />
             </div>
           ) : null}
           {infoHtml ? (
@@ -239,7 +240,7 @@ export function ProductDetailView({
                   ))}
                 </div>
               ) : (
-                <div className="prose-ju max-w-4xl" dangerouslySetInnerHTML={{ __html: infoHtml }} />
+                <CmsHtml className="prose-ju max-w-4xl" html={infoHtml} />
               )}
             </div>
           ) : null}

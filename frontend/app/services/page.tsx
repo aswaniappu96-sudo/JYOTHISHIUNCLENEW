@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Sacred Services & Divine Consecrations",
-  description: "Shastric poojas, Vedic homams, and consecrated planetary artifacts from JyothishiUncle.",
+  description: "Shastric poojas, Vedic homams, and consecrated planetary artifacts from MaharshiOm.",
 };
 
 export default async function ServicesPage({

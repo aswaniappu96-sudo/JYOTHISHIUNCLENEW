@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { BrandText } from "@/components/brand/BrandText";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
@@ -98,7 +99,7 @@ export function BecomeAstrologerSection() {
               <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8360]">{t("join.kicker")}</span>
             </div>
             <PageHeading lead={t("join.lead")} accent={t("join.accent")} />
-            <p className="mt-4 max-w-[540px] text-[15px] leading-[1.65] text-[#6E6256] sm:text-[16px]">{t("join.copy")}</p>
+            <p className="mt-4 max-w-[540px] text-[15px] leading-[1.65] text-[#6E6256] sm:text-[16px]"><BrandText>{t("join.copy")}</BrandText></p>
 
             <ul className="mt-8 grid gap-x-8 gap-y-5 sm:grid-cols-2">
               {ITEMS.map((item) => {

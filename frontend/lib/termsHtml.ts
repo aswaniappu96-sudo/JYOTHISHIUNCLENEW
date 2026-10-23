@@ -1,10 +1,11 @@
+import { BRAND_EMAIL, markBrandHtml, rewriteBrandText } from "@/lib/brand";
 import type { SiteSettings } from "@/types/wordpress";
 
-const PUBLIC_EMAIL = "support@jyothishiuncle.com";
+const PUBLIC_EMAIL = BRAND_EMAIL;
 
 export function publicContactEmail(settings?: Pick<SiteSettings, "contact_email"> | null) {
   const fromSite = (settings?.contact_email || "").trim();
-  if (fromSite && fromSite.includes("@") && !/0000/.test(fromSite)) return fromSite;
+  if (fromSite && fromSite.includes("@") && !/0000/.test(fromSite)) return rewriteBrandText(fromSite);
   return PUBLIC_EMAIL;
 }
 
@@ -28,23 +29,26 @@ function escapeHtml(value: string) {
 
 export function applyTermsContact(html: string, settings?: SiteSettings | null) {
   const block = termsContactHtml(settings);
-  if (html.includes("ju-contact-start")) {
-    return html.replace(/<!-- ju-contact-start -->[\s\S]*?<!-- ju-contact-end -->/, `<!-- ju-contact-start -->\n${block}\n<!-- ju-contact-end -->`);
+  let next = html;
+  if (next.includes("ju-contact-start")) {
+    next = next.replace(/<!-- ju-contact-start -->[\s\S]*?<!-- ju-contact-end -->/, `<!-- ju-contact-start -->\n${block}\n<!-- ju-contact-end -->`);
+  } else {
+    next = next
+      .replace(/\[Add Your Company Registered Address Here\]/g, (settings?.address || "").trim() || "See the Contact page")
+      .replace(/\[Add Your Support Number Here\]/g, (settings?.phone_number || "").trim() || "See the Contact page");
   }
-  return html
-    .replace(/\[Add Your Company Registered Address Here\]/g, (settings?.address || "").trim() || "See the Contact page")
-    .replace(/\[Add Your Support Number Here\]/g, (settings?.phone_number || "").trim() || "See the Contact page");
+  return markBrandHtml(next);
 }
 
 export const TERMS_FALLBACK = `
 <p><strong>Last Updated:</strong> 12th October 2026</p>
-<p>These Terms and Conditions of Use ("Terms") govern your use of the website, mobile application, and services offered by JyothishiUncle ("We", "Us", "Our", "Company", "JyothishiUncle"). By accessing www.jyothishiuncle.com, our app, or any of our services, you ("User", "You", "Your") agree to be legally bound by these Terms.</p>
+<p>These Terms and Conditions of Use ("Terms") govern your use of the website, mobile application, and services offered by MaharshiOm ("We", "Us", "Our", "Company", "MaharshiOm"). By accessing www.maharshiom.com, our app, or any of our services, you ("User", "You", "Your") agree to be legally bound by these Terms.</p>
 <p>If you do not agree with these Terms, please do not use our platform or click on "I Agree".</p>
 
 <h2>1. DEFINITIONS</h2>
-<p>1.1 "Platform" means the website www.jyothishiuncle.com, mobile application, and all associated services.</p>
+<p>1.1 "Platform" means the website www.maharshiom.com, mobile application, and all associated services.</p>
 <p>1.2 "Services" includes (a) Online and Offline Pooja Booking, (b) Sale of Spiritual and Astrological Products, (c) Temple Yatra and Pilgrimage Packages, (d) Astrology Consultations via Call, Chat, and Video with astrologers registered on our platform.</p>
-<p>1.3 "Astrologer" means an independent service provider registered with JyothishiUncle to provide astrological guidance.</p>
+<p>1.3 "Astrologer" means an independent service provider registered with MaharshiOm to provide astrological guidance.</p>
 <p>1.4 "User" means any person who accesses, browses, or books any service on the Platform.</p>
 
 <h2>2. UPDATION OF TERMS</h2>
@@ -73,7 +77,7 @@ export const TERMS_FALLBACK = `
 <h3>D. ASTROLOGER CONSULTATION (Call, Chat, Video)</h3>
 <p>4.10 Consultation charges are on a per-minute basis or as a fixed fee package as displayed on the astrologer's profile.</p>
 <p>4.11 By booking a consultation, you consent to receive calls from our astrologers and our system, even if your number is registered under DND/NDNC.</p>
-<p>4.12 Astrologers on our Platform are independent consultants, not employees of JyothishiUncle. We verify their experience but do not guarantee their predictions.</p>
+<p>4.12 Astrologers on our Platform are independent consultants, not employees of MaharshiOm. We verify their experience but do not guarantee their predictions.</p>
 
 <h2>5. PAYMENTS, PRICING AND FEES</h2>
 <p>5.1 All prices are in Indian Rupees (INR) unless otherwise stated and inclusive of applicable taxes unless specified.</p>
@@ -82,10 +86,10 @@ export const TERMS_FALLBACK = `
 
 <h2>6. CANCELLATION, RESCHEDULING AND REFUND POLICY</h2>
 <p>6.1 Pooja Services: Once a Pooja is assigned to a priest or temple and Sankalp is taken, it cannot be cancelled or refunded. If you request cancellation at least 24 hours before the scheduled time and before Sankalp, we may offer a 50% refund or reschedule once, at our discretion.</p>
-<p>6.2 Astrology Consultation: Once a call/chat/video session is connected, no refund will be provided for poor network, wrong birth details provided, or dissatisfaction with advice. If the call drops due to a technical issue from our side and more than 60 seconds are lost, the lost balance will be credited to your JyothishiUncle wallet.</p>
+<p>6.2 Astrology Consultation: Once a call/chat/video session is connected, no refund will be provided for poor network, wrong birth details provided, or dissatisfaction with advice. If the call drops due to a technical issue from our side and more than 60 seconds are lost, the lost balance will be credited to your MaharshiOm wallet.</p>
 <p>6.3 Products: Products once sold can be returned only if received damaged or different from ordered. You must report with unboxing video within 48 hours of delivery. No refund for gemstones once energized or on the basis of astrological results.</p>
 <p>6.4 Yatra: Cancellation charges will be as per the Yatra policy shared at the time of booking. Generally, 75% refund if cancelled 15 days before, 50% if 7 days before, and no refund within 7 days of departure.</p>
-<p>6.5 All eligible refunds will be processed to the original payment method or JyothishiUncle wallet within 7-10 working days after deducting payment gateway charges, shipping charges, and priest dakshina if applicable.</p>
+<p>6.5 All eligible refunds will be processed to the original payment method or MaharshiOm wallet within 7-10 working days after deducting payment gateway charges, shipping charges, and priest dakshina if applicable.</p>
 
 <h2>7. USER OBLIGATIONS AND CONDUCT</h2>
 <p>You agree not to:</p>
@@ -102,17 +106,17 @@ export const TERMS_FALLBACK = `
 <p>8.1 Astrology, Pooja, Yantra, Gemstones, and Yatra are based on ancient Vedic beliefs, faith, and traditions. They are not a substitute for professional medical, legal, or financial advice.</p>
 <p>8.2 We do not guarantee accuracy, reliability, or achievement of any desired outcome or wish fulfilment through Poojas or consultations. All astrological predictions and remedies are provided in good faith.</p>
 <p>8.3 Our Platform and Services are provided on an "as is" and "as available" basis without any warranty of any kind.</p>
-<p>8.4 JyothishiUncle shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from your use of our Services.</p>
+<p>8.4 MaharshiOm shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from your use of our Services.</p>
 <p>8.5 Our total liability in any case shall not exceed the amount paid by you for that specific service.</p>
 
 <h2>9. WEBSITE CONTENT AND INTELLECTUAL PROPERTY</h2>
-<p>All content on the Platform, including text, graphics, logos, images, audio, video, and software, is the property of JyothishiUncle and is protected by copyright and trademark laws. You may not copy, reproduce, distribute, or create derivative works without our prior written permission.</p>
+<p>All content on the Platform, including text, graphics, logos, images, audio, video, and software, is the property of MaharshiOm and is protected by copyright and trademark laws. You may not copy, reproduce, distribute, or create derivative works without our prior written permission.</p>
 
 <h2>10. PRIVACY</h2>
 <p>Your personal information is governed by our Privacy Policy. By using our Platform, you consent to our collection and use of information as described in the Privacy Policy. You consent to our access to your account for service, support, and quality assurance purposes.</p>
 
 <h2>11. INDEMNIFICATION</h2>
-<p>You agree to indemnify and hold harmless JyothishiUncle, its directors, officers, employees, and astrologers from any claims, damages, losses, or expenses arising out of your violation of these Terms, your use of the Services, or violation of any rights of a third party.</p>
+<p>You agree to indemnify and hold harmless MaharshiOm, its directors, officers, employees, and astrologers from any claims, damages, losses, or expenses arising out of your violation of these Terms, your use of the Services, or violation of any rights of a third party.</p>
 
 <h2>12. TERMINATION</h2>
 <p>We may suspend or terminate your account and access to our Services at any time without notice if we believe you have violated these Terms, provided false information, or engaged in conduct harmful to us or other users.</p>
@@ -122,8 +126,8 @@ export const TERMS_FALLBACK = `
 
 <h2>14. CONTACT US</h2>
 <p>For any questions regarding these Terms, grievances, or support, please contact us at:</p>
-<p><strong>JyothishiUncle</strong></p>
+<p><strong>MaharshiOm</strong></p>
 <!-- ju-contact-start -->
-<p>Email: <a href="mailto:support@jyothishiuncle.com">support@jyothishiuncle.com</a></p>
+<p>Email: <a href="mailto:support@maharshiom.com">support@maharshiom.com</a></p>
 <!-- ju-contact-end -->
 `;

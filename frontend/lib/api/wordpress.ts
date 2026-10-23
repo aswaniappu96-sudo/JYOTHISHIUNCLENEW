@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { wpFetch, wpFetchOptional } from "@/lib/api/client";
+import { rewriteBrandDeep } from "@/lib/brand";
 import { decodeWpText } from "@/lib/html";
 import { stripOmanDeep } from "@/lib/publicCopy";
 import type {
@@ -18,6 +19,10 @@ import type {
   WPPage,
 } from "@/types/wordpress";
 
+function publicSite<T>(value: T) {
+  return rewriteBrandDeep(stripOmanDeep(value));
+}
+
 function decodeI18n(i18n?: ContentI18n): ContentI18n | undefined {
   if (!i18n) return i18n;
   const out: ContentI18n = {};
@@ -33,77 +38,77 @@ function decodeI18n(i18n?: ContentI18n): ContentI18n | undefined {
 }
 
 export async function getSettings() {
-  return stripOmanDeep(await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings));
+  return publicSite(await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings));
 }
 
 export async function getPoojas(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return stripOmanDeep(await settleApi(wpFetch<Pooja[]>(`/poojas${query}`), []));
+  return publicSite(await settleApi(wpFetch<Pooja[]>(`/poojas${query}`), []));
 }
 
 export async function getPooja(slug: string) {
   const item = await wpFetchOptional<Pooja>(`/poojas/${slug}`);
-  return item ? stripOmanDeep(item) : null;
+  return item ? publicSite(item) : null;
 }
 
 export async function getVendors() {
-  return stripOmanDeep(await settleApi(wpFetch<Vendor[]>("/vendors"), []));
+  return publicSite(await settleApi(wpFetch<Vendor[]>("/vendors"), []));
 }
 
 export async function getProducts(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return stripOmanDeep(await settleApi(wpFetch<Product[]>(`/products${query}`), []));
+  return publicSite(await settleApi(wpFetch<Product[]>(`/products${query}`), []));
 }
 
 export async function getProduct(slug: string) {
   const item = await wpFetchOptional<Product>(`/products/${slug}`);
-  return item ? stripOmanDeep(item) : null;
+  return item ? publicSite(item) : null;
 }
 
 export async function getServices() {
-  return stripOmanDeep(await settleApi(wpFetch<AstrologyService[]>("/services"), []));
+  return publicSite(await settleApi(wpFetch<AstrologyService[]>("/services"), []));
 }
 
 export async function getAstrologers(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return stripOmanDeep(await settleApi(wpFetch<Astrologer[]>(`/astrologers${query}`), []));
+  return publicSite(await settleApi(wpFetch<Astrologer[]>(`/astrologers${query}`), []));
 }
 
 export async function getAstrologer(slug: string) {
   const item = await wpFetchOptional<Astrologer>(`/astrologers/${slug}`);
-  return item ? stripOmanDeep(item) : null;
+  return item ? publicSite(item) : null;
 }
 
 export async function getService(slug: string) {
   const item = await wpFetchOptional<AstrologyService>(`/services/${slug}`);
-  return item ? stripOmanDeep(item) : null;
+  return item ? publicSite(item) : null;
 }
 
 export async function getTravelDestinations(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
-  return stripOmanDeep(await settleApi(wpFetch<TravelDestination[]>(`/travel${query}`), []));
+  return publicSite(await settleApi(wpFetch<TravelDestination[]>(`/travel${query}`), []));
 }
 
 export async function getTravelDestination(slug: string) {
   const item = await wpFetchOptional<TravelDestination>(`/travel/${slug}`);
-  return item ? stripOmanDeep(item) : null;
+  return item ? publicSite(item) : null;
 }
 
 export async function getArticles() {
-  return stripOmanDeep(await settleApi(wpFetch<Article[]>("/articles"), []));
+  return publicSite(await settleApi(wpFetch<Article[]>("/articles"), []));
 }
 
 export async function getArticle(slug: string) {
   const item = await wpFetchOptional<Article>(`/articles/${slug}`);
-  return item ? stripOmanDeep(item) : null;
+  return item ? publicSite(item) : null;
 }
 
 export async function getFAQs() {
-  return stripOmanDeep(await settleApi(wpFetch<FaqItem[]>("/faqs"), []));
+  return publicSite(await settleApi(wpFetch<FaqItem[]>("/faqs"), []));
 }
 
 export async function getTestimonials() {
-  return stripOmanDeep(await settleApi(wpFetch<Testimonial[]>("/testimonials"), []));
+  return publicSite(await settleApi(wpFetch<Testimonial[]>("/testimonials"), []));
 }
 
 export async function getPage(slug: string) {
@@ -123,9 +128,9 @@ export async function getPage(slug: string) {
     i18n: decodeI18n(page.i18n),
   };
   if (/^(terms|privacy-policy|refund-policy|disclaimer)$/.test(slug)) {
-    return decoded;
+    return rewriteBrandDeep(decoded);
   }
-  return stripOmanDeep(decoded);
+  return publicSite(decoded);
 }
 
 export async function getConsultationAvailability(service?: string, month?: string) {
@@ -137,17 +142,17 @@ export async function getConsultationAvailability(service?: string, month?: stri
 }
 
 const emptySettings: SiteSettings = {
-  site_tagline: "JyothishiUncle",
+  site_tagline: "MaharshiOm",
   whatsapp_number: "",
   phone_number: "",
-  contact_email: "support@jyothishiuncle.com",
+  contact_email: "support@maharshiom.com",
   address: "",
-  hero_title: "JyothishiUncle",
+  hero_title: "MaharshiOm",
   hero_subtitle: "Pooja, astrology consultation, and spiritual guidance worldwide.",
   hero_primary_cta_label: "Book a consultation",
   hero_primary_cta_url: "/consultation",
-  about_excerpt: "JyothishiUncle.com is a venture from a family of Traditional Astrologers with more than 500+ years of tradition.",
-  consultation_timezone: "Asia/Muscat",
+  about_excerpt: "MaharshiOm.com is a venture from a family of Traditional Astrologers with more than 500+ years of tradition.",
+  consultation_timezone: "Asia/Kolkata",
   consultation_slot_minutes: 30,
   consultation_days: [],
   consultation_start_time: "09:00",
@@ -194,5 +199,5 @@ export const getHomePayload = cache(async (): Promise<HomePayload> => {
     settleApi(wpFetch<Article[]>("/articles"), []),
     settleApi(wpFetch<Vendor[]>("/vendors"), []),
   ]);
-  return stripOmanDeep({ settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles, vendors });
+  return publicSite({ settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles, vendors });
 });

@@ -1,12 +1,12 @@
 export function BrandLogo({
-  className = "h-[4.5rem]",
+  className = "h-16",
 }: {
   className?: string;
 }) {
   return (
     <img
-      src="/ju-logo.png?v=1"
-      alt="JyothishiUncle"
+      src="/maharshiom-logo.png?v=3"
+      alt="MaharshiOm"
       className={`w-auto max-w-full object-contain object-left ${className}`}
     />
   );

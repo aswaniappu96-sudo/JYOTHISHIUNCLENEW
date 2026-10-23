@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BrandText } from "@/components/brand/BrandText";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
@@ -23,7 +24,7 @@ function usablePhone(value?: string) {
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
 
 const FALLBACK =
-  "JyothishiUncle offers traditional pooja, homam, and astrology consultation. The team is available worldwide and consults devotees anywhere through video consulting.";
+  "MaharshiOm offers traditional pooja, homam, and astrology consultation. The team is available worldwide and consults devotees anywhere through video consulting.";
 
 function ChipIcon({ kind }: { kind: "time" | "globe" | "pin" }) {
   const common = { width: 12, height: 12, viewBox: "0 0 24 24", fill: "none", stroke: "#8B6A3A", strokeWidth: 1.6 };
@@ -217,7 +218,7 @@ function accordionDomId(title: MsgKey) {
   return String(title).replace(".", "-");
 }
 
-function WhyJyothishiUncle({ phone, whatsapp }: { phone?: string; whatsapp?: string }) {
+function WhyMaharshiOm({ phone, whatsapp }: { phone?: string; whatsapp?: string }) {
   const { t } = usePrefs();
   const router = useRouter();
   const [open, setOpen] = useState<string | null>(null);
@@ -269,7 +270,7 @@ function WhyJyothishiUncle({ phone, whatsapp }: { phone?: string; whatsapp?: str
         <div className="max-w-[760px]">
           <div className="mb-6 flex items-center gap-3">
             <span className="inline-block h-px w-8 bg-[#E9C07A]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("trust.kicker")}</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]"><BrandText>{t("trust.kicker")}</BrandText></span>
           </div>
           <PageHeading lead={t("trust.lead")} accent={t("trust.accent")} />
           <p className="mt-5 max-w-[520px] text-[15.5px] leading-[1.85] text-[#6E6256]">{t("trust.copy")}</p>
@@ -311,7 +312,7 @@ function WhyJyothishiUncle({ phone, whatsapp }: { phone?: string; whatsapp?: str
               const active = open === item.title;
               const chatHref = whatsappUrl(
                 chatNumber,
-                `Namaste. I would like to chat about ${title} with an astrologer at JyothishiUncle.`,
+                `Namaste. I would like to chat about ${title} with an astrologer at MaharshiOm.`,
               );
               return (
                 <div
@@ -543,7 +544,7 @@ export function AboutTeaser({
             <PageHeading lead={t("about.lead")} accent={t("about.accent")} rest={t("about.rest")} />
 
             <div className="mt-8 space-y-5 text-[15.5px] leading-[1.85] text-[#6E6256]">
-              <p>{lead}</p>
+              <p><BrandText>{lead}</BrandText></p>
               <p className="text-[15px]">{t("about.body")}</p>
             </div>
 
@@ -721,7 +722,7 @@ export function AboutTeaser({
           </div>
         </div>
 
-        <WhyJyothishiUncle phone={phone} whatsapp={whatsapp} />
+        <WhyMaharshiOm phone={phone} whatsapp={whatsapp} />
       </Reveal>
     </section>
   );

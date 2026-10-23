@@ -51,7 +51,7 @@ export function ProfileModal({
             <input name="location" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
           </label>
           <label className="text-sm">
-            How did you hear about JyothishiUncle?
+            How did you hear about MaharshiOm?
             <select name="source" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3">
               {HEAR_ABOUT_OPTIONS.map((option) => (
                 <option key={option}>{option}</option>

@@ -18,8 +18,8 @@ export function consultationWhatsAppMessage(details: {
   const astrologer = details.astrologer?.trim();
   const greeting =
     astrologer && astrologer.toLowerCase() !== "consultation only"
-      ? `Namaste. I would like to consult ${astrologer} at JyothishiUncle.`
-      : "Namaste. I would like to consult JyothishiUncle.";
+      ? `Namaste. I would like to consult ${astrologer} at MaharshiOm.`
+      : "Namaste. I would like to consult MaharshiOm.";
   const closing = details.freeSlot
     ? "This is my first 10-minute free consultation as a logged-in member. Please confirm if this time works, or suggest another available date."
     : "I need to know about payment. Please share the payment details so I can complete it on WhatsApp.";
@@ -71,7 +71,7 @@ export function poojaWhatsAppMessage(details: {
   const mode = details.mode === "offline" ? "Offline pooja" : "Online pooja";
   const vendor = details.vendor?.trim();
   const lines = [
-    "Namaste. This is a pooja booking with JyothishiUncle.",
+    "Namaste. This is a pooja booking with MaharshiOm.",
     "",
     "I would like to book the pooja below. Kindly confirm if this date works; if not, I am happy to choose another date.",
     "",
@@ -104,7 +104,7 @@ export function productWhatsAppMessage(details: {
   notes: string;
 }) {
   return [
-    "Namaste. This is a product booking with JyothishiUncle.",
+    "Namaste. This is a product booking with MaharshiOm.",
     "",
     "I would like to buy the product below. The selected product is available.",
     "",
@@ -132,7 +132,7 @@ export function travelWhatsAppMessage(details: {
   notes: string;
 }) {
   return [
-    "Namaste. This is a temple yatra enquiry with JyothishiUncle.",
+    "Namaste. This is a temple yatra enquiry with MaharshiOm.",
     "",
     "I would like to know more about travel.",
     "",

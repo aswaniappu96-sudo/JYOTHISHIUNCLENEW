@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { rewriteBrandText } from "@/lib/brand";
 import { isLocale, translate, type I18nOverrides, type Locale } from "@/lib/i18n";
 
 type Theme = "light" | "dark";
@@ -95,7 +96,7 @@ export function PrefsProvider({
       copy: (field, fallback = "") => {
         const fromLocale = wpStrings[locale]?.[field];
         const fromEn = wpStrings.en?.[field];
-        return (fromLocale && fromLocale.trim()) || (fromEn && fromEn.trim()) || fallback;
+        return rewriteBrandText((fromLocale && fromLocale.trim()) || (fromEn && fromEn.trim()) || fallback);
       },
     }),
     [locale, theme, wpStrings],
@@ -113,7 +114,7 @@ export function usePrefs() {
       setLocale: () => undefined,
       setTheme: () => undefined,
       t: (key: Parameters<typeof translate>[1], vars?: Record<string, string | number>) => translate("en", key, vars),
-      copy: (_field: string, fallback = "") => fallback,
+      copy: (_field: string, fallback = "") => rewriteBrandText(fallback),
     };
   }
   return value;

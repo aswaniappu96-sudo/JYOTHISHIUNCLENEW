@@ -1,3 +1,4 @@
+import { markBrandHtml } from "@/lib/brand";
 import type { SiteSettings } from "@/types/wordpress";
 import { publicContactEmail } from "@/lib/termsHtml";
 
@@ -14,7 +15,7 @@ export function refundNoticesHtml(settings?: Pick<SiteSettings, "contact_email" 
   const address = (settings?.address || "").trim();
   const place = address || "[Your Full Registered Address, Kerala, India]";
   return [
-    `<p>JyothishiUncle, ${escapeHtml(place)}</p>`,
+    `<p>MaharshiOm, ${escapeHtml(place)}</p>`,
     `<p>Email: <a href="mailto:${email}">${email}</a></p>`,
   ].join("\n");
 }
@@ -32,13 +33,13 @@ export function applyRefundContact(html: string, settings?: SiteSettings | null)
   if (address) {
     next = next.replace(/\[Your Full Registered Address, Kerala, India\]/g, escapeHtml(address));
   }
-  return next;
+  return markBrandHtml(next);
 }
 
 export const REFUND_FALLBACK = `
 <p><strong>Last Updated:</strong> 12th October 2026</p>
-<p>www.jyothishiuncle.com | JyothishiUncle App</p>
-<p>These Terms and Conditions of Use ("Terms") govern your use of content and services offered by JyothishiUncle ("We", "Us", "Our", "Company", "Platform") through our website and mobile application.</p>
+<p>www.maharshiom.com | MaharshiOm App</p>
+<p>These Terms and Conditions of Use ("Terms") govern your use of content and services offered by MaharshiOm ("We", "Us", "Our", "Company", "Platform") through our website and mobile application.</p>
 
 <h2>1. UPDATION</h2>
 <p>We may update, amend or modify these Terms at any time. The updated version will be posted on this page with a revised date. You are responsible for checking these Terms periodically. Your continued use of the Platform after any changes shall mean you accept the revised Terms.</p>
@@ -47,7 +48,7 @@ export const REFUND_FALLBACK = `
 <p>By accessing our Platform, creating an account or clicking "I Agree", you ("User", "You", "Your") confirm that you have read, understood and unconditionally agree to these Terms. If you do not agree, please do not use our Platform.</p>
 
 <h2>3. GENERAL DESCRIPTION</h2>
-<p>JyothishiUncle is an internet-based spiritual tech platform providing:</p>
+<p>MaharshiOm is an internet-based spiritual tech platform providing:</p>
 <p>a) Online and Offline Pooja Booking</p>
 <p>b) Sale of Astrological and Spiritual Products (Gemstones, Rudraksha, Yantras, etc.)</p>
 <p>c) Temple Yatra and Pilgrimage Packages</p>
@@ -77,14 +78,14 @@ export const REFUND_FALLBACK = `
 <p>We act as a facilitator for Yatra packages through verified third-party travel partners. Itinerary, hotels, and transport are subject to availability and weather conditions. We reserve the right to cancel or alter Yatra due to unforeseen circumstances.</p>
 
 <h2>6. WEBSITE CONTENT</h2>
-<p>6.1 All content on the Platform is private property of JyothishiUncle.</p>
+<p>6.1 All content on the Platform is private property of MaharshiOm.</p>
 <p>6.2 You shall not post or transmit any content that is unlawful, abusive, defamatory, obscene, vulgar, invasive of privacy, or that infringes intellectual property rights of others.</p>
 <p>6.3 We reserve the right to suspend access or discontinue any feature, content, offer or graphic without notice.</p>
 <p>6.4 Any astrological content, reports or product information other than direct advice from an astrologer is for spiritual and informational purposes and should not be considered as medical, legal or financial advice.</p>
 <p>6.5 We do not guarantee any specific result from Poojas, consultations or products. Accessing and using our services is purely at your own risk and faith.</p>
 
 <h2>7. USER ACCOUNT ACCESS</h2>
-<p>You consent to unconditional access of your account by JyothishiUncle, its employees and agents for maintaining service quality and for addressing complaints and suspected abuse.</p>
+<p>You consent to unconditional access of your account by MaharshiOm, its employees and agents for maintaining service quality and for addressing complaints and suspected abuse.</p>
 
 <h2>8. PRIVACY POLICY</h2>
 <p>By using our Platform, you confirm that you have read and understood our Privacy Policy. Please read our detailed Privacy Policy on our website.</p>
@@ -102,7 +103,7 @@ export const REFUND_FALLBACK = `
 <p>c) Reports / Remedies: No refund once order reaches processing stage.</p>
 <p>d) Products: Return accepted only if product is damaged in transit or wrong product delivered. You must share unboxing video within 48 hours of delivery. No refund for energized gemstones or on grounds of astrological results not met. For COD returns, shipping and courier charges will be deducted.</p>
 <p>e) Temple Yatra: Cancellation policy as shared at booking time will apply. Generally 75% refund if cancelled 15 days before, 50% if 7 days before, no refund within 7 days.</p>
-<p>f) General: Refunds will be processed after deducting payment gateway charges, shipping, priest dakshina and other incurred costs. Refunds will be issued within 7-10 working days to original payment source or JyothishiUncle wallet.</p>
+<p>f) General: Refunds will be processed after deducting payment gateway charges, shipping, priest dakshina and other incurred costs. Refunds will be issued within 7-10 working days to original payment source or MaharshiOm wallet.</p>
 <p>In case of double payment due to technical glitch, full excess amount will be refunded without deduction.</p>
 
 <h2>11. USER OBLIGATIONS</h2>
@@ -127,13 +128,13 @@ export const REFUND_FALLBACK = `
 <p>13.1 Astrological consultations are based on individual knowledge and interpretation of astrologers and may vary from one to another.</p>
 <p>13.2 Our Platform and services are provided on an "as is" basis without any warranty of any kind. We do not warrant that services will be uninterrupted, timely, secure or error-free, or that results will be accurate or meet your expectations.</p>
 <p>13.3 Recommendations for mantras, yantras, gemstones or Poojas are made in good faith by astrologers and priests.</p>
-<p>13.4 JyothishiUncle is a facilitator platform. Astrologers, priests and travel partners are independent service providers, not employees. We verify their credentials but do not guarantee their advice.</p>
+<p>13.4 MaharshiOm is a facilitator platform. Astrologers, priests and travel partners are independent service providers, not employees. We verify their credentials but do not guarantee their advice.</p>
 <p>13.5 We are not a suicide helpline. If you are having suicidal thoughts or are in distress, please stop using our services and immediately call AASRA helpline 91-22-27546669 or seek medical help.</p>
-<p>13.6 Under no circumstances shall JyothishiUncle, its payment providers or agents be liable for any direct, indirect, incidental or consequential damages arising from use of services.</p>
+<p>13.6 Under no circumstances shall MaharshiOm, its payment providers or agents be liable for any direct, indirect, incidental or consequential damages arising from use of services.</p>
 <p>13.7 Our total liability for any claim shall be limited to the amount paid by you for that specific service.</p>
 
 <h2>14. INDEMNIFICATION</h2>
-<p>You agree to indemnify and hold harmless JyothishiUncle, its parents, subsidiaries, affiliates, officers, directors, employees and agents from any claims, damages, costs including attorney fees arising from your use of Services, violation of Terms or Privacy Policy, or violation of any third-party rights.</p>
+<p>You agree to indemnify and hold harmless MaharshiOm, its parents, subsidiaries, affiliates, officers, directors, employees and agents from any claims, damages, costs including attorney fees arising from your use of Services, violation of Terms or Privacy Policy, or violation of any third-party rights.</p>
 
 <h2>15. PROPRIETARY RIGHTS TO CONTENT</h2>
 <p>All content including text, software, images, graphics, logos is protected by copyright and trademark laws. You are not permitted to copy or create derivative works without express written authorization.</p>
@@ -141,12 +142,12 @@ export const REFUND_FALLBACK = `
 <h2>16. NOTICES</h2>
 <p>All notices shall be in writing via email or registered post. Notices to User will be sent to address/email provided in Registration Data. Notices to us at:</p>
 <!-- ju-contact-start -->
-<p>JyothishiUncle, [Your Full Registered Address, Kerala, India]</p>
-<p>Email: <a href="mailto:support@jyothishiuncle.com">support@jyothishiuncle.com</a></p>
+<p>MaharshiOm, [Your Full Registered Address, Kerala, India]</p>
+<p>Email: <a href="mailto:support@maharshiom.com">support@maharshiom.com</a></p>
 <!-- ju-contact-end -->
 
 <h2>17. GOVERNING LAW AND JURISDICTION</h2>
 <p>These Terms shall be governed by laws of India. Any dispute arising out of these Terms shall be resolved by arbitration in accordance with the Arbitration and Conciliation Act, 1996. The seat of arbitration shall be Kochi, Kerala. Proceedings shall be in English. Subject to arbitration, courts at Kochi, Kerala shall have exclusive jurisdiction.</p>
 <p>If any provision of these Terms is found invalid, the remaining provisions shall continue in full force.</p>
-<p>These Terms constitute the entire agreement between you and JyothishiUncle.</p>
+<p>These Terms constitute the entire agreement between you and MaharshiOm.</p>
 `;

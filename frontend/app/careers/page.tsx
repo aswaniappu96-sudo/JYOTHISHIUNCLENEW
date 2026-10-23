@@ -8,7 +8,7 @@ export default function CareersPage() {
   return (
     <>
       <PageIntro
-        eyebrow="JyothishiUncle"
+        eyebrow="MaharshiOm"
         title="Careers"
         copy="Join a team that connects people with verified astrologers, pooja, and temple yatra guidance worldwide."
       />

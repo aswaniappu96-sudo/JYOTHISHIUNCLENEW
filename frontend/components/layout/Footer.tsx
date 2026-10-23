@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { BrandMark } from "@/components/brand/BrandText";
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { BRAND_NAME } from "@/lib/brand";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
@@ -9,9 +11,9 @@ import { SECTION_INNER } from "@/lib/layout";
 import type { MsgKey } from "@/lib/i18n";
 
 const FALLBACK_SOCIAL = {
-  instagram: "https://www.instagram.com/jyothishiuncle",
-  facebook: "https://www.facebook.com/jyothishiuncle",
-  youtube: "https://www.youtube.com/@jyothishiuncle",
+  instagram: "https://www.instagram.com/maharshiom",
+  facebook: "https://www.facebook.com/maharshiom",
+  youtube: "https://www.youtube.com/@maharshiom",
 };
 
 type FootItem = { href?: string; key: MsgKey; onClick?: () => void };
@@ -138,7 +140,7 @@ export function Footer({
       <div className={SECTION_INNER}>
         <div className="grid grid-cols-2 gap-8 py-4 sm:grid-cols-3 lg:grid-cols-5">
           <div>
-            <Link href="/" className="mb-4 inline-block" aria-label="JyothishiUncle">
+            <Link href="/" className="mb-4 inline-block" aria-label={BRAND_NAME}>
               <BrandLogo className="h-14" />
             </Link>
             <ul className="space-y-2">
@@ -160,7 +162,9 @@ export function Footer({
 
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-outline-variant/30 pt-6 sm:flex-row">
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:gap-4">
-            <p className="text-xs text-on-surface-variant">© {year} JyothishiUncle</p>
+            <p className="text-xs text-on-surface-variant">
+              © {year} <BrandMark />
+            </p>
             <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-on-surface-variant">
               {legal.map((item) => (
                 <Link key={item.key} href={item.href || "/"} className="transition hover:text-primary">

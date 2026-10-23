@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { CategoryDesk } from "@/components/home/CategoryDesk";
 import { EnquiryForm } from "@/components/home/EnquiryForm";
 import { PageHeading } from "@/components/home/SectionHeading";
@@ -74,7 +75,7 @@ export function ContactView({
             </EnquireButton>
           </div>
         </div>
-        {cmsHtml ? <article className="prose-ju mx-auto mb-8 max-w-3xl" dangerouslySetInnerHTML={{ __html: cmsHtml }} /> : null}
+        {cmsHtml ? <CmsHtml className="prose-ju mx-auto mb-8 max-w-3xl" html={cmsHtml} /> : null}
       </section>
 
       <EnquiryForm whatsappNumber={settings.whatsapp_number} variant="contact" />

@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { BrandText } from "@/components/brand/BrandText";
+import { CmsHtml } from "@/components/brand/CmsHtml";
 import { CategoryDesk } from "@/components/home/CategoryDesk";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { AboutMantraCta } from "@/components/pages/AboutMantraCta";
@@ -42,7 +44,7 @@ const PILLARS = [
   ["PILLAR I", "Truth Without Fear", "We strictly condemn the weaponization of astrological “curses” (Kaal Sarp, Sade Sati) to induce anxiety. We provide objective, empowering perspective.", "EMPOWERMENT OVER DREAD", "primary"],
   ["PILLAR II", "Astronomical Precision", "Zero algorithmic guesswork. We synthesize classic Lahiri Ayanamsha with calibrated planetary positions for down-to-the-minute accuracy.", "TRUE CELESTIAL ALIGNMENT", "secondary"],
   ["PILLAR III", "Karmic Realignment", "Remedies focus on lifestyle, conscious charitable deeds (Daan), and genuine sound vibrations—never overpriced superstitious trinkets.", "AUTHENTIC REMEDIES ONLY", "primary"],
-  ["PILLAR IV", "Sanctuary Privacy", "Your birth charts, queries, and video sessions are strictly confidential between you and Jyothishi Uncle. We maintain sacred client secrecy.", "SACRED CONFIDENTIALITY", "secondary"],
+  ["PILLAR IV", "Sanctuary Privacy", "Your birth charts, queries, and video sessions are strictly confidential between you and MaharshiOm. We maintain sacred client secrecy.", "SACRED CONFIDENTIALITY", "secondary"],
 ];
 
 const READINGS = [
@@ -132,7 +134,7 @@ export function AboutView({
           <div className="relative flex justify-center lg:col-span-5">
             <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl bg-linear-to-b from-primary/30 via-secondary-container/20 to-surface-lowest p-2 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_-5px_rgba(229,195,120,0.25)]">
               <div className="relative h-full w-full overflow-hidden rounded-xl">
-                <img alt={loc?.portrait_name || "Jyothishi Uncle portrait"} className="h-full w-full object-cover object-center" src={portrait} />
+                <img alt={loc?.portrait_name || "MaharshiOm portrait"} className="h-full w-full object-cover object-center" src={portrait} />
                 <div className="absolute inset-0 bg-linear-to-t from-surface-lowest/90 via-surface-lowest/20 to-transparent" />
                 <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-surface-lowest/80 px-3 py-1 backdrop-blur-md">
                   <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">Guruvayur Diksha</span>
@@ -143,7 +145,7 @@ export function AboutView({
                     <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-secondary">ESTD. 1989</span>
                   </div>
                   <p className="text-xs text-on-surface-variant">
-                    {loc?.portrait_caption || "“Jyothishi Uncle” — Chief Custodian of Jyotishya Marga & Vedic Astral Mechanics."}
+                    <BrandText>{loc?.portrait_caption || "“MaharshiOm” — Chief Custodian of Jyotishya Marga & Vedic Astral Mechanics."}</BrandText>
                   </p>
                 </div>
               </div>
@@ -156,7 +158,7 @@ export function AboutView({
             </div>
             <PageHeading className="leading-tight" lead="Ancient Wisdom. Personal Guidance." accent="No Fear. Absolute Clarity." />
             <p className="text-base leading-relaxed text-on-surface-variant">
-              For more than thirty-five years, Sri Devadathan (fondly sought as Jyothishi Uncle) has walked the sacred
+              For more than thirty-five years, Sri Devadathan (fondly sought as <BrandText>MaharshiOm</BrandText>) has walked the sacred
               nexus where Vedic scripture meets mathematical astronomy. Initiated at age eleven in the sacred sanctums,
               he mastered the rare discipline of <span className="font-medium text-primary">Ashtamangala Deva Prashnam</span>{" "}
               alongside ancient palm-leaf ephemerides.
@@ -188,7 +190,7 @@ export function AboutView({
       </section>
 
       {cmsHtml ? (
-        <article className="prose-ju mx-auto max-w-3xl px-5 pb-8" dangerouslySetInnerHTML={{ __html: cmsHtml }} />
+        <CmsHtml className="prose-ju mx-auto max-w-3xl px-5 pb-8" html={cmsHtml} />
       ) : null}
 
       <section className="relative w-full bg-surface-lowest/60 py-20">
@@ -200,7 +202,7 @@ export function AboutView({
               </div>
               <PageHeading lead="Authentic Shastric Rituals &" accent="Planetary Remediation" />
               <p className="text-sm text-on-surface-variant">
-                Remedies at JyothishiUncle are never symbolic tokens. They are sacred, mathematically synchronized Vedic
+                Remedies at <BrandText>MaharshiOm</BrandText> are never symbolic tokens. They are sacred, mathematically synchronized Vedic
                 invocations performed by traditionally consecrated priests in adherence to the Rigveda and Agamas.
               </p>
             </div>
@@ -241,8 +243,10 @@ export function AboutView({
               </div>
               <div className="flex flex-col space-y-4 p-6">
                 <p className="text-sm text-on-surface-variant">
-                  {loc?.image_2_copy ||
-                    "Targeted planetary pacification addressing Sade Sati, Rahu-Ketu doshas, and Manglik afflictions. Idols are energized through ancient Abhishekam with Panchamritam, accompanied by sacred Yantras blessed directly by Jyothishi Uncle."}
+                  <BrandText>
+                    {loc?.image_2_copy ||
+                      "Targeted planetary pacification addressing Sade Sati, Rahu-Ketu doshas, and Manglik afflictions. Idols are energized through ancient Abhishekam with Panchamritam, accompanied by sacred Yantras blessed directly by MaharshiOm."}
+                  </BrandText>
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {["Panchamrit Abhishekam", "Consecrated Raksha Sootra", "Copper Yantra Seal"].map((tag) => (
@@ -267,7 +271,7 @@ export function AboutView({
       <section className="relative mx-auto max-w-7xl px-4 py-20 md:px-12">
         <div className="mx-auto mb-16 flex max-w-3xl flex-col items-center text-center">
           <Eyebrow className="mb-4">The Sacred Covenant</Eyebrow>
-          <PageHeading className="mb-3" lead="The Four Pillars of" accent="JyothishiUncle" />
+          <PageHeading className="mb-3" lead="The Four Pillars of" accent="MaharshiOm" />
           <p className="text-base text-on-surface-variant">Our foundational promise to every seeker entering this digital sanctuary of light.</p>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -276,7 +280,7 @@ export function AboutView({
               <div className="flex flex-col space-y-3">
                 <span className={`text-[11px] font-bold uppercase tracking-[0.18em] ${tone === "secondary" ? "text-secondary" : "text-primary"}`}>{k}</span>
                 <h3 className="text-lg font-semibold text-on-surface">{title}</h3>
-                <p className="text-sm text-on-surface-variant">{copy}</p>
+                <p className="text-sm text-on-surface-variant"><BrandText>{copy}</BrandText></p>
               </div>
               <div className={`mt-6 pt-4 text-[11px] font-bold uppercase tracking-[0.18em] ${tone === "secondary" ? "text-secondary" : "text-primary"}`}>
                 {footer}
@@ -297,7 +301,7 @@ export function AboutView({
                 </div>
                 <PageHeading className="leading-snug" lead="Seek the Council of the" accent="Cosmos" />
                 <p className="text-sm leading-relaxed text-on-surface-variant">
-                  Book a private, deep-dive session with Jyothishi Uncle. Receive an in-depth analysis of your Natal
+                  Book a private, deep-dive session with <BrandText>MaharshiOm</BrandText>. Receive an in-depth analysis of your Natal
                   Kundali, planetary dasha cycles, and immediate actionable remedies.
                 </p>
                 <div className="space-y-3 pt-3">
