@@ -5,6 +5,34 @@ import { useEffect } from "react";
 export function BrandTwinkle() {
   useEffect(() => {
     const played = new WeakSet<Element>();
+    let stagger = 0;
+
+    const play = (el: HTMLElement) => {
+      el.classList.remove("brand-mark-flash");
+      void el.offsetWidth;
+      el.classList.add("brand-mark-flash");
+    };
+
+    const stillReading = (el: HTMLElement) => {
+      const box = el.getBoundingClientRect();
+      return box.bottom > window.innerHeight * 0.12 && box.top < window.innerHeight * 0.82;
+    };
+
+    const flash = (el: HTMLElement) => {
+      if (played.has(el)) return;
+      played.add(el);
+      const delay = stagger * 140;
+      stagger += 1;
+      window.setTimeout(() => {
+        stagger = Math.max(0, stagger - 1);
+        if (!el.isConnected) return;
+        play(el);
+        window.setTimeout(() => {
+          if (el.isConnected && stillReading(el)) play(el);
+        }, 1600);
+      }, delay);
+    };
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -13,14 +41,10 @@ export function BrandTwinkle() {
             if (entry.intersectionRatio === 0) played.delete(el);
             continue;
           }
-          if (played.has(el)) continue;
-          played.add(el);
-          el.classList.remove("brand-mark-flash");
-          void el.offsetWidth;
-          el.classList.add("brand-mark-flash");
+          flash(el);
         }
       },
-      { threshold: [0, 0.7] },
+      { rootMargin: "-12% 0px -18% 0px", threshold: 0.55 },
     );
 
     const seen = new WeakSet<Element>();
