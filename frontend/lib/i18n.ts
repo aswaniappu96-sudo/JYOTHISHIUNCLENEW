@@ -446,7 +446,7 @@ const en = {
   "about.guidance": "Guidance, not fear",
   "about.trusted": "Trusted by families across 30+ countries",
   "about.values": "Parampara · Shraddha · Seva",
-  "about.parampara": "Jyothishi Parampara",
+  "about.parampara": "MaharshiOm Parampara",
   "about.yearsOf": "years of",
   "about.heritage": "heritage",
   "about.worldwide": "Worldwide",

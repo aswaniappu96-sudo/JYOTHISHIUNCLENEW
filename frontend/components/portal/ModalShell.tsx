@@ -29,12 +29,14 @@ export function ModalShell({
   onClose,
   children,
   wide = false,
+  lead,
 }: {
   title: string;
   eyebrow?: string;
   onClose: () => void;
   children: React.ReactNode;
   wide?: boolean;
+  lead?: React.ReactNode;
 }) {
   useEffect(() => {
     const html = document.documentElement;
@@ -75,7 +77,8 @@ export function ModalShell({
           <p className="relative pr-10 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>
         ) : null}
         <h2 className="relative mt-2 pr-10 font-serif text-3xl text-primary">{title}</h2>
-        <div className="no-scrollbar relative mt-6 max-h-[min(68vh,36rem)] overflow-x-hidden overflow-y-auto overscroll-contain">
+        {lead ? <div className="relative mt-5">{lead}</div> : null}
+        <div className="no-scrollbar relative mt-5 max-h-[min(68vh,36rem)] overflow-x-hidden overflow-y-auto overscroll-contain">
           {children}
         </div>
       </div>

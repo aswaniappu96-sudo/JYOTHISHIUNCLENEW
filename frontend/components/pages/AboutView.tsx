@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BrandText } from "@/components/brand/BrandText";
+import { BrandMark, BrandText } from "@/components/brand/BrandText";
 import { CmsHtml } from "@/components/brand/CmsHtml";
 import { CategoryDesk } from "@/components/home/CategoryDesk";
 import { PageHeading } from "@/components/home/SectionHeading";
@@ -24,13 +24,6 @@ const ROOTS = [
   ["JAIMINI SUTRAS", "Chara Dasha Nuances"],
   ["VEDIC THALIOLA", "Palm Leaf Prashna Marga"],
   ["GURUVAYUR DIKSHA", "Tantric Agni Vidya"],
-];
-
-const STATS = [
-  ["35+", "Years Sadhana", "Bharat & Himalaya"],
-  ["48k+", "Seekers Guided", "Across 42 Nations"],
-  ["108+", "Vedic Homams", "Consecrated Rites"],
-  ["100%", "Ethical Secrecy", "Direct Counsel"],
 ];
 
 const STEPS = [
@@ -134,56 +127,39 @@ export function AboutView({
           <div className="relative flex justify-center lg:col-span-5">
             <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl bg-linear-to-b from-primary/30 via-secondary-container/20 to-surface-lowest p-2 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_-5px_rgba(229,195,120,0.25)]">
               <div className="relative h-full w-full overflow-hidden rounded-xl">
-                <img alt={loc?.portrait_name || "MaharshiOm portrait"} className="h-full w-full object-cover object-center" src={portrait} />
-                <div className="absolute inset-0 bg-linear-to-t from-surface-lowest/90 via-surface-lowest/20 to-transparent" />
-                <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-surface-lowest/80 px-3 py-1 backdrop-blur-md">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">Guruvayur Diksha</span>
-                </div>
-                <div className="absolute right-4 bottom-4 left-4 rounded-xl bg-surface-high/80 p-4 backdrop-blur-xl">
-                  <div className="mb-1 flex items-center justify-between">
-                    <span className="font-serif text-[22px] text-primary">{loc?.portrait_name || "Sri Devadathan Namboothiri"}</span>
-                    <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-secondary">ESTD. 1989</span>
-                  </div>
-                  <p className="text-xs text-on-surface-variant">
-                    <BrandText>{loc?.portrait_caption || "“MaharshiOm” — Chief Custodian of Jyotishya Marga & Vedic Astral Mechanics."}</BrandText>
-                  </p>
-                </div>
+                <img alt="" className="h-full w-full object-cover object-center" src={portrait} />
               </div>
             </div>
           </div>
           <div className="flex flex-col space-y-6 lg:col-span-7">
             <div className="flex items-center gap-2">
               <span className="h-px w-8 bg-primary" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">The Oracle Behind the Sight</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">About Us</span>
             </div>
-            <PageHeading className="leading-tight" lead="Ancient Wisdom. Personal Guidance." accent="No Fear. Absolute Clarity." />
-            <p className="text-base leading-relaxed text-on-surface-variant">
-              For more than thirty-five years, Sri Devadathan (fondly sought as <BrandText>MaharshiOm</BrandText>) has walked the sacred
-              nexus where Vedic scripture meets mathematical astronomy. Initiated at age eleven in the sacred sanctums,
-              he mastered the rare discipline of <span className="font-medium text-primary">Ashtamangala Deva Prashnam</span>{" "}
-              alongside ancient palm-leaf ephemerides.
-            </p>
-            <p className="text-sm leading-relaxed text-on-surface-variant/90">
-              Rejecting fatalistic dread and modern commercial exploitation, his approach is profoundly compassionate:
-              Jyotishya is not a decree of helpless fate; it is a celestial navigational lamp. By identifying specific
-              planetary resonances, karmic friction is mitigated through exact energetic counter-frequencies—sacred fire
-              homams, Vedic mantras, and conscious ethical conduct.
-            </p>
-            <div className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4">
-              {STATS.map(([n, label, note]) => (
-                <div key={label} className="flex flex-col rounded-xl bg-surface-container p-4 shadow-sm">
-                  <span className="mb-1 font-serif text-[32px] leading-none text-primary">{n}</span>
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-on-surface-variant">{label}</span>
-                  <span className="mt-1 text-xs text-outline">{note}</span>
-                </div>
-              ))}
-            </div>
-            <div className="relative flex items-start gap-4 rounded-xl bg-surface-low p-5 shadow-[0_0_25px_rgba(72,41,179,0.15)]">
-              <span className="shrink-0 text-3xl text-primary/70">“</span>
-              <p className="text-sm italic text-on-surface">
-                Planets do not curse; they simply hold mirrors to our unspent karma. Through precise Shastric remedies
-                and righteous action, even the heaviest planetary eclipse turns into an awakening.
+            <PageHeading className="leading-tight" lead="A family of traditional" accent="astrologers." />
+            <div className="space-y-4 text-base leading-relaxed text-on-surface-variant">
+              <p>
+                <BrandMark>MaharshiOm.com</BrandMark> is a venture from a family of Traditional Astrologers from Keralam with more than 500+
+                years of tradition. We practice Astrology as divine and this wisdom is being transferred through
+                Generations. Our Aim is to make people understand our true spiritual traditions of Bharat and practice or
+                follow this in its true spirit for a better tomorrow filled with discipline / happiness. We offer a
+                better space for astrologers, who preaches or practices Astrology in its true spirit and share their
+                wisdom for the betterment of the society. Even guidance shall be given to Astrologers for unique
+                predictions based on true astro guidelines.
               </p>
+              <p>
+                Here, astrologers get respect, freedom, and a room to practice authentically. If you want to work with
+                our platform that genuinely cares, please contact us at{" "}
+                <a href="mailto:admn@maharshiom.com" className="font-medium underline underline-offset-2">
+                  <BrandMark>admn@maharshiom.com</BrandMark>
+                </a>{" "}
+                or WhatsApp:{" "}
+                <a href="https://wa.me/918451989496" className="font-medium text-primary underline underline-offset-2">
+                  +918451989496
+                </a>
+                .
+              </p>
+              <p>Let&apos;s build something better together for a better tomorrow based on our true traditions.</p>
             </div>
           </div>
         </div>

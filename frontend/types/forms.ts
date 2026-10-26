@@ -6,6 +6,13 @@ export const HEAR_ABOUT_OPTIONS = [
   "Other",
 ] as const;
 
+export const SERVICE_INTEREST_OPTIONS = [
+  { value: "Pooja booking", label: "Pooja booking" },
+  { value: "Spiritual products", label: "Spiritual products" },
+  { value: "Religious travel", label: "Religious travel" },
+  { value: "Other", label: "Other" },
+] as const;
+
 export const CONSULTATION_TYPES = [
   { value: "pooja", label: "Poojas" },
   { value: "marriage", label: "Marriage" },

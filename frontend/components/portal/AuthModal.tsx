@@ -2,9 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { BrandText } from "@/components/brand/BrandText";
 import { Field, ModalShell, fieldClass, ghostBtn, goldBtn } from "@/components/portal/ModalShell";
 import { loginCustomer, registerCustomer } from "@/lib/api/submit";
-import { HEAR_ABOUT_OPTIONS, type CustomerUser } from "@/types/forms";
+import { SERVICE_INTEREST_OPTIONS, type CustomerUser } from "@/types/forms";
 
 export function AuthModal({
   tab,
@@ -59,8 +60,8 @@ export function AuthModal({
         mobile: String(data.get("mobile") || ""),
         email: String(data.get("email") || ""),
         password: String(data.get("password") || ""),
-        source: String(data.get("source") || ""),
-        message: String(data.get("message") || ""),
+        source: String(data.get("service") || data.get("source") || ""),
+        message: String(data.get("service") || data.get("message") || ""),
         website: String(data.get("website") || ""),
         account_type: role,
         experience: String(data.get("experience") || ""),
@@ -79,37 +80,39 @@ export function AuthModal({
 
   return (
     <ModalShell
-      eyebrow={mode === "login" ? "Returning seeker" : astrologer ? "Astrologer registration" : "New seeker"}
-      title={mode === "login" ? "Login" : astrologer ? "Join as an Astrologer" : "Create account"}
+      eyebrow={firstVisit ? "Welcome" : mode === "login" ? "Returning seeker" : astrologer ? "Astrologer registration" : "New seeker"}
+      title={firstVisit && mode === "login" ? "Login to use" : mode === "login" ? "Login" : astrologer ? "Join as an Astrologer" : "Create account"}
       onClose={onClose}
+      lead={
+        <>
+          {consultationOffer ? (
+            <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
+              Login to use this booking. Click Cancel to continue with the consultation form without login.
+            </p>
+          ) : firstVisit ? (
+            <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
+              Login to use <BrandText>MaharshiOm</BrandText>, or continue without login. Next you can pick a service, or close that screen.
+            </p>
+          ) : null}
+          <div className="grid grid-cols-2 gap-2 rounded-xl bg-surface-lowest/70 p-1">
+            <button
+              type="button"
+              onClick={() => setMode("login")}
+              className={`rounded-lg py-2 text-sm ${mode === "login" ? "bg-primary-container text-on-primary" : "text-on-surface-variant"}`}
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("register")}
+              className={`rounded-lg py-2 text-sm ${mode === "register" ? "bg-primary-container text-on-primary" : "text-on-surface-variant"}`}
+            >
+              Register
+            </button>
+          </div>
+        </>
+      }
     >
-      {consultationOffer ? (
-        <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
-          Login to use this booking. Click Cancel to continue with the consultation form without login.
-        </p>
-      ) : firstVisit ? (
-        <p className="mb-4 text-sm leading-relaxed text-on-surface-variant">
-          Login to use this site so your activities can be watched in the future. You can also continue without login.
-        </p>
-      ) : null}
-
-      <div className="mb-5 grid grid-cols-2 gap-2 rounded-xl bg-surface-lowest/70 p-1">
-        <button
-          type="button"
-          onClick={() => setMode("login")}
-          className={`rounded-lg py-2 text-sm ${mode === "login" ? "bg-primary-container text-on-primary" : "text-on-surface-variant"}`}
-        >
-          Login
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode("register")}
-          className={`rounded-lg py-2 text-sm ${mode === "register" ? "bg-primary-container text-on-primary" : "text-on-surface-variant"}`}
-        >
-          Register
-        </button>
-      </div>
-
       {mode === "login" ? (
         <form onSubmit={onLogin} className="grid gap-3">
           <Field label="Email">
@@ -120,18 +123,14 @@ export function AuthModal({
           </Field>
           {error ? <p className="text-sm text-lotus">{error}</p> : null}
           <button disabled={busy} className={goldBtn}>
-            {busy ? "Signing in…" : "Login"}
+            {busy ? "Signing in…" : firstVisit ? "Login to use" : "Login"}
           </button>
           {consultationOffer ? (
             <button type="button" onClick={onClose} className={ghostBtn}>
               Cancel
             </button>
           ) : firstVisit ? (
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-sm font-semibold text-primary underline underline-offset-2 hover:text-on-surface"
-            >
+            <button type="button" onClick={onClose} className={ghostBtn}>
               Continue without login
             </button>
           ) : null}
@@ -139,31 +138,27 @@ export function AuthModal({
       ) : (
         <form onSubmit={onRegister} className="grid gap-3">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
-          <Field label="Register as">
-            <select
-              name="account_type"
-              value={role}
-              onChange={(event) => setRole(event.target.value === "astrologer" ? "astrologer" : "user")}
-              className={fieldClass}
-            >
-              <option value="user">User</option>
-              <option value="astrologer">Astrologer</option>
-            </select>
-          </Field>
+          {firstVisit ? null : (
+            <Field label="Register as">
+              <select
+                name="account_type"
+                value={role}
+                onChange={(event) => setRole(event.target.value === "astrologer" ? "astrologer" : "user")}
+                className={fieldClass}
+              >
+                <option value="user">User</option>
+                <option value="astrologer">Astrologer</option>
+              </select>
+            </Field>
+          )}
           <Field label="Name">
-            <input required name="name" className={fieldClass} />
+            <input required name="name" autoComplete="name" className={fieldClass} />
           </Field>
-          <Field label="Address / Location">
-            <input required name="location" className={fieldClass} />
+          <Field label="Phone number">
+            <input required name="mobile" autoComplete="tel" className={fieldClass} />
           </Field>
-          <Field label="Phone Number">
-            <input required name="mobile" className={fieldClass} />
-          </Field>
-          <Field label="Email">
-            <input required type="email" name="email" className={fieldClass} />
-          </Field>
-          <Field label="Password (min. 8 characters)">
-            <input required minLength={8} type="password" name="password" className={fieldClass} />
+          <Field label="Address">
+            <input required name="location" autoComplete="street-address" className={fieldClass} />
           </Field>
           {astrologer ? (
             <>
@@ -177,17 +172,26 @@ export function AuthModal({
                 <input required name="specialties" placeholder="Kundli, Prashna, Matchmaking" className={fieldClass} />
               </Field>
             </>
-          ) : null}
-          <Field label="How did you hear about MaharshiOm?">
-            <select name="source" className={fieldClass}>
-              {HEAR_ABOUT_OPTIONS.map((source) => (
-                <option key={source}>{source}</option>
-              ))}
-            </select>
+          ) : (
+            <Field label="Which service do you want?">
+              <select name="service" className={fieldClass} defaultValue="Pooja booking">
+                {SERVICE_INTEREST_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
+          <Field label="Email">
+            <input required type="email" name="email" autoComplete="email" className={fieldClass} />
           </Field>
-          <Field label={astrologer ? "About your practice" : "Query / Message"}>
-            <textarea name="message" rows={3} className={fieldClass} />
+          <Field label="Password (min. 8 characters)">
+            <input required minLength={8} type="password" name="password" autoComplete="new-password" className={fieldClass} />
           </Field>
+          <p className="text-xs leading-relaxed text-on-surface-variant">
+            Email and password are only so you can sign in again.
+          </p>
           {error ? <p className="text-sm text-lotus">{error}</p> : null}
           <button disabled={busy} className={goldBtn}>
             {busy ? "Saving…" : astrologer ? "Submit astrologer application" : "Create account"}
@@ -197,11 +201,7 @@ export function AuthModal({
               Cancel
             </button>
           ) : firstVisit ? (
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-sm font-semibold text-primary underline underline-offset-2 hover:text-on-surface"
-            >
+            <button type="button" onClick={onClose} className={ghostBtn}>
               Continue without login
             </button>
           ) : null}

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, type ReactNode } from "react";
 import { BrandText } from "@/components/brand/BrandText";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
@@ -9,6 +9,7 @@ import { usableWhatsapp } from "@/components/layout/SitePrefs";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
 import { submitCustomerEnquiry } from "@/lib/api/submit";
+import { telHref } from "@/lib/html";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { HEAR_ABOUT_OPTIONS } from "@/types/forms";
 import type { FaqItem } from "@/types/wordpress";
@@ -45,6 +46,47 @@ function Chevron() {
   );
 }
 
+const FALLBACK_EMAIL = "admn@maharshiom.com";
+const FALLBACK_PHONE = "+918451989496";
+const FALLBACK_ADDRESS = "Muscat, Sultanate of Oman. Consultations are online worldwide.";
+
+const DAY_LABEL: Record<string, string> = {
+  sun: "Sun",
+  mon: "Mon",
+  tue: "Tue",
+  wed: "Wed",
+  thu: "Thu",
+  fri: "Fri",
+  sat: "Sat",
+};
+
+function usableContact(value: string | undefined, fallback: string) {
+  const text = (value || "").trim();
+  if (!text || /0000/.test(text) || text.replace(/\D/g, "") === "96800000000") return fallback;
+  return text;
+}
+
+function hoursLabel(days: string[] | undefined, start?: string, end?: string) {
+  const labels = (days || []).map((day) => DAY_LABEL[day] || day).filter(Boolean);
+  const span = start && end ? `${start}–${end}` : "";
+  return [labels.join(", "), span].filter(Boolean).join(" · ");
+}
+
+function publicAddress(value?: string) {
+  const text = (value || "").trim() || FALLBACK_ADDRESS;
+  if (/keralam|kerala|bharat|india/i.test(text)) return text;
+  return `Keralam, Bharat. ${text}`;
+}
+
+function ContactDetail({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="rounded-[16px] border border-[#F3E6CC] bg-[#FBF6EC] px-4 py-4">
+      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#A67A3B]">{label}</p>
+      <div className="mt-1.5 text-[15px] leading-relaxed text-[#1E160E]">{children}</div>
+    </div>
+  );
+}
+
 function WhatsAppMark() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -57,10 +99,22 @@ export function EnquiryForm({
   whatsappNumber,
   faqs = [],
   variant = "home",
+  address,
+  email,
+  phone,
+  hoursDays,
+  hoursStart,
+  hoursEnd,
 }: {
   whatsappNumber: string;
   faqs?: FaqItem[];
   variant?: "home" | "contact";
+  address?: string;
+  email?: string;
+  phone?: string;
+  hoursDays?: string[];
+  hoursStart?: string;
+  hoursEnd?: string;
 }) {
   const { t } = usePrefs();
   const { user } = useAuth();
@@ -71,6 +125,10 @@ export function EnquiryForm({
   const isContact = variant === "contact";
   const withFaq = !isContact;
   const wa = usableWhatsapp(whatsappNumber);
+  const contactAddress = publicAddress(address);
+  const contactEmail = usableContact(email, FALLBACK_EMAIL);
+  const contactPhone = usableContact(phone, FALLBACK_PHONE);
+  const contactHours = hoursLabel(hoursDays, hoursStart, hoursEnd);
   const subjects = isContact ? CONTACT_SUBJECTS : HOME_SUBJECTS;
 
   useEffect(() => {
@@ -185,7 +243,7 @@ export function EnquiryForm({
           </p>
         </div>
 
-        <div className={`grid grid-cols-1 items-start gap-8 ${withFaq ? "lg:grid-cols-[1.15fr_0.85fr]" : "lg:max-w-3xl"}`}>
+        <div className={`grid grid-cols-1 items-start gap-8 ${withFaq || isContact ? "lg:grid-cols-[1.15fr_0.85fr]" : "lg:max-w-3xl"}`}>
           <div className="rounded-[24px] border border-[#EAD9B0] bg-white p-[22px] shadow-[0_18px_60px_rgba(166,122,59,0.08),0_2px_8px_rgba(0,0,0,0.04)] md:p-[28px]">
             <form onSubmit={onSubmit} className="space-y-5">
               <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" suppressHydrationWarning />
@@ -366,6 +424,47 @@ export function EnquiryForm({
                 <div className="h-px flex-1 bg-[#EAD9B0]/70" />
                 <span className="tracking-[0.1em]">{t("enquiry.footer")}</span>
                 <div className="h-px flex-1 bg-[#EAD9B0]/70" />
+              </div>
+            </aside>
+          ) : isContact ? (
+            <aside className="lg:sticky lg:top-28">
+              <div className="flex h-full flex-col rounded-[24px] border border-[#EAD9B0] bg-white p-6 shadow-[0_18px_60px_rgba(166,122,59,0.08),0_2px_8px_rgba(0,0,0,0.04)] md:p-8">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#A67A3B]">MaharshiOm</p>
+                <h2 className="mt-2 font-serif text-[32px] leading-tight text-[#1E160E]">Address & contact</h2>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-[#7A6F63]">
+                  Reach the team by post, email, phone, or WhatsApp.
+                </p>
+                <div className="mt-6 flex flex-1 flex-col gap-3">
+                  <ContactDetail label="Address">
+                    <p>{contactAddress}</p>
+                  </ContactDetail>
+                  <ContactDetail label="Email">
+                    <a href={`mailto:${contactEmail}`} className="font-medium text-[#8B6A3A] underline underline-offset-2">
+                      {contactEmail}
+                    </a>
+                  </ContactDetail>
+                  <ContactDetail label="Phone">
+                    <a href={telHref(contactPhone)} className="font-medium text-[#8B6A3A] underline underline-offset-2">
+                      {contactPhone}
+                    </a>
+                  </ContactDetail>
+                  <ContactDetail label="WhatsApp">
+                    <a
+                      href={whatsappUrl(wa, "Namaste. I have a question about MaharshiOm.")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 font-medium text-[#1DA851] underline underline-offset-2"
+                    >
+                      <WhatsAppMark />
+                      {contactPhone}
+                    </a>
+                  </ContactDetail>
+                  {contactHours ? (
+                    <ContactDetail label="Hours">
+                      <p>{contactHours}</p>
+                    </ContactDetail>
+                  ) : null}
+                </div>
               </div>
             </aside>
           ) : (

@@ -9,7 +9,16 @@ import { EnquiryModal } from "@/components/portal/EnquiryModal";
 import { FreeConsultationOfferModal } from "@/components/portal/FreeConsultationOfferModal";
 import { PoojaBookModal } from "@/components/portal/PoojaBookModal";
 import { ProductBookModal } from "@/components/portal/ProductBookModal";
-import { loginPromptSeen, markLoginPromptSeen } from "@/lib/firstVisit";
+import { ServicesWelcomeModal } from "@/components/portal/ServicesWelcomeModal";
+import {
+  WELCOME_DELAY_MS,
+  loginPromptSeen,
+  markLoginPromptSeen,
+  markServicesPopupSeen,
+  servicesPopupSeen,
+  skipWelcomeOnPath,
+  takeQueuedServicesPopup,
+} from "@/lib/firstVisit";
 import {
   clearWhatsAppReturn,
   readWhatsAppReturn,
@@ -66,13 +75,24 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
   const [authAccountType, setAuthAccountType] = useState<"user" | "astrologer">("user");
   const [enquirySubject, setEnquirySubject] = useState("");
   const [firstVisitAuth, setFirstVisitAuth] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState("");
   const [returnOpen, setReturnOpen] = useState(false);
   const prompted = useRef(false);
+  const kindRef = useRef<PortalKind>(null);
 
   const closeReturn = useCallback(() => {
     clearWhatsAppReturn();
     setReturnOpen(false);
+  }, []);
+
+  useEffect(() => {
+    const showQueued = () => {
+      if (takeQueuedServicesPopup() && !servicesPopupSeen()) setServicesOpen(true);
+    };
+    showQueued();
+    window.addEventListener("ju-queue-services", showQueued);
+    return () => window.removeEventListener("ju-queue-services", showQueued);
   }, []);
 
   useEffect(() => {
@@ -101,6 +121,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const close = useCallback(() => {
+    const showServices = firstVisitAuth && !servicesPopupSeen();
     if (firstVisitAuth) {
       markLoginPromptSeen();
       setFirstVisitAuth(false);
@@ -110,7 +131,21 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
     setConsultationPrefill(null);
     setClaimFree(false);
     setAuthForConsultation(false);
+    if (showServices) setServicesOpen(true);
   }, [firstVisitAuth]);
+
+  const openServicesIfNeeded = useCallback(() => {
+    markLoginPromptSeen();
+    setFirstVisitAuth(false);
+    setAuthForConsultation(false);
+    setKind(null);
+    if (!servicesPopupSeen()) setServicesOpen(true);
+  }, []);
+
+  const closeServices = useCallback(() => {
+    markServicesPopupSeen();
+    setServicesOpen(false);
+  }, []);
 
   const startConsultationForm = useCallback((withFree: boolean) => {
     setFirstVisitAuth(false);
@@ -119,21 +154,40 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
     setKind("consultation");
   }, []);
 
+  kindRef.current = kind;
+
   useEffect(() => {
     if (loading || prompted.current) return;
     if (readWhatsAppReturn()) {
       prompted.current = true;
       return;
     }
-    if (user || loginPromptSeen()) {
-      markLoginPromptSeen();
+    let retry = 0;
+    const tryWelcome = () => {
+      if (prompted.current) return;
+      if (readWhatsAppReturn() || skipWelcomeOnPath(window.location.pathname)) {
+        prompted.current = true;
+        return;
+      }
+      if (kindRef.current) {
+        retry = window.setTimeout(tryWelcome, 800);
+        return;
+      }
       prompted.current = true;
-      return;
-    }
-    prompted.current = true;
-    setAuthTab("login");
-    setFirstVisitAuth(true);
-    setKind("auth");
+      if (!user && !loginPromptSeen()) {
+        setAuthTab("login");
+        setFirstVisitAuth(true);
+        setKind("auth");
+        return;
+      }
+      markLoginPromptSeen();
+      if (!servicesPopupSeen()) setServicesOpen(true);
+    };
+    const timer = window.setTimeout(tryWelcome, WELCOME_DELAY_MS);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(retry);
+    };
   }, [loading, user]);
 
   const value = useMemo(
@@ -207,7 +261,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
               startConsultationForm(false);
               return;
             }
-            close();
+            openServicesIfNeeded();
           }}
         />
       ) : null}
@@ -233,6 +287,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
         />
       ) : null}
       {kind === "enquiry" ? <EnquiryModal subject={enquirySubject} onClose={close} /> : null}
+      {servicesOpen && !returnOpen && kind !== "auth" ? <ServicesWelcomeModal onClose={closeServices} /> : null}
       {returnOpen ? <BookingReturnModal onClose={closeReturn} /> : null}
     </PortalContext.Provider>
   );

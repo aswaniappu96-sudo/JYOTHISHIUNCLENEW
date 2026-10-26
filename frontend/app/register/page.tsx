@@ -6,21 +6,21 @@ import { useRouter } from "next/navigation";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { registerCustomer } from "@/lib/api/submit";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { HEAR_ABOUT_OPTIONS } from "@/types/forms";
+import { queueServicesPopup } from "@/lib/firstVisit";
+import { SERVICE_INTEREST_OPTIONS } from "@/types/forms";
 
 export default function RegisterPage() {
   const router = useRouter();
   const { refresh } = useAuth();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [role, setRole] = useState<"user" | "astrologer">("user");
-  const astrologer = role === "astrologer";
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
     setError("");
     const data = new FormData(event.currentTarget);
+    const service = String(data.get("service") || "");
     try {
       await registerCustomer({
         name: String(data.get("name") || ""),
@@ -30,15 +30,14 @@ export default function RegisterPage() {
         phone: String(data.get("mobile") || ""),
         email: String(data.get("email") || ""),
         password: String(data.get("password") || ""),
-        source: String(data.get("source") || ""),
-        message: String(data.get("message") || ""),
-        account_type: role,
-        experience: String(data.get("experience") || ""),
-        languages: String(data.get("languages") || ""),
-        specialties: String(data.get("specialties") || ""),
+        source: service,
+        message: service,
+        account_type: "user",
       });
       await refresh();
-      router.push("/account");
+      queueServicesPopup();
+      window.dispatchEvent(new Event("ju-queue-services"));
+      router.push("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to register.");
     } finally {
@@ -48,74 +47,54 @@ export default function RegisterPage() {
 
   return (
     <>
-      <PageIntro eyebrow="Account" title="Register" copy="Choose User or Astrologer. Details are saved in WordPress Registrations (Excel)." />
+      <PageIntro
+        eyebrow="Account"
+        title="Register"
+        copy="Only a few details. After you register, you can choose a service or close the next screen."
+      />
       <form onSubmit={onSubmit} className="mx-auto grid max-w-md gap-4 px-5 py-16">
         <label className="text-sm">
-          Register as
-          <select
-            name="account_type"
-            value={role}
-            onChange={(event) => setRole(event.target.value === "astrologer" ? "astrologer" : "user")}
-            className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3"
-          >
-            <option value="user">User</option>
-            <option value="astrologer">Astrologer</option>
-          </select>
-        </label>
-        <label className="text-sm">
           Name
-          <input required name="name" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
+          <input required name="name" autoComplete="name" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
         </label>
         <label className="text-sm">
-          Address / Location
-          <input required name="location" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
+          Phone number
+          <input required name="mobile" autoComplete="tel" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
         </label>
         <label className="text-sm">
-          Phone Number
-          <input required name="mobile" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
+          Address
+          <input required name="location" autoComplete="street-address" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
         </label>
         <label className="text-sm">
-          Email
-          <input required type="email" name="email" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
-        </label>
-        <label className="text-sm">
-          Password
-          <input required minLength={8} type="password" name="password" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
-        </label>
-        {astrologer ? (
-          <>
-            <label className="text-sm">
-              Years of experience
-              <input required name="experience" placeholder="e.g. 8" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
-            </label>
-            <label className="text-sm">
-              Languages
-              <input required name="languages" placeholder="English, Hindi" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
-            </label>
-            <label className="text-sm">
-              Specialties
-              <input required name="specialties" placeholder="Kundli, Prashna, Matchmaking" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
-            </label>
-          </>
-        ) : null}
-        <label className="text-sm">
-          How did you hear about MaharshiOm?
-          <select name="source" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3">
-            {HEAR_ABOUT_OPTIONS.map((source) => (
-              <option key={source}>{source}</option>
+          Which service do you want?
+          <select name="service" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" defaultValue="Pooja booking">
+            {SERVICE_INTEREST_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
             ))}
           </select>
         </label>
         <label className="text-sm">
-          {astrologer ? "About your practice" : "Query / Message"}
-          <textarea name="message" rows={3} className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
+          Email
+          <input required type="email" name="email" autoComplete="email" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
         </label>
+        <label className="text-sm">
+          Password
+          <input required minLength={8} type="password" name="password" autoComplete="new-password" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
+        </label>
+        <p className="text-xs leading-relaxed text-on-surface-variant">
+          Email and password are only so you can sign in again.
+        </p>
         {error ? <p className="text-sm text-lotus">{error}</p> : null}
         <button disabled={busy} className="rounded-full bg-midnight px-5 py-3 text-sm text-cream disabled:opacity-60">
-          {busy ? "Creating…" : astrologer ? "Submit astrologer application" : "Create account"}
+          {busy ? "Creating…" : "Create account"}
         </button>
         <p className="text-sm text-on-surface-variant">
-          Already registered? <Link href="/login" className="text-saffron underline">Login</Link>
+          Already registered?{" "}
+          <Link href="/login" className="text-saffron underline">
+            Login
+          </Link>
         </p>
       </form>
     </>

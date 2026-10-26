@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Cinzel, Plus_Jakarta_Sans } from "next/font/google";
 import type { Metadata } from "next";
+import { BrandTwinkle } from "@/components/brand/BrandTwinkle";
 import { BRAND_NAME } from "@/lib/brand";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -78,6 +79,7 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${jakarta.variable} ${brandFont.variable} antialiased`} suppressHydrationWarning>
+        <BrandTwinkle />
         <UniverseBackground />
         <RashiChakraBackdrop />
         <MandalaTrail />

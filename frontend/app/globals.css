@@ -108,14 +108,49 @@ h3,
 
 .brand-mark {
   font-family: var(--font-brand), Cinzel, serif;
-  color: var(--brand-om);
+  color: #c9a227;
   font-weight: 700;
   font-style: normal;
   letter-spacing: 0.03em;
+  font-size: 1.14em;
+  line-height: inherit;
 }
 
 html.dark .brand-mark {
-  color: #f26b3c;
+  color: #e5c378;
+}
+
+@keyframes brand-gold-flash {
+  0% {
+    color: #fff8dc;
+    text-shadow: 0 0 0 rgba(255, 214, 120, 0);
+  }
+  16% {
+    color: #fff3b0;
+    text-shadow:
+      0 0 12px rgba(255, 220, 120, 0.95),
+      0 0 26px rgba(229, 195, 120, 0.75);
+  }
+  40% {
+    color: #e8c56a;
+    text-shadow: 0 0 4px rgba(229, 195, 120, 0.3);
+  }
+  64% {
+    color: #fff6c8;
+    text-shadow: 0 0 16px rgba(255, 224, 140, 0.9);
+  }
+  100% {
+    color: #c9a227;
+    text-shadow: none;
+  }
+}
+
+.brand-mark-flash {
+  animation: brand-gold-flash 1.35s ease-out 1;
+}
+
+html.dark .brand-mark-flash {
+  animation-name: brand-gold-flash;
 }
 
 ::selection {
@@ -546,6 +581,7 @@ html.dark .brand-mark {
   .om-gold-halo,
   .mandala-outer-glow,
   .twinkle,
+  .brand-mark-flash,
   .hero-gold-card::after,
   .astro-sheet-drop {
     animation: none;

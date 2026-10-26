@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { usePortal } from "@/components/portal/PortalProvider";
-import { loginPromptSeen } from "@/lib/firstVisit";
+import { loginPromptSeen, servicesPopupSeen } from "@/lib/firstVisit";
 
 const KEY = "ju_astrologer_welcome";
 
@@ -27,7 +27,7 @@ export function AstrologerWelcomeModal() {
       } catch {
         return true;
       }
-      if (loginPromptSeen()) {
+      if (loginPromptSeen() && servicesPopupSeen()) {
         setOpen(true);
         return true;
       }

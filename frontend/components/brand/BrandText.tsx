@@ -1,8 +1,8 @@
 import { Fragment, type ReactNode } from "react";
 import { BRAND_CLASS, BRAND_NAME, rewriteBrandText } from "@/lib/brand";
 
-export function BrandMark({ className = "" }: { className?: string }) {
-  return <span className={`${BRAND_CLASS} ${className}`.trim()}>{BRAND_NAME}</span>;
+export function BrandMark({ className = "", children }: { className?: string; children?: ReactNode }) {
+  return <span className={`${BRAND_CLASS} ${className}`.trim()}>{children ?? BRAND_NAME}</span>;
 }
 
 export function BrandText({ children, className = "" }: { children: ReactNode; className?: string }) {

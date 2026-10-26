@@ -78,7 +78,16 @@ export function ContactView({
         {cmsHtml ? <CmsHtml className="prose-ju mx-auto mb-8 max-w-3xl" html={cmsHtml} /> : null}
       </section>
 
-      <EnquiryForm whatsappNumber={settings.whatsapp_number} variant="contact" />
+      <EnquiryForm
+        whatsappNumber={settings.whatsapp_number}
+        variant="contact"
+        address={settings.address}
+        email={settings.contact_email}
+        phone={settings.phone_number}
+        hoursDays={settings.consultation_days}
+        hoursStart={settings.consultation_start_time}
+        hoursEnd={settings.consultation_end_time}
+      />
 
       <section className="mx-auto max-w-7xl px-4 pt-4 pb-16 md:px-12">
         <div className="mb-8 flex flex-col justify-between gap-4 border-t border-surface-highest/30 pt-12 md:flex-row md:items-end">
