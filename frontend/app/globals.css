@@ -205,6 +205,23 @@ html.dark .brand-mark {
   pointer-events: none;
 }
 
+.thaliola-sheet {
+  background:
+    radial-gradient(circle at 86% 0%, rgba(214, 176, 96, 0.22), transparent 32%),
+    linear-gradient(180deg, #fbf6ec 0%, #f3e7d2 100%);
+}
+
+.thaliola-leaf {
+  background-color: #e6d2ae;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(92, 58, 24, 0.055) 0 1px, transparent 1px 7px),
+    linear-gradient(180deg, #f0dcbd 0%, #e3cba4 55%, #dcc39a 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 232, 0.7),
+    inset 0 -1px 0 rgba(120, 78, 32, 0.12),
+    0 10px 22px rgba(74, 48, 18, 0.08);
+}
+
 html.dark .brand-mark-flash {
   animation-name: brand-gold-flash;
 }
