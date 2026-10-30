@@ -30,7 +30,7 @@ export function TravelGallery({
           <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-surface-lowest via-surface-lowest/20 to-transparent" />
           <div className="absolute right-4 bottom-4 left-4 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Temple yatra</p>
+              <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Temple yatra</p>
               <p className="font-serif text-xl text-on-surface">{location || title}</p>
             </div>
           </div>

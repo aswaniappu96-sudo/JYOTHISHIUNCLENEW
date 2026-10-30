@@ -74,9 +74,9 @@ export function ModalShell({
           ×
         </button>
         {eyebrow ? (
-          <p className="relative pr-10 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>
+          <p className="relative pr-10 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">{eyebrow}</p>
         ) : null}
-        <h2 className="relative mt-2 pr-10 font-serif text-3xl text-primary">{title}</h2>
+        <h2 className="relative mt-2 pr-10 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">{title}</h2>
         {lead ? <div className="relative mt-5">{lead}</div> : null}
         <div className="no-scrollbar relative mt-5 max-h-[min(68vh,36rem)] overflow-x-hidden overflow-y-auto overscroll-contain">
           {children}

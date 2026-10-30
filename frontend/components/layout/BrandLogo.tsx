@@ -5,7 +5,7 @@ export function BrandLogo({
 }) {
   return (
     <img
-      src="/maharshiom-logo.png?v=3"
+      src="/maharshiom-logo.png?v=5"
       alt="MaharshiOm"
       className={`w-auto max-w-full object-contain object-left ${className}`}
     />

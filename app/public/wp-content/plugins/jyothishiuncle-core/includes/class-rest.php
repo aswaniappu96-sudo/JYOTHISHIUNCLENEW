@@ -120,6 +120,7 @@ class JU_REST {
 		);
 
 		JU_Submissions::register();
+		JU_Consultation_Room::register();
 	}
 
 	private static function collection( $path, $method ) {

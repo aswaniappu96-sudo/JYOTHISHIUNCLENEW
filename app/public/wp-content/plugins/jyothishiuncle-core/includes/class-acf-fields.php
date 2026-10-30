@@ -577,6 +577,52 @@ class JU_ACF_Fields {
 							'text',
 							'Set automatically for a logged-in first consultation as “10 MIN FREE SLOT”.'
 						),
+						self::field(
+							'field_cb_room_key',
+							'room_key',
+							'Customer video key',
+							'text',
+							'Private key in the customer video link. The room opens 10 minutes before the booked time.'
+						),
+						self::field(
+							'field_cb_host_key',
+							'host_key',
+							'Astrologer video key',
+							'text',
+							'Private key in the astrologer video link. Do not send this key to the customer.'
+						),
+						self::field(
+							'field_cb_room_id',
+							'room_id',
+							'Meeting room ID',
+							'text',
+							'ZEGOCLOUD room for this booking. Saved automatically. The private video keys stay separate.'
+						),
+						array(
+							'key'           => 'field_cb_meeting_provider',
+							'label'         => 'Meeting provider',
+							'name'          => 'meeting_provider',
+							'type'          => 'select',
+							'choices'       => array(
+								'zegocloud' => 'ZEGOCLOUD',
+							),
+							'instructions'  => 'Saved automatically when the consultation is booked.',
+							'default_value' => 'zegocloud',
+						),
+						array(
+							'key'           => 'field_cb_meeting_status',
+							'label'         => 'Meeting status',
+							'name'          => 'meeting_status',
+							'type'          => 'select',
+							'choices'       => array(
+								'scheduled' => 'Scheduled',
+								'ready'     => 'Ready to join',
+								'ended'     => 'Ended',
+								'closed'    => 'Closed',
+							),
+							'instructions'  => 'Scheduled when the booking is saved. The video room still opens 10 minutes before the booked time.',
+							'default_value' => 'scheduled',
+						),
 						array(
 							'key'   => 'field_cb_user_id',
 							'label' => 'User ID',

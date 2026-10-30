@@ -94,7 +94,7 @@ export function ProductEnquireForm({
       {error ? <p className="text-sm text-lotus">{error}</p> : null}
       <button
         disabled={busy}
-        className="inline-flex w-full items-center justify-center rounded-full bg-linear-to-r from-primary-container via-primary to-primary-container px-6 py-4 text-sm font-bold tracking-wide text-on-primary shadow-[0_0_35px_rgba(201,162,39,0.35)] transition hover:brightness-95 disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center rounded-full bg-[#E9C07A] px-6 py-4 text-sm font-bold tracking-wide text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition hover:bg-[#E0B46D] disabled:opacity-60"
       >
         {busy ? "Sending…" : "Buy this product"}
       </button>

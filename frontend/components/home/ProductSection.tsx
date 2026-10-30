@@ -213,7 +213,7 @@ export function ProductSection({
                     ) : null}
                     <ProductEnquiryButton
                       product={product}
-                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#C4A227] px-3 py-2 text-[12px] font-semibold text-[#1A1106] transition hover:brightness-95"
+                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#E9C07A] px-3 py-2 text-[12px] font-semibold text-[#1E160E] transition hover:bg-[#E0B46D]"
                     >
                       <BagGlyph /> {t("store.buy")}
                     </ProductEnquiryButton>

@@ -57,7 +57,7 @@ class JU_Consultation_Schedule {
 		?>
 		<div class="wrap ju-schedule-wrap">
 			<h1>Schedule consultations</h1>
-			<p>This sheet is the live consultation diary. A <strong>Scheduled</strong> date is locked on the public calendar. Change the date or time if the client needs another slot, then Save — the new date locks and the old date opens again. After the meeting, mark <strong>Meeting finished</strong> (kept here for reference) or Delete the row to free the date. The <strong>Astrologer</strong> column shows the chosen guide, or <strong>Consultation only</strong> for bookings made from the common calendar.</p>
+			<p>This sheet is the live consultation diary. A <strong>Scheduled</strong> date is locked on the public calendar. Change the date or time if the client needs another slot, then Save — the new date locks and the old date opens again. After the meeting, mark <strong>Meeting finished</strong> (kept here for reference) or Delete the row to free the date. The <strong>Astrologer</strong> column shows the chosen guide, or <strong>Consultation only</strong> for bookings made from the common calendar. The video room opens 10 minutes before the booked time. Use <strong>Astrologer link</strong> for your camera. The customer has a different link.</p>
 
 			<?php if ( $updated ) : ?>
 				<div class="notice notice-success is-dismissible"><p>Schedule saved. Locked dates on the public calendar now follow these rows.</p></div>
@@ -95,13 +95,14 @@ class JU_Consultation_Schedule {
 								<th>Reason</th>
 								<th>Status</th>
 								<th>Calendar</th>
+								<th>Video</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php if ( ! $rows ) : ?>
 								<tr>
-									<td colspan="12">No scheduled consultations yet.</td>
+									<td colspan="13">No scheduled consultations yet.</td>
 								</tr>
 							<?php endif; ?>
 							<?php foreach ( $rows as $row ) : ?>
@@ -136,6 +137,13 @@ class JU_Consultation_Schedule {
 										</select>
 									</td>
 									<td><?php echo JU_Availability::locks_calendar( $row['status'] ) ? '<span class="ju-lock">Locked</span>' : '<span class="ju-open">Open</span>'; ?></td>
+									<td>
+										<?php if ( ! empty( $row['host_url'] ) ) : ?>
+											<a href="<?php echo esc_url( $row['host_url'] ); ?>" target="_blank" rel="noopener">Astrologer link</a>
+										<?php else : ?>
+											—
+										<?php endif; ?>
+									</td>
 									<td>
 										<a class="button button-small button-link-delete" href="<?php echo esc_url( self::delete_url( $row['id'] ) ); ?>" onclick="return confirm('Delete this booking? The date will become free on the calendar.');">Delete</a>
 									</td>
@@ -212,6 +220,9 @@ class JU_Consultation_Schedule {
 		$start_dt = DateTimeImmutable::createFromFormat( 'Y-m-d H:i', $date . ' ' . $start, $timezone );
 		$end      = $start_dt ? $start_dt->modify( '+' . $duration . ' minutes' )->format( 'H:i' ) : '';
 
+		$old_date = JU_Availability::normalize_date( (string) JU_REST_Serialize::meta( $id, 'booking_date' ) );
+		$old_time = substr( (string) JU_REST_Serialize::meta( $id, 'start_time' ), 0, 5 );
+
 		JU_Availability::save_meta( $id, 'booking_date', $date );
 		JU_Availability::save_meta( $id, 'start_time', $start );
 		JU_Availability::save_meta( $id, 'end_time', $end );
@@ -225,6 +236,15 @@ class JU_Consultation_Schedule {
 				'post_title' => trim( $name . ' — ' . $label . ' · ' . $date ),
 			)
 		);
+
+		if ( $old_date !== $date || $old_time !== $start ) {
+			delete_post_meta( $id, 'reminder_30_sent' );
+		}
+		if ( JU_Availability::locks_calendar( $status ) ) {
+			JU_Consultation_Reminders::schedule( $id );
+		} else {
+			JU_Consultation_Reminders::cancel( $id );
+		}
 
 		return true;
 	}
@@ -244,6 +264,7 @@ class JU_Consultation_Schedule {
 		foreach ( $query->posts as $post ) {
 			$id     = $post->ID;
 			$status = (string) JU_REST_Serialize::meta( $id, 'status', 'new' );
+			$keys   = JU_Consultation_Room::ensure_keys( $id );
 			$out[]  = array(
 				'id'           => $id,
 				'name'         => (string) JU_REST_Serialize::meta( $id, 'customer_name' ),
@@ -256,6 +277,7 @@ class JU_Consultation_Schedule {
 				'message'      => (string) JU_REST_Serialize::meta( $id, 'message' ),
 				'astrologer'   => self::astrologer_label( (string) JU_REST_Serialize::meta( $id, 'astrologer_name' ) ),
 				'status'       => $status ? $status : 'new',
+				'host_url'     => JU_Consultation_Room::video_url( $id, $keys['host_key'] ),
 			);
 		}
 

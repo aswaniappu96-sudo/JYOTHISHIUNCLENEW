@@ -328,7 +328,7 @@ export function TravelSection({
                         <button
                           type="button"
                           onClick={() => setOpen(expanded ? null : item.slug)}
-                          className="inline-flex h-9 items-center justify-center rounded-full bg-[#B87E3B] px-4 text-[12.5px] font-semibold text-white shadow-[0_2px_0_0_#9A6530] transition hover:bg-[#A66E32] active:translate-y-px active:shadow-none"
+                          className="inline-flex h-9 items-center justify-center rounded-full bg-[#E9C07A] px-4 text-[12.5px] font-semibold text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition hover:bg-[#E0B46D]"
                         >
                           {t("yatra.more")}
                           <ArrowGlyph className={`ml-1.5 h-4 w-4 transition-transform ${hovered || expanded ? "translate-x-1" : ""}`} />

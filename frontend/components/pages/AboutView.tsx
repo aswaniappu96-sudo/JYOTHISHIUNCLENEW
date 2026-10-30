@@ -134,9 +134,9 @@ export function AboutView({
           <div className="flex flex-col space-y-6 lg:col-span-7">
             <div className="flex items-center gap-2">
               <span className="h-px w-8 bg-primary" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">About Us</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">About Us</span>
             </div>
-            <PageHeading className="leading-tight" lead="A family of traditional" accent="astrologers." />
+            <PageHeading lead="A family of traditional" accent="astrologers." />
             <div className="space-y-4 text-base leading-relaxed text-on-surface-variant">
               <p>
                 <BrandMark>MaharshiOm.com</BrandMark> is a venture from a family of Traditional Astrologers from Keralam with more than 500+
@@ -174,7 +174,7 @@ export function AboutView({
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div className="max-w-2xl space-y-2">
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Agni Kund & Tantric Vidya</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Agni Kund & Tantric Vidya</span>
               </div>
               <PageHeading lead="Authentic Shastric Rituals &" accent="Planetary Remediation" />
               <p className="text-sm text-on-surface-variant">
@@ -275,7 +275,7 @@ export function AboutView({
                 <div className="inline-flex items-center gap-2 rounded-full bg-primary-container/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
                   ● Live 1-on-1 Oracle Audience
                 </div>
-                <PageHeading className="leading-snug" lead="Seek the Council of the" accent="Cosmos" />
+                <PageHeading lead="Seek the Council of the" accent="Cosmos" />
                 <p className="text-sm leading-relaxed text-on-surface-variant">
                   Book a private, deep-dive session with <BrandText>MaharshiOm</BrandText>. Receive an in-depth analysis of your Natal
                   Kundali, planetary dasha cycles, and immediate actionable remedies.

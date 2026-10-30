@@ -115,11 +115,11 @@ export function TravelDetailView({
           <aside className="lg:sticky lg:top-24 lg:col-span-4">
             <div className="space-y-5 rounded-2xl bg-surface-high/80 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
               <div className="flex items-center justify-between gap-3">
-                <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Yatra enquiry</span>
+                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Yatra enquiry</span>
                 <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">Confirmed privately</span>
               </div>
               <div>
-                <p className="font-serif text-2xl text-primary">Share your dates</p>
+                <p className="font-serif text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">Share your dates</p>
                 <p className="mt-1 text-sm text-on-surface-variant">
                   Dakshina and travel notes are confirmed on WhatsApp or email. This page never shows a price.
                 </p>
@@ -167,8 +167,8 @@ export function TravelDetailView({
       <section className="mt-16 bg-surface-low py-16">
         <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-12">
           <div className="mx-auto max-w-3xl space-y-2 text-center">
-            <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Sacred wisdom</p>
-            <h2 className="font-serif text-[32px] leading-10 text-on-surface">Why this temple yatra</h2>
+            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Sacred wisdom</p>
+            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Why this temple yatra</h2>
             <p className="text-sm text-on-surface-variant">Guidance for darshan, timing, and family rituals — not a packaged tour checkout.</p>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -187,8 +187,8 @@ export function TravelDetailView({
         <section className="mx-auto max-w-7xl space-y-10 px-4 py-16 md:px-12">
           {aboutHtml ? (
             <div className="space-y-3">
-              <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">About this yatra</p>
-              <h2 className="font-serif text-[32px] text-on-surface">The path, simply explained</h2>
+              <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this yatra</p>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">The path, simply explained</h2>
               <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={aboutHtml} />
             </div>
           ) : null}
@@ -196,8 +196,8 @@ export function TravelDetailView({
             <div className="space-y-4">
               <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
                 <div>
-                  <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">The path of illumination</p>
-                  <h2 className="font-serif text-[32px] text-on-surface">Travel information</h2>
+                  <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">The path of illumination</p>
+                  <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Travel information</h2>
                 </div>
                 <p className="max-w-md text-sm text-on-surface-variant">Practical notes so the family can plan with a calm sankalpa.</p>
               </div>
@@ -225,8 +225,8 @@ export function TravelDetailView({
       <section className="bg-surface-low py-16">
         <div className="mx-auto max-w-7xl space-y-8 px-4 md:px-12">
           <div className="mx-auto max-w-2xl space-y-2 text-center">
-            <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">What is arranged</p>
-            <h2 className="font-serif text-[32px] text-on-surface">What is included in this yatra guidance</h2>
+            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">What is arranged</p>
+            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">What is included in this yatra guidance</h2>
             <p className="text-sm text-on-surface-variant">We keep the family informed so attention stays on darshan — not on a public price list.</p>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -244,8 +244,8 @@ export function TravelDetailView({
         <div className="space-y-8 rounded-3xl bg-surface-high/80 p-6 shadow-2xl sm:p-10">
           <div className="flex flex-col justify-between gap-3 border-b border-outline-variant/30 pb-6 md:flex-row md:items-end">
             <div>
-              <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Sacred registration</p>
-              <h2 className="font-serif text-[32px] text-on-surface">Reserve your yatra slot</h2>
+              <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Sacred registration</p>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Reserve your yatra slot</h2>
             </div>
             <p className="max-w-sm text-sm text-on-surface-variant">
               Send the name, preferred dates, and any family notes. We confirm the rest privately.
@@ -259,7 +259,7 @@ export function TravelDetailView({
         <div className="mx-auto max-w-5xl px-4 md:px-12">
           <div className="flex flex-col items-center justify-between gap-6 rounded-3xl bg-surface-container p-6 shadow-xl sm:flex-row sm:p-8">
             <div>
-              <p className="text-[11px] font-bold tracking-[0.2em] text-secondary uppercase">Yatra desk</p>
+              <p className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Yatra desk</p>
               <h3 className="font-serif text-xl text-on-surface">Questions before this sacred journey?</h3>
               <p className="mt-1 text-sm text-on-surface-variant">Speak with the <BrandText>MaharshiOm</BrandText> team on a call or WhatsApp.</p>
             </div>
@@ -287,8 +287,8 @@ export function TravelDetailView({
 
       {nearby.length ? (
         <section className="mx-auto max-w-7xl px-4 py-16 md:px-12">
-          <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Other yatras</p>
-          <h2 className="mt-1 font-serif text-[32px] text-on-surface">More temple journeys</h2>
+          <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Other yatras</p>
+          <h2 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">More temple journeys</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {nearby.map((item) => (
               <TravelCard key={item.id} travel={item} whatsappNumber={whatsapp} />

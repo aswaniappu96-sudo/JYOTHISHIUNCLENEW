@@ -15,7 +15,7 @@ export default function AccountPage() {
           <p className="text-sm text-on-surface-variant">Loading…</p>
         ) : user ? (
           <div className="glass-card rounded-3xl p-6 text-sm leading-relaxed">
-            <p className="font-serif text-2xl text-primary">{user.name || user.email}</p>
+            <p className="font-serif text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">{user.name || user.email}</p>
             <p className="mt-2">{user.email}</p>
             {user.mobile ? <p className="mt-1">{user.mobile}</p> : null}
             {user.location ? <p className="mt-1">{user.location}</p> : null}

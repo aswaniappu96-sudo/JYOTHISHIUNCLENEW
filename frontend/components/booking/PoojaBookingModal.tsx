@@ -49,7 +49,7 @@ export function PoojaBookingModal({
           Close
         </button>
         <p className="text-xs uppercase tracking-[0.22em] text-saffron">Book pooja</p>
-        <h2 className="mt-2 font-serif text-3xl text-midnight">{pooja.title}</h2>
+        <h2 className="mt-2 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">{pooja.title}</h2>
 
         {done ? (
           <p className="mt-6 text-sm leading-relaxed text-ink/75">
@@ -97,7 +97,7 @@ export function PoojaBookingModal({
               <textarea name="message" rows={3} className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
             </label>
             {error ? <p className="text-sm text-lotus">{error}</p> : null}
-            <button disabled={busy} className="rounded-full bg-midnight px-5 py-3 text-sm text-cream disabled:opacity-60">
+            <button disabled={busy} className="rounded-full bg-[#E9C07A] px-5 py-3 text-sm font-semibold text-[#1E160E] transition hover:bg-[#E0B46D] disabled:opacity-60">
               {busy ? "Sending…" : "Submit booking"}
             </button>
           </form>

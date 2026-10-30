@@ -6,6 +6,7 @@ import { HomeConsultationCalendar } from "@/components/home/HomeConsultationCale
 import { Field, ModalShell, fieldClass, goldBtn } from "@/components/portal/ModalShell";
 import type { ConsultationPrefill } from "@/components/portal/PortalProvider";
 import { submitConsultationBooking } from "@/lib/api/submit";
+import { consultationVideoPath } from "@/lib/consultationRoom";
 import { CONSULTATION_ONLY_LABEL } from "@/lib/consultation";
 import { consultationWhatsAppMessage, whatsappUrl } from "@/lib/whatsapp";
 import { abandonWhatsAppTab, prepareWhatsAppTab, redirectToWhatsApp } from "@/lib/whatsapp-return";
@@ -43,6 +44,7 @@ export function ConsultationModal({
   const [slot, setSlot] = useState(prefill?.slots?.[0]?.start || "");
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
+  const [videoPath, setVideoPath] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -109,6 +111,10 @@ export function ConsultationModal({
         void refresh();
       }
       window.dispatchEvent(new CustomEvent("ju-consultation-booked", { detail: { date } }));
+      const bookedId = result.id && result.id > 0 ? result.id : 0;
+      const nextVideoPath = bookedId ? consultationVideoPath(bookedId, result.room_key) : "";
+      const videoLink = nextVideoPath ? new URL(nextVideoPath, window.location.origin).toString() : "";
+      setVideoPath(nextVideoPath);
       const waMessage = consultationWhatsAppMessage({
         name,
         address: location,
@@ -119,6 +125,7 @@ export function ConsultationModal({
         reason: message,
         astrologer: astrologerName,
         freeSlot,
+        videoLink,
       });
       const waLink = whatsapp ? whatsappUrl(whatsapp, waMessage) : "";
       if (waLink) {
@@ -145,10 +152,16 @@ export function ConsultationModal({
     >
       {done ? (
         <div className="grid gap-3">
-          <p className="font-serif text-2xl text-primary">Your slot is booked.</p>
+          <p className="font-serif text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">Your slot is booked.</p>
           <p className="text-sm leading-relaxed text-on-surface-variant">
-            This date is now locked on the calendar. Your details are saved in the consultation schedule.
+            This date is now locked on the calendar. A confirmation with this date is emailed to you and to the astrologer.
+            The video room opens 10 minutes before your booked time.
           </p>
+          {videoPath ? (
+            <a href={videoPath} className={`${goldBtn} inline-flex items-center justify-center text-center`}>
+              Open your video room
+            </a>
+          ) : null}
         </div>
       ) : (
         <form onSubmit={onSubmit} className="grid gap-3">
@@ -209,27 +222,10 @@ export function ConsultationModal({
           )}
 
           <p className="rounded-xl bg-surface-container/70 px-3 py-2 text-xs leading-relaxed text-on-surface-variant">
-            If this time does not work, or there is any issue with the slot, contact us directly
-            {whatsapp ? (
-              <>
-                {" "}
-                on{" "}
-                <a
-                  className="font-semibold text-primary underline-offset-2 hover:underline"
-                  href={whatsappUrl(whatsapp, `Hello, I would like to book a consultation${date ? ` on ${date}` : ""}.`)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  WhatsApp
-                </a>
-              </>
-            ) : (
-              " on WhatsApp"
-            )}
-            . After you submit, you will be redirected to WhatsApp with your details
+            After you submit, the booked date is emailed to you and to the astrologer. WhatsApp then opens so the astrologer's phone has the same date and your video link.
             {usingFree
-              ? " and a note that this is your first 10-minute free consultation."
-              : " and a note that you need to know about payment."}
+              ? " The note includes your first 10-minute free consultation."
+              : " The note asks for the payment details."}
           </p>
 
           <Field label="Name">

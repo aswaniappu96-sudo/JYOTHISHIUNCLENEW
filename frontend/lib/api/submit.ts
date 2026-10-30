@@ -26,7 +26,7 @@ export async function submitTravelBooking(payload: Record<string, unknown>) {
 }
 
 export async function submitConsultationBooking(payload: Record<string, unknown>) {
-  return readJson<{ ok: boolean; id?: number; free_slot?: boolean }>("/api/consultation-bookings", {
+  return readJson<{ ok: boolean; id?: number; free_slot?: boolean; room_key?: string }>("/api/consultation-bookings", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

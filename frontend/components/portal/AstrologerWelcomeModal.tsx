@@ -68,9 +68,9 @@ export function AstrologerWelcomeModal() {
           <ConchIcon className="h-8 w-8" />
         </div>
         <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1">
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Sacred Welcome Gift</span>
+          <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Sacred Welcome Gift</span>
         </div>
-        <h3 className="font-serif text-3xl text-primary sm:text-4xl">First Call & Chat Free!</h3>
+        <h3 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">First Call & Chat Free!</h3>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-on-surface-variant">
           Welcome to MaharshiOm Sanctuary — connect with our consecrated gurus for your first 5-minute divine
           consultation at zero dakshina.

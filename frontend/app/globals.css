@@ -99,11 +99,15 @@ body {
   font-family: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
 }
 
-h1,
-h2,
-h3,
-.font-serif {
-  font-family: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
+@layer base {
+  h1,
+  h2,
+  h3,
+  .font-serif {
+    font-family: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
 }
 
 .brand-mark {
@@ -314,8 +318,9 @@ html.dark .brand-mark-flash {
   margin: 2rem 0 1rem;
   font-family: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
   font-size: 32px;
-  line-height: 40px;
+  line-height: 1.05;
   font-weight: 500;
+  letter-spacing: -0.03em;
   color: var(--on-surface);
 }
 
@@ -323,8 +328,10 @@ html.dark .brand-mark-flash {
   margin: 1.5rem 0 0.75rem;
   font-family: "Pluto Sans", "PlutoSans", var(--font-jakarta), sans-serif;
   font-size: 22px;
-  line-height: 30px;
-  color: var(--primary);
+  line-height: 1.15;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--on-surface);
 }
 
 .prose-ju a {
@@ -375,16 +382,20 @@ html.dark .brand-mark-flash {
 
 .prose-ju.prose-legal h2 {
   margin: 1.75rem 0 0.75rem;
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 32px;
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--on-surface);
 }
 
 .prose-ju.prose-legal h3 {
   margin: 1.25rem 0 0.5rem;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--on-surface);
 }
 
 .universe-bg {
@@ -994,5 +1005,10 @@ html[data-lang="te"] button {
   .ju-sand-ripple {
     animation: none;
   }
+}
+
+body[data-ju-call] footer,
+body[data-ju-call] a[aria-label="Chat with MaharshiOm on WhatsApp"] {
+  display: none;
 }
 

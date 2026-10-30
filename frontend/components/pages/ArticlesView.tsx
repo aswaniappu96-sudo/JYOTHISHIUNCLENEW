@@ -139,7 +139,7 @@ export function ArticlesView({
                       {readingMinutes(featured.content || featured.excerpt)} min read
                     </span>
                   </div>
-                  <h2 className="mb-4 font-serif text-[22px] leading-snug text-primary sm:text-[32px] sm:leading-10">
+                  <h2 className="mb-4 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">
                     {featured.title}
                   </h2>
                   <p className="mb-6 text-sm leading-relaxed text-on-surface-variant">{featured.excerpt}</p>
@@ -172,8 +172,8 @@ export function ArticlesView({
         <>
           <div className="relative z-10 mx-auto mb-10 flex max-w-6xl flex-col justify-between pb-4 md:flex-row md:items-end">
             <div>
-              <span className="text-[11px] font-bold tracking-[0.2em] text-secondary uppercase">Archive chronicles</span>
-              <h3 className="mt-1 font-serif text-[32px] leading-10 text-on-surface">Cosmic discourses</h3>
+              <span className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Archive chronicles</span>
+              <h3 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Cosmic discourses</h3>
             </div>
             <p className="mt-2 max-w-md text-sm text-on-surface-variant md:mt-0">
               Quiet notes on pooja, consultation, and family ritual — published as they are written.
@@ -206,7 +206,7 @@ export function ArticlesView({
             ॐ
           </div>
           <span className="mb-3 text-[11px] font-bold tracking-[0.25em] text-secondary uppercase">Personal guidance</span>
-          <h3 className="mb-4 max-w-2xl font-serif text-[22px] leading-8 text-primary sm:text-[40px] sm:leading-[48px]">
+          <h3 className="mb-4 max-w-2xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">
             Need personal guidance beyond the articles?
           </h3>
           <p className="mb-8 max-w-2xl text-base leading-relaxed text-on-surface-variant">

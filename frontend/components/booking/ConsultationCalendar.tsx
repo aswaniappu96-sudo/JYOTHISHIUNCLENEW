@@ -81,7 +81,7 @@ export function ConsultationCalendar({
     <section id="consultation" className="px-5 py-8">
       <div className="glass-card mx-auto max-w-6xl rounded-[2rem] p-6 md:p-10">
         <p className="text-xs uppercase tracking-[0.22em] text-saffron">Consultation calendar</p>
-        <h2 className="mt-2 font-serif text-4xl text-primary">Choose a time</h2>
+        <h2 className="mt-2 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">Choose a time</h2>
         <p className="mt-3 max-w-2xl text-sm text-on-surface-variant">
           Times below follow your local clock. Already booked slots are hidden. After you submit, we confirm a video consulting session.
         </p>

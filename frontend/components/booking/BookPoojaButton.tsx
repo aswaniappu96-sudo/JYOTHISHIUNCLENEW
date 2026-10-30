@@ -6,7 +6,7 @@ import type { Pooja } from "@/types/wordpress";
 export function BookPoojaButton({
   pooja,
   children = "Book now",
-  className = "inline-flex items-center justify-center rounded-full border border-primary/30 bg-transparent px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-surface-highest",
+  className = "inline-flex items-center justify-center rounded-full bg-[#E9C07A] px-5 py-2.5 text-sm font-semibold text-[#1E160E] transition hover:bg-[#E0B46D]",
 }: {
   pooja: Pick<Pooja, "slug" | "title"> & { vendor?: string };
   children?: React.ReactNode;

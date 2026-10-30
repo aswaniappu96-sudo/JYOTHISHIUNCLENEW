@@ -191,7 +191,7 @@ export function AstrologerProfileView({
         </div>
 
         <div className="mt-10 max-w-3xl">
-          <h2 className="font-serif text-[28px] font-medium text-[#1A1106]">{t("astro.about")}</h2>
+          <h2 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">{t("astro.about")}</h2>
           {summary ? <p className="mt-3 text-[16px] leading-relaxed text-[#1A1106]/80">{summary}</p> : null}
           {about.length ? (
             <div className="mt-4 space-y-3 text-[15px] leading-relaxed text-[#1A1106]/75">
@@ -212,7 +212,7 @@ export function AstrologerProfileView({
 
         {others.length ? (
           <div className="mt-14">
-            <h2 className="font-serif text-[28px] font-medium text-[#1A1106]">{t("astro.view")}</h2>
+            <h2 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">{t("astro.view")}</h2>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {others.map((item) => (
                 <TalkAstrologerCard

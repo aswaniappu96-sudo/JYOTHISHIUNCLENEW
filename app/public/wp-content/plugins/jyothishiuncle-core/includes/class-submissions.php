@@ -352,7 +352,8 @@ class JU_Submissions {
 		$astrologer = sanitize_text_field( (string) $request->get_param( 'astrologer_name' ) );
 		$astrologer = $astrologer ? substr( $astrologer, 0, 120 ) : 'Consultation only';
 
-		$id = self::create_item(
+		$video_keys = JU_Consultation_Room::new_keys();
+		$id         = self::create_item(
 			'consultation_booking',
 			$p['name'] . ' — ' . $label . ' · ' . $date,
 			array(
@@ -378,29 +379,69 @@ class JU_Submissions {
 		if ( $id && $free_slot && $user ) {
 			update_user_meta( $user->ID, 'ju_free_consultation_used', 1 );
 		}
+		$meeting = array(
+			'room_id'          => '',
+			'meeting_provider' => '',
+			'meeting_status'   => '',
+		);
+		if ( $id ) {
+			JU_Consultation_Room::store_keys( $id, $video_keys['room_key'], $video_keys['host_key'] );
+			$meeting = JU_Consultation_Room::store_meeting( $id );
+		}
+
+		$when = $date . ', ' . $start . ( $end ? '–' . $end : '' );
+		$mail = array(
+			'Customer'   => $p['name'],
+			'Astrologer' => $astrologer,
+			'Type'       => $label,
+			'Slot'       => $slot_offer ? $slot_offer : 'Standard',
+			'Date'       => $date,
+			'Time'       => $start . ( $end ? '–' . $end : '' ),
+			'Email'      => $p['email'],
+			'Phone'      => $p['mobile'],
+			'Location'   => $p['location'],
+			'Message'    => $p['message'],
+		);
+		$client_sent = false;
+		if ( $id ) {
+			$client_url = JU_Consultation_Room::video_url( $id, $video_keys['room_key'] );
+			$host_url   = JU_Consultation_Room::video_url( $id, $video_keys['host_key'] );
+			$mail['Astrologer video link'] = $host_url;
+			$mail['Video room opens']      = '10 minutes before the booked time, until 10 minutes after it ends.';
+			$mail['Room ID']               = $meeting['room_id'];
+			$mail['Meeting provider']      = 'ZEGOCLOUD';
+			$mail['Meeting status']        = 'Scheduled';
+			$client_sent = JU_Mail::send_to(
+				$p['email'],
+				'Your MaharshiOm video consultation is booked — ' . $when,
+				array(
+					'Date'             => $date,
+					'Time'             => $start . ( $end ? '–' . $end : '' ),
+					'Join link'        => $client_url,
+					'Service'          => $label,
+					'Opens'            => 'The room opens 10 minutes before this time. A reminder email is sent 30 minutes before.',
+				),
+				'Your consultation is booked. The date, time, and join link are below. A reminder is sent 30 minutes before.'
+			);
+			JU_Consultation_Reminders::schedule( $id );
+		}
 
 		JU_Mail::notify(
-			'[JyothishiUncle] New consultation booking — ' . $label,
-			array(
-				'Customer'   => $p['name'],
-				'Astrologer' => $astrologer,
-				'Type'       => $label,
-				'Slot'       => $slot_offer ? $slot_offer : 'Standard',
-				'Date'       => $date,
-				'Time'       => $start . ( $end ? '–' . $end : '' ) . ' (calendar time)',
-				'Meeting'    => $meeting,
-				'Email'      => $p['email'],
-				'Phone'      => $p['mobile'],
-				'Location'   => $p['location'],
-				'Message'    => $p['message'],
-			)
+			'[MaharshiOm] Consultation booked — ' . $when,
+			$mail,
+			'A client booked a video consultation. Join from the astrologer video link 10 minutes before the time below.'
 		);
 
 		return rest_ensure_response(
 			array(
-				'ok'        => true,
-				'id'        => $id,
-				'free_slot' => (bool) ( $id && $free_slot ),
+				'ok'                   => true,
+				'id'                   => $id,
+				'free_slot'            => (bool) ( $id && $free_slot ),
+				'room_key'             => $id ? $video_keys['room_key'] : '',
+				'room_id'              => $meeting['room_id'],
+				'meeting_provider'     => $meeting['meeting_provider'],
+				'meeting_status'       => $meeting['meeting_status'],
+				'customer_email_sent'  => (bool) $client_sent,
 			)
 		);
 	}
@@ -603,7 +644,7 @@ class JU_Submissions {
 				'pooja'         => self::bookings_for_email( 'pooja_booking', $email, array( 'pooja_title', 'preferred_date', 'offering_mode', 'vendor_name', 'status', 'message' ) ),
 				'products'      => self::bookings_for_email( 'product_enquiry', $email, array( 'product_title', 'quantity', 'status', 'message' ) ),
 				'travel'        => self::bookings_for_email( 'travel_booking', $email, array( 'travel_title', 'preferred_dates', 'status', 'message' ) ),
-				'consultations' => self::bookings_for_email( 'consultation_booking', $email, array( 'consultation_type', 'service_title', 'booking_date', 'start_time', 'slot_offer', 'status', 'message' ) ),
+				'consultations' => self::bookings_for_email( 'consultation_booking', $email, array( 'consultation_type', 'service_title', 'customer_name', 'booking_date', 'start_time', 'end_time', 'slot_offer', 'status', 'message' ) ),
 			)
 		);
 	}

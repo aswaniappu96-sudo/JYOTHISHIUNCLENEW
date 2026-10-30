@@ -124,7 +124,7 @@ export function BecomeAstrologerSection() {
               <button
                 type="button"
                 onClick={() => openAuth("register", "astrologer")}
-                className="inline-flex h-[48px] items-center justify-center rounded-full bg-[#A07838] px-7 text-[14px] font-semibold tracking-[0.01em] text-[#FFF8EC] shadow-[0_8px_20px_rgba(160,120,56,0.28)] transition hover:bg-[#8C682E]"
+                className="inline-flex h-[48px] items-center justify-center rounded-full bg-[#E9C07A] px-7 text-[14px] font-semibold tracking-[0.01em] text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition hover:bg-[#E0B46D]"
               >
                 {t("join.cta")}
                 <span className="ml-2" aria-hidden>

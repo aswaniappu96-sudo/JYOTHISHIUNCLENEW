@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { HomeConsultationCalendar, type SelectedConsultationDay } from "@/components/home/HomeConsultationCalendar";
 import { usePortal } from "@/components/portal/PortalProvider";
+import { usableWhatsapp } from "@/components/layout/SitePrefs";
 import { CONSULTATION_ONLY_LABEL } from "@/lib/consultation";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -31,6 +32,8 @@ export function ConsultationBookPanel({
     return () => window.removeEventListener("ju-consultation-booked", onBooked);
   }, [onSelected, selected?.date]);
 
+  const chatNumber = usableWhatsapp(whatsappNumber);
+
   const openForm = (requireDate: boolean) => {
     if (requireDate && !selected?.date) {
       setNeedDate(true);
@@ -39,12 +42,11 @@ export function ConsultationBookPanel({
     openConsultation({
       date: selected?.date,
       slots: selected?.slots,
-      whatsapp: whatsappNumber,
+      whatsapp: chatNumber,
       astrologerName: CONSULTATION_ONLY_LABEL,
       purpose,
     });
   };
-
   const waMessage = selected?.date
     ? `Hello, I would like to book an astrology consultation on ${selected.date}${purpose ? ` for ${purpose}` : ""}.`
     : `Hello, I would like to book an astrology consultation${purpose ? ` for ${purpose}` : ""}.`;
@@ -72,7 +74,7 @@ export function ConsultationBookPanel({
           Book Consultation
         </button>
         <a
-          href={whatsappUrl(whatsappNumber, waMessage)}
+          href={whatsappUrl(chatNumber, waMessage)}
           target="_blank"
           rel="noreferrer"
           className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#25D366]/40 bg-white px-5 py-[13px] text-[14px] font-semibold text-[#1A6B2E] transition hover:bg-[#F2FFF5] active:scale-[0.99] sm:w-[40%]"
@@ -94,7 +96,7 @@ export function ConsultationBookPanel({
         </span>
         <span className="hidden h-3 w-px bg-[#EAD9B0] sm:block" />
         <span className="inline-flex items-center gap-1">
-          <span className="text-[#25A244]">✓</span> Link on WhatsApp
+          <span className="text-[#25A244]">✓</span> Email and WhatsApp notice
         </span>
         <span className="hidden h-3 w-px bg-[#EAD9B0] sm:block" />
         <span className="inline-flex items-center gap-1">

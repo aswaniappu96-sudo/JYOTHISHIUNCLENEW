@@ -36,7 +36,7 @@ export function ProfileModal({
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-midnight/50 p-4 md:items-center">
       <form onSubmit={onSubmit} className="w-full max-w-lg rounded-3xl bg-cream p-6 shadow-2xl md:p-8">
         <p className="text-xs uppercase tracking-[0.22em] text-saffron">Welcome</p>
-        <h2 className="mt-2 font-serif text-3xl text-midnight">A few details, then we can help you better</h2>
+        <h2 className="mt-2 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">A few details, then we can help you better</h2>
         <p className="mt-2 text-sm text-ink/70">Name, number, address, and the service you want.</p>
         <div className="mt-6 grid gap-3">
           <label className="text-sm">

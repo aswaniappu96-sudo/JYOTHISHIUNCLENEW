@@ -123,7 +123,7 @@ export function PoojaDetailView({
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="h-[2px] w-8 bg-primary" />
-                <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">About this pooja</span>
+                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this pooja</span>
               </div>
               <CmsHtml className="prose-ju text-base leading-relaxed" html={about} />
             </div>
@@ -133,7 +133,7 @@ export function PoojaDetailView({
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <span className="h-[2px] w-8 bg-primary" />
-                <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Why families choose this</span>
+                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Why families choose this</span>
               </div>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                 {benefits.map((item) => (
@@ -147,7 +147,7 @@ export function PoojaDetailView({
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="h-[2px] w-8 bg-primary" />
-                <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Benefits</span>
+                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Benefits</span>
               </div>
               <CmsHtml className="prose-ju" html={benefitsHtml} />
             </div>
@@ -212,8 +212,8 @@ export function PoojaDetailView({
 
       <div className="mt-12 space-y-4 rounded-3xl bg-surface-low p-6 shadow-2xl md:p-8">
         <div className="mx-auto max-w-2xl space-y-1 text-center">
-          <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">How it is arranged</p>
-          <h2 className="font-serif text-[32px] leading-10 text-on-surface">From enquiry to offering</h2>
+          <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">How it is arranged</p>
+          <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">From enquiry to offering</h2>
           <p className="text-sm text-on-surface-variant">A simple path — no checkout, no public price list.</p>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -243,10 +243,10 @@ export function PoojaDetailView({
       <div className="relative my-12 flex flex-col items-center justify-center space-y-4 overflow-hidden rounded-3xl bg-linear-to-r from-surface-lowest via-surface-high to-surface-lowest p-8 text-center shadow-2xl md:p-12">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(229,195,120,0.12),transparent_70%)]" />
         <div className="relative z-10 flex max-w-3xl flex-col items-center space-y-2">
-          <span className="rounded-full bg-primary-container/20 px-3 py-1 text-[11px] font-bold tracking-[0.2em] text-primary uppercase">
+          <span className="rounded-full bg-primary-container/20 px-3 py-1 text-[11px] font-bold tracking-[0.22em] text-primary uppercase">
             Book with care
           </span>
-          <h2 className="font-serif text-[30px] leading-[38px] tracking-tight text-primary md:text-[40px] md:leading-[48px]">
+          <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">
             Reserve this consecrated pooja
           </h2>
           <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant">
@@ -256,7 +256,7 @@ export function PoojaDetailView({
         <div className="relative z-10 flex flex-wrap items-center justify-center gap-3 pt-2">
           <a
             href="#book"
-            className="rounded-full bg-primary-container px-8 py-3.5 text-sm font-bold tracking-wide text-on-primary shadow-[0_0_30px_rgba(229,195,120,0.5)] transition hover:brightness-95"
+            className="rounded-full bg-[#E9C07A] px-8 py-3.5 text-sm font-bold tracking-wide text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition hover:bg-[#E0B46D]"
           >
             Reserve your sankalpa
           </a>

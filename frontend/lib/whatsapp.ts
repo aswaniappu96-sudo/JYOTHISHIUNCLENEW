@@ -14,34 +14,35 @@ export function consultationWhatsAppMessage(details: {
   reason: string;
   astrologer?: string;
   freeSlot?: boolean;
+  videoLink?: string;
 }) {
   const astrologer = details.astrologer?.trim();
-  const greeting =
-    astrologer && astrologer.toLowerCase() !== "consultation only"
-      ? `Namaste. I would like to consult ${astrologer} at MaharshiOm.`
-      : "Namaste. I would like to consult MaharshiOm.";
-  const closing = details.freeSlot
-    ? "This is my first 10-minute free consultation as a logged-in member. Please confirm if this time works, or suggest another available date."
-    : "I need to know about payment. Please share the payment details so I can complete it on WhatsApp.";
+  const greeting = "Namaste. My MaharshiOm video consultation is booked.";
   const lines = [
     greeting,
     "",
-    "These are my details and preferred availability. Kindly let me know if you are available on this date and time; if not, I am happy to choose another slot.",
-    "",
+    `Date: ${details.dateLabel}`,
+    `Time: ${details.timeLabel}`,
     `Name: ${details.name}`,
-    `Address: ${details.address}`,
     `Phone: ${details.phone}`,
     `Email: ${details.email}`,
-    `Preferred date: ${details.dateLabel}`,
-    `Preferred time: ${details.timeLabel}`,
+    `Address: ${details.address}`,
     `Astrologer: ${astrologer || "Consultation only"}`,
-    `Reason for consultation: ${details.reason}`,
+    `Reason: ${details.reason}`,
+    ...(details.videoLink
+      ? [
+          "",
+          `Client video room: ${details.videoLink}`,
+          "The room opens 10 minutes before this time.",
+          "A reminder email is sent 30 minutes before this time.",
+          "Astrologer, please join from the video link in your email.",
+        ]
+      : []),
     "",
-    closing,
+    details.freeSlot
+      ? "This is my first 10-minute free consultation."
+      : "Please share the payment details on this chat.",
   ];
-  if (!details.freeSlot) {
-    lines.push("", "Please confirm if this time works, or suggest another available date.");
-  }
   return lines.join("\n");
 }
 

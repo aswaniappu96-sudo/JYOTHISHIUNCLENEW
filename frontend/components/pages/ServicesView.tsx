@@ -2,14 +2,25 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ProductCard } from "@/components/cards/ProductCard";
+import { CatalogFilterBar } from "@/components/pages/CatalogFilterBar";
 import { PoojaVendorsSection } from "@/components/pages/PoojaVendorsSection";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { Eyebrow } from "@/components/pages/PageHero";
-import { useLocalizedPage } from "@/lib/localized";
+import {
+  matchesQuery,
+  poojaFilterChips,
+  poojaHaystack,
+  poojaMatchesGroup,
+  productHaystack,
+  productKindChips,
+  productKindId,
+  productStockChips,
+} from "@/lib/catalogFilters";
+import { useLocalizedList, useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH, PRODUCTS_PATH, servicesTab } from "@/lib/siteRoutes";
 import type { Pooja, Product, Vendor, WPPage } from "@/types/wordpress";
@@ -34,6 +45,33 @@ export function ServicesView({
   const tab = servicesTab(searchParams.get("tab") ?? initialTab);
   const loc = useLocalizedPage(page);
   const heroImage = imageSrc(loc?.featured_image);
+  const poojaItems = useLocalizedList(poojas);
+  const productItems = useLocalizedList(products);
+  const [poojaQuery, setPoojaQuery] = useState("");
+  const [poojaGroup, setPoojaGroup] = useState("all");
+  const [productQuery, setProductQuery] = useState("");
+  const [productKind, setProductKind] = useState("all");
+  const [productStock, setProductStock] = useState("all");
+
+  const poojaChips = useMemo(() => poojaFilterChips(poojaItems), [poojaItems]);
+  const visiblePoojas = useMemo(
+    () =>
+      poojaItems.filter(
+        (item) => poojaMatchesGroup(item, poojaGroup) && matchesQuery(poojaHaystack(item), poojaQuery),
+      ),
+    [poojaItems, poojaGroup, poojaQuery],
+  );
+  const productKinds = useMemo(() => productKindChips(productItems), [productItems]);
+  const productStocks = useMemo(() => productStockChips(productItems), [productItems]);
+  const visibleProducts = useMemo(
+    () =>
+      productItems.filter((item) => {
+        const kindOk = productKind === "all" || productKindId(item) === productKind;
+        const stockOk = productStock === "all" || (item.availability || "in_stock") === productStock;
+        return kindOk && stockOk && matchesQuery(productHaystack(item), productQuery);
+      }),
+    [productItems, productKind, productStock, productQuery],
+  );
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -127,11 +165,27 @@ export function ServicesView({
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {poojas.map((pooja) => (
-                <PoojaCard key={pooja.id} pooja={pooja} />
-              ))}
+            <div className="mb-8">
+              <CatalogFilterBar
+                query={poojaQuery}
+                onQuery={setPoojaQuery}
+                placeholder="Search poojas"
+                groups={poojaChips}
+                groupId={poojaGroup}
+                onGroup={setPoojaGroup}
+              />
             </div>
+            {visiblePoojas.length ? (
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {visiblePoojas.map((pooja) => (
+                  <PoojaCard key={pooja.id} pooja={pooja} />
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-2xl bg-surface-low px-6 py-12 text-center text-sm text-on-surface-variant">
+                No poojas match this filter. Try another deity or clear the search.
+              </p>
+            )}
             <p className="mt-6 text-center text-xs text-outline">Includes Chandi Homam, Rudrabhishekam, Kala Bhairava & Bagalamukhi Yajna on enquiry.</p>
             {vendors.length ? (
               <div className="mt-16">
@@ -153,18 +207,37 @@ export function ServicesView({
                 Items for puja and japa, prepared with care. Fees are shared privately after you enquire.
               </p>
             </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} whatsappNumber={whatsappNumber} />
-              ))}
+            <div className="mb-8">
+              <CatalogFilterBar
+                query={productQuery}
+                onQuery={setProductQuery}
+                placeholder="Search products"
+                groups={productKinds}
+                groupId={productKind}
+                onGroup={setProductKind}
+                stocks={productStocks}
+                stockId={productStock}
+                onStock={setProductStock}
+              />
             </div>
+            {visibleProducts.length ? (
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {visibleProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} whatsappNumber={whatsappNumber} />
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-2xl bg-surface-low px-6 py-12 text-center text-sm text-on-surface-variant">
+                No products match this filter. Try another type or clear the search.
+              </p>
+            )}
           </div>
         </section>
       )}
 
       <section id="consultation" className="px-4 pb-20 md:px-12">
         <div className="mx-auto flex max-w-5xl flex-col items-center rounded-2xl bg-surface-low/90 p-8 text-center shadow-2xl md:p-12">
-          <span className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Live Astrological Ephemeris Sync</span>
+          <span className="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Live Astrological Ephemeris Sync</span>
           <PageHeading title="Book a 1-on-1 Consultation" />
           <p className="mt-2 max-w-2xl text-sm text-on-surface-variant">
             Confidential sessions online through video consulting. Calendar dates that are already taken stay closed.

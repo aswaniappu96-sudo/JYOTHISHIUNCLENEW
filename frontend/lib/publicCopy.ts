@@ -4,6 +4,8 @@ const IANA_TZ = /^(Africa|America|Antarctica|Asia|Atlantic|Australia|Europe|Indi
 
 export function stripOmanHighlight(text: string): string {
   if (!text || IANA_TZ.test(text)) return text;
+  // File addresses must stay exact. A picture named "Kerala Homam..." would 404 if the word was removed.
+  if (/^https?:\/\//i.test(text.trim()) || text.includes("/wp-content/")) return text;
 
   return text
     .replace(/\bDo I need to visit Oman\b/gi, "Do I need to visit in person")
@@ -64,13 +66,18 @@ export function stripOmanHighlight(text: string): string {
     .trim();
 }
 
-export function stripOmanDeep<T>(value: T): T {
-  if (typeof value === "string") return stripOmanHighlight(value) as T;
+const IMAGE_FIELDS = new Set(["url", "full", "thumb", "src", "logo_url", "icon"]);
+
+export function stripOmanDeep<T>(value: T, key?: string): T {
+  if (typeof value === "string") {
+    if (key && IMAGE_FIELDS.has(key)) return value;
+    return stripOmanHighlight(value) as T;
+  }
   if (Array.isArray(value)) return value.map((item) => stripOmanDeep(item)) as T;
   if (value && typeof value === "object") {
     const out: Record<string, unknown> = {};
-    for (const [key, nested] of Object.entries(value as Record<string, unknown>)) {
-      out[key] = stripOmanDeep(nested);
+    for (const [childKey, nested] of Object.entries(value as Record<string, unknown>)) {
+      out[childKey] = stripOmanDeep(nested, childKey);
     }
     return out as T;
   }

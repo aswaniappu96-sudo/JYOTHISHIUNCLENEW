@@ -202,7 +202,7 @@ export function Header({
     >
       <div className="relative flex h-16 w-full items-center justify-between px-4 md:h-20 md:px-8 lg:px-10">
         <Link href="/" className="relative z-10 flex h-full min-w-0 max-w-[58vw] items-center sm:max-w-[320px] lg:max-w-[380px]">
-          <BrandLogo className={`h-11 md:h-14 ${overHero ? "drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]" : ""}`} />
+          <BrandLogo className={`h-14 md:h-[4.25rem] ${overHero ? "drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]" : ""}`} />
         </Link>
 
         <nav

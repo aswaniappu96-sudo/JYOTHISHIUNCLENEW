@@ -20,7 +20,7 @@ export function PoojaVendorsSection({ vendors, embed = false }: { vendors: Vendo
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="h-[2px] w-8 bg-primary" />
-            <span className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Pooja temples</span>
+            <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Pooja temples</span>
           </div>
           <p className="text-sm leading-relaxed text-on-surface-variant">
             Pooja can be arranged through various temples. Choose a temple in the booking form for an online or offline ritual.

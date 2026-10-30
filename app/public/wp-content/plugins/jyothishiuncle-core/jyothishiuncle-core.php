@@ -37,6 +37,8 @@ require_once JU_CORE_DIR . 'includes/class-availability.php';
 require_once JU_CORE_DIR . 'includes/class-rest.php';
 require_once JU_CORE_DIR . 'includes/class-jwt.php';
 require_once JU_CORE_DIR . 'includes/class-mail.php';
+require_once JU_CORE_DIR . 'includes/class-consultation-room.php';
+require_once JU_CORE_DIR . 'includes/class-consultation-reminders.php';
 require_once JU_CORE_DIR . 'includes/class-submissions.php';
 require_once JU_CORE_DIR . 'includes/class-export.php';
 require_once JU_CORE_DIR . 'includes/class-admin-lists.php';
@@ -95,6 +97,7 @@ add_filter( 'enter_title_here', array( 'JU_Admin', 'title_placeholders' ), 10, 2
 add_action( 'admin_notices', array( 'JU_Admin', 'smtp_notice' ) );
 add_action( 'admin_notices', array( 'JU_Admin', 'content_guide' ) );
 
+JU_Consultation_Reminders::hooks();
 JU_REST::hooks();
 JU_Export::hooks();
 JU_Admin_Lists::hooks();

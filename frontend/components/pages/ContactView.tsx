@@ -44,7 +44,7 @@ export function ContactView({
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full bg-surface-high/80 px-3.5 py-1 backdrop-blur-md">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
                 {loc?.eyebrow || "Sacred Portals & Ritual Access"}
               </span>
             </div>
@@ -92,7 +92,7 @@ export function ContactView({
       <section className="mx-auto max-w-7xl px-4 pt-4 pb-16 md:px-12">
         <div className="mb-8 flex flex-col justify-between gap-4 border-t border-surface-highest/30 pt-12 md:flex-row md:items-end">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Sanctified Environment</span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Sanctified Environment</span>
             <PageHeading title="Where Every Form Transmutes into Ahuti" />
           </div>
           <p className="max-w-md text-sm text-on-surface-variant">

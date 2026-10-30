@@ -83,7 +83,7 @@ async function fetchJsonOrNull<T>(
 ): Promise<T | null> {
   const url = juUrl(origin, path);
   const headers = fetchHeaders(init, sendLocalHost);
-  const timeoutMs = isLocalHost(origin) ? 1500 : process.env.VERCEL ? 28000 : 12000;
+  const timeoutMs = isLocalHost(origin) ? 8000 : process.env.VERCEL ? 28000 : 12000;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -149,7 +149,9 @@ export async function wpFetch<T>(path: string, init?: RequestInit): Promise<T> {
         markLocalWordpressDown();
       }
       const data = await fetchJson<T>(fallback, path, init, false);
-      if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + GET_CACHE_MS, data });
+      // A miss here is usually a slow local PHP start, not a real outage.
+      // Keep the public copy only briefly so a saved picture can show on the next load.
+      if (!skipCache) getCache.set(cacheKey, { expires: Date.now() + 5_000, data });
       return data;
     }
     const data = await fetchJsonOrNull<T>(primary, path, init, isLocalHost(primary));
@@ -204,6 +206,31 @@ export async function wpMutate<T>(path: string, body: unknown, token?: string | 
   return json;
 }
 
+export async function wpRequest(
+  path: string,
+  token?: string | null,
+): Promise<{ ok: boolean; status: number; data: unknown }> {
+  const origin = wordpressOrigin();
+  const headers = fetchHeaders(undefined, isLocalHost(origin));
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), isLocalHost(origin) ? 8000 : 12000);
+  try {
+    const response = await fetch(juUrl(origin, path), {
+      method: "GET",
+      headers,
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    const data = await response.json().catch(() => null);
+    return { ok: response.ok, status: response.status, data };
+  } catch {
+    return { ok: false, status: 503, data: null };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function wpAuthGet<T>(path: string, token: string): Promise<T> {
   const url = juUrl(wordpressOrigin(), path);
   const headers = new Headers();
@@ -229,6 +256,13 @@ export async function wpFetchOptional<T>(path: string): Promise<T | null> {
 
 export function mediaUrl(url?: string | null) {
   if (!url) return null;
+  if (isLocalWordpress()) {
+    // The picture just saved in local WordPress lives on this machine.
+    // Leave that address alone so the page does not keep the older public file.
+    return url
+      .replace("http://jyothishiuncle.local", DEFAULT_WP_URL)
+      .replace("https://jyothishiuncle.local", DEFAULT_WP_URL);
+  }
   const origin = wordpressMediaOrigin();
   return url
     .replace("http://jyothishiuncle.local", origin)

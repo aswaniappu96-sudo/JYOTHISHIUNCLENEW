@@ -171,7 +171,7 @@ export function TravelView({
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end">
             <div>
-              <span className="text-[11px] font-bold tracking-[0.2em] text-secondary uppercase">Elemental terrain</span>
+              <span className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Elemental terrain</span>
               <PageHeading title="Current Sacred Expeditions" className="mt-1" />
             </div>
             <p className="text-xs text-on-surface-variant">Only 3 to 5 spots left per departure</p>

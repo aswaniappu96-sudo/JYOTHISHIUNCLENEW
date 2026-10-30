@@ -118,7 +118,7 @@ export function PoojaBookingPanel({
           {error ? <p className="text-sm text-lotus">{error}</p> : null}
           <button
             disabled={busy}
-            className="flex w-full items-center justify-center rounded-full bg-primary-container py-3.5 text-sm font-bold tracking-wide text-on-primary shadow-[0_0_25px_rgba(229,195,120,0.4)] transition hover:brightness-95 disabled:opacity-60"
+            className="flex w-full items-center justify-center rounded-full bg-[#E9C07A] py-3.5 text-sm font-bold tracking-wide text-[#1E160E] shadow-[0_4px_14px_rgba(233,192,122,0.35)] transition hover:bg-[#E0B46D] disabled:opacity-60"
           >
             {busy ? "Sending…" : "Reserve sankalpa"}
           </button>

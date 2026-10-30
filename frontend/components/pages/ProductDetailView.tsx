@@ -164,7 +164,7 @@ export function ProductDetailView({
               {summary ? <p className="text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
             </div>
             <div className="rounded-xl bg-surface-high/90 p-5 shadow-lg">
-              <p className="font-serif text-2xl text-primary md:text-[32px]">Enquire to reserve</p>
+              <p className="font-serif text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[32px]">Enquire to reserve</p>
               <p className="mt-1 text-sm text-on-surface-variant">
                 Dakshina and dispatch notes are confirmed on WhatsApp or email. This page never shows a price.
               </p>
@@ -197,8 +197,8 @@ export function ProductDetailView({
       <section className="mt-16 bg-surface-low py-16">
         <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-12">
           <div className="mx-auto max-w-3xl space-y-2 text-center">
-            <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Sacred guidance</p>
-            <h2 className="font-serif text-[32px] leading-10 text-on-surface">Why this product</h2>
+            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Sacred guidance</p>
+            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Why this product</h2>
             <p className="text-sm text-on-surface-variant">Guidance for puja and japa — not a public shop checkout.</p>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -217,15 +217,15 @@ export function ProductDetailView({
         <section className="mx-auto max-w-7xl space-y-10 px-4 py-16 md:px-12">
           {aboutHtml ? (
             <div className="space-y-3">
-              <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">About this product</p>
-              <h2 className="font-serif text-[32px] text-on-surface">Prepared with care</h2>
+              <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this product</p>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Prepared with care</h2>
               <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={aboutHtml} />
             </div>
           ) : null}
           {infoHtml ? (
             <div className="space-y-4">
-              <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Product information</p>
-              <h2 className="font-serif text-[32px] text-on-surface">Notes for the family</h2>
+              <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Product information</p>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Notes for the family</h2>
               {infoItems.length ? (
                 <div className="space-y-4">
                   {infoItems.map((item, index) => (
@@ -250,8 +250,8 @@ export function ProductDetailView({
       <section className="bg-surface-lowest/70 py-16">
         <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-12">
           <div className="mx-auto max-w-3xl space-y-2 text-center">
-            <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">How it is arranged</p>
-            <h2 className="font-serif text-[32px] text-on-surface">Three steps, simply explained</h2>
+            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">How it is arranged</p>
+            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Three steps, simply explained</h2>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {PHASES.map((phase) => (
@@ -269,8 +269,8 @@ export function ProductDetailView({
 
       {testimonials.length ? (
         <section className="mx-auto max-w-7xl px-4 py-16 md:px-12">
-          <p className="text-center text-[11px] font-bold tracking-[0.2em] text-primary uppercase">From families</p>
-          <h2 className="mt-1 text-center font-serif text-[32px] text-on-surface">Words from seekers</h2>
+          <p className="text-center text-[11px] font-bold tracking-[0.22em] text-primary uppercase">From families</p>
+          <h2 className="mt-1 text-center font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Words from seekers</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {testimonials.slice(0, 3).map((item) => (
               <blockquote key={item.id} className="flex flex-col justify-between rounded-2xl bg-surface-container p-6 shadow-md">
@@ -284,8 +284,8 @@ export function ProductDetailView({
 
       {related.length ? (
         <section className="mx-auto max-w-7xl px-4 pb-16 md:px-12">
-          <p className="text-[11px] font-bold tracking-[0.2em] text-primary uppercase">Other products</p>
-          <h2 className="mt-1 font-serif text-[32px] text-on-surface">More for puja and japa</h2>
+          <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Other products</p>
+          <h2 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">More for puja and japa</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {related.map((item) => (
               <ProductCard key={item.id} product={item} whatsappNumber={whatsapp} />

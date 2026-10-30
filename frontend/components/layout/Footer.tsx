@@ -141,7 +141,7 @@ export function Footer({
         <div className="grid grid-cols-2 gap-8 py-4 sm:grid-cols-3 lg:grid-cols-5">
           <div>
             <Link href="/" className="mb-4 inline-block" aria-label={BRAND_NAME}>
-              <BrandLogo className="h-14" />
+              <BrandLogo className="h-16" />
             </Link>
             <ul className="space-y-2">
               {company.map((item) => (
