@@ -665,6 +665,7 @@ html.dark .brand-mark-flash {
   .om-gold-halo,
   .mandala-outer-glow,
   .twinkle,
+  .gold-notice,
   .brand-mark-flash,
   .brand-mark-flash::after,
   .hero-gold-card::after,
@@ -874,6 +875,22 @@ html.dark [class*="ring-[#EAD9B0]"] {
 
 .twinkle {
   animation: ju-twinkle 2.8s ease-in-out infinite;
+}
+
+@keyframes gold-notice-twinkle {
+  0%,
+  100% {
+    border-color: #c9a227;
+    box-shadow: 0 0 0 1px rgba(201, 162, 39, 0.35), 0 0 6px rgba(233, 192, 122, 0.2);
+  }
+  50% {
+    border-color: #fff6d0;
+    box-shadow: 0 0 0 2px rgba(233, 192, 122, 0.95), 0 0 16px 3px rgba(233, 192, 122, 0.7);
+  }
+}
+
+.gold-notice {
+  animation: gold-notice-twinkle 1.35s ease-in-out infinite;
 }
 
 .twinkle:nth-child(2n) {

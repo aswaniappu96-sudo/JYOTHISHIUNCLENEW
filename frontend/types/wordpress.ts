@@ -46,6 +46,11 @@ export type SiteSettings = {
 
 export type ContentI18n = Partial<Record<string, Partial<Record<string, string>>>>;
 
+export type CatalogCategory = {
+  slug: string;
+  name: string;
+};
+
 export type ContentCard = {
   id: number;
   slug: string;
@@ -64,11 +69,13 @@ export type Pooja = ContentCard & {
   gallery: NonNullable<WPImage>[];
   booking_enabled: boolean;
   whatsapp_message: string;
+  categories?: CatalogCategory[];
 };
 
 export type Vendor = ContentCard & {
   location?: string;
   full_description: string;
+  pooja_ids?: number[];
 };
 
 export type Product = ContentCard & {
@@ -77,6 +84,7 @@ export type Product = ContentCard & {
   availability: string;
   gallery: NonNullable<WPImage>[];
   whatsapp_message: string;
+  categories?: CatalogCategory[];
 };
 
 export type AstrologyService = ContentCard & {

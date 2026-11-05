@@ -13,15 +13,22 @@ export function PoojaBookModal({
   whatsappNumber = "",
   onClose,
 }: {
-  pooja: { slug: string; title: string; vendor?: string };
+  pooja: { slug: string; title: string; vendor?: string; poojaChoices?: { slug: string; title: string }[] };
   whatsappNumber?: string;
   onClose: () => void;
 }) {
   const { user } = useAuth();
+  const choices = pooja.poojaChoices?.length
+    ? pooja.poojaChoices
+    : pooja.slug
+      ? [{ slug: pooja.slug, title: pooja.title }]
+      : [];
+  const [poojaSlug, setPoojaSlug] = useState(choices[0]?.slug || pooja.slug);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
   const [vendors, setVendors] = useState<Vendor[]>([]);
+  const selectedTitle = choices.find((item) => item.slug === poojaSlug)?.title || pooja.title;
 
   useEffect(() => {
     fetch("/api/vendors")
@@ -38,8 +45,8 @@ export function PoojaBookModal({
     const tab = prepareWhatsAppTab();
     try {
       const result = await savePoojaBookingAndWhatsApp({
-        slug: pooja.slug,
-        title: pooja.title,
+        slug: poojaSlug,
+        title: selectedTitle,
         form,
         vendors,
         whatsappNumber,
@@ -60,7 +67,7 @@ export function PoojaBookModal({
   }
 
   return (
-    <ModalShell eyebrow="Pooja booking" title={pooja.title} onClose={onClose}>
+    <ModalShell eyebrow="Pooja booking" title={selectedTitle || "Book a pooja"} onClose={onClose}>
       {done ? (
         <div className="grid gap-3">
           <p className="text-sm leading-relaxed text-on-surface-variant">
@@ -70,14 +77,26 @@ export function PoojaBookModal({
       ) : (
         <form onSubmit={onSubmit} className="grid gap-3">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
-          <Field label="Selected Pooja">
-            <input readOnly value={pooja.title} className={`${fieldClass} opacity-80`} />
-          </Field>
+          {choices.length > 1 ? (
+            <Field label="Pooja">
+              <select required value={poojaSlug} onChange={(event) => setPoojaSlug(event.target.value)} className={fieldClass}>
+                {choices.map((item) => (
+                  <option key={item.slug} value={item.slug}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          ) : (
+            <Field label="Selected Pooja">
+              <input readOnly value={selectedTitle} className={`${fieldClass} opacity-80`} />
+            </Field>
+          )}
           <PoojaOfferingFields vendors={vendors} fieldClass={fieldClass} defaultVendor={pooja.vendor} />
           <Field label="Name">
             <input required name="name" defaultValue={user?.name} className={fieldClass} />
           </Field>
-          <Field label="Address / Location">
+          <Field label="Location">
             <input required name="location" defaultValue={user?.location} className={fieldClass} />
           </Field>
           <Field label="Phone">

@@ -10,6 +10,7 @@ import type {
   ContentI18n,
   FaqItem,
   HomePayload,
+  CatalogCategory,
   Pooja,
   Product,
   SiteSettings,
@@ -46,6 +47,10 @@ export async function getPoojas(homepage = false) {
   return publicSite(await settleApi(wpFetch<Pooja[]>(`/poojas${query}`), []));
 }
 
+export async function getPoojaCategories() {
+  return publicSite(await settleApi(wpFetch<CatalogCategory[]>("/pooja-categories"), []));
+}
+
 export async function getPooja(slug: string) {
   const item = await wpFetchOptional<Pooja>(`/poojas/${slug}`);
   return item ? publicSite(item) : null;
@@ -58,6 +63,10 @@ export async function getVendors() {
 export async function getProducts(homepage = false) {
   const query = homepage ? "?homepage=1" : "";
   return publicSite(await settleApi(wpFetch<Product[]>(`/products${query}`), []));
+}
+
+export async function getProductCategories() {
+  return publicSite(await settleApi(wpFetch<CatalogCategory[]>("/product-categories"), []));
 }
 
 export async function getProduct(slug: string) {

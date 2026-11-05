@@ -33,17 +33,13 @@ function templeCopy(temple: Vendor) {
 }
 
 function poojasForTemple(temple: Vendor, poojas: Pooja[]) {
-  const hay = `${temple.title} ${temple.short_description || ""} ${templeKind(temple.title)}`.toLowerCase();
-  const matched = poojas.filter((pooja) => {
-    const title = pooja.title.toLowerCase();
-    if (/ganapathi|ganesha|ganesh/.test(title) && /ganapathi|ganesha|ganesh/.test(hay)) return true;
-    if (/sudarshan|vishnu/.test(title) && /vishnu|sudarshan|guruvayur|krishna/.test(hay)) return true;
-    if (/mrityunjaya|shiva/.test(title) && /shiva|mahadeva|mrityunjaya/.test(hay)) return true;
-    if (/aghora/.test(title) && /aghora|bhairava|shiva/.test(hay)) return true;
-    if (/lakshmi|durga|devi/.test(title) && /devi|lakshmi|durga|mookambika|bhadrakali/.test(hay)) return true;
-    return title.split(/\s+/).some((word) => word.length > 4 && hay.includes(word));
+  const wanted = temple.pooja_ids || [];
+  if (!wanted.length) return [];
+  const byId = new Map(poojas.map((pooja) => [pooja.id, pooja]));
+  return wanted.flatMap((id) => {
+    const pooja = byId.get(id);
+    return pooja ? [pooja] : [];
   });
-  return matched.length ? matched : poojas.slice(0, 4);
 }
 
 function CallGlyph() {
@@ -73,6 +69,7 @@ export function PoojaTemplesSection({
   const rites = useLocalizedList(useJuList<Pooja>("/poojas", poojas));
   const [active, setActive] = useState(0);
   const pauseUntil = useRef(0);
+  const stripRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (temples.length < 2) return;
@@ -83,8 +80,24 @@ export function PoojaTemplesSection({
     return () => window.clearInterval(id);
   }, [temples.length]);
 
+  useEffect(() => {
+    const strip = stripRef.current;
+    const card = strip?.children[Math.min(active, Math.max(temples.length - 1, 0))] as HTMLElement | undefined;
+    if (!strip || !card || strip.scrollWidth <= strip.clientWidth + 1) return;
+    const left = card.offsetLeft - (strip.clientWidth - card.offsetWidth) / 2;
+    strip.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+  }, [active, temples.length]);
+
   const pickTemple = (index: number) => {
     setActive(index);
+    pauseUntil.current = Date.now() + 12000;
+  };
+
+  const nudgeStrip = (direction: number) => {
+    const strip = stripRef.current;
+    const card = strip?.querySelector("button");
+    if (!strip || !card) return;
+    strip.scrollBy({ left: direction * (card.offsetWidth + 8), behavior: "smooth" });
     pauseUntil.current = Date.now() + 12000;
   };
 
@@ -108,7 +121,7 @@ export function PoojaTemplesSection({
         pauseUntil.current = Date.now() + 2500;
       }}
     >
-      <aside className="flex h-full flex-col overflow-hidden rounded-[20px] border border-[#EAD9B0] bg-[#FFFBF0] p-4 shadow-[0_8px_24px_-16px_rgba(184,126,59,0.22)] md:p-5">
+      <aside className="flex h-full min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#EAD9B0] bg-[#FFFBF0] p-4 shadow-[0_8px_24px_-16px_rgba(184,126,59,0.22)] md:p-5">
         <p className="text-[10px] font-semibold tracking-[0.16em] text-[#9A7A4A] uppercase">{t("articles.templeKicker")}</p>
         <h3 className="mt-1.5 font-serif text-[22px] font-medium leading-[1.2] tracking-[-0.02em] text-[#1A1106]">
           {t("articles.templeLead")} <span className="italic text-[#9A6F3A]">{t("articles.templeAccent")}</span>
@@ -122,32 +135,57 @@ export function PoojaTemplesSection({
             </li>
           ))}
         </ul>
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          {temples.slice(0, 6).map((temple, index) => {
-            const src = imageSrc(temple.featured_image);
-            const on = index === Math.min(active, temples.length - 1);
-            return (
+        <div className="relative mt-3 min-w-0">
+          {temples.length > 3 ? (
+            <div className="mb-2 flex justify-end gap-1.5">
               <button
-                key={temple.id || temple.slug}
                 type="button"
-                onClick={() => pickTemple(index)}
-                className={`min-w-0 text-left ${on ? "" : "opacity-80 hover:opacity-100"}`}
+                onClick={() => nudgeStrip(-1)}
+                aria-label="Previous temples"
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-[#EAD9B0] bg-white text-sm text-[#1E160E] shadow-sm"
               >
-                <div
-                  className={`aspect-square overflow-hidden rounded-[12px] bg-[#F7F0E2] ${
-                    on ? "ring-2 ring-[#1E160E]" : "ring-1 ring-[#EAD9B0]"
-                  }`}
-                >
-                  {src ? (
-                    <img src={src} alt={temple.title} className="h-full w-full object-contain object-center" />
-                  ) : (
-                    <div className="flex h-full items-center justify-center font-serif text-[#C9A86A]">ॐ</div>
-                  )}
-                </div>
-                <p className="mt-1.5 line-clamp-2 text-center text-[10px] font-medium leading-snug text-[#5C4A32]">{temple.title}</p>
+                ←
               </button>
-            );
-          })}
+              <button
+                type="button"
+                onClick={() => nudgeStrip(1)}
+                aria-label="Next temples"
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-[#1E160E] bg-[#1E160E] text-sm text-white shadow-sm"
+              >
+                →
+              </button>
+            </div>
+          ) : null}
+          <div
+            ref={stripRef}
+            className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth py-0.5"
+          >
+            {temples.map((temple, index) => {
+              const src = imageSrc(temple.featured_image);
+              const on = index === Math.min(active, temples.length - 1);
+              return (
+                <button
+                  key={temple.id || temple.slug}
+                  type="button"
+                  onClick={() => pickTemple(index)}
+                  className={`w-[calc((100%-1rem)/3)] shrink-0 snap-start text-left ${on ? "" : "opacity-80 hover:opacity-100"}`}
+                >
+                  <div
+                    className={`aspect-square overflow-hidden rounded-[12px] bg-[#F7F0E2] ${
+                      on ? "ring-2 ring-[#1E160E]" : "ring-1 ring-[#EAD9B0]"
+                    }`}
+                  >
+                    {src ? (
+                      <img src={src} alt={temple.title} className="h-full w-full object-cover object-center" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center font-serif text-[#C9A86A]">ॐ</div>
+                    )}
+                  </div>
+                  <p className="mt-1.5 line-clamp-2 min-h-[2.4em] text-center text-[10px] font-medium leading-snug text-[#5C4A32]">{temple.title}</p>
+                </button>
+              );
+            })}
+          </div>
         </div>
         {selected && related.length ? (
           <div className="mt-3">
@@ -190,7 +228,7 @@ export function PoojaTemplesSection({
           <p className="text-[10px] font-semibold tracking-[0.16em] text-[#9A7A4A] uppercase">{t("temple.featured")}</p>
           <div className="relative mt-3 min-h-[240px] flex-1 overflow-hidden rounded-[16px] bg-[#F7F0E2] lg:min-h-0">
             {featuredSrc ? (
-              <img src={featuredSrc} alt={selected.title} className="absolute inset-0 h-full w-full object-contain object-center" />
+              <img src={featuredSrc} alt={selected.title} className="absolute inset-0 h-full w-full object-cover object-center" />
             ) : (
               <div className="flex h-full min-h-[240px] w-full items-center justify-center font-serif text-5xl text-[#C9A86A]">ॐ</div>
             )}

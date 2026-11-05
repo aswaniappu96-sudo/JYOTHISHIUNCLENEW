@@ -26,7 +26,12 @@ import {
 } from "@/lib/whatsapp-return";
 import type { CustomerUser } from "@/types/forms";
 
-export type PortalItem = { slug: string; title: string; vendor?: string };
+export type PortalItem = {
+  slug: string;
+  title: string;
+  vendor?: string;
+  poojaChoices?: { slug: string; title: string }[];
+};
 
 export type ConsultationPrefill = {
   date?: string;
@@ -34,6 +39,7 @@ export type ConsultationPrefill = {
   whatsapp?: string;
   astrologerName?: string;
   purpose?: string;
+  services?: string[];
 };
 
 type PortalKind = "auth" | "pooja" | "product" | "consultation" | "consultation-offer" | "enquiry" | null;
@@ -43,6 +49,7 @@ type PortalContextValue = {
   openPooja: (item: PortalItem) => void;
   openProduct: (item: PortalItem) => void;
   openConsultation: (prefill?: ConsultationPrefill) => void;
+  claimFreeConsultation: (prefill?: ConsultationPrefill) => void;
   openEnquiry: (subject?: string) => void;
   close: () => void;
 };
@@ -52,6 +59,7 @@ const PortalContext = createContext<PortalContextValue>({
   openPooja: () => undefined,
   openProduct: () => undefined,
   openConsultation: () => undefined,
+  claimFreeConsultation: () => undefined,
   openEnquiry: () => undefined,
   close: () => undefined,
 });
@@ -70,6 +78,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
   const [item, setItem] = useState<PortalItem | null>(null);
   const [consultationPrefill, setConsultationPrefill] = useState<ConsultationPrefill | null>(null);
   const [claimFree, setClaimFree] = useState(false);
+  const [claimLogin, setClaimLogin] = useState(false);
   const [authForConsultation, setAuthForConsultation] = useState(false);
   const [authTab, setAuthTab] = useState<"login" | "register">("login");
   const [authAccountType, setAuthAccountType] = useState<"user" | "astrologer">("user");
@@ -130,7 +139,9 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
     setItem(null);
     setConsultationPrefill(null);
     setClaimFree(false);
+    setClaimLogin(false);
     setAuthForConsultation(false);
+    window.dispatchEvent(new Event("ju-portal-idle"));
     if (showServices) setServicesOpen(true);
   }, [firstVisitAuth]);
 
@@ -197,6 +208,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
         setAuthAccountType(accountType);
         setFirstVisitAuth(false);
         setAuthForConsultation(false);
+        setClaimLogin(false);
         setKind("auth");
       },
       openPooja: (next: PortalItem) => {
@@ -212,18 +224,30 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
       openConsultation: (prefill?: ConsultationPrefill) => {
         setConsultationPrefill(prefill || null);
         setFirstVisitAuth(false);
-        if (!user) {
-          setAuthForConsultation(true);
-          setAuthTab("login");
-          setKind("auth");
-          return;
-        }
-        if (freeOfferAvailable(user)) {
-          setAuthForConsultation(false);
+        setAuthForConsultation(false);
+        setClaimLogin(false);
+        if (user && freeOfferAvailable(user)) {
           setKind("consultation-offer");
           return;
         }
         startConsultationForm(false);
+      },
+      claimFreeConsultation: (prefill?: ConsultationPrefill) => {
+        setConsultationPrefill(prefill || null);
+        setFirstVisitAuth(false);
+        setAuthForConsultation(false);
+        if (!user) {
+          setClaimLogin(true);
+          setAuthTab("login");
+          setAuthAccountType("user");
+          setKind("auth");
+          return;
+        }
+        if (freeOfferAvailable(user)) {
+          startConsultationForm(true);
+          return;
+        }
+        setKind(null);
       },
       openEnquiry: (subject = "") => {
         setEnquirySubject(subject);
@@ -245,6 +269,12 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
           firstVisit={firstVisitAuth}
           consultationOffer={authForConsultation}
           onClose={() => {
+            if (claimLogin) {
+              setClaimLogin(false);
+              setKind(null);
+              window.dispatchEvent(new Event("ju-portal-idle"));
+              return;
+            }
             if (authForConsultation) {
               startConsultationForm(false);
               return;
@@ -252,6 +282,16 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
             close();
           }}
           onAuthenticated={(authed) => {
+            if (claimLogin) {
+              setClaimLogin(false);
+              if (freeOfferAvailable(authed)) {
+                startConsultationForm(true);
+                return;
+              }
+              setKind(null);
+              window.dispatchEvent(new Event("ju-portal-idle"));
+              return;
+            }
             if (authForConsultation) {
               if (freeOfferAvailable(authed)) {
                 setAuthForConsultation(false);

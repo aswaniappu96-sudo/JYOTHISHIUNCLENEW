@@ -52,6 +52,14 @@ const SLIDES = [
   },
 ] as const;
 
+function splitHeroHeading(text: string) {
+  const sentence = text.match(/^(.*?[.।])\s+(.+)$/);
+  if (sentence && sentence[1] && sentence[2]) return { lead: sentence[1], accent: sentence[2] };
+  const through = text.match(/^(.*?)\s+(Through\b.*)$/i);
+  if (through && through[1] && through[2]) return { lead: through[1], accent: through[2] };
+  return { lead: text, accent: "" };
+}
+
 const ctaPrimary =
   "inline-flex items-center justify-center rounded-full bg-primary-container px-5 py-2.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_10px_28px_rgba(201,162,39,0.4)] transition hover:brightness-95";
 const ctaGhost =
@@ -192,6 +200,8 @@ export function Hero({
   const serviceTrack = catalog.length ? [...catalog, ...catalog] : [];
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [index, setIndex] = useState(0);
+  const slide = SLIDES[index];
+  const heading = splitHeroHeading(t(slide.title));
   const callNumber = usablePhone(phone);
   const chatNumber = usableWhatsapp(whatsapp);
   const chatHref = whatsappUrl(chatNumber, "Namaste. I would like to chat with an astrologer at MaharshiOm.");
@@ -245,13 +255,19 @@ export function Hero({
                 />
               ))}
             </div>
-            <div>
-              <h1 className="max-w-xl font-serif text-[26px] font-medium leading-[1.08] tracking-[-0.03em] text-[#fff8ec] sm:text-[32px] md:text-[44px]">
-                {t("hero.headingLead")}{" "}
-                <em className="italic text-[#e5c378]">{t("hero.headingAccent")}</em>
+            <div key={index}>
+              <p className="text-[10px] font-bold uppercase tracking-[0.06em] text-[#e5c378] sm:text-[11px] sm:tracking-[0.14em]">
+                <span aria-hidden>◆ </span>
+                MaharshiOm
+                <span aria-hidden> · </span>
+                {t(slide.kicker)}
+              </p>
+              <h1 className="mt-2 max-w-xl font-serif text-[26px] font-medium leading-[1.12] tracking-[-0.03em] text-[#fff8ec] sm:text-[32px] md:text-[44px]">
+                <span className="block">{heading.lead}</span>
+                {heading.accent ? <em className="mt-1 block italic text-[#e5c378]">{heading.accent}</em> : null}
               </h1>
               <p className="mt-2 max-w-lg line-clamp-3 text-[13px] font-medium leading-relaxed text-[#f3e6c8] sm:mt-4 sm:text-sm md:text-[15px]">
-                {t("hero.subhead")}
+                {t(slide.copy)}
               </p>
               <div className="mt-3 flex flex-wrap gap-2 md:mt-5 md:hidden">
                 <a href={chatHref} target="_blank" rel="noreferrer" className={iconCta} aria-label={t("hero.chat")}>

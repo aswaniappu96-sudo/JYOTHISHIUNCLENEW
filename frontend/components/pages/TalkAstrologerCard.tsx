@@ -169,6 +169,7 @@ export function TalkAstrologerCard({
           </a>
           <button
             type="button"
+            suppressHydrationWarning
             onClick={() => openConsultation({ astrologerName: view.name, whatsapp })}
             className={actionBtnGold}
           >

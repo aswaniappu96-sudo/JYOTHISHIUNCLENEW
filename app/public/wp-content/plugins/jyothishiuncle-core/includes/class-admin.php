@@ -44,9 +44,9 @@ class JU_Admin {
 			array( 'Language content', admin_url( 'admin.php?page=ju-language' ), 'JyothishiUncle → Language content', 'English, Hindi, Tamil, Malayalam, Kannada, Telugu: menu, banner, buttons, footer.' ),
 			array( 'About', admin_url( 'admin.php?page=ju-edit-about' ), 'JyothishiUncle → About page', 'English title, intro, editor, Featured image. Language bar: English / Hindi / Tamil / Malayalam / Kannada / Telugu.' ),
 			array( 'Services heading', admin_url( 'admin.php?page=ju-edit-services' ), 'JyothishiUncle → Services page', 'Page title, intro, hero photo, and language tabs. Pooja/product cards are not on this screen.' ),
-			array( 'Pooja cards', admin_url( 'edit.php?post_type=pooja' ), 'Left menu → Poojas', 'Each pooja: English title and text, Featured image, gallery. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
-			array( 'Pooja temples', admin_url( 'edit.php?post_type=vendor' ), 'Left menu → Pooja Temples', 'Temples that can host online or offline poojas. They appear on the pooja page and in the booking form.' ),
-			array( 'Product cards', admin_url( 'edit.php?post_type=product' ), 'Left menu → Products', 'Each product: English title and text, Featured image, gallery. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
+			array( 'Pooja cards', admin_url( 'edit.php?post_type=pooja' ), 'Left menu → Poojas', 'Each pooja: English title and text, Featured image, gallery, and a Category. Categories added under Poojas → Categories appear in the website filter. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
+			array( 'Pooja temples', admin_url( 'edit.php?post_type=vendor' ), 'Left menu → Pooja Temples', 'Temples that can host online or offline poojas. Tick Poojas at this temple so those poojas appear under the temple. They also appear in the booking form.' ),
+			array( 'Product cards', admin_url( 'edit.php?post_type=product' ), 'Left menu → Products', 'Each product: English title and text, Featured image, gallery, and a Category. Categories added under Products → Categories appear in the website filter. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
 			array( 'Astrologers heading', admin_url( 'admin.php?page=ju-edit-astrologers' ), 'JyothishiUncle → Astrologers page', 'Page title, intro, hero photo, and language tabs.' ),
 			array( 'Astrologer cards', admin_url( 'edit.php?post_type=astrologer' ), 'Left menu → Astrologers', 'Each astrologer: English name, bio, location, portrait. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
 			array( 'Travel heading', admin_url( 'admin.php?page=ju-edit-travel' ), 'JyothishiUncle → Religious Travel page', 'Page title, intro, hero photo, and language tabs.' ),
@@ -251,7 +251,7 @@ class JU_Admin {
 
 		$cpt_notes = array(
 			'pooja'             => 'This pooja card appears on the Services page. Gallery photos appear on the pooja detail page.',
-			'vendor'            => 'This pooja temple appears on pooja pages and in the online and offline booking form.',
+			'vendor'            => 'This pooja temple appears on pooja pages and in the booking form. Tick the poojas performed here. Only those poojas are listed under this temple.',
 			'product'           => 'This product card appears on the Services page. Gallery photos appear on the product detail page.',
 			'astrologer'        => 'This portrait card appears on the Astrologers page.',
 			'religious_travel'  => 'This destination appears on the Religious Travel page.',

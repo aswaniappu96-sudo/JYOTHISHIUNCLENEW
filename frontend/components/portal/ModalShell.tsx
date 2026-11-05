@@ -30,6 +30,7 @@ export function ModalShell({
   children,
   wide = false,
   lead,
+  align = "sheet",
 }: {
   title: string;
   eyebrow?: string;
@@ -37,6 +38,7 @@ export function ModalShell({
   children: React.ReactNode;
   wide?: boolean;
   lead?: React.ReactNode;
+  align?: "sheet" | "center";
 }) {
   useEffect(() => {
     const html = document.documentElement;
@@ -52,14 +54,16 @@ export function ModalShell({
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-end justify-center overflow-hidden bg-on-surface/35 p-4 backdrop-blur-md md:items-center"
+      className={`fixed inset-0 z-[80] flex justify-center bg-on-surface/35 p-4 backdrop-blur-md ${
+        align === "center" ? "items-center overflow-y-auto" : "items-end overflow-hidden md:items-center"
+      }`}
       role="dialog"
       aria-modal="true"
     >
       <div
         className={`relative max-h-[90vh] w-full overflow-hidden rounded-2xl border border-primary/30 bg-linear-to-b from-surface-high via-surface-container to-surface-lowest p-6 shadow-[0_0_50px_rgba(229,195,120,0.25)] md:p-8 ${
-          wide ? "max-w-3xl" : "max-w-lg"
-        }`}
+          align === "center" ? "my-auto" : ""
+        } ${wide ? "max-w-3xl" : "max-w-lg"}`}
       >
         <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
           <div className="absolute -top-16 -left-16 h-40 w-40 rounded-full bg-primary/20 blur-[60px]" />

@@ -37,7 +37,7 @@ export function ProfileModal({
       <form onSubmit={onSubmit} className="w-full max-w-lg rounded-3xl bg-cream p-6 shadow-2xl md:p-8">
         <p className="text-xs uppercase tracking-[0.22em] text-saffron">Welcome</p>
         <h2 className="mt-2 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">A few details, then we can help you better</h2>
-        <p className="mt-2 text-sm text-ink/70">Name, number, address, and the service you want.</p>
+        <p className="mt-2 text-sm text-ink/70">Name, number, location, and the service you want.</p>
         <div className="mt-6 grid gap-3">
           <label className="text-sm">
             Name
@@ -48,7 +48,7 @@ export function ProfileModal({
             <input required name="mobile" autoComplete="tel" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
           </label>
           <label className="text-sm">
-            Address
+            Location
             <input required name="location" autoComplete="street-address" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
           </label>
           <label className="text-sm">

@@ -26,7 +26,7 @@ export function consultationWhatsAppMessage(details: {
     `Name: ${details.name}`,
     `Phone: ${details.phone}`,
     `Email: ${details.email}`,
-    `Address: ${details.address}`,
+    `Location: ${details.address}`,
     `Astrologer: ${astrologer || "Consultation only"}`,
     `Reason: ${details.reason}`,
     ...(details.videoLink
@@ -82,7 +82,7 @@ export function poojaWhatsAppMessage(details: {
   lines.push(`Pooja temple: ${vendor || "To be confirmed"}`);
   lines.push(
     `Name: ${details.name}`,
-    `Address: ${details.address}`,
+    `Location: ${details.address}`,
     `Phone: ${details.phone}`,
     `Email: ${details.email}`,
     `Preferred date: ${details.dateLabel}`,
@@ -112,7 +112,7 @@ export function productWhatsAppMessage(details: {
     `Product: ${details.productTitle}`,
     `Quantity: ${details.quantity}`,
     `Name: ${details.name}`,
-    `Address: ${details.address}`,
+    `Location: ${details.address}`,
     `Phone: ${details.phone}`,
     `Email: ${details.email}`,
     `Message: ${details.notes || "—"}`,
@@ -139,7 +139,7 @@ export function travelWhatsAppMessage(details: {
     "",
     `Yatra: ${details.yatraTitle}`,
     `Name: ${details.name}`,
-    `Address: ${details.address}`,
+    `Location: ${details.address}`,
     `Phone: ${details.phone}`,
     `Email: ${details.email}`,
     `Preferred dates: ${details.dates || "To be confirmed"}`,

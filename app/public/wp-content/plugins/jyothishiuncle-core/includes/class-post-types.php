@@ -30,6 +30,9 @@ class JU_Post_Types {
 			array( 'title', 'editor', 'thumbnail', 'excerpt' )
 		);
 
+		self::catalog_taxonomy( 'pooja_category', 'pooja' );
+		self::catalog_taxonomy( 'product_category', 'product' );
+
 		self::public_type(
 			'astrology_service',
 			'Astrology Service',
@@ -217,6 +220,110 @@ class JU_Post_Types {
 				'supports'            => array( 'title' ),
 				'capability_type'     => 'post',
 				'map_meta_cap'        => true,
+			)
+		);
+	}
+
+	public static function seed_categories() {
+		if ( get_option( 'ju_catalog_categories_v1' ) ) {
+			return;
+		}
+
+		$pooja_terms = array(
+			'ganesha'    => 'Ganesha',
+			'shiva'      => 'Shiva',
+			'vishnu'     => 'Vishnu',
+			'devi'       => 'Devi',
+			'navagraha'  => 'Navagraha',
+		);
+		$product_terms = array(
+			'rudraksha' => 'Rudraksha',
+			'yantra'    => 'Yantra',
+			'incense'   => 'Incense',
+			'samagri'   => 'Puja samagri',
+			'gem'       => 'Gem',
+			'mala'      => 'Mala',
+		);
+
+		foreach ( $pooja_terms as $slug => $name ) {
+			if ( ! term_exists( $slug, 'pooja_category' ) ) {
+				wp_insert_term( $name, 'pooja_category', array( 'slug' => $slug ) );
+			}
+		}
+		foreach ( $product_terms as $slug => $name ) {
+			if ( ! term_exists( $slug, 'product_category' ) ) {
+				wp_insert_term( $name, 'product_category', array( 'slug' => $slug ) );
+			}
+		}
+
+		$pooja_rules = array(
+			'ganesha'   => '/ganapathi|ganesha|ganesh|vinayaka/i',
+			'shiva'     => '/mrityunjaya|mrityunjay|shiva|aghora|rudra|bhairav/i',
+			'vishnu'    => '/sudarshan|vishnu|narayan/i',
+			'devi'      => '/devi|durga|kali|lalita|chandi|laxmi|lakshmi|bagalamukhi|amman/i',
+			'navagraha' => '/navagraha|nava\s*graha/i',
+		);
+		$product_rules = array(
+			'rudraksha' => '/rudraksha/i',
+			'yantra'    => '/yantra/i',
+			'incense'   => '/incense|agarbatti|dhoop|sambrani/i',
+			'samagri'   => '/ghee|chandan|sandal|kumkum|camphor|karpuram|samagri/i',
+			'gem'       => '/\bgem|navratna|\bratna|pukhraj|neelam/i',
+			'mala'      => '/\bmala|sphatik|tulsi|\bbead/i',
+		);
+
+		self::assign_seeded_terms( 'pooja', 'pooja_category', $pooja_rules );
+		self::assign_seeded_terms( 'product', 'product_category', $product_rules );
+		update_option( 'ju_catalog_categories_v1', 1, false );
+	}
+
+	private static function assign_seeded_terms( $post_type, $taxonomy, $rules ) {
+		$posts = get_posts(
+			array(
+				'post_type'      => $post_type,
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+			)
+		);
+		foreach ( $posts as $post ) {
+			if ( get_post_meta( $post->ID, '_ju_category_seeded', true ) ) {
+				continue;
+			}
+			$text = $post->post_title . ' ' . $post->post_name . ' ' . $post->post_excerpt;
+			$slug = '';
+			foreach ( $rules as $candidate => $pattern ) {
+				if ( preg_match( $pattern, $text ) ) {
+					$slug = $candidate;
+					break;
+				}
+			}
+			if ( $slug ) {
+				wp_set_object_terms( $post->ID, $slug, $taxonomy, false );
+			}
+			update_post_meta( $post->ID, '_ju_category_seeded', '1' );
+		}
+	}
+
+	private static function catalog_taxonomy( $taxonomy, $post_type ) {
+		register_taxonomy(
+			$taxonomy,
+			$post_type,
+			array(
+				'labels'            => array(
+					'name'          => 'Categories',
+					'singular_name' => 'Category',
+					'menu_name'     => 'Categories',
+					'all_items'     => 'All Categories',
+					'add_new_item'  => 'Add New Category',
+					'edit_item'     => 'Edit Category',
+					'search_items'  => 'Search Categories',
+				),
+				'public'            => false,
+				'show_ui'           => true,
+				'show_admin_column' => true,
+				'show_in_rest'      => true,
+				'hierarchical'      => true,
+				'rewrite'           => false,
 			)
 		);
 	}

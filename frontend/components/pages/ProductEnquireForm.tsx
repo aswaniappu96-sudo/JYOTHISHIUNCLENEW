@@ -79,7 +79,7 @@ export function ProductEnquireForm({
           <input required type="email" name="email" defaultValue={user?.email} className={fieldClass} />
         </label>
         <label className="block text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">
-          Address / location
+          Location
           <input required name="location" defaultValue={user?.location} className={fieldClass} />
         </label>
         <label className="block text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">

@@ -62,7 +62,7 @@ export default function RegisterPage() {
           <input required name="mobile" autoComplete="tel" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
         </label>
         <label className="text-sm">
-          Address
+          Location
           <input required name="location" autoComplete="street-address" className="mt-2 w-full rounded-2xl border border-saffron/30 bg-paper px-4 py-3" />
         </label>
         <label className="text-sm">

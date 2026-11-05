@@ -103,7 +103,7 @@ export function PoojaBookingPanel({
             </label>
           </div>
           <label className="block text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">
-            Address / location
+            Location
             <input required name="location" defaultValue={user?.location} className={`${fieldClass} mt-1`} />
           </label>
           <label className="block text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">

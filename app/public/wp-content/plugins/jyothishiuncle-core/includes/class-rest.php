@@ -86,6 +86,8 @@ class JU_REST {
 		self::item( '/vendors/(?P<slug>[a-z0-9-]+)', 'vendor' );
 		self::collection( '/products', 'products' );
 		self::item( '/products/(?P<slug>[a-z0-9-]+)', 'product' );
+		register_rest_route( self::NS, '/pooja-categories', array_merge( $public, array( 'callback' => array( __CLASS__, 'pooja_categories' ) ) ) );
+		register_rest_route( self::NS, '/product-categories', array_merge( $public, array( 'callback' => array( __CLASS__, 'product_categories' ) ) ) );
 		self::collection( '/services', 'services' );
 		self::item( '/services/(?P<slug>[a-z0-9-]+)', 'service' );
 		self::collection( '/astrologers', 'astrologers' );
@@ -265,6 +267,14 @@ class JU_REST {
 
 	public static function vendor( WP_REST_Request $request ) {
 		return self::one( 'vendor', $request['slug'], array( 'JU_REST_Serialize', 'vendor' ) );
+	}
+
+	public static function pooja_categories() {
+		return rest_ensure_response( JU_REST_Serialize::term_list( 'pooja_category' ) );
+	}
+
+	public static function product_categories() {
+		return rest_ensure_response( JU_REST_Serialize::term_list( 'product_category' ) );
 	}
 
 	public static function products( WP_REST_Request $request ) {

@@ -17,17 +17,19 @@ import {
   poojaMatchesGroup,
   productHaystack,
   productKindChips,
-  productKindId,
+  productMatchesKind,
   productStockChips,
 } from "@/lib/catalogFilters";
 import { useLocalizedList, useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH, PRODUCTS_PATH, servicesTab } from "@/lib/siteRoutes";
-import type { Pooja, Product, Vendor, WPPage } from "@/types/wordpress";
+import type { CatalogCategory, Pooja, Product, Vendor, WPPage } from "@/types/wordpress";
 
 export function ServicesView({
   poojas,
   products,
+  poojaCategories = [],
+  productCategories = [],
   page,
   whatsappNumber,
   vendors = [],
@@ -35,6 +37,8 @@ export function ServicesView({
 }: {
   poojas: Pooja[];
   products: Product[];
+  poojaCategories?: CatalogCategory[];
+  productCategories?: CatalogCategory[];
   page?: WPPage | null;
   whatsappNumber: string;
   vendors?: Vendor[];
@@ -53,7 +57,7 @@ export function ServicesView({
   const [productKind, setProductKind] = useState("all");
   const [productStock, setProductStock] = useState("all");
 
-  const poojaChips = useMemo(() => poojaFilterChips(poojaItems), [poojaItems]);
+  const poojaChips = useMemo(() => poojaFilterChips(poojaItems, poojaCategories), [poojaItems, poojaCategories]);
   const visiblePoojas = useMemo(
     () =>
       poojaItems.filter(
@@ -61,12 +65,12 @@ export function ServicesView({
       ),
     [poojaItems, poojaGroup, poojaQuery],
   );
-  const productKinds = useMemo(() => productKindChips(productItems), [productItems]);
+  const productKinds = useMemo(() => productKindChips(productItems, productCategories), [productItems, productCategories]);
   const productStocks = useMemo(() => productStockChips(productItems), [productItems]);
   const visibleProducts = useMemo(
     () =>
       productItems.filter((item) => {
-        const kindOk = productKind === "all" || productKindId(item) === productKind;
+        const kindOk = productMatchesKind(item, productKind);
         const stockOk = productStock === "all" || (item.availability || "in_stock") === productStock;
         return kindOk && stockOk && matchesQuery(productHaystack(item), productQuery);
       }),
@@ -183,13 +187,13 @@ export function ServicesView({
               </div>
             ) : (
               <p className="rounded-2xl bg-surface-low px-6 py-12 text-center text-sm text-on-surface-variant">
-                No poojas match this filter. Try another deity or clear the search.
+                No poojas match this filter. Try another category or clear the search.
               </p>
             )}
             <p className="mt-6 text-center text-xs text-outline">Includes Chandi Homam, Rudrabhishekam, Kala Bhairava & Bagalamukhi Yajna on enquiry.</p>
             {vendors.length ? (
               <div className="mt-16">
-                <PoojaVendorsSection vendors={vendors} />
+                <PoojaVendorsSection vendors={vendors} poojas={poojaItems} />
               </div>
             ) : null}
           </div>

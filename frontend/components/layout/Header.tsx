@@ -16,7 +16,7 @@ import type { AstrologyService } from "@/types/wordpress";
 
 const primaryNav = [
   { href: "/", key: "nav.home" as const, match: "home" },
-  { href: "/#all-services", key: "nav.services" as const, match: "services" },
+  { href: "/#consultation-services", key: "nav.services" as const, match: "services" },
   { href: "/astrologers", key: "nav.astrologers" as const, match: "astrologers" },
   { href: POOJAS_PATH, key: "nav.poojas" as const, match: "poojas" },
   { href: PRODUCTS_PATH, key: "nav.products" as const, match: "products" },
@@ -56,7 +56,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className={`relative px-1 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition ${
+      className={`relative whitespace-nowrap px-1 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition ${
         overHero
           ? active
             ? "text-[#e5c378]"
@@ -88,6 +88,28 @@ function AccountIcon() {
   );
 }
 
+function followHomeHash(event: { preventDefault: () => void }, href: string) {
+  if (typeof window === "undefined") return;
+  const hashIndex = href.indexOf("#");
+  const hash = hashIndex >= 0 ? href.slice(hashIndex + 1) : "";
+  if (hash.startsWith("svc-")) {
+    try {
+      sessionStorage.setItem("ju_open_service", hash);
+    } catch {
+      /* ignore */
+    }
+  }
+  if (window.location.pathname !== "/" || !hash) return;
+  event.preventDefault();
+  const next = `#${hash}`;
+  if (window.location.hash === next) {
+    window.dispatchEvent(new Event("hashchange"));
+    document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  window.location.hash = next;
+}
+
 function ServiceMega({
   items,
   open,
@@ -113,7 +135,10 @@ function ServiceMega({
             <Link
               key={item.id}
               href={item.href}
-              onClick={onClose}
+              onClick={(event) => {
+                onClose();
+                followHomeHash(event, item.href);
+              }}
               className="block rounded-lg px-3 py-2 hover:bg-surface-low"
             >
               <span className="block text-[13px] font-semibold text-primary">{item.label}</span>
@@ -148,6 +173,7 @@ export function Header({
   services?: AstrologyService[];
 }) {
   const [open, setOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
@@ -177,9 +203,13 @@ export function Header({
       setOverHero(hero.getBoundingClientRect().bottom > 96);
     };
     update();
+    const hero = document.querySelector<HTMLElement>("[data-hero]");
+    const observer = hero ? new ResizeObserver(update) : null;
+    observer?.observe(hero as HTMLElement);
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     return () => {
+      observer?.disconnect();
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
@@ -201,8 +231,8 @@ export function Header({
       }`}
     >
       <div className="relative flex h-16 w-full items-center justify-between px-4 md:h-20 md:px-8 lg:px-10">
-        <Link href="/" className="relative z-10 flex h-full min-w-0 max-w-[58vw] items-center sm:max-w-[320px] lg:max-w-[380px]">
-          <BrandLogo className={`h-14 md:h-[4.25rem] ${overHero ? "drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]" : ""}`} />
+        <Link href="/" className="relative z-10 flex h-full min-w-0 max-w-[74vw] items-center sm:max-w-[320px] lg:max-w-[380px]">
+          <BrandLogo light={overHero} className="h-10 md:h-12" />
         </Link>
 
         <nav
@@ -218,10 +248,13 @@ export function Header({
                 onMouseLeave={() => setServicesOpen(false)}
               >
                 <Link
-                  href="/#all-services"
-                  className={`flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${navTone}`}
+                  href="/#consultation-services"
+                  className={`flex items-center gap-1 whitespace-nowrap bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${navTone}`}
                   aria-expanded={servicesOpen}
-                  onClick={() => setServicesOpen(false)}
+                  onClick={(event) => {
+                    setServicesOpen(false);
+                    followHomeHash(event, "/#consultation-services");
+                  }}
                 >
                   {t("nav.services")}
                   <span className="text-[9px] opacity-80">▾</span>
@@ -233,13 +266,13 @@ export function Header({
             ),
           )}
           <div
-            className="group relative flex h-20 items-center"
+            className="group relative flex h-16 items-center md:h-20"
             onMouseEnter={() => setMoreOpen(true)}
             onMouseLeave={() => setMoreOpen(false)}
           >
             <button
               type="button"
-              className={`flex items-center gap-1 bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${moreTone}`}
+              className={`flex items-center gap-1 whitespace-nowrap bg-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition ${moreTone}`}
               aria-expanded={moreOpen}
               onClick={() => setMoreOpen(true)}
             >
@@ -324,7 +357,10 @@ export function Header({
             }`}
             aria-expanded={open}
             aria-label="Open menu"
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => {
+              setOpen((value) => !value);
+              setMobileServicesOpen(false);
+            }}
           >
             <span className="flex flex-col gap-1.5">
               <span className={`block h-px w-4 ${overHero ? "bg-[#e5c378]" : "bg-[#b08a1a]"}`} />
@@ -339,17 +375,73 @@ export function Header({
       {open ? (
         <nav className="max-h-[70vh] overflow-y-auto border-t border-outline-variant/60 bg-surface-lowest px-5 py-4 xl:hidden" aria-label="Mobile">
           <div className="flex flex-col gap-3 text-sm font-medium tracking-wide text-primary">
-            {primaryNav.map((item) => (
-              <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
-                {t(item.key)}
-              </Link>
-            ))}
-            <p className="pt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">{t("nav.services")}</p>
-            {catalog.map((item) => (
-              <Link key={item.id} href={item.href} onClick={() => setOpen(false)}>
-                {item.label}
-              </Link>
-            ))}
+            {primaryNav.map((item) =>
+              item.match === "services" ? (
+                <div key={item.href}>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between text-left"
+                    aria-expanded={mobileServicesOpen}
+                    onClick={() => setMobileServicesOpen((value) => !value)}
+                  >
+                    <span>{t(item.key)}</span>
+                    <span className={`text-[10px] text-[#8A6A3A] transition ${mobileServicesOpen ? "rotate-180" : ""}`} aria-hidden>
+                      ▾
+                    </span>
+                  </button>
+                  {mobileServicesOpen ? (
+                    <div className="mt-2 flex flex-col gap-1.5 border-l border-[#EAD9B0] pl-3">
+                      {catalog
+                        .filter((service) => service.group === "consult")
+                        .map((service) => (
+                          <Link
+                            key={service.id}
+                            href={service.href}
+                            onClick={(event) => {
+                              setOpen(false);
+                              setMobileServicesOpen(false);
+                              followHomeHash(event, service.href);
+                            }}
+                            className="text-[12px] font-medium text-[#8A6A3A]"
+                          >
+                            {service.label}
+                          </Link>
+                        ))}
+                      {catalog.some((service) => service.group === "offer") ? (
+                        <p className="pt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#B08A1A]">Also available</p>
+                      ) : null}
+                      {catalog
+                        .filter((service) => service.group === "offer")
+                        .map((service) => (
+                          <Link
+                            key={service.id}
+                            href={service.href}
+                            onClick={(event) => {
+                              setOpen(false);
+                              setMobileServicesOpen(false);
+                              followHomeHash(event, service.href);
+                            }}
+                            className="text-[12px] font-medium text-[#9A6F3A]"
+                          >
+                            {service.label}
+                          </Link>
+                        ))}
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={(event) => {
+                    setOpen(false);
+                    followHomeHash(event, item.href);
+                  }}
+                >
+                  {t(item.key)}
+                </Link>
+              ),
+            )}
             {moreNav.map((item) => (
               <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
                 {t(item.key)}

@@ -143,6 +143,22 @@ function consultDuration(label: string, minutes?: number) {
   return 30;
 }
 
+/** Home consultation accordion anchor for Kundli, Prashna, and the other readings. */
+export function consultPanelAnchor(label: string): string {
+  const key = (label || "").toLowerCase();
+  if (/kundli|kundali|jathak|birth/.test(key)) return "svc-kundli";
+  if (/prashna|prasna|ashtamangala|thamboola/.test(key)) return "svc-prashna";
+  if (/match|porutham|guna/.test(key)) return "svc-matchmaking";
+  if (/family/.test(key)) return "svc-family";
+  if (/remed|parihara/.test(key)) return "svc-remedies";
+  const slug = key.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "service";
+  return `svc-${slug}`;
+}
+
+export function consultPanelHref(label: string): string {
+  return `/#${consultPanelAnchor(label)}`;
+}
+
 /** Popular Astrology Services accordion id — Family guidance opens Life Guidance. */
 export function popularAccordionId(label: string): string {
   const key = (label || "").toLowerCase();
@@ -172,7 +188,7 @@ export function consultServicesFromWp(services: AstrologyService[]): SiteService
         short: label.replace(" guidance", ""),
         hint: publicServiceHint(service.title, raw) || "Video consulting",
         detail: publicServiceDetail(service.title, raw),
-        href: popularAccordionHref(label),
+        href: consultPanelHref(label),
         group: "consult" as const,
         durationMinutes: consultDuration(label, service.duration_minutes || undefined),
       };
@@ -187,7 +203,7 @@ export function consultServicesFromWp(services: AstrologyService[]): SiteService
     short: item.title.replace(" guidance", ""),
     hint: item.hint,
     detail: publicServiceDetail(item.title, item.hint),
-    href: popularAccordionHref(item.title),
+    href: consultPanelHref(item.title),
     group: "consult" as const,
     durationMinutes: consultDuration(item.title),
   }));

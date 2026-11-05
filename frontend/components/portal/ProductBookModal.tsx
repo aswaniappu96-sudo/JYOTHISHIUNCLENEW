@@ -65,7 +65,7 @@ export function ProductBookModal({
           <Field label="Name">
             <input required name="name" defaultValue={user?.name} className={fieldClass} />
           </Field>
-          <Field label="Address">
+          <Field label="Location">
             <input required name="location" defaultValue={user?.location} className={fieldClass} />
           </Field>
           <Field label="Phone">

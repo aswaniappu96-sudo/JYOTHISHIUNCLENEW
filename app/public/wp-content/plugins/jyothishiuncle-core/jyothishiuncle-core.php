@@ -72,6 +72,7 @@ function ju_core_deactivate() {
 
 add_action( 'init', array( 'JU_Roles', 'register' ) );
 add_action( 'init', array( 'JU_Post_Types', 'register' ) );
+add_action( 'init', array( 'JU_Post_Types', 'seed_categories' ), 20 );
 add_action( 'init', array( 'JU_Post_Types', 'relabel_articles' ) );
 add_action( 'init', array( 'JU_Sample_Content', 'maybe_seed_extras' ), 30 );
 add_action( 'acf/init', array( 'JU_ACF_Fields', 'register' ) );

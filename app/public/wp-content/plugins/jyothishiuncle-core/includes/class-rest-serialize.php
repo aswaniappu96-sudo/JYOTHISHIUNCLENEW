@@ -24,6 +24,7 @@ class JU_REST_Serialize {
 				'requirements'     => self::html_meta( $post->ID, 'requirements' ),
 				'gallery'          => self::gallery( $post->ID ),
 				'booking_enabled'  => (bool) self::meta( $post->ID, 'booking_enabled', true ),
+				'categories'       => self::post_terms( $post->ID, 'pooja_category' ),
 				'whatsapp_message' => (string) self::meta( $post->ID, 'whatsapp_message', 'Hello, I am interested in ' . $post->post_title . '.' ),
 				'i18n'             => self::i18n_pack(
 					$post->ID,
@@ -40,6 +41,7 @@ class JU_REST_Serialize {
 			array(
 				'location'         => (string) self::meta( $post->ID, 'location' ),
 				'full_description' => self::html_meta( $post->ID, 'full_description', $post->post_content ),
+				'pooja_ids'        => self::temple_pooja_ids( $post->ID ),
 				'i18n'             => self::i18n_pack(
 					$post->ID,
 					array( 'title', 'location', 'short_description', 'full_description' ),
@@ -56,6 +58,7 @@ class JU_REST_Serialize {
 				'full_description' => self::html_meta( $post->ID, 'full_description', $post->post_content ),
 				'product_info'     => self::html_meta( $post->ID, 'product_info' ),
 				'availability'     => (string) self::meta( $post->ID, 'availability', 'in_stock' ),
+				'categories'       => self::post_terms( $post->ID, 'product_category' ),
 				'gallery'          => self::gallery( $post->ID ),
 				'whatsapp_message' => (string) self::meta( $post->ID, 'whatsapp_message', 'Hello, I am interested in ' . $post->post_title . '.' ),
 				'i18n'             => self::i18n_pack(
@@ -236,6 +239,21 @@ class JU_REST_Serialize {
 		return $out;
 	}
 
+	public static function temple_pooja_ids( $post_id ) {
+		$raw = self::meta( $post_id, 'temple_poojas', array() );
+		if ( ! is_array( $raw ) ) {
+			$raw = $raw ? array( $raw ) : array();
+		}
+		$ids = array();
+		foreach ( $raw as $id ) {
+			$id = (int) $id;
+			if ( $id > 0 && 'pooja' === get_post_type( $id ) && 'publish' === get_post_status( $id ) ) {
+				$ids[] = $id;
+			}
+		}
+		return array_values( array_unique( $ids ) );
+	}
+
 	public static function meta( $post_id, $key, $default = '' ) {
 		if ( function_exists( 'get_field' ) ) {
 			$value = get_field( $key, $post_id );
@@ -281,6 +299,47 @@ class JU_REST_Serialize {
 			if ( $image ) {
 				$out[] = $image;
 			}
+		}
+		return $out;
+	}
+
+	public static function term_list( $taxonomy ) {
+		$terms = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => false,
+			)
+		);
+		if ( is_wp_error( $terms ) || ! is_array( $terms ) ) {
+			return array();
+		}
+		$out = array();
+		foreach ( $terms as $term ) {
+			$out[] = array(
+				'slug' => $term->slug,
+				'name' => html_entity_decode( $term->name, ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+			);
+		}
+		usort(
+			$out,
+			static function ( $a, $b ) {
+				return strcasecmp( $a['name'], $b['name'] );
+			}
+		);
+		return $out;
+	}
+
+	public static function post_terms( $post_id, $taxonomy ) {
+		$terms = get_the_terms( $post_id, $taxonomy );
+		if ( is_wp_error( $terms ) || ! is_array( $terms ) ) {
+			return array();
+		}
+		$out = array();
+		foreach ( $terms as $term ) {
+			$out[] = array(
+				'slug' => $term->slug,
+				'name' => html_entity_decode( $term->name, ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+			);
 		}
 		return $out;
 	}

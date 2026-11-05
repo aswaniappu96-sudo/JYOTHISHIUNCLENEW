@@ -36,7 +36,7 @@ export function markServicesPopupSeen() {
 }
 
 export function skipWelcomeOnPath(pathname: string) {
-  return /^\/(login|register|account)(\/|$)/.test(pathname);
+  return /^\/(login|register|account|astrologers)(\/|$)/.test(pathname);
 }
 
 const QUEUE_SERVICES_KEY = "ju_queue_services";

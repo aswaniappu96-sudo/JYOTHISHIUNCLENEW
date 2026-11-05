@@ -10,11 +10,13 @@ import { whatsappUrl } from "@/lib/whatsapp";
 export function ConsultationBookPanel({
   whatsappNumber,
   purpose = "",
+  services = [],
   selected,
   onSelected,
 }: {
   whatsappNumber: string;
   purpose?: string;
+  services?: string[];
   selected: SelectedConsultationDay | null;
   onSelected: (day: SelectedConsultationDay | null) => void;
 }) {
@@ -45,6 +47,7 @@ export function ConsultationBookPanel({
       whatsapp: chatNumber,
       astrologerName: CONSULTATION_ONLY_LABEL,
       purpose,
+      services,
     });
   };
   const waMessage = selected?.date

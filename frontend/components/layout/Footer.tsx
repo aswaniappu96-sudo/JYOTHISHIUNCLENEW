@@ -141,7 +141,7 @@ export function Footer({
         <div className="grid grid-cols-2 gap-8 py-4 sm:grid-cols-3 lg:grid-cols-5">
           <div>
             <Link href="/" className="mb-4 inline-block" aria-label={BRAND_NAME}>
-              <BrandLogo className="h-16" />
+              <BrandLogo className="h-10 sm:h-12" />
             </Link>
             <ul className="space-y-2">
               {company.map((item) => (
@@ -160,7 +160,12 @@ export function Footer({
           />
         </div>
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-outline-variant/30 pt-6 sm:flex-row">
+        <div className="mt-8 rounded-xl border border-[#3A2A14] bg-[#1E160E] px-4 py-3 text-center sm:px-6">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E9C07A]">{t("footer.warningLabel")}</p>
+          <p className="mx-auto mt-1 max-w-4xl text-[12px] font-semibold leading-relaxed text-[#FFF4D8]">{t("footer.warning")}</p>
+        </div>
+
+        <div className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-outline-variant/30 pt-6 sm:flex-row">
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:gap-4">
             <p className="text-xs text-on-surface-variant">
               © {year} <BrandMark />

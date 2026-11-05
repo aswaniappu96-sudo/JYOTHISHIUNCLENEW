@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import { ServicesView } from "@/components/pages/ServicesView";
-import { fallbackSettings, getPage, getPoojas, getProducts, getSettings, getVendors, settleApi } from "@/lib/api/wordpress";
+import {
+  fallbackSettings,
+  getPage,
+  getPoojaCategories,
+  getPoojas,
+  getProductCategories,
+  getProducts,
+  getSettings,
+  getVendors,
+  settleApi,
+} from "@/lib/api/wordpress";
 import { servicesTab } from "@/lib/siteRoutes";
 
 export const dynamic = "force-dynamic";
@@ -16,9 +26,11 @@ export default async function ServicesPage({
   searchParams: Promise<{ tab?: string }>;
 }) {
   const params = await searchParams;
-  const [poojas, products, page, settings, vendors] = await Promise.all([
+  const [poojas, products, poojaCategories, productCategories, page, settings, vendors] = await Promise.all([
     settleApi(getPoojas(), []),
     settleApi(getProducts(), []),
+    settleApi(getPoojaCategories(), []),
+    settleApi(getProductCategories(), []),
     settleApi(getPage("services"), null),
     settleApi(getSettings(), fallbackSettings()),
     settleApi(getVendors(), []),
@@ -27,6 +39,8 @@ export default async function ServicesPage({
     <ServicesView
       poojas={poojas}
       products={products}
+      poojaCategories={poojaCategories}
+      productCategories={productCategories}
       page={page}
       whatsappNumber={settings.whatsapp_number}
       vendors={vendors}

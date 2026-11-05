@@ -183,6 +183,7 @@ function AstrologerTalkBoardInner({
               type="button"
               role="tab"
               aria-selected={filter === tab.id}
+              suppressHydrationWarning
               onClick={() => setFilter(tab.id)}
               className={filter === tab.id ? tabOn : tabOff}
             >

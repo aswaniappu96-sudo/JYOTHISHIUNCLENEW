@@ -83,6 +83,7 @@ export function AuthModal({
       eyebrow={firstVisit ? "Welcome" : mode === "login" ? "Returning seeker" : astrologer ? "Astrologer registration" : "New seeker"}
       title={firstVisit && mode === "login" ? "Login to use" : mode === "login" ? "Login" : astrologer ? "Join as an Astrologer" : "Create account"}
       onClose={onClose}
+      align="center"
       lead={
         <>
           {consultationOffer ? (
@@ -157,7 +158,7 @@ export function AuthModal({
           <Field label="Phone number">
             <input required name="mobile" autoComplete="tel" className={fieldClass} />
           </Field>
-          <Field label="Address">
+          <Field label="Location">
             <input required name="location" autoComplete="street-address" className={fieldClass} />
           </Field>
           {astrologer ? (

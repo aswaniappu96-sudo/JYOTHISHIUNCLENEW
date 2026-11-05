@@ -51,6 +51,7 @@ const labels = {
   travel: "Temple yatra",
   horoscope: "Horoscope",
   consult: "Consultation",
+  video: "Video consulting",
   blog: "Blog",
   cta: "Call to action",
   footer: "Footer",

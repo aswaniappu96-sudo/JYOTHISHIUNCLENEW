@@ -12,7 +12,7 @@ export function WhatsAppButton({ number, message }: { number: string; message: s
       className="group fixed right-4 bottom-7 z-50 flex items-center md:right-7"
       aria-label="Chat with MaharshiOm on WhatsApp"
     >
-      <span className="mr-2 hidden rounded-full bg-surface-high/80 px-4 py-1 text-xs font-bold uppercase tracking-[0.18em] text-primary opacity-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition group-hover:opacity-100 md:inline">
+      <span className="pointer-events-none absolute right-[calc(100%+0.5rem)] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full bg-surface-high/80 px-4 py-1 text-xs font-bold uppercase tracking-[0.18em] text-primary opacity-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition group-hover:opacity-100 md:inline">
         ॐ Chat with <BrandText>MaharshiOm</BrandText>
       </span>
       <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-primary-container text-on-primary shadow-[0_0_30px_rgba(229,195,120,0.4)] transition hover:scale-105 hover:shadow-[0_0_40px_rgba(229,195,120,0.75)]">

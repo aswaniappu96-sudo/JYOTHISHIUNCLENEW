@@ -22,6 +22,7 @@ class JU_ACF_Fields {
 		self::astrologer();
 		self::content_translations();
 		self::vendor();
+		add_filter( 'acf/load_field/key=field_vendor_poojas', array( __CLASS__, 'pooja_tick_choices' ) );
 		self::site_pages();
 		self::travel();
 		self::article();
@@ -281,11 +282,43 @@ class JU_ACF_Fields {
 					self::field( 'field_vendor_location', 'location', 'Temple / place', 'text', 'Shown on the pooja page and in the booking form.' ),
 					self::field( 'field_vendor_short', 'short_description', 'Short description', 'textarea', 'One or two sentences for the pooja page list.' ),
 					self::field( 'field_vendor_full', 'full_description', 'Full description', 'wysiwyg', 'Optional extra notes about this pooja temple.' ),
+					self::field(
+						'field_vendor_poojas',
+						'temple_poojas',
+						'Poojas at this temple',
+						'checkbox',
+						'Tick the poojas performed at this temple. Only the ticked poojas appear under this temple on the website.',
+						array(
+							'choices'       => array(),
+							'layout'        => 'vertical',
+							'return_format' => 'value',
+							'toggle'        => 1,
+						)
+					),
 					self::number( 'field_vendor_order', 'display_order', 'Display order', 10 ),
 				),
 				'location' => self::location( 'vendor' ),
 			)
 		);
+	}
+
+	public static function pooja_tick_choices( $field ) {
+		$posts = get_posts(
+			array(
+				'post_type'      => 'pooja',
+				'post_status'    => 'publish',
+				'posts_per_page' => 100,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+				'no_found_rows'  => true,
+			)
+		);
+		$choices = array();
+		foreach ( $posts as $post ) {
+			$choices[ (string) $post->ID ] = html_entity_decode( get_the_title( $post ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		}
+		$field['choices'] = $choices;
+		return $field;
 	}
 
 	private static function travel() {

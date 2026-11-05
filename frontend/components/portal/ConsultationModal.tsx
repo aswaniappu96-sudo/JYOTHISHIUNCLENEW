@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { HomeConsultationCalendar } from "@/components/home/HomeConsultationCalendar";
 import { Field, ModalShell, fieldClass, goldBtn } from "@/components/portal/ModalShell";
 import type { ConsultationPrefill } from "@/components/portal/PortalProvider";
@@ -36,6 +37,7 @@ export function ConsultationModal({
   prefill?: ConsultationPrefill | null;
 }) {
   const { user, refresh } = useAuth();
+  const { t } = usePrefs();
   const usingFree = Boolean(claimFree && user);
   const astrologerName = prefill?.astrologerName?.trim() || CONSULTATION_ONLY_LABEL;
   const fromPageCalendar = Boolean(prefill?.date);
@@ -46,6 +48,13 @@ export function ConsultationModal({
   const [done, setDone] = useState(false);
   const [videoPath, setVideoPath] = useState("");
   const [error, setError] = useState("");
+  const serviceOptions = useMemo(() => {
+    const list = (prefill?.services || ["Kundli", "Prashna", "Matchmaking", "Family guidance", "Remedies"]).filter(Boolean);
+    return list.some((item) => item.toLowerCase() === "other") ? list : [...list, "Other"];
+  }, [prefill?.services]);
+  const presetService = serviceOptions.includes(prefill?.purpose || "") ? prefill?.purpose || "" : "";
+  const otherNote = presetService ? "" : prefill?.purpose || "";
+  const [service, setService] = useState(() => presetService || (otherNote ? "Other" : ""));
 
   useEffect(() => {
     if (!date) return;
@@ -87,7 +96,9 @@ export function ConsultationModal({
     const email = String(form.get("email") || "");
     const mobile = String(form.get("mobile") || "");
     const location = String(form.get("location") || form.get("address") || "");
-    const message = String(form.get("message") || "");
+    const chosen = String(form.get("service") || service || "");
+    const note = String(form.get("message") || "");
+    const message = chosen ? `Service: ${chosen}. ${note}`.trim() : note;
 
     setBusy(true);
     setError("");
@@ -108,7 +119,8 @@ export function ConsultationModal({
       });
       const freeSlot = result.free_slot === true;
       if (freeSlot) {
-        void refresh();
+        window.dispatchEvent(new Event("ju-free-claimed"));
+        await refresh();
       }
       window.dispatchEvent(new CustomEvent("ju-consultation-booked", { detail: { date } }));
       const bookedId = result.id && result.id > 0 ? result.id : 0;
@@ -167,6 +179,17 @@ export function ConsultationModal({
         <form onSubmit={onSubmit} className="grid gap-3">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
 
+          {user ? null : (
+            <>
+              <p className="gold-notice rounded-xl border border-[#E9C07A] bg-[#FFF4D8] px-3.5 py-2.5 text-[13px] font-semibold leading-relaxed text-[#6B4A12]">
+                {t("video.free")}
+              </p>
+              <p className="rounded-xl border border-[#EAD9B0] bg-[#FFF8EB] px-3.5 py-2.5 text-[13px] leading-relaxed text-[#6B4A12]">
+                Login to keep this booking, your dates, and your activity saved in your account.
+              </p>
+            </>
+          )}
+
           <Field label="Astrologer">
             <input readOnly name="astrologer_name" value={astrologerName} className={`${fieldClass} opacity-90`} />
           </Field>
@@ -212,14 +235,14 @@ export function ConsultationModal({
           )}
 
           {usingFree ? (
-            <p className="rounded-xl bg-surface-container/70 px-3 py-2 text-xs leading-relaxed text-on-surface-variant">
+            <p className="rounded-xl border border-[#E9C07A] bg-[#FFF4D8] px-3.5 py-2.5 text-[13px] font-semibold leading-relaxed text-[#6B4A12]">
               This booking includes your first 10-minute free consultation.
             </p>
-          ) : (
+          ) : user ? (
             <p className="rounded-xl bg-surface-container/70 px-3 py-2 text-xs leading-relaxed text-on-surface-variant">
               This booking continues without the 10-minute free slot.
             </p>
-          )}
+          ) : null}
 
           <p className="rounded-xl bg-surface-container/70 px-3 py-2 text-xs leading-relaxed text-on-surface-variant">
             After you submit, the booked date is emailed to you and to the astrologer. WhatsApp then opens so the astrologer's phone has the same date and your video link.
@@ -231,7 +254,7 @@ export function ConsultationModal({
           <Field label="Name">
             <input required name="name" autoComplete="name" defaultValue={user?.name} className={fieldClass} />
           </Field>
-          <Field label="Address">
+          <Field label="Location">
             <input required name="location" autoComplete="street-address" defaultValue={user?.location} className={fieldClass} />
           </Field>
           <Field label="Phone number">
@@ -240,16 +263,30 @@ export function ConsultationModal({
           <Field label="Email (for confirmation)">
             <input required type="email" name="email" autoComplete="email" defaultValue={user?.email} className={fieldClass} />
           </Field>
-          <Field label="Purpose of Booking">
-            <textarea
-              required
-              name="message"
-              rows={4}
-              defaultValue={prefill?.purpose || ""}
-              className={fieldClass}
-              placeholder="Share why you are booking — for example Kundli, Prashna, matchmaking, family guidance, or a question you want clarity on."
-            />
+          <Field label="Service">
+            <select required name="service" value={service} onChange={(event) => setService(event.target.value)} className={fieldClass}>
+              <option value="" disabled>
+                Select a service
+              </option>
+              {serviceOptions.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
           </Field>
+          {service === "Other" ? (
+            <Field label="What would you like help with?">
+              <textarea
+                required
+                name="message"
+                rows={4}
+                defaultValue={otherNote}
+                className={fieldClass}
+                placeholder="Name the service or the question you want answered."
+              />
+            </Field>
+          ) : null}
 
           {error ? <p className="text-sm text-lotus">{error}</p> : null}
           <button disabled={busy} className={goldBtn}>

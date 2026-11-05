@@ -1,69 +1,139 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { ConsultationBookPanel } from "@/components/home/ConsultationBookPanel";
 import type { SelectedConsultationDay } from "@/components/home/HomeConsultationCalendar";
 import { PageHeading } from "@/components/home/SectionHeading";
+import { usableWhatsapp } from "@/components/layout/SitePrefs";
+import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { consultServicesFromWp, popularAccordionId, type SiteServiceLink } from "@/lib/siteServices";
+import { CONSULTATION_ONLY_LABEL } from "@/lib/consultation";
+import { telHref } from "@/lib/html";
+import { consultPanelAnchor, consultServicesFromWp } from "@/lib/siteServices";
 import { useJuList } from "@/lib/useJuList";
+import { whatsappUrl } from "@/lib/whatsapp";
 import type { AstrologyService, SiteSettings } from "@/types/wordpress";
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
-const OTHER_ID = "other";
 
-function ClockGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" aria-hidden>
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.7" />
-      <path d="M12 7v5.2l3 1.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
+const ALSO_PROVIDE: { id: string; title: string; question: string; answer: string }[] = [
+  {
+    id: "pooja-booking",
+    title: "Pooja booking",
+    question: "What is pooja booking?",
+    answer:
+      "We arrange homam and pooja with a priest for your sankalpa. You share the name and preferred date, and the timing and dakshina are confirmed privately.",
+  },
+  {
+    id: "temple-yatra",
+    title: "Temple yatra",
+    question: "What is temple yatra?",
+    answer:
+      "Temple yatra is guidance for a darshan journey. We share temple timing and the path so the family can travel with a clear plan.",
+  },
+  {
+    id: "spiritual-products",
+    title: "Spiritual products",
+    question: "What are spiritual products?",
+    answer:
+      "Spiritual products include rudraksha, malas, and puja items arranged for your need. You enquire privately, and prices are not listed on the page.",
+  },
+];
+
+function serviceExplain(label: string, detail: string) {
+  const key = label.toLowerCase();
+  if (/kundli|kundali|jathak|birth/.test(key)) {
+    return {
+      question: "What is Kundli?",
+      answer:
+        "A kundli is the birth chart made from your date, time, and place of birth. It shows the planetary positions used to read dasha, dosha, and the direction of life.",
+    };
+  }
+  if (/prashna|prasna/.test(key)) {
+    return {
+      question: "What is Prashna?",
+      answer:
+        "Prashna is a question chart. You ask one clear question, and the astrologer reads the moment of that question for a direct answer.",
+    };
+  }
+  if (/match/.test(key)) {
+    return {
+      question: "What is Matchmaking?",
+      answer:
+        "Matchmaking compares two birth charts for marriage. It looks at guna milan, mangal, and remedies the family can follow.",
+    };
+  }
+  if (/family/.test(key)) {
+    return {
+      question: "What is Family guidance?",
+      answer:
+        "Family guidance looks at home, children, career, and marriage together, so the reading stays practical for the people you live with.",
+    };
+  }
+  if (/remed/.test(key)) {
+    return {
+      question: "What are Remedies?",
+      answer:
+        "Remedies are simple corrections for a planetary dosha, such as a mantra, charity, or a rite, chosen so they reduce fear and fit daily life.",
+    };
+  }
+  return {
+    question: `What is ${label}?`,
+    answer: detail || "A personal consultation with a MaharshiOm astrologer on this subject.",
+  };
 }
 
-function CheckGlyph() {
+function ServiceAccordion({
+  id,
+  title,
+  question,
+  answer,
+  open,
+  onToggle,
+  callHref,
+  chatHref,
+  onVideo,
+}: {
+  id?: string;
+  title: string;
+  question: string;
+  answer: string;
+  open: boolean;
+  onToggle: () => void;
+  callHref: string;
+  chatHref: string;
+  onVideo: () => void;
+}) {
+  const action =
+    "inline-flex min-h-9 items-center justify-center rounded-full px-2 py-2 text-center text-[11px] font-semibold leading-tight";
   return (
-    <svg viewBox="0 0 24 24" className="h-3 w-3 text-white" fill="none" aria-hidden>
-      <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <div id={id} className={`scroll-mt-28 rounded-[14px] border ${open ? "border-[#E9C07A] bg-[#FFF8EB]" : "border-[#F1E6C8] bg-[#FFFDF8]"}`}>
+      <button type="button" onClick={onToggle} className="flex w-full items-center justify-between gap-3 px-3.5 py-3 text-left" aria-expanded={open}>
+        <span className="text-[14px] font-semibold text-[#2B2116]">{title}</span>
+        <span className={`text-[12px] text-[#8A6A3A] transition ${open ? "rotate-180" : ""}`} aria-hidden>
+          ▾
+        </span>
+      </button>
+      {open ? (
+        <div className="px-3.5 pb-3.5">
+          <p className="text-[13px] font-semibold text-[#2B2116]">{question}</p>
+          <p className="mt-1 text-[12.5px] leading-relaxed text-[#7A6B59]">{answer}</p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <a href={callHref} className={`${action} border border-[#EAD9B0] bg-white text-[#2B2116]`}>
+              Call
+            </a>
+            <a href={chatHref} target="_blank" rel="noreferrer" className={`${action} border border-[#EAD9B0] bg-white text-[#2B2116]`}>
+              Chat
+            </a>
+            <button type="button" onClick={onVideo} className={`${action} col-span-2 bg-[#E9C07A] text-[#1E160E] hover:bg-[#E0B46D]`}>
+              Video Consultation
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </div>
   );
-}
-
-function VideoGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#B87E3B]" fill="none" aria-hidden>
-      <rect x="2" y="6" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.7" />
-      <path d="m16 13 5.2 3.5V7.5L16 11" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function FileGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#B87E3B]" fill="none" aria-hidden>
-      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" stroke="currentColor" strokeWidth="1.7" />
-      <path d="M14 3v5h5M8 13h8M8 17h6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function PenGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#B87E3B]" fill="none" aria-hidden>
-      <path d="M12 20H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7" stroke="currentColor" strokeWidth="1.7" />
-      <path d="m15 13 6-6-3-3-6 6-1 4 4-1Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function serviceIcon(item: SiteServiceLink) {
-  const key = `${item.id} ${item.label}`.toLowerCase();
-  if (/kundli|birth/.test(key)) return "☉";
-  if (/prashna/.test(key)) return "?";
-  if (/match/.test(key)) return "♡";
-  if (/family/.test(key)) return "☰";
-  if (/remed/.test(key)) return "✦";
-  return "ॐ";
 }
 
 export function ConsultationSection({
@@ -74,38 +144,76 @@ export function ConsultationSection({
   services: AstrologyService[];
 }) {
   const { t } = usePrefs();
+  const { user, loading: authLoading } = useAuth();
+  const freeStillOpen = !authLoading && (!user || user.free_consultation_available !== false);
+  const { openConsultation } = usePortal();
   const wpServices = useJuList<AstrologyService>("/services", services);
   const consult = useMemo(() => consultServicesFromWp(wpServices), [wpServices]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const serviceNames = useMemo(() => {
+    const labels = [...consult.map((item) => item.label), ...ALSO_PROVIDE.map((item) => item.title)];
+    return labels.some((label) => label.toLowerCase() === "other") ? labels : [...labels, "Other"];
+  }, [consult]);
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [bookPurpose, setBookPurpose] = useState("");
   const [day, setDay] = useState<SelectedConsultationDay | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
-  const activeId = selectedId ?? consult[0]?.id ?? OTHER_ID;
-  const selected = consult.find((item) => item.id === activeId);
-  const purpose = activeId === OTHER_ID ? "" : selected?.label || "";
+  const chatNumber = usableWhatsapp(settings.whatsapp_number);
+  const callHref = telHref(settings.phone_number);
 
-  const selectService = (id: string) => {
-    setSelectedId(id);
+  const startVideo = (label: string) => {
+    setBookPurpose(label);
+    openConsultation({
+      date: day?.date,
+      slots: day?.slots,
+      whatsapp: chatNumber,
+      astrologerName: CONSULTATION_ONLY_LABEL,
+      purpose: label,
+      services: serviceNames,
+    });
   };
 
-  const openPopularFor = (label: string) => {
-    const accordionId = popularAccordionId(label);
-    window.dispatchEvent(new CustomEvent("ju:open-popular", { detail: accordionId }));
-    if (window.location.hash !== `#${accordionId}`) {
-      window.history.replaceState(null, "", `#${accordionId}`);
-    }
-  };
-
-  const chooseService = (id: string) => {
-    selectService(id);
-    if (id === OTHER_ID) {
+  useEffect(() => {
+    const openFromHash = (raw?: string) => {
+      let stored = "";
+      try {
+        stored = sessionStorage.getItem("ju_open_service") || "";
+      } catch {
+        stored = "";
+      }
+      const explicit = (raw || "").replace(/^#/, "");
+      const fromLocation = window.location.hash.replace(/^#/, "");
+      const hash = explicit.startsWith("svc-") ? explicit : stored.startsWith("svc-") ? stored : fromLocation;
+      if (!hash.startsWith("svc-")) return;
+      const hit = consult.find((item) => consultPanelAnchor(item.label) === hash);
+      if (!hit) return;
+      setOpenId(hit.id);
+      try {
+        sessionStorage.removeItem("ju_open_service");
+      } catch {
+        /* ignore */
+      }
       window.setTimeout(() => {
-        calendarRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 50);
-      return;
-    }
-    const item = consult.find((row) => row.id === id);
-    openPopularFor(item?.label || "life");
-  };
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 80);
+    };
+    openFromHash();
+    const retry = window.setTimeout(() => openFromHash(), 400);
+    const onHash = () => openFromHash();
+    const onClick = (event: MouseEvent) => {
+      const link = (event.target as HTMLElement | null)?.closest?.('a[href*="#svc-"]');
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      const hash = href.slice(href.indexOf("#") + 1);
+      window.setTimeout(() => openFromHash(hash), 0);
+    };
+    window.addEventListener("hashchange", onHash);
+    document.addEventListener("click", onClick);
+    return () => {
+      window.clearTimeout(retry);
+      window.removeEventListener("hashchange", onHash);
+      document.removeEventListener("click", onClick);
+    };
+  }, [consult]);
 
   useEffect(() => {
     const onVideo = (event: Event) => {
@@ -119,7 +227,10 @@ export function ConsultationSection({
         if (hint === "business" || hint === "career") return /family|career|business/.test(blob);
         return false;
       });
-      selectService(hit?.id || OTHER_ID);
+      if (hit) {
+        setOpenId(hit.id);
+        setBookPurpose(hit.label);
+      }
       window.setTimeout(() => {
         calendarRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
@@ -152,6 +263,13 @@ export function ConsultationSection({
           </div>
           <PageHeading className="mt-6" lead={t("video.lead")} accent={t("video.accent")} />
           <p className="mt-4 max-w-[520px] text-[15px] leading-[1.6] text-[#7A6B59]">{t("video.copy")}</p>
+          {freeStillOpen ? (
+            <p className="mt-3 max-w-[520px]">
+              <span className="gold-notice inline-block rounded-xl border border-[#E9C07A] bg-[#FFF4D8] px-3.5 py-2 text-[13px] font-semibold leading-relaxed text-[#6B4A12]">
+                {t("video.free")}
+              </span>
+            </p>
+          ) : null}
         </div>
 
         <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-stretch">
@@ -160,112 +278,47 @@ export function ConsultationSection({
             className="order-1 flex w-full min-h-0 scroll-mt-36 flex-col self-stretch rounded-[20px] border border-[#EAD9B0] bg-white p-5 shadow-[0_8px_30px_-12px_rgba(120,90,30,0.12)] lg:order-2 lg:w-[42%] md:p-6"
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-[12px] font-semibold tracking-[0.14em] text-[#B87E3B]">{t("video.choose")}</h3>
+              <h3 className="text-[12px] font-semibold tracking-[0.14em] text-[#B87E3B]">Services</h3>
               <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF8EB] px-2.5 py-1 text-[10px] font-medium text-[#8A6A3A] ring-1 ring-[#EAD9B0]">
                 {t("video.live")}
               </span>
             </div>
 
-            <div className="mt-5 flex-1 space-y-3">
-              {consult.map((item, index) => {
-                const active = activeId === item.id;
+            <div className="mt-4 flex-1 space-y-2">
+              {consult.map((item) => {
+                const copy = serviceExplain(item.label, item.detail);
                 return (
-                  <button
+                  <ServiceAccordion
                     key={item.id}
-                    type="button"
-                    onClick={() => chooseService(item.id)}
-                    className={[
-                      "group relative flex w-full items-start gap-3.5 rounded-[16px] border px-3.5 py-3.5 text-left transition-all",
-                      active
-                        ? "border-[#D6A95A] bg-[#FFF8EB] shadow-[0_4px_14px_-6px_rgba(180,130,40,0.35)]"
-                        : "border-[#F1E6C8] bg-[#FFFDF8] hover:border-[#EAD9B0] hover:bg-white",
-                    ].join(" ")}
-                  >
-                    <div
-                      className={[
-                        "mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-[10px] border text-[15px] text-[#8A6A3A]",
-                        active ? "border-[#EAD9B0] bg-white" : "border-[#F1E6C8] bg-[#FFFBF0]",
-                      ].join(" ")}
-                    >
-                      {serviceIcon(item)}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="truncate text-[14px] font-semibold tracking-[-0.01em] text-[#2B2116]">{item.label}</p>
-                        {index === 0 ? (
-                          <span className="inline-flex items-center rounded-full bg-[#2B2116] px-2 py-0.5 text-[9px] font-semibold tracking-[0.08em] text-[#FFE9B5]">
-                            {t("video.most")}
-                          </span>
-                        ) : null}
-                      </div>
-                      <div className="mt-1 flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[10px] font-medium text-[#8A6A3A] ring-1 ring-[#EAD9B0]">
-                          <ClockGlyph /> {item.durationMinutes || 30} min
-                        </span>
-                        <span className="truncate text-[12px] text-[#7A6B59]">{item.hint}</span>
-                      </div>
-                    </div>
-                    <div
-                      className={[
-                        "mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 transition",
-                        active ? "border-[#B87E3B] bg-[#B87E3B]" : "border-[#EAD9B0] bg-white",
-                      ].join(" ")}
-                    >
-                      {active ? <CheckGlyph /> : null}
-                    </div>
-                  </button>
+                    id={consultPanelAnchor(item.label)}
+                    title={item.label}
+                    question={copy.question}
+                    answer={copy.answer}
+                    open={openId === item.id}
+                    onToggle={() => setOpenId(openId === item.id ? null : item.id)}
+                    callHref={callHref}
+                    chatHref={whatsappUrl(chatNumber, `Namaste. I would like a ${item.label} consultation at MaharshiOm.`)}
+                    onVideo={() => startVideo(item.label)}
+                  />
                 );
               })}
-
-              <button
-                type="button"
-                onClick={() => chooseService(OTHER_ID)}
-                className={[
-                  "group relative flex w-full items-start gap-3.5 rounded-[16px] border px-3.5 py-3.5 text-left transition-all",
-                  activeId === OTHER_ID
-                    ? "border-[#D6A95A] bg-[#FFF8EB] shadow-[0_4px_14px_-6px_rgba(180,130,40,0.35)]"
-                    : "border-[#F1E6C8] bg-[#FFFDF8] hover:border-[#EAD9B0] hover:bg-white",
-                ].join(" ")}
-              >
-                <div
-                  className={[
-                    "mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-[10px] border text-[15px] text-[#8A6A3A]",
-                    activeId === OTHER_ID ? "border-[#EAD9B0] bg-white" : "border-[#F1E6C8] bg-[#FFFBF0]",
-                  ].join(" ")}
-                >
-                  …
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[14px] font-semibold tracking-[-0.01em] text-[#2B2116]">{t("video.other")}</p>
-                  <p className="mt-1 text-[12px] text-[#7A6B59]">{t("video.otherHint")}</p>
-                </div>
-                <div
-                  className={[
-                    "mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 transition",
-                    activeId === OTHER_ID ? "border-[#B87E3B] bg-[#B87E3B]" : "border-[#EAD9B0] bg-white",
-                  ].join(" ")}
-                >
-                  {activeId === OTHER_ID ? <CheckGlyph /> : null}
-                </div>
-              </button>
             </div>
 
-            <div className="mt-6 rounded-[14px] bg-[#FFFBF0] p-3.5 ring-1 ring-[#F1E6C8]">
-              <p className="text-[11px] font-semibold tracking-[0.08em] text-[#8A6A3A]">{t("video.get")}</p>
-              <div className="mt-2.5 grid grid-cols-3 gap-2">
-                <div className="flex flex-col items-center gap-1.5 rounded-[10px] bg-white px-2 py-2.5 ring-1 ring-[#F1E6C8]">
-                  <VideoGlyph />
-                  <span className="text-center text-[10px] font-medium leading-[1.2] text-[#5A4D3E]">{t("video.liveVideo")}</span>
-                </div>
-                <div className="flex flex-col items-center gap-1.5 rounded-[10px] bg-white px-2 py-2.5 ring-1 ring-[#F1E6C8]">
-                  <FileGlyph />
-                  <span className="text-center text-[10px] font-medium leading-[1.2] text-[#5A4D3E]">{t("video.recording")}</span>
-                </div>
-                <div className="flex flex-col items-center gap-1.5 rounded-[10px] bg-white px-2 py-2.5 ring-1 ring-[#F1E6C8]">
-                  <PenGlyph />
-                  <span className="text-center text-[10px] font-medium leading-[1.2] text-[#5A4D3E]">{t("video.notes")}</span>
-                </div>
-              </div>
+            <p className="mt-5 text-[12px] font-semibold tracking-[0.08em] text-[#8A6A3A] uppercase">We also provide</p>
+            <div className="mt-2 space-y-2">
+              {ALSO_PROVIDE.map((item) => (
+                <ServiceAccordion
+                  key={item.id}
+                  title={item.title}
+                  question={item.question}
+                  answer={item.answer}
+                  open={openId === item.id}
+                  onToggle={() => setOpenId(openId === item.id ? null : item.id)}
+                  callHref={callHref}
+                  chatHref={whatsappUrl(chatNumber, `Namaste. I would like to know more about ${item.title} at MaharshiOm.`)}
+                  onVideo={() => startVideo(item.title)}
+                />
+              ))}
             </div>
           </div>
 
@@ -276,7 +329,8 @@ export function ConsultationSection({
           >
             <ConsultationBookPanel
               whatsappNumber={settings.whatsapp_number}
-              purpose={purpose}
+              purpose={bookPurpose}
+              services={serviceNames}
               selected={day}
               onSelected={setDay}
             />

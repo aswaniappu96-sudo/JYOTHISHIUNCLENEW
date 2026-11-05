@@ -1,4 +1,4 @@
-import type { Pooja, Product } from "@/types/wordpress";
+import type { CatalogCategory, Pooja, Product } from "@/types/wordpress";
 
 export type FilterChip = {
   id: string;
@@ -59,7 +59,45 @@ function subsetChips(allCount: number, groups: FilterChip[]) {
   return [{ id: "all", label: "All", count: allCount }, ...useful];
 }
 
-export function poojaFilterChips(poojas: Pooja[]): FilterChip[] {
+function categoryCatalog(items: { categories?: CatalogCategory[] }[], catalog: CatalogCategory[]) {
+  const bySlug = new Map<string, string>();
+  for (const term of catalog) {
+    if (term.slug && term.name) bySlug.set(term.slug, term.name);
+  }
+  for (const item of items) {
+    for (const term of item.categories || []) {
+      if (term.slug && term.name && !bySlug.has(term.slug)) bySlug.set(term.slug, term.name);
+    }
+  }
+  return [...bySlug.entries()]
+    .map(([slug, name]) => ({ slug, name }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function usesCategories(items: { categories?: CatalogCategory[] }[], catalog: CatalogCategory[]) {
+  return catalog.length > 0 || items.some((item) => Array.isArray(item.categories));
+}
+
+function categoryChips(items: { categories?: CatalogCategory[] }[], catalog: CatalogCategory[]): FilterChip[] {
+  const terms = categoryCatalog(items, catalog);
+  if (!terms.length) return [];
+  return [
+    { id: "all", label: "All", count: items.length },
+    ...terms.map((term) => ({
+      id: term.slug,
+      label: term.name,
+      count: items.filter((item) => (item.categories || []).some((row) => row.slug === term.slug)).length,
+    })),
+  ];
+}
+
+export function matchesCategory(categories: CatalogCategory[] | undefined, groupId: string) {
+  if (groupId === "all") return true;
+  return (categories || []).some((term) => term.slug === groupId);
+}
+
+export function poojaFilterChips(poojas: Pooja[], catalog: CatalogCategory[] = []): FilterChip[] {
+  if (usesCategories(poojas, catalog)) return categoryChips(poojas, catalog);
   return subsetChips(
     poojas.length,
     POOJA_GROUPS.map((group) => ({
@@ -72,8 +110,9 @@ export function poojaFilterChips(poojas: Pooja[]): FilterChip[] {
 
 export function poojaMatchesGroup(pooja: Pooja, groupId: string) {
   if (groupId === "all") return true;
+  if (Array.isArray(pooja.categories)) return matchesCategory(pooja.categories, groupId);
   const group = POOJA_GROUPS.find((item) => item.id === groupId);
-  return group ? group.test.test(poojaGroupText(pooja)) : true;
+  return group ? group.test.test(poojaGroupText(pooja)) : false;
 }
 
 export function productKindId(product: Pick<Product, "title" | "slug" | "short_description">) {
@@ -84,7 +123,8 @@ export function productKindId(product: Pick<Product, "title" | "slug" | "short_d
   return fromSlug?.id ?? "other";
 }
 
-export function productKindChips(products: Product[]): FilterChip[] {
+export function productKindChips(products: Product[], catalog: CatalogCategory[] = []): FilterChip[] {
+  if (usesCategories(products, catalog)) return categoryChips(products, catalog);
   return subsetChips(
     products.length,
     PRODUCT_KINDS.map((kind) => ({
@@ -93,6 +133,12 @@ export function productKindChips(products: Product[]): FilterChip[] {
       count: products.filter((item) => productKindId(item) === kind.id).length,
     })),
   );
+}
+
+export function productMatchesKind(product: Product, kindId: string) {
+  if (kindId === "all") return true;
+  if (Array.isArray(product.categories)) return matchesCategory(product.categories, kindId);
+  return productKindId(product) === kindId;
 }
 
 export function productStockChips(products: Product[]): FilterChip[] {
