@@ -11,6 +11,7 @@ import { PageHeading, SectionHeading } from "@/components/home/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { htmlListItems, stripPublicPrices } from "@/lib/html";
 import { useLocalized } from "@/lib/localized";
+import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -63,7 +64,11 @@ export function PoojaDetailView({
   const requirements = htmlListItems(requirementsHtml);
 
   const images = [
-    pooja.featured_image ? { url: imageSrc(pooja.featured_image, FALLBACK), alt: pooja.featured_image.alt || title } : null,
+    pooja.featured_image
+      ? { url: liveCatalogPhoto("pooja", pooja.slug, imageSrc(pooja.featured_image, FALLBACK)), alt: pooja.featured_image.alt || title }
+      : liveCatalogPhoto("pooja", pooja.slug)
+        ? { url: liveCatalogPhoto("pooja", pooja.slug), alt: title }
+        : null,
     ...pooja.gallery.map((item) => ({ url: imageSrc(item, FALLBACK), alt: item.alt || title })),
   ].filter((item): item is { url: string; alt: string } => Boolean(item?.url));
 

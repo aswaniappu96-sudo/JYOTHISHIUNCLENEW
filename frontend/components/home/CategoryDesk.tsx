@@ -6,6 +6,7 @@ import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { KICKER, LEAD, SECTION_INNER } from "@/lib/layout";
 import { useLocalizedList } from "@/lib/localized";
+import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 import type { Pooja, Product, TravelDestination } from "@/types/wordpress";
@@ -70,11 +71,13 @@ export function CategoryDesk({
         <div className="mt-6">
           {tab === "pooja" ? (
             <div className={cardGrid}>
-              {poojaItems.slice(0, 8).map((item) => (
+              {poojaItems.slice(0, 8).map((item) => {
+                const src = liveCatalogPhoto("pooja", item.slug, imageSrc(item.featured_image));
+                return (
                 <Link key={item.id} href={`/pooja/${item.slug}`} className={`${cardClass} overflow-hidden p-0`}>
-                  {imageSrc(item.featured_image) ? (
+                  {src ? (
                     <div className="relative z-[1] aspect-[4/3] bg-[#F7F0E2]">
-                      <img src={imageSrc(item.featured_image)} alt={item.title} className="h-full w-full object-cover object-center" />
+                      <img src={src} alt={item.title} className="h-full w-full object-cover object-center" />
                     </div>
                   ) : null}
                   <div className="relative z-[1] flex flex-1 flex-col p-5">
@@ -85,7 +88,8 @@ export function CategoryDesk({
                     <span className="mt-auto pt-4 text-[12px] font-semibold text-[#e5c378]">View pooja</span>
                   </div>
                 </Link>
-              ))}
+                );
+              })}
               <Link href={POOJAS_PATH} className={`${cardClass} items-center justify-center text-center`}>
                 <p className="relative z-[1] font-serif text-[20px] text-[#fff8ec]">All poojas</p>
                 <p className="relative z-[1] mt-2 text-[14px] text-[#f3e6c8]">See every rite we arrange</p>

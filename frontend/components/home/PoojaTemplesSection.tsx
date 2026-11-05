@@ -6,6 +6,7 @@ import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripHtml, telHref } from "@/lib/html";
 import { useLocalizedList } from "@/lib/localized";
+import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
@@ -103,7 +104,7 @@ export function PoojaTemplesSection({
 
   const selected = temples[Math.min(active, Math.max(temples.length - 1, 0))];
   const related = useMemo(() => (selected ? poojasForTemple(selected, rites) : []), [selected, rites]);
-  const featuredSrc = selected ? imageSrc(selected.featured_image) : "";
+  const featuredSrc = selected ? liveCatalogPhoto("temple", selected.slug, imageSrc(selected.featured_image)) : "";
   const featuredCopy = selected ? templeCopy(selected) : "";
   const featuredPlace = selected?.location?.trim();
   const showPlace = Boolean(featuredPlace && featuredPlace.toLowerCase() !== selected?.title.toLowerCase());
@@ -161,7 +162,7 @@ export function PoojaTemplesSection({
             className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth py-0.5"
           >
             {temples.map((temple, index) => {
-              const src = imageSrc(temple.featured_image);
+              const src = liveCatalogPhoto("temple", temple.slug, imageSrc(temple.featured_image));
               const on = index === Math.min(active, temples.length - 1);
               return (
                 <button

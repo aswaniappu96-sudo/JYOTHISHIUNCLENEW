@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
 import { useLocalized } from "@/lib/localized";
+import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
 import type { Pooja } from "@/types/wordpress";
 
@@ -25,7 +26,7 @@ export function PoojaCard({
   variant?: "standard" | "featured" | "compact" | "tile" | "rail";
 }) {
   const pooja = useLocalized(raw);
-  const src = imageSrc(pooja.featured_image);
+  const src = liveCatalogPhoto("pooja", pooja.slug, imageSrc(pooja.featured_image));
 
   if (variant === "featured") {
     return (

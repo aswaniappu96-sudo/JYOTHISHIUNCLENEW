@@ -3,6 +3,7 @@
 import { SectionHeading } from "@/components/home/SectionHeading";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { stripHtml } from "@/lib/html";
+import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
 import type { Pooja, Vendor } from "@/types/wordpress";
 
@@ -56,7 +57,7 @@ export function PoojaVendorsSection({
       )}
       <div className={`grid grid-cols-1 gap-4 ${embed ? "sm:grid-cols-3" : "gap-6 md:grid-cols-3"}`}>
         {vendors.map((vendor) => {
-          const src = imageSrc(vendor.featured_image);
+          const src = liveCatalogPhoto("temple", vendor.slug, imageSrc(vendor.featured_image));
           const copy = vendorCopy(vendor);
           const location = vendor.location?.trim();
           const showLocation = location && location.toLowerCase() !== vendor.title.toLowerCase();

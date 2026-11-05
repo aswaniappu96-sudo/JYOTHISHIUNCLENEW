@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
+import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
 import { useLocalizedList } from "@/lib/localized";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
@@ -205,10 +206,14 @@ export function PoojaSection({
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((pooja, index) => {
             const look = poojaLook(`${pooja.slug} ${pooja.title}`);
-            const src = imageSrc(
-              pooja.featured_image?.full
-                ? { ...pooja.featured_image, url: pooja.featured_image.full }
-                : pooja.featured_image,
+            const src = liveCatalogPhoto(
+              "pooja",
+              pooja.slug,
+              imageSrc(
+                pooja.featured_image?.full
+                  ? { ...pooja.featured_image, url: pooja.featured_image.full }
+                  : pooja.featured_image,
+              ),
             );
             return (
               <article
