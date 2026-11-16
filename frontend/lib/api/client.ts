@@ -1,5 +1,5 @@
 const DEFAULT_WP_URL = "http://127.0.0.1:10101";
-const PRODUCTION_WP_URL = "https://jyothishiuncle.ct.ws";
+const PRODUCTION_WP_URL = "https://wp.maharshiom.com";
 const FALLBACK_WP_URL = "https://jyothishuncle.velvetbyte.com";
 const GET_CACHE_MS = 60_000;
 const getCache = new Map<string, { expires: number; data: unknown }>();
