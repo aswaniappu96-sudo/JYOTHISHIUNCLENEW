@@ -1,88 +1,25 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { ConsultationBookPanel } from "@/components/home/ConsultationBookPanel";
 import type { SelectedConsultationDay } from "@/components/home/HomeConsultationCalendar";
+import { TrustCards } from "@/components/home/AboutTeaser";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usableWhatsapp } from "@/components/layout/SitePrefs";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
+import { ALSO_SERVICES, isVideoConsultationService, panelChrome, serviceCopy } from "@/lib/consultPanelCopy";
 import { CONSULTATION_ONLY_LABEL } from "@/lib/consultation";
 import { telHref } from "@/lib/html";
 import { consultPanelAnchor, consultServicesFromWp } from "@/lib/siteServices";
+import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { AstrologyService, SiteSettings } from "@/types/wordpress";
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
-
-const ALSO_PROVIDE: { id: string; title: string; question: string; answer: string }[] = [
-  {
-    id: "pooja-booking",
-    title: "Pooja booking",
-    question: "What is pooja booking?",
-    answer:
-      "We arrange homam and pooja with a priest for your sankalpa. You share the name and preferred date, and the timing and dakshina are confirmed privately.",
-  },
-  {
-    id: "temple-yatra",
-    title: "Temple yatra",
-    question: "What is temple yatra?",
-    answer:
-      "Temple yatra is guidance for a darshan journey. We share temple timing and the path so the family can travel with a clear plan.",
-  },
-  {
-    id: "spiritual-products",
-    title: "Spiritual products",
-    question: "What are spiritual products?",
-    answer:
-      "Spiritual products include rudraksha, malas, and puja items arranged for your need. You enquire privately, and prices are not listed on the page.",
-  },
-];
-
-function serviceExplain(label: string, detail: string) {
-  const key = label.toLowerCase();
-  if (/kundli|kundali|jathak|birth/.test(key)) {
-    return {
-      question: "What is Kundli?",
-      answer:
-        "A kundli is the birth chart made from your date, time, and place of birth. It shows the planetary positions used to read dasha, dosha, and the direction of life.",
-    };
-  }
-  if (/prashna|prasna/.test(key)) {
-    return {
-      question: "What is Prashna?",
-      answer:
-        "Prashna is a question chart. You ask one clear question, and the astrologer reads the moment of that question for a direct answer.",
-    };
-  }
-  if (/match/.test(key)) {
-    return {
-      question: "What is Matchmaking?",
-      answer:
-        "Matchmaking compares two birth charts for marriage. It looks at guna milan, mangal, and remedies the family can follow.",
-    };
-  }
-  if (/family/.test(key)) {
-    return {
-      question: "What is Family guidance?",
-      answer:
-        "Family guidance looks at home, children, career, and marriage together, so the reading stays practical for the people you live with.",
-    };
-  }
-  if (/remed/.test(key)) {
-    return {
-      question: "What are Remedies?",
-      answer:
-        "Remedies are simple corrections for a planetary dosha, such as a mantra, charity, or a rite, chosen so they reduce fear and fit daily life.",
-    };
-  }
-  return {
-    question: `What is ${label}?`,
-    answer: detail || "A personal consultation with a MaharshiOm astrologer on this subject.",
-  };
-}
 
 function ServiceAccordion({
   id,
@@ -94,6 +31,11 @@ function ServiceAccordion({
   callHref,
   chatHref,
   onVideo,
+  callLabel,
+  chatLabel,
+  videoLabel,
+  viewHref,
+  viewLabel,
 }: {
   id?: string;
   title: string;
@@ -103,7 +45,12 @@ function ServiceAccordion({
   onToggle: () => void;
   callHref: string;
   chatHref: string;
-  onVideo: () => void;
+  onVideo?: () => void;
+  callLabel: string;
+  chatLabel: string;
+  videoLabel?: string;
+  viewHref?: string;
+  viewLabel?: string;
 }) {
   const action =
     "inline-flex min-h-9 items-center justify-center rounded-full px-2 py-2 text-center text-[11px] font-semibold leading-tight";
@@ -121,14 +68,20 @@ function ServiceAccordion({
           <p className="mt-1 text-[12.5px] leading-relaxed text-[#7A6B59]">{answer}</p>
           <div className="mt-3 grid grid-cols-2 gap-2">
             <a href={callHref} className={`${action} border border-[#EAD9B0] bg-white text-[#2B2116]`}>
-              Call
+              {callLabel}
             </a>
             <a href={chatHref} target="_blank" rel="noreferrer" className={`${action} border border-[#EAD9B0] bg-white text-[#2B2116]`}>
-              Chat
+              {chatLabel}
             </a>
-            <button type="button" onClick={onVideo} className={`${action} col-span-2 bg-[#E9C07A] text-[#1E160E] hover:bg-[#E0B46D]`}>
-              Video Consultation
-            </button>
+            {viewHref ? (
+              <Link href={viewHref} className={`${action} col-span-2 bg-[#E9C07A] text-[#1E160E] hover:bg-[#E0B46D]`}>
+                {viewLabel} <span aria-hidden>→</span>
+              </Link>
+            ) : (
+              <button type="button" onClick={onVideo} className={`${action} col-span-2 bg-[#E9C07A] text-[#1E160E] hover:bg-[#E0B46D]`}>
+                {videoLabel}
+              </button>
+            )}
           </div>
         </div>
       ) : null}
@@ -137,20 +90,26 @@ function ServiceAccordion({
 }
 
 export function ConsultationSection({
+  embedded = false,
   settings,
   services,
 }: {
+  embedded?: boolean;
   settings: SiteSettings;
   services: AstrologyService[];
 }) {
-  const { t } = usePrefs();
+  const { t, locale } = usePrefs();
+  const chrome = panelChrome(locale);
   const { user, loading: authLoading } = useAuth();
   const freeStillOpen = !authLoading && (!user || user.free_consultation_available !== false);
   const { openConsultation } = usePortal();
   const wpServices = useJuList<AstrologyService>("/services", services);
-  const consult = useMemo(() => consultServicesFromWp(wpServices), [wpServices]);
+  const consult = useMemo(
+    () => consultServicesFromWp(wpServices).filter((item) => isVideoConsultationService(item.label)),
+    [wpServices],
+  );
   const serviceNames = useMemo(() => {
-    const labels = [...consult.map((item) => item.label), ...ALSO_PROVIDE.map((item) => item.title)];
+    const labels = consult.map((item) => item.label);
     return labels.some((label) => label.toLowerCase() === "other") ? labels : [...labels, "Other"];
   }, [consult]);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -240,8 +199,15 @@ export function ConsultationSection({
   }, [consult]);
 
   return (
-    <section id="consultation" className="relative w-full overflow-hidden scroll-mt-36 pt-6 pb-12 md:pt-8 md:pb-14 lg:pb-16">
-      <div className="pointer-events-none absolute inset-0 opacity-[0.045]">
+    <section
+      id="consultation"
+      className={
+        embedded
+          ? "relative mt-10 scroll-mt-36"
+          : "relative w-full overflow-hidden scroll-mt-36 pt-6 pb-12 md:pt-8 md:pb-14 lg:pb-16"
+      }
+    >
+      <div className={`pointer-events-none absolute inset-0 opacity-[0.045] ${embedded ? "hidden" : ""}`}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden>
           <defs>
             <pattern id="ju-consult-mandala" width="280" height="280" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
@@ -255,7 +221,7 @@ export function ConsultationSection({
         </svg>
       </div>
 
-      <div className={INNER}>
+      <div className={embedded ? "" : INNER}>
         <div className="max-w-[760px]">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-3.5 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-[#8A6A3A] shadow-[0_1px_0_0_rgba(0,0,0,0.02)]">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#25D366]" />
@@ -272,13 +238,15 @@ export function ConsultationSection({
           ) : null}
         </div>
 
+        <TrustCards />
+
         <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-stretch">
           <div
             id="consultation-services"
             className="order-1 flex w-full min-h-0 scroll-mt-36 flex-col self-stretch rounded-[20px] border border-[#EAD9B0] bg-white p-5 shadow-[0_8px_30px_-12px_rgba(120,90,30,0.12)] lg:order-2 lg:w-[42%] md:p-6"
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-[12px] font-semibold tracking-[0.14em] text-[#B87E3B]">Services</h3>
+              <h3 className="text-[12px] font-semibold tracking-[0.14em] text-[#B87E3B]">{chrome.services}</h3>
               <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF8EB] px-2.5 py-1 text-[10px] font-medium text-[#8A6A3A] ring-1 ring-[#EAD9B0]">
                 {t("video.live")}
               </span>
@@ -286,12 +254,12 @@ export function ConsultationSection({
 
             <div className="mt-4 flex-1 space-y-2">
               {consult.map((item) => {
-                const copy = serviceExplain(item.label, item.detail);
+                const copy = serviceCopy(item.label, item.detail, locale);
                 return (
                   <ServiceAccordion
                     key={item.id}
                     id={consultPanelAnchor(item.label)}
-                    title={item.label}
+                    title={copy.title}
                     question={copy.question}
                     answer={copy.answer}
                     open={openId === item.id}
@@ -299,26 +267,41 @@ export function ConsultationSection({
                     callHref={callHref}
                     chatHref={whatsappUrl(chatNumber, `Namaste. I would like a ${item.label} consultation at MaharshiOm.`)}
                     onVideo={() => startVideo(item.label)}
+                    callLabel={chrome.call}
+                    chatLabel={chrome.chat}
+                    videoLabel={chrome.video}
                   />
                 );
               })}
             </div>
 
-            <p className="mt-5 text-[12px] font-semibold tracking-[0.08em] text-[#8A6A3A] uppercase">We also provide</p>
+            <p className="mt-5 text-[12px] font-semibold tracking-[0.08em] text-[#8A6A3A] uppercase">{chrome.also}</p>
             <div className="mt-2 space-y-2">
-              {ALSO_PROVIDE.map((item) => (
+              {ALSO_SERVICES.map((item) => {
+                const copy = serviceCopy(item.english, "", locale);
+                const view =
+                  item.id === "pooja-booking"
+                    ? { href: POOJAS_PATH, label: t("pooja.view") }
+                    : item.id === "spiritual-products"
+                      ? { href: PRODUCTS_PATH, label: t("store.view") }
+                      : { href: "/#pooja-temples", label: t("temple.view") };
+                return (
                 <ServiceAccordion
                   key={item.id}
-                  title={item.title}
-                  question={item.question}
-                  answer={item.answer}
+                  title={copy.title}
+                  question={copy.question}
+                  answer={copy.answer}
                   open={openId === item.id}
                   onToggle={() => setOpenId(openId === item.id ? null : item.id)}
                   callHref={callHref}
-                  chatHref={whatsappUrl(chatNumber, `Namaste. I would like to know more about ${item.title} at MaharshiOm.`)}
-                  onVideo={() => startVideo(item.title)}
+                  chatHref={whatsappUrl(chatNumber, `Namaste. I would like to know more about ${item.english} at MaharshiOm.`)}
+                  callLabel={chrome.call}
+                  chatLabel={chrome.chat}
+                  viewHref={view.href}
+                  viewLabel={view.label}
                 />
-              ))}
+                );
+              })}
             </div>
           </div>
 

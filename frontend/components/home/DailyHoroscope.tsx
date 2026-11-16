@@ -7,6 +7,7 @@ import { PageHeading } from "@/components/home/SectionHeading";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { dailyRashiReading, HOROSCOPE_RASHIS } from "@/lib/dailyHoroscope";
+import { colorLabel, localPaksha, rashiLine, rashiNames, yourDayLabel } from "@/lib/rashiLocale";
 import { lifePathNumber, luckyForRashi, matchNote, nameNumber } from "@/lib/freeAstrology";
 import { buildLocalReading, drawTarotCard, enhanceReading, type FreeReading, type FreeReadingKind } from "@/lib/freeReadings";
 import {
@@ -28,13 +29,13 @@ const SLIDER_H = CARD_H * VISIBLE + CARD_GAP * (VISIBLE - 1);
 type ToolId = "kundli" | "match" | "horoscope" | "rashi" | "nakshatra" | "numerology" | "tarot";
 
 const TOOLS: { id: ToolId; label: "daily.tabKundli" | "daily.tabMatch" | "daily.tabHoroscope" | "daily.tabRashi" | "daily.tabNakshatra" | "daily.tabNumerology" | "daily.tabTarot" }[] = [
+  { id: "tarot", label: "daily.tabTarot" },
   { id: "kundli", label: "daily.tabKundli" },
   { id: "match", label: "daily.tabMatch" },
   { id: "horoscope", label: "daily.tabHoroscope" },
   { id: "rashi", label: "daily.tabRashi" },
   { id: "nakshatra", label: "daily.tabNakshatra" },
   { id: "numerology", label: "daily.tabNumerology" },
-  { id: "tarot", label: "daily.tabTarot" },
 ];
 
 const TAROT_TYPES = [
@@ -47,6 +48,8 @@ const TAROT_TYPES = [
   { id: "contact", label: "daily.tarotContact" },
   { id: "other", label: "daily.tarotOther" },
 ] as const;
+
+const TAROT_PARTNER_TYPES = new Set<string>(["love", "relation", "breakup", "contact", "other"]);
 
 const TAROT_PILES = [
   { id: 1, label: "daily.tarotPile1", role: "daily.tarotPast" },
@@ -62,7 +65,7 @@ function ArrowGlyph() {
   );
 }
 
-function ZodiacWheel({ selectedIndex, label }: { selectedIndex: number; label: string }) {
+function ZodiacWheel({ selectedIndex, label, dayLabel }: { selectedIndex: number; label: string; dayLabel: string }) {
   const hours = Array.from({ length: 12 }, (_, i) => i + 1);
 
   return (
@@ -88,7 +91,7 @@ function ZodiacWheel({ selectedIndex, label }: { selectedIndex: number; label: s
         );
       })}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#1A1106]/40">Your day</p>
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#1A1106]/40">{dayLabel}</p>
         <div className="mt-2 flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full bg-[#e5c378] px-2 text-center shadow-[0_8px_20px_-10px_rgba(154,90,18,0.45)]">
           <span className="font-serif text-[14px] font-medium leading-tight text-[#1A1106]">{label}</span>
         </div>
@@ -134,7 +137,7 @@ function ToolCard({ children, className = "" }: { children: React.ReactNode; cla
 
 export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?: string } = {}) {
   const { t, locale } = usePrefs();
-  const [tab, setTab] = useState<ToolId>("horoscope");
+  const [tab, setTab] = useState<ToolId>("tarot");
   const [selected, setSelected] = useState<(typeof RASHIS)[number]>(RASHIS[0]);
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [tz, setTz] = useState(DEFAULT_TIMEZONE);
@@ -201,8 +204,10 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
   }, []);
 
   const selectedIndex = Math.max(0, HOROSCOPE_RASHIS.findIndex((item) => item.slug === selected.slug));
-  const reading = dailyRashiReading(selected.slug);
+  const reading = dailyRashiReading(selected.slug, new Date(), locale);
   const lucky = luckyForRashi(selected.slug);
+  const selectedNames = rashiNames(selected.slug, locale);
+  const showRashi = (slug: string) => rashiNames(slug, locale);
   const matchResult = matchNote(match.a, match.b);
   const matchA = RASHIS.find((item) => item.slug === match.a) || RASHIS[0];
   const matchB = RASHIS.find((item) => item.slug === match.b) || RASHIS[0];
@@ -310,7 +315,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
         <PageHeading className="mt-3" lead={t("daily.lead")} accent={t("daily.accent")} />
         <p className="mt-4 max-w-[620px] text-[15px] leading-relaxed text-[#1A1106]/70 sm:text-[16px]">{t("daily.copy")}</p>
 
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
           {TOOLS.map((tool) => {
             const on = tab === tool.id;
             return (
@@ -329,26 +334,34 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
 
         {tab === "horoscope" ? (
           <>
-            <div className="mt-6 flex flex-wrap justify-center gap-x-3 gap-y-3 sm:gap-x-4">
+            <div className="mt-6 grid grid-cols-4 justify-items-center gap-x-2 gap-y-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-4 sm:gap-y-3">
               {HOROSCOPE_RASHIS.map((rashi) => {
                 const active = rashi.slug === selected.slug;
+                const names = showRashi(rashi.slug);
                 return (
                   <button
                     key={rashi.slug}
                     type="button"
                     onClick={() => choose(rashi)}
-                    className="flex flex-col items-center gap-1 bg-transparent p-0"
+                    className="flex cursor-pointer flex-col items-center gap-1 bg-transparent p-0"
                     aria-pressed={active}
+                    aria-label={names.secondary ? `${names.primary}, ${names.secondary}` : names.primary}
                   >
-                    <img
-                      src={`/rashis/rashi-${rashi.slug}.png?v=3`}
-                      alt=""
-                      className={`h-14 w-14 rounded-full object-cover object-[center_68%] sm:h-16 sm:w-16 ${
-                        active ? "ring-[3px] ring-[#e5c378] ring-offset-2 ring-offset-[#fff8ec]" : "ring-1 ring-[#e5c378]/35"
+                    <span
+                      className={`inline-flex rounded-full p-[3px] transition ${
+                        active
+                          ? "scale-110 bg-[#F6E2A8] shadow-[0_0_0_4px_rgba(246,226,168,0.95),0_0_24px_8px_rgba(229,195,120,0.9)]"
+                          : "bg-transparent shadow-[0_0_0_1px_rgba(229,195,120,0.45)]"
                       }`}
-                    />
-                    <span className={`text-[11px] font-bold leading-tight sm:text-sm ${active ? "text-tertiary" : "text-[#1A1106]/55"}`}>
-                      {rashi.sa}
+                    >
+                      <img
+                        src={`/rashis/rashi-${rashi.slug}.png?v=3`}
+                        alt=""
+                        className="h-14 w-14 rounded-full object-cover object-[center_68%] sm:h-16 sm:w-16"
+                      />
+                    </span>
+                    <span className={`max-w-[4.5rem] text-center text-[10px] font-bold leading-tight sm:max-w-none sm:text-sm ${active ? "text-[#8A5A12]" : "text-[#1A1106]/55"}`}>
+                      {names.primary}
                     </span>
                   </button>
                 );
@@ -360,11 +373,11 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#1A1106]/55">{t("daily.wheel")}</p>
                   <span className="rounded-full border border-[#e5c378] bg-white px-2.5 py-1 text-[10px] font-semibold text-[#1A1106]">
-                    {panchang.pakshaLabel}
+                    {localPaksha(panchang.pakshaLabel, locale)}
                   </span>
                 </div>
                 <div className="mt-4">
-                  <ZodiacWheel selectedIndex={selectedIndex} label={selected.sa} />
+                  <ZodiacWheel selectedIndex={selectedIndex} label={selectedNames.primary} dayLabel={yourDayLabel(locale)} />
                 </div>
                 <BookConsultationButton className="mt-5 flex w-full items-center justify-center rounded-full bg-[#e5c378] px-4 py-3 text-[14px] font-bold text-[#1A1106] transition hover:bg-[#F1D59B]">
                   {t("daily.cta")}
@@ -372,7 +385,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                 <p className="mt-3 text-center text-[11px] text-[#1A1106]/45">{t("daily.ctaHint")}</p>
               </div>
 
-              <div className="relative">
+              <div className="relative hidden lg:block">
                 <div className="mb-2 flex items-center justify-between gap-2">
                   <p className="text-[14px] font-semibold text-[#1A1106]">{t("daily.select")}</p>
                   <p className="text-[11px] font-medium tracking-[0.04em] text-[#1A1106]/40">{t("daily.vedic")}</p>
@@ -411,8 +424,10 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                             style={{ height: CARD_H }}
                           >
                             <span className="min-w-0">
-                              <span className="block font-serif text-[16px] font-medium text-[#1A1106]">{rashi.sa}</span>
-                              <span className="mt-0.5 block text-[12px] text-[#1A1106]/45">{rashi.en}</span>
+                              <span className="block font-serif text-[16px] font-medium text-[#1A1106]">{showRashi(rashi.slug).primary}</span>
+                              {showRashi(rashi.slug).secondary ? (
+                                <span className="mt-0.5 block text-[12px] text-[#1A1106]/45">{showRashi(rashi.slug).secondary}</span>
+                              ) : null}
                               <span className="mt-2 block h-1 w-8 rounded-full bg-[#e5c378]" />
                             </span>
                             <span
@@ -445,13 +460,15 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
               <div
                 ref={detailRef}
                 id="horoscope-detail"
-                className="flex scroll-mt-36 flex-col rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)]"
-                style={{ minHeight: SLIDER_H }}
+                className="flex scroll-mt-36 flex-col rounded-[28px] border-2 border-[#e5c378] bg-white p-5 shadow-[0_12px_32px_-16px_rgba(26,17,6,0.16)] lg:min-h-[398px]"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="font-serif text-[22px] font-medium leading-tight text-[#1A1106]">
-                      {selected.sa} <span className="text-[14px] font-normal text-[#1A1106]/45">· {selected.en}</span>
+                      {selectedNames.primary}
+                      {selectedNames.secondary ? (
+                        <span className="text-[14px] font-normal text-[#1A1106]/45"> · {selectedNames.secondary}</span>
+                      ) : null}
                     </p>
                     <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-tertiary">{t("daily.today")}</p>
                   </div>
@@ -478,7 +495,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                 </dl>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="rounded-full border border-[#e5c378]/70 bg-[#fff8ec] px-3 py-1 text-[12px] font-semibold text-[#1A1106]">
-                    {t("daily.lucky")} · {lucky.color}
+                    {t("daily.lucky")} · {colorLabel(lucky.color, locale)}
                   </span>
                   <span className="rounded-full border border-[#e5c378]/70 bg-[#fff8ec] px-3 py-1 text-[12px] font-semibold text-[#1A1106]">
                     {t("daily.number")} · {lucky.number}
@@ -515,7 +532,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                     dob: date,
                     time,
                     place,
-                    moon: moon ? `${moon.sa} · ${moon.en}` : "",
+                    moon: moon ? rashiLine(moon.slug, locale) : "",
                     nakshatra: out.nakshatraLabel,
                     tithi: `${out.tithiLabel} · ${out.pakshaLabel}`,
                   });
@@ -546,9 +563,9 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                 kundliOut
                   ? [
                       { label: t("daily.birthDetails"), value: [kundli.name, kundli.date, kundli.time, kundli.place].filter(Boolean).join(" · ") },
-                      { label: t("daily.moonSign"), value: rashiFrom(kundliOut) ? `${rashiFrom(kundliOut)?.sa} · ${rashiFrom(kundliOut)?.en}` : "" },
+                      { label: t("daily.moonSign"), value: rashiFrom(kundliOut) ? rashiLine(rashiFrom(kundliOut)!.slug, locale) : "" },
                       { label: t("daily.nakshatra"), value: kundliOut.nakshatraLabel },
-                      { label: t("daily.tithi"), value: `${kundliOut.tithiLabel} · ${kundliOut.pakshaLabel}` },
+                      { label: t("daily.tithi"), value: `${kundliOut.tithiLabel} · ${localPaksha(kundliOut.pakshaLabel, locale)}` },
                     ]
                   : []
               }
@@ -572,8 +589,8 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                   loadInsight("match", {
                     boyName: match.boyName,
                     girlName: match.girlName,
-                    rashiA: `${matchA.sa} · ${matchA.en}`,
-                    rashiB: `${matchB.sa} · ${matchB.en}`,
+                    rashiA: rashiLine(matchA.slug, locale),
+                    rashiB: rashiLine(matchB.slug, locale),
                     score: matchResult.score,
                   });
                 }}
@@ -589,7 +606,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                     <select className={fieldClass} value={match.a} onChange={(e) => setMatch({ ...match, a: e.target.value as RashiSlug })}>
                       {RASHIS.map((item) => (
                         <option key={item.slug} value={item.slug}>
-                          {item.sa} · {item.en}
+                          {rashiLine(item.slug, locale)}
                         </option>
                       ))}
                     </select>
@@ -598,7 +615,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                     <select className={fieldClass} value={match.b} onChange={(e) => setMatch({ ...match, b: e.target.value as RashiSlug })}>
                       {RASHIS.map((item) => (
                         <option key={item.slug} value={item.slug}>
-                          {item.sa} · {item.en}
+                          {rashiLine(item.slug, locale)}
                         </option>
                       ))}
                     </select>
@@ -613,8 +630,8 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
               title={t("daily.tabMatch")}
               facts={[
                 { label: t("daily.matchScore"), value: `${matchResult.score} / 10` },
-                { label: t("daily.boy"), value: [match.boyName, matchA.sa].filter(Boolean).join(" · ") },
-                { label: t("daily.girl"), value: [match.girlName, matchB.sa].filter(Boolean).join(" · ") },
+                { label: t("daily.boy"), value: [match.boyName, showRashi(matchA.slug).primary].filter(Boolean).join(" · ") },
+                { label: t("daily.girl"), value: [match.girlName, showRashi(matchB.slug).primary].filter(Boolean).join(" · ") },
               ]}
               reading={insight}
               busy={insightBusy}
@@ -646,8 +663,8 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                     name,
                     dob: date,
                     time,
-                    moon: moon ? `${moon.sa} · ${moon.en}` : "",
-                    rashi: moon?.sa,
+                    moon: moon ? rashiLine(moon.slug, locale) : "",
+                    rashi: moon ? showRashi(moon.slug).primary : "",
                     nakshatra: out.nakshatraLabel,
                     tithi: out.tithiLabel,
                   });
@@ -675,7 +692,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                 calcOut
                   ? [
                       { label: t("daily.birthDetails"), value: [calcDate.name, calcDate.date, calcDate.time].filter(Boolean).join(" · ") },
-                      { label: t("daily.moonSign"), value: rashiFrom(calcOut) ? `${rashiFrom(calcOut)?.sa} · ${rashiFrom(calcOut)?.en}` : "" },
+                      { label: t("daily.moonSign"), value: rashiFrom(calcOut) ? rashiLine(rashiFrom(calcOut)!.slug, locale) : "" },
                       { label: t("daily.nakshatra"), value: calcOut.nakshatraLabel },
                       { label: t("daily.tithi"), value: calcOut.tithiLabel },
                     ]
@@ -742,21 +759,26 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
 
         {tab === "tarot" ? (
           <div className="mt-8 grid items-start gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-            <ToolCard>
+            <div className="rounded-[22px] border border-[#E7DCCB] bg-[#FBF7F1] p-5 sm:p-7">
               <form
-                className="grid gap-3"
+                className="grid gap-4"
                 onSubmit={(event) => {
                   event.preventDefault();
                   if (!threeReady) return;
                   loadInsight("tarot", tarotFacts());
                 }}
               >
-                <Field label={t("daily.tarotType")}>
-                  <select
-                    className={fieldClass}
+                <h3 className="font-serif text-[26px] leading-none tracking-[0.04em] text-[#9A6F3A] uppercase sm:text-[30px]">{t("daily.tarotType")}</h3>
+                <select
+                    className="w-full rounded-full border border-[#E4D5C4] bg-white px-4 py-2.5 text-[14px] text-[#1A1106] outline-none focus:border-[#C6A15A]"
                     value={tarot.type}
                     onChange={(e) => {
-                      setTarot({ ...tarot, type: e.target.value });
+                      const type = e.target.value;
+                      setTarot({
+                        ...tarot,
+                        type,
+                        partner: TAROT_PARTNER_TYPES.has(type) ? tarot.partner : "",
+                      });
                       setTarotCards({});
                       setTarotDrawKeys({ 1: 0, 2: 0, 3: 0 });
                       setInsight(null);
@@ -769,30 +791,34 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                       </option>
                     ))}
                   </select>
-                </Field>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <Field label={t("daily.tarotName")}>
-                    <input className={fieldClass} value={tarot.name} onChange={(e) => setTarot({ ...tarot, name: e.target.value })} />
-                  </Field>
-                  <Field label={t("daily.tarotPartner")}>
-                    <input
-                      className={fieldClass}
-                      value={tarot.partner}
-                      onChange={(e) => setTarot({ ...tarot, partner: e.target.value })}
-                    />
-                  </Field>
+                <div className={TAROT_PARTNER_TYPES.has(tarot.type) ? "grid gap-3 sm:grid-cols-2" : "grid gap-3"}>
+                  <label className="block">
+                    <span className="text-[11px] font-bold tracking-[0.14em] text-[#9A6F3A] uppercase">{t("daily.tarotName")}</span>
+                    <input className="mt-1 w-full rounded-full border border-[#E4D5C4] bg-white px-4 py-2.5 text-[14px] text-[#1A1106] outline-none focus:border-[#C6A15A]" value={tarot.name} onChange={(e) => setTarot({ ...tarot, name: e.target.value })} />
+                  </label>
+                  {TAROT_PARTNER_TYPES.has(tarot.type) ? (
+                    <label className="block">
+                      <span className="text-[11px] font-bold tracking-[0.14em] text-[#9A6F3A] uppercase">{t("daily.tarotPartner")}</span>
+                      <input
+                        className="mt-1 w-full rounded-full border border-[#E4D5C4] bg-white px-4 py-2.5 text-[14px] text-[#1A1106] outline-none focus:border-[#C6A15A]"
+                        value={tarot.partner}
+                        onChange={(e) => setTarot({ ...tarot, partner: e.target.value })}
+                      />
+                    </label>
+                  ) : null}
                 </div>
-                <Field label={t("daily.tarotSituation")}>
+                <label className="block">
+                  <span className="text-[11px] font-bold tracking-[0.14em] text-[#9A6F3A] uppercase">{t("daily.tarotSituation")}</span>
                   <textarea
-                    className={`${fieldClass} min-h-[96px] resize-y`}
+                    className="mt-1 min-h-[88px] w-full resize-y rounded-[22px] border border-[#E4D5C4] bg-white px-4 py-2.5 text-[14px] text-[#1A1106] outline-none focus:border-[#C6A15A]"
                     value={tarot.situation}
                     onChange={(e) => setTarot({ ...tarot, situation: e.target.value })}
                     placeholder={t("daily.tarotPlaceholder")}
                   />
-                </Field>
+                </label>
                 <div>
-                  <p className={labelClass}>{t("daily.tarotPiles")}</p>
-                  <p className="mt-1 text-[13px] leading-relaxed text-[#1A1106]/60">{t("daily.tarotPileHint")}</p>
+                  <p className="text-center font-serif text-[22px] tracking-[0.04em] text-[#9A6F3A] uppercase sm:text-[24px]">{t("daily.tarotPiles")}</p>
+                  <p className="mt-2 text-center text-[13px] leading-relaxed text-[#1A1106]/70">{t("daily.tarotPileHint")}</p>
                   <TarotPiles
                     labels={TAROT_PILES.map((pile) => ({ title: t(pile.label), role: t(pile.role) }))}
                     cards={tarotCards}
@@ -800,30 +826,35 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
                     onPick={pickTarotPile}
                   />
                 </div>
-                <button type="submit" className={`${goldBtn} disabled:opacity-45`} disabled={!threeReady}>
+                <button type="submit" className="inline-flex w-full items-center justify-center rounded-full bg-[#e5c378] px-4 py-3 text-[15px] font-semibold text-[#1A1106] transition hover:bg-[#F1D59B] disabled:opacity-45" disabled={!threeReady}>
                   {t("daily.tarotRead")}
                 </button>
               </form>
-            </ToolCard>
+            </div>
             <div>
               <FreeReadingPanel
                 title={t("daily.tabTarot")}
                 facts={[
                   { label: t("daily.tarotType"), value: t(TAROT_TYPES.find((item) => item.id === tarot.type)?.label || "daily.tarotDaily") },
                   { label: t("daily.name"), value: tarot.name },
-                  { label: t("daily.tarotPartner"), value: tarot.partner },
+                  ...(TAROT_PARTNER_TYPES.has(tarot.type) ? [{ label: t("daily.tarotPartner"), value: tarot.partner }] : []),
                   { label: t("daily.tarotPast"), value: tarotCards[1] || "" },
                   { label: t("daily.tarotPresent"), value: tarotCards[2] || "" },
                   { label: t("daily.tarotFuture"), value: tarotCards[3] || "" },
                 ]}
                 reading={insight}
                 busy={insightBusy}
-                empty={threeReady ? t("daily.tarotReady") : t("daily.tarotPileHint")}
+                empty={t("daily.tarotPileHint")}
                 phone={contact.phone}
                 whatsapp={contact.whatsapp}
                 purpose={`Tarot detailed reading${tarot.name ? ` for ${tarot.name}` : ""}${tarot.partner ? ` and ${tarot.partner}` : ""}.`}
                 callTeam
                 tarot
+                tarotSlots={TAROT_PILES.map((pile) => ({
+                  role: t(pile.role),
+                  title: t(pile.label),
+                  value: tarotCards[pile.id] || "",
+                }))}
               />
             </div>
           </div>

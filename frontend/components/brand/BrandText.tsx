@@ -1,8 +1,17 @@
-import { Fragment, type ReactNode } from "react";
+"use client";
+
+import { Fragment, useRef, type ReactNode } from "react";
+import { useBrandFlash } from "@/components/brand/BrandTwinkle";
 import { BRAND_CLASS, BRAND_NAME, rewriteBrandText } from "@/lib/brand";
 
 export function BrandMark({ className = "", children }: { className?: string; children?: ReactNode }) {
-  return <span className={`${BRAND_CLASS} ${className}`.trim()}>{children ?? BRAND_NAME}</span>;
+  const ref = useRef<HTMLSpanElement>(null);
+  useBrandFlash(ref);
+  return (
+    <span ref={ref} className={`${BRAND_CLASS} ${className}`.trim()}>
+      {children ?? BRAND_NAME}
+    </span>
+  );
 }
 
 export function BrandText({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -17,7 +26,7 @@ export function BrandText({ children, className = "" }: { children: ReactNode; c
       {parts.map((part, index) => (
         <Fragment key={`${part}-${index}`}>
           {part}
-          {index < parts.length - 1 ? <span className={BRAND_CLASS}>{BRAND_NAME}</span> : null}
+          {index < parts.length - 1 ? <BrandMark /> : null}
         </Fragment>
       ))}
     </span>

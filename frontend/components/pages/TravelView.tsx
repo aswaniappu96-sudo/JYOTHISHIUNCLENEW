@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { TravelCard } from "@/components/cards/TravelCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
@@ -113,6 +113,21 @@ export function TravelView({
 
   const shown = filtered.slice(0, visible);
   const remaining = Math.max(0, filtered.length - shown.length);
+  const cardsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const node = cardsRef.current;
+    if (!node) return;
+    const timer = window.setTimeout(() => {
+      const header = document.querySelector("header");
+      const offset = (header?.getBoundingClientRect().height || 72) + 16;
+      const top = node.getBoundingClientRect().top + window.scrollY - offset;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+    }, 60);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   const waHref = whatsappNumber
     ? whatsappUrl(
         whatsappNumber,
@@ -129,7 +144,7 @@ export function TravelView({
         <div className="pointer-events-none absolute -top-32 left-1/2 h-[520px] w-[720px] -translate-x-1/2 rounded-full bg-secondary-container/20 blur-[140px]" />
         <div className="relative mx-auto flex max-w-5xl flex-col items-center">
           <Eyebrow className="mb-5">{eyebrow}</Eyebrow>
-          <PageHeading as="h1" title={title} className="max-w-4xl" />
+          <PageHeading as="h1" tone="ink" title={title} className="max-w-4xl" />
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-on-surface-variant">{copy}</p>
           <div className="mt-8 grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
             {STATS.map((stat) => (
@@ -167,7 +182,7 @@ export function TravelView({
         </div>
       </section>
 
-      <section className="px-4 py-10 md:px-12">
+      <section ref={cardsRef} id="yatra" className="scroll-mt-24 px-4 py-10 md:px-12">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end">
             <div>

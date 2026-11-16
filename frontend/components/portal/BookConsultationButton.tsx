@@ -19,8 +19,9 @@ export function BookConsultationButton({
       suppressHydrationWarning
       onClick={() => openConsultation(prefill)}
       className={
-        className ||
-        "inline-flex items-center justify-center rounded-full bg-primary-container px-4 py-1.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_8px_20px_-4px_rgba(201,162,39,0.45)] transition hover:brightness-95"
+        className
+          ? `cursor-pointer ${className}`
+          : "inline-flex cursor-pointer items-center justify-center rounded-full bg-primary-container px-4 py-1.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_8px_20px_-4px_rgba(201,162,39,0.45)] transition hover:brightness-95"
       }
     >
       {children}

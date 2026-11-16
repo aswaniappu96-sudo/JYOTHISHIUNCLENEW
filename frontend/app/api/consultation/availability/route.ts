@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   const query = params.toString();
   try {
     const data = await wpFetch(`/consultation/availability${query ? `?${query}` : ""}`, { cache: "no-store" });
-    return NextResponse.json(data);
+    return NextResponse.json(data, { headers: { "Cache-Control": "no-store" } });
   } catch {
     return NextResponse.json(
       { timezone: "Asia/Kolkata", month, slot_minutes: 30, working_days: [], start_time: "", end_time: "", days: [] },

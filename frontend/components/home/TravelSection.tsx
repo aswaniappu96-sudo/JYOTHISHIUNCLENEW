@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { usePortal } from "@/components/portal/PortalProvider";
@@ -150,6 +150,27 @@ export function TravelSection({
     return unique.slice(0, 5);
   }, [list]);
 
+  useEffect(() => {
+    const go = () => {
+      if (window.location.hash !== "#yatra") return;
+      const node = document.getElementById("yatra");
+      if (!node) return;
+      const header = document.querySelector("header");
+      const offset = (header?.getBoundingClientRect().height || 72) + 16;
+      const top = node.getBoundingClientRect().top + window.scrollY - offset;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+    };
+    const timer = window.setTimeout(go, 60);
+    const retry = window.setTimeout(go, 400);
+    window.addEventListener("hashchange", go);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(retry);
+      window.removeEventListener("hashchange", go);
+    };
+  }, []);
+
   if (!list.length) return null;
 
   const chatHref = (item: TravelDestination) =>
@@ -171,7 +192,7 @@ export function TravelSection({
           </div>
           <Link
             href="/religious-travel"
-            className="group inline-flex items-center gap-2 self-start rounded-full border border-[#EAD9B0] bg-white px-5 py-2.5 text-[13px] font-medium text-[#6B5A42] transition hover:border-[#B87E3B]/40 hover:text-[#2B2116]"
+            className="group hidden items-center gap-2 self-start rounded-full border border-[#EAD9B0] bg-white px-5 py-2.5 text-[13px] font-medium text-[#6B5A42] transition hover:border-[#B87E3B]/40 hover:text-[#2B2116] lg:inline-flex"
           >
             {t("yatra.view")} <ArrowGlyph className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
@@ -403,6 +424,13 @@ export function TravelSection({
             </div>
           </div>
         </div>
+
+        <Link
+          href="/religious-travel"
+          className="group mx-auto mt-6 flex w-fit items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-5 py-2.5 text-[13px] font-medium text-[#6B5A42] transition hover:border-[#B87E3B]/40 hover:text-[#2B2116] lg:hidden"
+        >
+          {t("yatra.view")} <ArrowGlyph className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </Link>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-[16px] border border-dashed border-[#EAD9B0] bg-white px-5 py-3 md:mt-16 md:flex-row">
           <p className="text-center text-[12px] text-[#8C7A60] md:text-left">

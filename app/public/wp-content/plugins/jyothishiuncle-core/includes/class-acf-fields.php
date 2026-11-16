@@ -589,11 +589,13 @@ class JU_ACF_Fields {
 							'name'    => 'meeting_method',
 							'type'    => 'select',
 							'choices' => array(
+								'zegocloud'   => 'ZEGOCLOUD',
 								'whatsapp'    => 'WhatsApp video',
 								'google_meet' => 'Google Meet',
 								'zoom'        => 'Zoom',
 								'teams'       => 'Microsoft Teams',
 							),
+							'default_value' => 'zegocloud',
 						),
 						self::field( 'field_cb_message', 'message', 'Message', 'textarea' ),
 						self::field(

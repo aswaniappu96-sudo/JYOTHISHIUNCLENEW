@@ -10,7 +10,6 @@ import { EnquiryForm } from "@/components/home/EnquiryForm";
 import { Hero } from "@/components/home/Hero";
 import { PoojaSection } from "@/components/home/PoojaSection";
 import { ProductSection } from "@/components/home/ProductSection";
-import { QuickServicesSection } from "@/components/home/QuickServicesSection";
 import { Testimonials } from "@/components/home/Testimonials";
 import { TravelSection } from "@/components/home/TravelSection";
 import { getHomePayload } from "@/lib/api/wordpress";
@@ -23,32 +22,25 @@ export default async function HomePage() {
   return (
     <div>
       <Hero
-        astrologers={data.astrologers || []}
         services={data.services || []}
         phone={data.settings.phone_number}
         whatsapp={data.settings.whatsapp_number}
       />
       <div className="relative z-10">
+        <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />
+        <AstrologyConsultingSection />
         <AstrologersSection
           astrologers={data.astrologers || []}
           phone={data.settings.phone_number}
           whatsapp={data.settings.whatsapp_number}
         />
-        <AstrologyConsultingSection />
-        <QuickServicesSection />
+        <BecomeAstrologerSection />
         <DailyHoroscope phone={data.settings.phone_number} whatsapp={data.settings.whatsapp_number} />
-        <AboutTeaser
-          excerpt={data.settings.about_excerpt}
-          image={data.settings.about_teaser_image}
-          phone={data.settings.phone_number}
-          whatsapp={data.settings.whatsapp_number}
-        />
         <ConsultationSection settings={data.settings} services={data.services || []} />
         <PoojaSection poojas={data.poojas} vendors={data.vendors || []} whatsappNumber={data.settings.whatsapp_number} />
         <ProductSection products={data.products} whatsappNumber={data.settings.whatsapp_number} />
         <TravelSection travel={data.travel} whatsappNumber={data.settings.whatsapp_number} />
         <Testimonials testimonials={data.testimonials} />
-        <BecomeAstrologerSection />
         <BlogSection articles={data.articles} youtubeUrl={data.settings.social_youtube} />
         <EnquiryForm whatsappNumber={data.settings.whatsapp_number} faqs={data.faqs} />
         <CtaSection

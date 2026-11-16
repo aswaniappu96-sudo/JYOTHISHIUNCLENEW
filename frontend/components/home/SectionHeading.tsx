@@ -1,6 +1,6 @@
 import { BrandMark, BrandText } from "@/components/brand/BrandText";
 import { isBrandName } from "@/lib/brand";
-import { KICKER, LEAD, PAGE_ACCENT, PAGE_TITLE, splitHeading } from "@/lib/layout";
+import { KICKER, LEAD, PAGE_ACCENT, PAGE_TITLE_GOLD, PAGE_TITLE_SHAPE, splitHeading } from "@/lib/layout";
 
 export function SectionChip({ children }: { children: string }) {
   return (
@@ -17,6 +17,7 @@ export function PageHeading({
   accent,
   rest,
   className = "",
+  tone = "gold",
 }: {
   as?: "h1" | "h2";
   title?: string;
@@ -24,19 +25,21 @@ export function PageHeading({
   accent?: string;
   rest?: string;
   className?: string;
+  tone?: "gold" | "ink";
 }) {
   const parts = splitHeading(title, lead, accent);
   const brandLead = isBrandName(parts.lead);
   const brandAccent = isBrandName(parts.accent);
+  const titleColor = tone === "ink" ? "text-on-surface" : PAGE_TITLE_GOLD;
   return (
-    <Tag className={`${PAGE_TITLE} ${className}`.trim()}>
+    <Tag className={`${PAGE_TITLE_SHAPE} ${titleColor} ${className}`.trim()}>
       {brandLead ? <BrandMark /> : <BrandText>{parts.lead}</BrandText>}
       {parts.accent ? (
         <>
           {parts.lead ? " " : null}
-          <span className={`${brandAccent ? "" : PAGE_ACCENT} relative inline-block`}>
+          <span className={brandAccent ? "relative inline-block" : `${PAGE_ACCENT} relative inline-block`}>
             <span className="relative z-10">{brandAccent ? <BrandMark /> : <BrandText>{parts.accent}</BrandText>}</span>
-            {brandAccent ? null : <span className="ju-heading-mark absolute right-0 bottom-[0.18em] left-0 -z-0 h-[0.36em]" />}
+            {brandAccent ? null : <span aria-hidden className="heading-glisten" />}
           </span>
         </>
       ) : null}

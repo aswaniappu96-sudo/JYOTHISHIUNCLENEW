@@ -16,10 +16,13 @@ function vendorCopy(vendor: Vendor) {
 }
 
 function poojasAtTemple(vendor: Vendor, poojas: Pooja[]) {
-  const picked = (vendor.pooja_ids || [])
-    .map((id) => poojas.find((item) => item.id === id))
-    .filter((item): item is Pooja => Boolean(item));
-  const list = picked.length ? picked : poojas;
+  const wanted = (vendor.pooja_ids || []).map((id) => Number(id)).filter((id) => id > 0);
+  const byId = new Map(poojas.map((item) => [Number(item.id), item]));
+  const picked = wanted.flatMap((id) => {
+    const item = byId.get(id);
+    return item ? [item] : [];
+  });
+  const list = wanted.length ? picked : poojas;
   return list.map((item) => ({ slug: item.slug, title: item.title }));
 }
 

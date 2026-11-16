@@ -8,39 +8,10 @@ export type SelectedConsultationDay = {
   slots: AvailabilityDay["slots"];
 };
 
-const monthCache = new Map<string, AvailabilityMonth>();
-const monthInflight = new Map<string, Promise<AvailabilityMonth | null>>();
-const bookedDates = new Set<string>();
-
-function applyLocks(data: AvailabilityMonth | null) {
-  if (!data || !bookedDates.size) return data;
-  return {
-    ...data,
-    days: data.days.map((day) =>
-      bookedDates.has(day.date) ? { ...day, available: false, booked: true, slots: [] } : day,
-    ),
-  };
-}
-
 function loadMonth(month: string) {
-  const cached = monthCache.get(month);
-  if (cached) return Promise.resolve(cached);
-  const pending = monthInflight.get(month);
-  if (pending) return pending;
-  const request = fetch(`/api/consultation/availability?month=${month}`)
-    .then((res) => res.json())
-    .then((data: AvailabilityMonth) => {
-      const next = applyLocks(data) || data;
-      monthCache.set(month, next);
-      monthInflight.delete(month);
-      return next;
-    })
-    .catch(() => {
-      monthInflight.delete(month);
-      return null;
-    });
-  monthInflight.set(month, request);
-  return request;
+  return fetch(`/api/consultation/availability?month=${month}`, { cache: "no-store" })
+    .then((res) => (res.ok ? res.json() : null))
+    .catch(() => null);
 }
 
 function monthString(date: Date) {
@@ -64,7 +35,7 @@ export function HomeConsultationCalendar({
   variant?: "default" | "cream";
 }) {
   const [month, setMonth] = useState(monthString(new Date()));
-  const [data, setData] = useState<AvailabilityMonth | null>(() => monthCache.get(monthString(new Date())) || null);
+  const [data, setData] = useState<AvailabilityMonth | null>(null);
   const [localDate, setLocalDate] = useState(selectedDate);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
@@ -74,21 +45,31 @@ export function HomeConsultationCalendar({
   }, [selectedDate]);
 
   useEffect(() => {
-    loadMonth(month).then(setData);
+    let cancelled = false;
+    const refresh = () => {
+      loadMonth(month).then((fresh) => {
+        if (!cancelled && fresh) setData(fresh);
+      });
+    };
+    refresh();
     const onBooked = (event: Event) => {
       const bookedDate = (event as CustomEvent<{ date?: string }>).detail?.date || "";
       if (bookedDate) {
-        bookedDates.add(bookedDate);
-        setData((prev) => applyLocks(prev));
         setLocalDate((current) => (current === bookedDate ? "" : current));
         onSelectRef.current?.({ date: "", slots: [] });
       }
-      monthCache.delete(month);
-      monthInflight.delete(month);
-      loadMonth(month).then((fresh) => setData(applyLocks(fresh)));
+      refresh();
+    };
+    const onVisible = () => {
+      if (document.visibilityState === "visible") refresh();
     };
     window.addEventListener("ju-consultation-booked", onBooked);
-    return () => window.removeEventListener("ju-consultation-booked", onBooked);
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("ju-consultation-booked", onBooked);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, [month]);
 
   const activeDate = selectedDate || localDate;

@@ -1,4 +1,4 @@
-/** Strip Oman / Muscat from public website copy. Keep IANA timezone ids intact. */
+/** Strip Oman / Muscat / Anjoor Kalarikkal from public website copy. Keep IANA timezone ids intact. */
 
 const IANA_TZ = /^(Africa|America|Antarctica|Asia|Atlantic|Australia|Europe|Indian|Pacific)\//;
 
@@ -31,6 +31,7 @@ export function stripOmanHighlight(text: string): string {
     .replace(/,\s*Muscat\b/gi, "")
     .replace(/\bMuscat\b/gi, "")
     .replace(/\bOman\b/gi, "")
+    .replace(/\bAnjoor[\s\-–—]*Kalarikkal\b/gi, "")
     .replace(/\bTraditional astrologers from Keralam\b/gi, "Traditional astrologers")
     .replace(/\bfrom a family of Traditional Astrologers from Keralam\b/gi, "from a family of Traditional Astrologers")
     .replace(/\bfrom Keralam\b/gi, "")

@@ -11,8 +11,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class JU_REST_Serialize {
 
+	public static function public_text( $text ) {
+		$next = preg_replace( '/\bAnjoor[\s\-–—]*Kalarikkal\b/iu', '', (string) $text );
+		if ( null === $next ) {
+			return (string) $text;
+		}
+		$next = preg_replace( '/\s{2,}/u', ' ', $next );
+		$next = preg_replace( '/^[\s,·–—\-]+|[\s,·]+$/u', '', (string) $next );
+		return trim( (string) $next );
+	}
+
 	public static function title( WP_Post $post ) {
-		return html_entity_decode( wp_strip_all_tags( get_the_title( $post ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		return self::public_text( html_entity_decode( wp_strip_all_tags( get_the_title( $post ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
 	}
 
 	public static function pooja( WP_Post $post ) {
@@ -39,7 +49,7 @@ class JU_REST_Serialize {
 		return array_merge(
 			self::card( $post ),
 			array(
-				'location'         => (string) self::meta( $post->ID, 'location' ),
+				'location'         => self::public_text( (string) self::meta( $post->ID, 'location' ) ),
 				'full_description' => self::html_meta( $post->ID, 'full_description', $post->post_content ),
 				'pooja_ids'        => self::temple_pooja_ids( $post->ID ),
 				'i18n'             => self::i18n_pack(
@@ -229,7 +239,7 @@ class JU_REST_Serialize {
 				if ( '' === trim( wp_strip_all_tags( $text ) ) ) {
 					continue;
 				}
-				$pack[ $key ] = in_array( $key, $html_keys, true ) ? wp_kses_post( $text ) : $text;
+				$pack[ $key ] = self::public_text( in_array( $key, $html_keys, true ) ? wp_kses_post( $text ) : $text );
 			}
 			if ( $pack ) {
 				$out[ $id ] = $pack;
@@ -374,7 +384,7 @@ class JU_REST_Serialize {
 		return array(
 			'id'    => $attachment_id,
 			'url'   => $url,
-			'alt'   => $alt ? $alt : '',
+			'alt'   => $alt ? self::public_text( $alt ) : '',
 			'full'  => wp_get_attachment_image_url( $attachment_id, 'full' ),
 			'thumb' => wp_get_attachment_image_url( $attachment_id, 'medium' ),
 		);

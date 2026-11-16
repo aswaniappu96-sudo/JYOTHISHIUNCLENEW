@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n";
+import { horoscopePack, type ReadingKind } from "@/lib/horoscopeCopy";
 import { RASHIS } from "@/lib/rashis";
 
 const NOTES: Record<string, string[]> = {
@@ -61,8 +63,19 @@ function pick(lines: string[] | undefined, at: Date, slug: string, extra = 0) {
   return list[(dayIndex(at) + slug.length + extra) % list.length];
 }
 
-export function dailyHoroscopeNote(slug: string, at = new Date()) {
-  return pick(NOTES[slug] ?? NOTES.medam, at, slug);
+function table(locale: Locale, kind: ReadingKind) {
+  if (locale === "en") {
+    if (kind === "notes") return NOTES;
+    if (kind === "love") return LOVE;
+    if (kind === "career") return CAREER;
+    return HEALTH;
+  }
+  return horoscopePack(locale)?.[kind] || (kind === "notes" ? NOTES : kind === "love" ? LOVE : kind === "career" ? CAREER : HEALTH);
+}
+
+export function dailyHoroscopeNote(slug: string, at = new Date(), locale: Locale = "en") {
+  const lines = table(locale, "notes");
+  return pick(lines[slug] ?? lines.medam ?? NOTES.medam, at, slug);
 }
 
 const LOVE: Record<string, string[]> = {
@@ -110,12 +123,12 @@ const HEALTH: Record<string, string[]> = {
   meenam: ["Sleep and feet. Write the dream, then rest the eyes.", "Do not absorb every sorrow in the room."],
 };
 
-export function dailyRashiReading(slug: string, at = new Date()) {
+export function dailyRashiReading(slug: string, at = new Date(), locale: Locale = "en") {
   return {
-    overview: dailyHoroscopeNote(slug, at),
-    love: pick(LOVE[slug], at, slug, 1),
-    career: pick(CAREER[slug], at, slug, 2),
-    health: pick(HEALTH[slug], at, slug, 3),
+    overview: dailyHoroscopeNote(slug, at, locale),
+    love: pick(table(locale, "love")[slug], at, slug, 1),
+    career: pick(table(locale, "career")[slug], at, slug, 2),
+    health: pick(table(locale, "health")[slug], at, slug, 3),
   };
 }
 

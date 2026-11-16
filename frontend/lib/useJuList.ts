@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { stripOmanDeep } from "@/lib/publicCopy";
+import { withCurrentTemplePosts } from "@/lib/templeNames";
 
 const WORDPRESS_PUBLIC = (process.env.NEXT_PUBLIC_WORDPRESS_URL || "").replace(/\/$/, "");
 
@@ -13,17 +14,17 @@ function juListUrl(path: string) {
   return `/api/wp${juPath}`;
 }
 
-export function useJuList<T>(path: string, initial: T[]): T[] {
-  return useJuListStatus(path, initial).items;
+export function useJuList<T>(path: string, initial: T[], refresh = false): T[] {
+  return useJuListStatus(path, initial, refresh).items;
 }
 
-export function useJuListStatus<T>(path: string, initial: T[] = []) {
+export function useJuListStatus<T>(path: string, initial: T[] = [], refresh = false) {
   const [items, setItems] = useState<T[]>(initial);
-  const [loading, setLoading] = useState(initial.length === 0);
+  const [loading, setLoading] = useState(refresh || initial.length === 0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (initial.length > 0) {
+    if (!refresh && initial.length > 0) {
       setLoading(false);
       setError(null);
       return;
@@ -52,7 +53,11 @@ export function useJuListStatus<T>(path: string, initial: T[] = []) {
           return;
         }
         if (!cancelled) {
-          setItems(stripOmanDeep(json as T[]));
+          const named =
+            path === "/vendors"
+              ? (withCurrentTemplePosts(json as { slug?: string; title?: string; location?: string }[]) as T[])
+              : (json as T[]);
+          setItems(stripOmanDeep(named));
           setLoading(false);
         }
       } catch {
@@ -66,7 +71,7 @@ export function useJuListStatus<T>(path: string, initial: T[] = []) {
     return () => {
       cancelled = true;
     };
-  }, [path, initial.length]);
+  }, [path, initial.length, refresh]);
 
   return { items, loading, error };
 }

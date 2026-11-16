@@ -5,13 +5,17 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { HomeConsultationCalendar } from "@/components/home/HomeConsultationCalendar";
 import { Field, ModalShell, fieldClass, goldBtn } from "@/components/portal/ModalShell";
+import { PoojaOfferingFields } from "@/components/pages/PoojaOfferingFields";
 import type { ConsultationPrefill } from "@/components/portal/PortalProvider";
 import { submitConsultationBooking } from "@/lib/api/submit";
 import { consultationVideoPath } from "@/lib/consultationRoom";
 import { CONSULTATION_ONLY_LABEL } from "@/lib/consultation";
+import { isVideoConsultationService } from "@/lib/consultPanelCopy";
+import { savePoojaBookingAndWhatsApp } from "@/lib/pooja-booking";
 import { consultationWhatsAppMessage, whatsappUrl } from "@/lib/whatsapp";
 import { abandonWhatsAppTab, prepareWhatsAppTab, redirectToWhatsApp } from "@/lib/whatsapp-return";
 import type { AvailabilityMonth } from "@/types/forms";
+import type { Vendor } from "@/types/wordpress";
 
 function formatDate(value: string) {
   if (!value) return "";
@@ -49,7 +53,9 @@ export function ConsultationModal({
   const [videoPath, setVideoPath] = useState("");
   const [error, setError] = useState("");
   const serviceOptions = useMemo(() => {
-    const list = (prefill?.services || ["Kundli", "Prashna", "Matchmaking", "Family guidance", "Remedies"]).filter(Boolean);
+    const list = (prefill?.services || ["Kundli", "Prashna", "Matchmaking", "Family guidance", "Remedies"]).filter(
+      (item) => item && isVideoConsultationService(item),
+    );
     return list.some((item) => item.toLowerCase() === "other") ? list : [...list, "Other"];
   }, [prefill?.services]);
   const presetService = serviceOptions.includes(prefill?.purpose || "") ? prefill?.purpose || "" : "";
@@ -79,6 +85,28 @@ export function ConsultationModal({
   const whatsapp = prefill?.whatsapp || "";
   const selectedSlot = slots.find((item) => item.start === slot);
   const timeLabel = selectedSlot ? `${toHm(selectedSlot.start)}–${toHm(selectedSlot.end)}` : toHm(slot);
+  const poojaRequest = service.trim().toLowerCase() === "pooja booking";
+  const [vendors, setVendors] = useState<Vendor[]>([]);
+  const [vendorsReady, setVendorsReady] = useState(false);
+
+  useEffect(() => {
+    if (!poojaRequest) return;
+    let cancelled = false;
+    fetch("/api/vendors")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setVendors(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setVendors([]);
+      })
+      .finally(() => {
+        if (!cancelled) setVendorsReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [poojaRequest]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -104,6 +132,31 @@ export function ConsultationModal({
     setError("");
     const tab = prepareWhatsAppTab();
     try {
+      if (poojaRequest) {
+        const vendorSlug = String(form.get("vendor") || "");
+        if (vendors.length && !vendorSlug) {
+          abandonWhatsAppTab(tab);
+          setError("Please choose a pooja temple.");
+          return;
+        }
+        const result = await savePoojaBookingAndWhatsApp({
+          slug: "",
+          title: "Pooja booking",
+          form,
+          vendors,
+          whatsappNumber: whatsapp,
+        });
+        window.dispatchEvent(new CustomEvent("ju-consultation-booked", { detail: { date } }));
+        if (result.whatsappHref) {
+          onClose();
+          redirectToWhatsApp(result.whatsappHref, "pooja", tab);
+          return;
+        }
+        abandonWhatsAppTab(tab);
+        setDone(true);
+        return;
+      }
+
       const result = await submitConsultationBooking({
         date,
         start_time: start,
@@ -166,8 +219,9 @@ export function ConsultationModal({
         <div className="grid gap-3">
           <p className="font-serif text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">Your slot is booked.</p>
           <p className="text-sm leading-relaxed text-on-surface-variant">
-            This date is now locked on the calendar. A confirmation with this date is emailed to you and to the astrologer.
-            The video room opens 10 minutes before your booked time.
+            {poojaRequest
+              ? "Your pooja booking is saved in the pooja schedule. This date stays locked until that booking is deleted or marked completed."
+              : "This date is now locked on the calendar. A confirmation with this date is emailed to you and to the astrologer. The video room opens 10 minutes before your booked time."}
           </p>
           {videoPath ? (
             <a href={videoPath} className={`${goldBtn} inline-flex items-center justify-center text-center`}>
@@ -178,6 +232,7 @@ export function ConsultationModal({
       ) : (
         <form onSubmit={onSubmit} className="grid gap-3">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
+          {poojaRequest ? <input type="hidden" name="preferred_date" value={date} /> : null}
 
           {user ? null : (
             <>
@@ -236,18 +291,18 @@ export function ConsultationModal({
 
           {usingFree ? (
             <p className="rounded-xl border border-[#E9C07A] bg-[#FFF4D8] px-3.5 py-2.5 text-[13px] font-semibold leading-relaxed text-[#6B4A12]">
-              This booking includes your first 10-minute free consultation.
+              This booking includes your first 5-minute free consultation.
             </p>
           ) : user ? (
             <p className="rounded-xl bg-surface-container/70 px-3 py-2 text-xs leading-relaxed text-on-surface-variant">
-              This booking continues without the 10-minute free slot.
+              This booking continues without the 5-minute free slot.
             </p>
           ) : null}
 
           <p className="rounded-xl bg-surface-container/70 px-3 py-2 text-xs leading-relaxed text-on-surface-variant">
             After you submit, the booked date is emailed to you and to the astrologer. WhatsApp then opens so the astrologer's phone has the same date and your video link.
             {usingFree
-              ? " The note includes your first 10-minute free consultation."
+              ? " The note includes your first 5-minute free consultation."
               : " The note asks for the payment details."}
           </p>
 
@@ -263,6 +318,14 @@ export function ConsultationModal({
           <Field label="Email (for confirmation)">
             <input required type="email" name="email" autoComplete="email" defaultValue={user?.email} className={fieldClass} />
           </Field>
+          {poojaRequest ? (
+            vendorsReady ? (
+              <PoojaOfferingFields vendors={vendors} fieldClass={fieldClass} />
+            ) : (
+              <p className="text-sm text-on-surface-variant">Loading temples…</p>
+            )
+          ) : null}
+
           <Field label="Service">
             <select required name="service" value={service} onChange={(event) => setService(event.target.value)} className={fieldClass}>
               <option value="" disabled>

@@ -10,17 +10,17 @@ export function FreeConsultationOfferModal({
   onCancel: () => void;
 }) {
   return (
-    <ModalShell eyebrow="Free consultation" title="You get 10 min free consultation" onClose={onCancel}>
+    <ModalShell eyebrow="Free consultation" title="You get 5 min free consultation" onClose={onCancel}>
       <div className="grid gap-4">
         <p className="text-sm leading-relaxed text-on-surface-variant">
-          After login, your first consultation booking includes a 10-minute free slot.
+          After login, your first consultation booking includes a 5-minute free slot.
         </p>
         <p className="text-sm leading-relaxed text-on-surface-variant">
-          You can cancel this offer and continue without the free 10-minute slot. This applies only to consultation
+          You can cancel this offer and continue without the free 5-minute slot. This applies only to consultation
           booking, not pooja, products, or temple yatra.
         </p>
         <button type="button" className={goldBtn} onClick={onAccept}>
-          Continue with 10 min free
+          Continue with 5 min free
         </button>
         <button type="button" className={ghostBtn} onClick={onCancel}>
           Cancel — continue without free

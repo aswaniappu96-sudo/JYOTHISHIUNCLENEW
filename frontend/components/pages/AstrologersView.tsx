@@ -2,6 +2,7 @@ import { AstrologerTalkBoard } from "@/components/pages/AstrologerTalkBoard";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { PORTRAITS } from "@/lib/astrologer-display";
 import type { Astrologer } from "@/types/wordpress";
+import type { ReactNode } from "react";
 
 export { PORTRAITS };
 
@@ -9,19 +10,23 @@ export function AstrologerGrid({
   astrologers,
   phone,
   whatsapp,
+  afterIntro,
 }: {
   astrologers: Astrologer[];
   phone?: string;
   whatsapp?: string;
+  afterIntro?: ReactNode;
 }) {
   return (
     <AstrologerTalkBoard
+      id="astrologers"
       astrologers={astrologers}
       phone={phone}
       whatsapp={whatsapp}
       photo="full"
       headingAs="h1"
       showProof
+      afterIntro={afterIntro}
     />
   );
 }

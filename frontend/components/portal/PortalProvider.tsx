@@ -226,6 +226,7 @@ export function PortalProvider({ children }: { children: React.ReactNode }) {
         setFirstVisitAuth(false);
         setAuthForConsultation(false);
         setClaimLogin(false);
+        window.dispatchEvent(new Event("ju-consultation-open"));
         if (user && freeOfferAvailable(user)) {
           setKind("consultation-offer");
           return;

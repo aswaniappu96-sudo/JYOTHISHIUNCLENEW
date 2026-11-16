@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 const LAYERS = [
-  { x: -9, y: 6, r: -11 },
-  { x: 9, y: 6, r: 11 },
+  { x: -7, y: 10, r: -7 },
+  { x: -3, y: 5, r: -3 },
   { x: 0, y: 0, r: 0 },
 ] as const;
 
@@ -25,14 +25,10 @@ export function TarotFace({ name, size = "pile", caption }: { name: string; size
   const tall = size === "panel";
   const lines = cardNameLines(name);
   return (
-    <div
-      className={`flex h-full w-full flex-col items-center justify-center rounded-[14px] border-2 border-[#e5c378] bg-[#fff8ec] px-1 text-center shadow-[0_10px_22px_-12px_rgba(26,17,6,0.4)] ${
-        tall ? "rounded-[18px] px-2.5" : ""
-      }`}
-    >
-      <span className={`font-serif text-[#c9a227] ${tall ? "text-3xl" : "text-lg"}`}>ॐ</span>
+    <div className="flex h-full w-full flex-col items-center justify-center rounded-[12px] bg-[#1A1106] px-1.5 text-center shadow-[0_8px_16px_-10px_rgba(8,4,0,0.55)]">
+      <span className={`font-serif text-[#e5c378] ${tall ? "text-3xl" : "text-xl"}`}>ॐ</span>
       <span
-        className={`mt-1 block w-full font-serif font-medium leading-snug text-[#1A1106] [overflow-wrap:normal] [word-break:keep-all] hyphens-none ${
+        className={`mt-1 block w-full font-serif font-medium leading-snug text-[#fff8ec] [overflow-wrap:normal] [word-break:keep-all] hyphens-none ${
           tall ? "text-[13px] sm:text-[15px]" : "text-[9px] sm:text-[10px]"
         }`}
       >
@@ -48,19 +44,15 @@ export function TarotFace({ name, size = "pile", caption }: { name: string; size
         ))}
       </span>
       {caption ? (
-        <span className="mt-1 text-[9px] font-bold tracking-[0.12em] text-[#9A6F3A] uppercase">{caption}</span>
+        <span className="mt-1 text-[9px] font-bold tracking-[0.12em] text-[#e5c378] uppercase">{caption}</span>
       ) : null}
     </div>
   );
 }
 
-function CardBack({ active }: { active: boolean }) {
+function CardBack() {
   return (
-    <span
-      className={`flex h-full w-full items-center justify-center rounded-[14px] border-2 font-serif text-[26px] sm:text-[30px] shadow-[0_10px_18px_-10px_rgba(26,17,6,0.55)] ${
-        active ? "border-[#e5c378] bg-[#2a1d0c] text-[#e5c378]" : "border-[#c9a227] bg-[#1A1106] text-[#e5c378]/90"
-      }`}
-    >
+    <span className="flex h-full w-full items-center justify-center rounded-[12px] bg-[#1A1106] font-serif text-[28px] text-[#e5c378] shadow-[0_8px_16px_-10px_rgba(8,4,0,0.55)] sm:text-[32px]">
       ॐ
     </span>
   );
@@ -125,9 +117,7 @@ export function TarotPiles({
             type="button"
             disabled={busy}
             onClick={() => onPick(id)}
-            className={`rounded-2xl border-2 px-1.5 py-3 transition sm:px-2 ${
-              on ? "border-[#e5c378] bg-[#fff8ec]" : "border-[#e5c378]/45 bg-white hover:border-[#e5c378]"
-            } disabled:cursor-wait`}
+            className="rounded-2xl bg-[#F7F1E8] px-1.5 py-3 transition hover:bg-[#F3EBDF] disabled:cursor-wait sm:px-2"
             aria-pressed={on}
           >
             <span className="relative mx-auto block h-[128px] w-[90px] overflow-visible sm:h-[142px] sm:w-[98px]" style={{ perspective: 1000 }}>
@@ -164,22 +154,22 @@ export function TarotPiles({
                       {front ? (
                         <>
                           <span className="absolute inset-0 [backface-visibility:hidden]">
-                            <CardBack active={on} />
+                            <CardBack />
                           </span>
                           <span className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                            {on && cardName ? <TarotFace name={cardName} /> : <CardBack active={on} />}
+                            {on && cardName ? <TarotFace name={cardName} /> : <CardBack />}
                           </span>
                         </>
                       ) : (
-                        <CardBack active={on} />
+                        <CardBack />
                       )}
                     </motion.span>
                   </span>
                 );
               })}
             </span>
-            <span className="mt-1 block text-center text-[11px] font-bold text-[#1A1106] sm:text-[12px]">{label.title}</span>
-            <span className="block text-center text-[10px] font-semibold tracking-[0.12em] text-[#9A6F3A] uppercase">{label.role}</span>
+            <span className="mt-2 block text-center font-serif text-[13px] text-[#1A1106] sm:text-[14px]">{label.title}</span>
+            <span className="block text-center text-[10px] font-semibold tracking-[0.14em] text-[#1A1106]/55 uppercase">{label.role}</span>
           </button>
         );
       })}

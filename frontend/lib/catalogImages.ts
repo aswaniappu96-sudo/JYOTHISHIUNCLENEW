@@ -15,19 +15,28 @@ const TEMPLE: Record<string, string> = {
   "sri-mahadeva-temple": "/catalog/temple/sri-mahadeva-temple.jpg",
 };
 
-function isLocalMedia(url: string) {
-  try {
-    const host = new URL(url, "http://127.0.0.1").hostname;
-    return host === "127.0.0.1" || host === "localhost" || host === "0.0.0.0" || host.endsWith(".local");
-  } catch {
-    return false;
-  }
+const ASTROLOGER: Record<string, string> = {
+  "sri-devadathan-namboothiri": "/catalog/astrologer/sri-devadathan-namboothiri.jpg",
+  "pandit-radhakrishnan-shastri": "/catalog/astrologer/pandit-radhakrishnan-shastri.jpg",
+  "vidushi-gayatri-devi": "/catalog/astrologer/vidushi-gayatri-devi.jpg",
+  "acharya-shankaranarayana-bhat": "/catalog/astrologer/acharya-shankaranarayana-bhat.jpg",
+};
+
+function stalePublicPhoto(url: string) {
+  return /velvetbyte\.com|jyothishiuncle\.ct\.ws/i.test(url);
 }
 
-/** Bundled photos replace the public WordPress files. Local WordPress addresses stay as saved. */
+function preferFresh(bundled: string | undefined, remote = "") {
+  if (bundled && (!remote || stalePublicPhoto(remote))) return bundled;
+  return remote || bundled || "";
+}
+
+/** The photo saved on this computer wins. A bundled copy replaces the older public file. */
 export function liveCatalogPhoto(kind: "pooja" | "temple", slug: string | undefined, remote = "") {
   const bundled = slug ? (kind === "pooja" ? POOJA : TEMPLE)[slug] : "";
-  if (!bundled) return remote;
-  if (!remote || !isLocalMedia(remote)) return bundled;
-  return remote;
+  return preferFresh(bundled, remote);
+}
+
+export function astrologerPhoto(slug: string | undefined, remote = "") {
+  return preferFresh(slug ? ASTROLOGER[slug] : "", remote);
 }

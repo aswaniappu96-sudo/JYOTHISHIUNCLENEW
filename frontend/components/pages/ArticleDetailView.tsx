@@ -75,7 +75,7 @@ export function ArticleDetailView({
           <span className="text-[11px] font-bold tracking-[0.22em] uppercase">{category}</span>
         </div>
 
-        <PageHeading as="h1" title={article.title} className="mt-1 mb-6 max-w-4xl" />
+        <PageHeading as="h1" tone="ink" title={article.title} className="mt-1 mb-6 max-w-4xl" />
 
         <div className="flex flex-col justify-between gap-4 rounded-xl bg-surface-low/70 p-4 shadow-xl backdrop-blur-xl lg:flex-row lg:items-center">
           <div className="flex items-center gap-4">
@@ -144,7 +144,7 @@ export function ArticleDetailView({
               <ConchIcon className="h-4 w-4" />
               Private session
             </div>
-            <h3 className="mb-2 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Want this applied to your chart?</h3>
+            <h3 className="mb-2 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Want this applied to your chart?</h3>
             <p className="mb-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant">
               A consultation can take the teaching in this article and look at your own questions. Share your details
               through the booking form, or message us on WhatsApp.
@@ -247,7 +247,7 @@ export function ArticleDetailView({
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <span className="mb-1 block text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Further reading</span>
-              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Related articles</h2>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Related articles</h2>
             </div>
             <Link href="/blog" className="inline-flex items-center gap-1 text-sm font-semibold text-secondary transition hover:text-primary">
               Explore complete archive →
@@ -265,7 +265,7 @@ export function ArticleDetailView({
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,224,157,0.1),transparent_70%)]" />
         <div className="relative z-10 mx-auto max-w-4xl px-4 text-center md:px-12">
           <span className="mb-2 block text-[11px] font-bold tracking-[0.25em] text-primary uppercase">Apply this teaching</span>
-          <h2 className="mb-3 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">
+          <h2 className="mb-3 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
             Turn this article into a private conversation
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-on-surface-variant">

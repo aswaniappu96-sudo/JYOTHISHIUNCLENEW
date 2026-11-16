@@ -100,9 +100,16 @@ class JU_Availability {
 	}
 
 	private static function booked_keys( DateTimeImmutable $start, DateTimeImmutable $end ) {
+		$keys = array();
+		self::append_locked_keys( $keys, 'consultation_booking', 'booking_date', 'start_time', $start, $end );
+		self::append_locked_keys( $keys, 'pooja_booking', 'preferred_date', '', $start, $end );
+		return $keys;
+	}
+
+	private static function append_locked_keys( array &$keys, $post_type, $date_key, $time_key, DateTimeImmutable $start, DateTimeImmutable $end ) {
 		$query = new WP_Query(
 			array(
-				'post_type'      => 'consultation_booking',
+				'post_type'      => $post_type,
 				'post_status'    => 'publish',
 				'posts_per_page' => 500,
 				'no_found_rows'  => true,
@@ -110,29 +117,24 @@ class JU_Availability {
 			)
 		);
 
-		$keys = array();
-
 		foreach ( $query->posts as $id ) {
 			$status = (string) JU_REST_Serialize::meta( $id, 'status', 'new' );
 			if ( ! self::locks_calendar( $status ) ) {
 				continue;
 			}
 
-			$date = self::normalize_date( (string) JU_REST_Serialize::meta( $id, 'booking_date' ) );
-			$time = (string) JU_REST_Serialize::meta( $id, 'start_time' );
-			if ( ! $date ) {
+			$date = self::normalize_date( (string) JU_REST_Serialize::meta( $id, $date_key ) );
+			if ( ! $date || $date < $start->format( 'Y-m-d' ) || $date > $end->format( 'Y-m-d' ) ) {
 				continue;
 			}
 
-			if ( $date < $start->format( 'Y-m-d' ) || $date > $end->format( 'Y-m-d' ) ) {
-				continue;
+			$time = '00:00';
+			if ( $time_key ) {
+				$raw  = (string) JU_REST_Serialize::meta( $id, $time_key );
+				$time = $raw ? substr( $raw, 0, 5 ) : '00:00';
 			}
-
-			$time   = $time ? substr( $time, 0, 5 ) : '00:00';
 			$keys[] = $date . ' ' . $time;
 		}
-
-		return $keys;
 	}
 
 	private static function booked_dates( array $booked_keys ) {
@@ -157,24 +159,31 @@ class JU_Availability {
 
 	public static function date_is_taken( $date, $exclude_id = 0 ) {
 		$date = self::normalize_date( $date );
-		$query = new WP_Query(
-			array(
-				'post_type'      => 'consultation_booking',
-				'post_status'    => 'publish',
-				'posts_per_page' => 500,
-				'no_found_rows'  => true,
-				'fields'         => 'ids',
-				'post__not_in'   => $exclude_id ? array( (int) $exclude_id ) : array(),
-			)
+		$types = array(
+			'consultation_booking' => 'booking_date',
+			'pooja_booking'        => 'preferred_date',
 		);
 
-		foreach ( $query->posts as $id ) {
-			$status = (string) JU_REST_Serialize::meta( $id, 'status', 'new' );
-			if ( ! self::locks_calendar( $status ) ) {
-				continue;
-			}
-			if ( self::normalize_date( (string) JU_REST_Serialize::meta( $id, 'booking_date' ) ) === $date ) {
-				return true;
+		foreach ( $types as $post_type => $date_key ) {
+			$query = new WP_Query(
+				array(
+					'post_type'      => $post_type,
+					'post_status'    => 'publish',
+					'posts_per_page' => 500,
+					'no_found_rows'  => true,
+					'fields'         => 'ids',
+					'post__not_in'   => $exclude_id ? array( (int) $exclude_id ) : array(),
+				)
+			);
+
+			foreach ( $query->posts as $id ) {
+				$status = (string) JU_REST_Serialize::meta( $id, 'status', 'new' );
+				if ( ! self::locks_calendar( $status ) ) {
+					continue;
+				}
+				if ( self::normalize_date( (string) JU_REST_Serialize::meta( $id, $date_key ) ) === $date ) {
+					return true;
+				}
 			}
 		}
 

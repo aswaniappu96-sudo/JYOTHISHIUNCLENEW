@@ -183,7 +183,7 @@ class JU_REST {
 		return rest_ensure_response(
 			array(
 				'settings'     => self::settings_payload(),
-				'poojas'       => array_slice( $featured_p ? $featured_p : $poojas, 0, 3 ),
+				'poojas'       => array_slice( $featured_p ? $featured_p : $poojas, 0, 4 ),
 				'products'     => array_slice( $featured_pr ? $featured_pr : $products, 0, 3 ),
 				'astrologers'  => $featured_a,
 				'services'     => self::serialize_many( 'astrology_service', null, array( 'JU_REST_Serialize', 'service' ) ),

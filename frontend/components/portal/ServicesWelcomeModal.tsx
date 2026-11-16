@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { ModalCloseButton } from "@/components/portal/ModalShell";
 import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 
 const LEAVES = [
@@ -89,14 +90,10 @@ export function ServicesWelcomeModal({ onClose }: { onClose: () => void }) {
           </g>
         </svg>
 
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-[#e4d3b4] bg-[#f7f1e6]/80 text-lg text-[#8a7358] transition hover:text-[#3d2b1c]"
-          aria-label="Close"
-        >
-          ×
-        </button>
+        <ModalCloseButton
+          onClose={onClose}
+          className="border border-[#e4d3b4] bg-[#f7f1e6]/80 text-[#8a7358] transition hover:text-[#3d2b1c]"
+        />
 
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-8 sm:py-7">
 

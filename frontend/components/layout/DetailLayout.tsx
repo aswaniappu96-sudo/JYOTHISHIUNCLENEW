@@ -53,7 +53,7 @@ export function DetailLayout({
           .filter((section) => section.html)
           .map((section) => (
             <div key={section.title} className="mb-10">
-              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">{section.title}</h2>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">{section.title}</h2>
               <CmsHtml className="prose-ju mt-4" html={section.html} />
             </div>
           ))}
@@ -66,7 +66,7 @@ export function DetailLayout({
         ) : null}
         {testimonials.length ? (
           <div className="mt-12">
-            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">What families say</h2>
+            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">What families say</h2>
             <div className="mt-6 grid gap-4">
               {testimonials.map((item) => (
                 <blockquote key={item.id} className="glass-card rounded-3xl p-5">

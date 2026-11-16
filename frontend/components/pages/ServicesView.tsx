@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { PoojaCard } from "@/components/cards/PoojaCard";
 import { ProductCard } from "@/components/cards/ProductCard";
 import { CatalogFilterBar } from "@/components/pages/CatalogFilterBar";
@@ -77,6 +77,8 @@ export function ServicesView({
     [productItems, productKind, productStock, productQuery],
   );
 
+  const cardsRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash === "#products") {
@@ -86,6 +88,19 @@ export function ServicesView({
     }
   }, [router]);
 
+  useEffect(() => {
+    const node = cardsRef.current;
+    if (!node) return;
+    const timer = window.setTimeout(() => {
+      const header = document.querySelector("header");
+      const offset = (header?.getBoundingClientRect().height || 72) + 16;
+      const top = node.getBoundingClientRect().top + window.scrollY - offset;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+    }, 60);
+    return () => window.clearTimeout(timer);
+  }, [tab]);
+
   return (
     <div>
       <section className="relative overflow-hidden px-4 py-12 text-center md:px-12">
@@ -93,7 +108,7 @@ export function ServicesView({
         <div className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[700px] -translate-x-1/2 rounded-full bg-secondary-container/25 blur-[120px]" />
         <div className="relative mx-auto flex max-w-5xl flex-col items-center">
           <Eyebrow className="mb-4">{loc?.eyebrow || "Vedic Tantric Shastra · Anushthana Protocols"}</Eyebrow>
-          <PageHeading as="h1" title={loc?.title || "Sacred Services & Divine Consecrations"} className="mb-3 max-w-4xl" />
+          <PageHeading as="h1" tone="ink" title={loc?.title || "Sacred Services & Divine Consecrations"} className="mb-3 max-w-4xl" />
           <p className="mb-8 max-w-3xl text-base leading-relaxed text-on-surface-variant">
             {loc?.hero_copy ||
               "Ancient Shastric Poojas, Vedic Homams & Consecrated Planetary Artifacts calibrated precisely to your individual birth Nakshatra, Dasha coordinates, and planetary afflictions."}
@@ -154,7 +169,7 @@ export function ServicesView({
       </section>
 
       {tab === "poojas" ? (
-        <section className="px-4 pb-16 md:px-12">
+        <section ref={cardsRef} className="scroll-mt-24 px-4 pb-16 md:px-12">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
               <div>
@@ -180,7 +195,7 @@ export function ServicesView({
               />
             </div>
             {visiblePoojas.length ? (
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {visiblePoojas.map((pooja) => (
                   <PoojaCard key={pooja.id} pooja={pooja} />
                 ))}
@@ -199,7 +214,7 @@ export function ServicesView({
           </div>
         </section>
       ) : (
-        <section className="px-4 pb-16 md:px-12">
+        <section ref={cardsRef} className="scroll-mt-24 px-4 pb-16 md:px-12">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8">
               <div className="mb-1 flex items-center gap-2">
@@ -225,7 +240,7 @@ export function ServicesView({
               />
             </div>
             {visibleProducts.length ? (
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {visibleProducts.map((product) => (
                   <ProductCard key={product.id} product={product} whatsappNumber={whatsappNumber} />
                 ))}

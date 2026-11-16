@@ -75,8 +75,9 @@ export function PoojaDetailView({
   const uniqueImages = images.filter((item, index) => images.findIndex((other) => other.url === item.url) === index);
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-6 md:px-12 md:py-8">
-      <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-1.5 overflow-x-auto text-xs whitespace-nowrap text-on-surface-variant">
+    <div className="relative w-full overflow-hidden">
+      <div className="relative mx-auto w-full max-w-7xl px-4 pt-6 md:px-12 md:pt-10">
+      <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-1.5 overflow-x-auto text-xs whitespace-nowrap text-on-surface-variant">
         <Link href="/" className="transition hover:text-primary">
           Home
         </Link>
@@ -92,45 +93,61 @@ export function PoojaDetailView({
         <span className="font-medium tracking-wide text-primary">{title}</span>
       </nav>
 
-      <div className="mb-7 max-w-4xl space-y-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-container/40 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">
-            <ConchIcon className="h-3 w-3" />
-            Pooja & homam
-          </span>
-          <span className="inline-flex items-center rounded-full bg-surface-high px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-surface-variant uppercase">
-            Traditional Vedic ritual
-          </span>
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+        <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:col-span-6">
+          {uniqueImages.length ? <PoojaGallery images={uniqueImages} title={title} /> : null}
         </div>
-        <PageHeading as="h1" title={title} />
-        {summary ? <p className="max-w-3xl text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
-        <ul className="max-w-3xl space-y-2 pt-2 text-sm leading-relaxed text-on-surface-variant md:text-base">
-          <li className="flex gap-2.5">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-            We arrange pooja required as per horoscope
-          </li>
-          <li className="flex gap-2.5">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-            Pooja can be arranged through various temples
-          </li>
-          <li className="flex gap-2.5">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-            Pooja can be arranged through various priests online or offline
-          </li>
-        </ul>
+
+        <div className="flex flex-col gap-6 lg:col-span-6">
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-container/40 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">
+                <ConchIcon className="h-3 w-3" />
+                Pooja & homam
+              </span>
+              <span className="inline-flex items-center rounded-full bg-surface-high px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-surface-variant uppercase">
+                Traditional Vedic ritual
+              </span>
+            </div>
+            <PageHeading as="h1" title={title} />
+            {summary ? <p className="text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
+            <ul className="space-y-2 pt-2 text-sm leading-relaxed text-on-surface-variant md:text-base">
+              <li className="flex gap-2.5">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                We arrange pooja required as per horoscope
+              </li>
+              <li className="flex gap-2.5">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                Pooja can be arranged through various temples
+              </li>
+              <li className="flex gap-2.5">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                Pooja can be arranged through various priests online or offline
+              </li>
+            </ul>
+          </div>
+          <PoojaBookingPanel
+            slug={pooja.slug}
+            title={title}
+            phone={settings.phone_number}
+            whatsappNumber={settings.whatsapp_number}
+            whatsappMessage={pooja.whatsapp_message || `Hello, I am interested in ${title}.`}
+            bookingEnabled={pooja.booking_enabled}
+            vendors={vendors}
+          />
+        </div>
+      </div>
       </div>
 
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-        <div className="flex flex-col space-y-10 lg:col-span-7">
-          {uniqueImages.length ? <PoojaGallery images={uniqueImages} title={title} /> : null}
-
+      {about || benefits.length || benefitsHtml || requirements.length || requirementsHtml ? (
+        <section className="mx-auto mt-16 max-w-7xl space-y-10 px-4 md:px-12">
           {about ? (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="h-[2px] w-8 bg-primary" />
                 <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this pooja</span>
               </div>
-              <CmsHtml className="prose-ju text-base leading-relaxed" html={about} />
+              <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={about} />
             </div>
           ) : null}
 
@@ -194,31 +211,19 @@ export function PoojaDetailView({
               </p>
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-col space-y-4 lg:sticky lg:top-24 lg:col-span-5">
-          <PoojaBookingPanel
-            slug={pooja.slug}
-            title={title}
-            phone={settings.phone_number}
-            whatsappNumber={settings.whatsapp_number}
-            whatsappMessage={pooja.whatsapp_message || `Hello, I am interested in ${title}.`}
-            bookingEnabled={pooja.booking_enabled}
-            vendors={vendors}
-          />
-        </div>
-      </div>
+        </section>
+      ) : null}
 
       {vendors.length ? (
-        <div className="mt-12">
+        <div className="mx-auto mt-12 w-full max-w-7xl px-4 md:px-12">
           <PoojaTemplesSection vendors={vendors} poojas={[pooja, ...relatedPoojas]} phone={settings.phone_number} />
         </div>
       ) : null}
 
-      <div className="mt-12 space-y-4 rounded-3xl bg-surface-low p-6 shadow-2xl md:p-8">
+      <div className="mx-auto mt-12 w-full max-w-7xl space-y-4 rounded-3xl bg-surface-low p-6 shadow-2xl md:px-12 md:p-8">
         <div className="mx-auto max-w-2xl space-y-1 text-center">
           <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">How it is arranged</p>
-          <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">From enquiry to offering</h2>
+          <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">From enquiry to offering</h2>
           <p className="text-sm text-on-surface-variant">A simple path — no checkout, no public price list.</p>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -233,7 +238,7 @@ export function PoojaDetailView({
       </div>
 
       {relatedPoojas.length ? (
-        <section className="mt-12">
+        <section className="mx-auto mt-12 w-full max-w-7xl px-4 md:px-12">
           <SectionHeading eyebrow="Vedic Rituals & Parihara" title="Sacred Spiritual Services & Homams" badge="Services" />
           <div className="mx-auto mt-12 grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-3">
             {relatedPoojas.slice(0, 3).map((item, index) => (
@@ -245,13 +250,13 @@ export function PoojaDetailView({
         </section>
       ) : null}
 
-      <div className="relative my-12 flex flex-col items-center justify-center space-y-4 overflow-hidden rounded-3xl bg-linear-to-r from-surface-lowest via-surface-high to-surface-lowest p-8 text-center shadow-2xl md:p-12">
+      <div className="relative mx-auto my-12 flex w-full max-w-7xl flex-col items-center justify-center space-y-4 overflow-hidden rounded-3xl bg-linear-to-r from-surface-lowest via-surface-high to-surface-lowest p-8 text-center shadow-2xl md:p-12">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(229,195,120,0.12),transparent_70%)]" />
         <div className="relative z-10 flex max-w-3xl flex-col items-center space-y-2">
           <span className="rounded-full bg-primary-container/20 px-3 py-1 text-[11px] font-bold tracking-[0.22em] text-primary uppercase">
             Book with care
           </span>
-          <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">
+          <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
             Reserve this consecrated pooja
           </h2>
           <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant">

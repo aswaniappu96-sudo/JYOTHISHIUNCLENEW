@@ -42,7 +42,7 @@ export function PageHero({
         {typeof title === "string" ? (
           <PageHeading as="h1" title={title} lead={titleAccent ? title : undefined} accent={titleAccent} className="max-w-4xl" />
         ) : (
-          <h1 className="max-w-4xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#1A1106] sm:text-[52px]">
+          <h1 className="max-w-4xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] sm:text-[52px] dark:text-[#e5c378]">
             {title}
           </h1>
         )}

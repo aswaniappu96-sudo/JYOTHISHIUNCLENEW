@@ -138,7 +138,7 @@ export function ProductSection({
           </div>
           <Link
             href={PRODUCTS_PATH}
-            className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-[#EAD9B0] bg-white px-4 py-2 text-[13px] font-semibold text-[#6b4a12] shadow-sm transition hover:bg-[#fffdf5]"
+            className="hidden shrink-0 items-center gap-2 self-start rounded-full border border-[#EAD9B0] bg-white px-4 py-2 text-[13px] font-semibold text-[#6b4a12] shadow-sm transition hover:bg-[#fffdf5] lg:inline-flex"
           >
             {t("store.view")} <span aria-hidden>→</span>
           </Link>
@@ -160,7 +160,7 @@ export function ProductSection({
                 key={product.id}
                 className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]"
               >
-                <div className={`relative aspect-[4/3] overflow-hidden ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${CARDS[index % CARDS.length]}`}`}>
+                <div className={`relative h-[210px] overflow-hidden sm:aspect-[4/3] sm:h-auto ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${CARDS[index % CARDS.length]}`}`}>
                   {src ? (
                     <img src={src} alt={title} className="absolute inset-0 h-full w-full object-cover object-center" />
                   ) : (
@@ -224,6 +224,13 @@ export function ProductSection({
             );
           })}
         </div>
+
+        <Link
+          href={PRODUCTS_PATH}
+          className="mx-auto mt-6 flex w-fit items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-4 py-2 text-[13px] font-semibold text-[#6b4a12] shadow-sm transition hover:bg-[#fffdf5] lg:hidden"
+        >
+          {t("store.view")} <span aria-hidden>→</span>
+        </Link>
       </div>
     </section>
   );

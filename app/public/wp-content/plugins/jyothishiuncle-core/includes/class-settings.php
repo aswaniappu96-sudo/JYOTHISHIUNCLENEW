@@ -30,8 +30,8 @@ class JU_Settings {
 			'consultation_days'         => array( 'sun', 'mon', 'tue', 'wed', 'thu' ),
 			'consultation_start_time'   => '10:00',
 			'consultation_end_time'     => '18:00',
-			'meeting_methods'           => array( 'whatsapp', 'google_meet', 'zoom' ),
-			'default_meeting_method'    => 'whatsapp',
+			'meeting_methods'           => array( 'zegocloud' ),
+			'default_meeting_method'    => 'zegocloud',
 			'show_prices_on_website'    => '0',
 			'social_instagram'          => '',
 			'social_facebook'           => '',
@@ -273,7 +273,10 @@ class JU_Settings {
 		$out['consultation_days'] = array_values( array_intersect( $days, array( 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ) ) );
 
 		$methods = isset( $input['meeting_methods'] ) && is_array( $input['meeting_methods'] ) ? $input['meeting_methods'] : array();
-		$out['meeting_methods'] = array_values( array_intersect( $methods, array( 'whatsapp', 'google_meet', 'zoom', 'teams' ) ) );
+		$out['meeting_methods'] = array_values( array_intersect( $methods, array( 'zegocloud', 'whatsapp', 'google_meet', 'zoom', 'teams' ) ) );
+		if ( ! in_array( $out['default_meeting_method'], array( 'zegocloud', 'whatsapp', 'google_meet', 'zoom', 'teams' ), true ) ) {
+			$out['default_meeting_method'] = 'zegocloud';
+		}
 
 		$out['whatsapp_number'] = preg_replace( '/\D+/', '', $out['whatsapp_number'] );
 
@@ -300,6 +303,7 @@ class JU_Settings {
 			'sat' => 'Saturday',
 		);
 		$methods = array(
+			'zegocloud'   => 'ZEGOCLOUD',
 			'whatsapp'    => 'WhatsApp video',
 			'google_meet' => 'Google Meet',
 			'zoom'        => 'Zoom',

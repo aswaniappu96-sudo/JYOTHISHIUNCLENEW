@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Fragment, Suspense, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { PageHeading } from "@/components/home/SectionHeading";
@@ -68,6 +68,7 @@ type BoardProps = {
   showViewAll?: boolean;
   showProof?: boolean;
   id?: string;
+  afterIntro?: ReactNode;
 };
 
 export function AstrologerTalkBoard(props: BoardProps) {
@@ -94,6 +95,7 @@ function AstrologerTalkBoardInner({
   showProof = true,
   id,
   topic,
+  afterIntro,
 }: BoardProps & { topic: GuidanceTopicId | null }) {
   const { t, locale } = usePrefs();
   const [filter, setFilter] = useState<AstrologerFilter>("all");
@@ -145,6 +147,7 @@ function AstrologerTalkBoardInner({
               className="mt-5"
               lead={t("astro.lead")}
               accent={t("astro.accent")}
+              tone="gold"
             />
             <p className="mt-4 max-w-[560px] text-[15px] leading-relaxed text-[#1A1106]/70 sm:text-[16px]">{t("astro.copy")}</p>
             {showProof ? (
@@ -161,12 +164,14 @@ function AstrologerTalkBoardInner({
           {showViewAll ? (
             <Link
               href="/astrologers"
-              className="inline-flex shrink-0 items-center rounded-full border-2 border-[#e5c378] bg-white px-4 py-2 text-[13px] font-semibold text-[#1A1106] transition hover:bg-[#fff8ec]"
+              className="hidden shrink-0 items-center rounded-full border-2 border-[#e5c378] bg-white px-4 py-2 text-[13px] font-semibold text-[#1A1106] transition hover:bg-[#fff8ec] lg:inline-flex"
             >
               {t("astro.view")}
             </Link>
           ) : null}
         </div>
+
+        {afterIntro ? <Fragment key="after-intro">{afterIntro}</Fragment> : null}
 
         <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label={t("astro.title")}>
           {topic ? (
@@ -192,7 +197,14 @@ function AstrologerTalkBoardInner({
           ))}
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div
+          id="astrologer-cards"
+          className={
+            photo === "full"
+              ? "mt-8 grid scroll-mt-28 grid-cols-2 gap-3 sm:gap-4 xl:auto-rows-[500px] xl:grid-cols-4"
+              : "mt-8 grid scroll-mt-28 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4"
+          }
+        >
           {shown.map((view) => (
             <TalkAstrologerCard
               key={view.person.id || view.person.slug}
@@ -203,6 +215,15 @@ function AstrologerTalkBoardInner({
             />
           ))}
         </div>
+
+        {showViewAll ? (
+          <Link
+            href="/astrologers"
+            className="mx-auto mt-6 flex w-fit items-center rounded-full border-2 border-[#e5c378] bg-white px-4 py-2 text-[13px] font-semibold text-[#1A1106] transition hover:bg-[#fff8ec] lg:hidden"
+          >
+            {t("astro.view")}
+          </Link>
+        ) : null}
 
         {showProof ? (
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">

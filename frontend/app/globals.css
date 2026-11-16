@@ -455,6 +455,35 @@ html.dark .brand-mark-flash {
   background: #ffe09d;
 }
 
+.heading-glisten {
+  position: absolute;
+  right: 0;
+  bottom: 0.02em;
+  left: 0;
+  height: 0.09em;
+  min-height: 3px;
+  border-radius: 999px;
+  background-image: linear-gradient(
+    100deg,
+    #8a5a12 0%,
+    #c4a227 28%,
+    #fff6d2 48%,
+    #e5c378 58%,
+    #8a5a12 100%
+  );
+  background-size: 220% 100%;
+  animation: heading-glisten 2.4s linear infinite;
+}
+
+@keyframes heading-glisten {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}
+
 @keyframes twinkle {
   0%,
   100% {
@@ -665,6 +694,7 @@ html.dark .brand-mark-flash {
   .om-gold-halo,
   .mandala-outer-glow,
   .twinkle,
+  .heading-glisten,
   .gold-notice,
   .brand-mark-flash,
   .brand-mark-flash::after,
@@ -672,10 +702,6 @@ html.dark .brand-mark-flash {
   .astro-sheet-drop {
     animation: none;
   }
-}
-
-.ju-heading-mark {
-  background: #fbf0d9;
 }
 
 html.dark {
@@ -708,10 +734,6 @@ html.dark body {
 html.dark .ju-main,
 html.dark footer {
   color: var(--on-surface);
-}
-
-html.dark .ju-heading-mark {
-  background: rgba(229, 195, 120, 0.28);
 }
 
 html.dark .universe-bg {

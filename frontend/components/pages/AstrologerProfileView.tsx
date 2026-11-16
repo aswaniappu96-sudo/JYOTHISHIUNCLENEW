@@ -6,6 +6,7 @@ import { TalkAstrologerCard } from "@/components/pages/TalkAstrologerCard";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { mediaUrl } from "@/lib/api/client";
+import { astrologerPhoto } from "@/lib/catalogImages";
 import { astrologerViewFor, buildAstrologerViews } from "@/lib/astrologer-display";
 import { htmlParagraphs, telHref } from "@/lib/html";
 import { SECTION_INNER } from "@/lib/layout";
@@ -83,7 +84,7 @@ export function AstrologerProfileView({
   const all = [person, ...related.filter((item) => item.slug !== person.slug)];
   const view = astrologerViewFor(person, all, locale);
   const others = buildAstrologerViews(related.filter((item) => item.slug !== person.slug), locale).slice(0, 4);
-  const src = mediaUrl(person.featured_image?.full || person.featured_image?.url);
+  const src = astrologerPhoto(person.slug, mediaUrl(person.featured_image?.full || person.featured_image?.url) || "");
   const glyph = (view.name || "ॐ").trim().charAt(0);
   const callNumber = usablePhone(phone);
   const chatNumber = usableWhatsapp(whatsapp);
@@ -191,7 +192,7 @@ export function AstrologerProfileView({
         </div>
 
         <div className="mt-10 max-w-3xl">
-          <h2 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">{t("astro.about")}</h2>
+          <h2 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[40px]">{t("astro.about")}</h2>
           {summary ? <p className="mt-3 text-[16px] leading-relaxed text-[#1A1106]/80">{summary}</p> : null}
           {about.length ? (
             <div className="mt-4 space-y-3 text-[15px] leading-relaxed text-[#1A1106]/75">
@@ -212,7 +213,7 @@ export function AstrologerProfileView({
 
         {others.length ? (
           <div className="mt-14">
-            <h2 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">{t("astro.view")}</h2>
+            <h2 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[40px]">{t("astro.view")}</h2>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {others.map((item) => (
                 <TalkAstrologerCard

@@ -343,10 +343,7 @@ class JU_Submissions {
 		$start_dt = DateTimeImmutable::createFromFormat( 'Y-m-d H:i', $date . ' ' . $start, $timezone );
 		$end      = $start_dt ? $start_dt->modify( '+' . $duration . ' minutes' )->format( 'H:i' ) : '';
 
-		$meeting = sanitize_text_field( (string) $request->get_param( 'meeting_method' ) );
-		if ( ! $meeting ) {
-			$meeting = $settings['default_meeting_method'];
-		}
+		$meeting = 'zegocloud';
 
 		$label     = $types[ $type_key ];
 		$astrologer = sanitize_text_field( (string) $request->get_param( 'astrologer_name' ) );

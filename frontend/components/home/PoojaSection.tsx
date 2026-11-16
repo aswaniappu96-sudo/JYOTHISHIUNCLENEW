@@ -197,7 +197,7 @@ export function PoojaSection({
           </div>
           <Link
             href={POOJAS_PATH}
-            className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-[#EAD9B0] bg-white px-4 py-2 text-[13px] font-semibold text-[#6b4a12] shadow-sm transition hover:bg-[#fffdf5]"
+            className="hidden shrink-0 items-center gap-2 self-start rounded-full border border-[#EAD9B0] bg-white px-4 py-2 text-[13px] font-semibold text-[#6b4a12] shadow-sm transition hover:bg-[#fffdf5] lg:inline-flex"
           >
             {t("pooja.view")} <span aria-hidden>→</span>
           </Link>
@@ -220,7 +220,7 @@ export function PoojaSection({
                 key={pooja.id}
                 className="flex h-full flex-col overflow-hidden rounded-[22px] border border-[#EAD9B0] bg-white shadow-[0_14px_40px_rgba(46,32,12,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(46,32,12,0.2)]"
               >
-                <div className={`relative h-[250px] overflow-hidden sm:h-[280px] ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${HEADS[index % HEADS.length]}`}`}>
+                <div className={`relative h-[210px] overflow-hidden sm:h-[280px] ${src ? "bg-[#F7F0E2]" : `bg-linear-to-b ${HEADS[index % HEADS.length]}`}`}>
                   {src ? (
                     <img src={src} alt={pooja.title} className="absolute inset-0 h-full w-full object-cover object-top" />
                   ) : (
@@ -287,6 +287,13 @@ export function PoojaSection({
             );
           })}
         </div>
+
+        <Link
+          href={POOJAS_PATH}
+          className="mx-auto mt-6 flex w-fit items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-4 py-2 text-[13px] font-semibold text-[#6b4a12] shadow-sm transition hover:bg-[#fffdf5] lg:hidden"
+        >
+          {t("pooja.view")} <span aria-hidden>→</span>
+        </Link>
 
         <div className="mt-8">
           <PoojaTemplesSection vendors={vendors} poojas={list.length ? list : FALLBACKS} />

@@ -57,7 +57,7 @@ class JU_Pooja_Schedule {
 		?>
 		<div class="wrap ju-schedule-wrap">
 			<h1>Pooja bookings</h1>
-			<p>This sheet is the live pooja booking diary. A row is created when a family submits the website form, whether or not they send the WhatsApp message. Change the date, online/offline mode, pooja temple, or status, then Save.</p>
+			<p>This sheet is the live pooja booking diary. A row is created when a family submits the website form, whether or not they send the WhatsApp message. A new, contacted, or confirmed pooja locks that date on the public calendar. Mark it completed or cancelled, or delete the row, to open the date again. Change the date, online/offline mode, pooja temple, or status, then Save.</p>
 
 			<?php if ( $updated ) : ?>
 				<div class="notice notice-success is-dismissible"><p>Pooja bookings saved.</p></div>

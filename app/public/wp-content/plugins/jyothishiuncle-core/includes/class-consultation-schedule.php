@@ -135,13 +135,18 @@ class JU_Consultation_Schedule {
 												<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $row['status'], $key ); ?>><?php echo esc_html( $label ); ?></option>
 											<?php endforeach; ?>
 										</select>
+										<label style="display:block;margin-top:6px;">
+											<input type="hidden" name="rows[<?php echo (int) $row['id']; ?>][finished_flag]" value="0" />
+											<input type="checkbox" name="rows[<?php echo (int) $row['id']; ?>][finished_flag]" value="1" <?php checked( 'completed', $row['status'] ); ?> />
+											Meeting finished
+										</label>
 									</td>
 									<td><?php echo JU_Availability::locks_calendar( $row['status'] ) ? '<span class="ju-lock">Locked</span>' : '<span class="ju-open">Open</span>'; ?></td>
 									<td>
+										<div>ZEGOCLOUD</div>
+										<div><?php echo esc_html( $row['room_id'] ); ?></div>
 										<?php if ( ! empty( $row['host_url'] ) ) : ?>
 											<a href="<?php echo esc_url( $row['host_url'] ); ?>" target="_blank" rel="noopener">Astrologer link</a>
-										<?php else : ?>
-											—
 										<?php endif; ?>
 									</td>
 									<td>
@@ -208,6 +213,9 @@ class JU_Consultation_Schedule {
 		$status = sanitize_key( isset( $raw['status'] ) ? (string) $raw['status'] : 'new' );
 		if ( ! isset( self::status_choices()[ $status ] ) ) {
 			$status = 'new';
+		}
+		if ( isset( $raw['finished_flag'] ) ) {
+			$status = '1' === (string) $raw['finished_flag'] ? 'completed' : ( 'completed' === $status ? 'new' : $status );
 		}
 
 		if ( JU_Availability::locks_calendar( $status ) && JU_Availability::date_is_taken( $date, $id ) ) {
@@ -277,6 +285,7 @@ class JU_Consultation_Schedule {
 				'message'      => (string) JU_REST_Serialize::meta( $id, 'message' ),
 				'astrologer'   => self::astrologer_label( (string) JU_REST_Serialize::meta( $id, 'astrologer_name' ) ),
 				'status'       => $status ? $status : 'new',
+				'room_id'      => JU_Consultation_Room::room_id_for( $id ),
 				'host_url'     => JU_Consultation_Room::video_url( $id, $keys['host_key'] ),
 			);
 		}

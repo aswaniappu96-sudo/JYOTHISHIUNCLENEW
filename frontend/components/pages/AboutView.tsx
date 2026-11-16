@@ -71,9 +71,9 @@ export function AboutView({
         <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center">
           <Eyebrow className="mb-6">{loc?.eyebrow || "Guru-Shishya Parampara · Vedic Lineage"}</Eyebrow>
           {customTitle ? (
-            <PageHeading as="h1" title={customTitle} className="max-w-4xl" />
+            <PageHeading as="h1" tone="ink" title={customTitle} className="max-w-4xl" />
           ) : (
-            <PageHeading as="h1" lead="The Unbroken Lineage of" accent="Stellar Seers" className="max-w-4xl" />
+            <PageHeading as="h1" tone="ink" lead="The Unbroken Lineage of" accent="Stellar Seers" className="max-w-4xl" />
           )}
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
             {loc?.hero_copy ||

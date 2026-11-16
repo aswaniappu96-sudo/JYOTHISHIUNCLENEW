@@ -1,15 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { LOCALES } from "@/lib/i18n";
-import { mediaUrl } from "@/lib/api/client";
 import { telHref } from "@/lib/html";
 import { whatsappUrl } from "@/lib/whatsapp";
-import { useJuList } from "@/lib/useJuList";
 import { MobileSearchDock } from "@/components/home/HeroSearch";
-import type { Astrologer } from "@/types/wordpress";
 
 const FALLBACK_PHONE = "+91 84519 89496";
 const FALLBACK_WHATSAPP = "918451989496";
@@ -35,43 +31,6 @@ function iconBtnClass(active = true) {
   return `flex h-8 w-8 items-center justify-center rounded-full text-primary transition hover:bg-primary/10 ${
     active ? "" : "opacity-50"
   }`;
-}
-
-export function OnlineNow({ astrologers = [] }: { astrologers?: Astrologer[] }) {
-  const { t } = usePrefs();
-  const list = useJuList<Astrologer>("/astrologers", astrologers);
-  const people = list.filter((person) => person?.title || person?.slug);
-  const photos = people
-    .map((person) => mediaUrl(person.featured_image?.full || person.featured_image?.url))
-    .filter((src): src is string => Boolean(src))
-    .slice(0, 3);
-  const count = people.length;
-
-  return (
-    <Link
-      href="/#astrologers"
-      className="twinkle inline-flex items-center gap-2 rounded-full border border-outline-variant bg-surface-lowest px-3 py-1.5 shadow-[0_8px_24px_rgba(8,4,0,0.16)] transition hover:border-primary-container hover:bg-surface-low"
-    >
-      <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
-      <p className="text-[11px] font-semibold text-on-surface">
-        {count ? t("online.now", { n: count }) : t("astro.kicker")}
-      </p>
-      <div className="flex -space-x-2">
-        {photos.length
-          ? photos.map((src) => (
-              <img key={src} src={src} alt="" className="h-6 w-6 rounded-full object-cover ring-2 ring-white" />
-            ))
-          : people.slice(0, 3).map((person) => (
-              <span
-                key={person.id || person.slug}
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-container text-[10px] font-bold text-on-primary ring-2 ring-white"
-              >
-                {(person.title || "ॐ").trim().charAt(0)}
-              </span>
-            ))}
-      </div>
-    </Link>
-  );
 }
 
 function PhoneGlyph() {

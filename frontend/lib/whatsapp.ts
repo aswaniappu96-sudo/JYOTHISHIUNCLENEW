@@ -40,7 +40,7 @@ export function consultationWhatsAppMessage(details: {
       : []),
     "",
     details.freeSlot
-      ? "This is my first 10-minute free consultation."
+      ? "This is my first 5-minute free consultation."
       : "Please share the payment details on this chat.",
   ];
   return lines.join("\n");

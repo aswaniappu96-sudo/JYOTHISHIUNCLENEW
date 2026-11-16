@@ -3,6 +3,7 @@ import { wpFetch, wpFetchOptional } from "@/lib/api/client";
 import { rewriteBrandDeep } from "@/lib/brand";
 import { decodeWpText } from "@/lib/html";
 import { stripOmanDeep } from "@/lib/publicCopy";
+import { withCurrentTemplePosts } from "@/lib/templeNames";
 import type {
   Article,
   AstrologyService,
@@ -22,6 +23,11 @@ import type {
 
 function publicSite<T>(value: T) {
   return rewriteBrandDeep(stripOmanDeep(value));
+}
+
+export function presentVendors(value: unknown) {
+  if (!Array.isArray(value)) return publicSite(value);
+  return publicSite(withCurrentTemplePosts(value));
 }
 
 function decodeI18n(i18n?: ContentI18n): ContentI18n | undefined {
@@ -57,7 +63,8 @@ export async function getPooja(slug: string) {
 }
 
 export async function getVendors() {
-  return publicSite(await settleApi(wpFetch<Vendor[]>("/vendors"), []));
+  const vendors = await settleApi(wpFetch<Vendor[]>("/vendors"), []);
+  return publicSite(withCurrentTemplePosts(vendors));
 }
 
 export async function getProducts(homepage = false) {
@@ -194,19 +201,29 @@ export function fallbackSettings() {
 }
 
 export const getHomePayload = cache(async (): Promise<HomePayload> => {
-  const settings = await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings);
-  const [poojas, products, astrologers, services] = await Promise.all([
-    settleApi(wpFetch<Pooja[]>("/poojas"), []),
-    settleApi(wpFetch<Product[]>("/products"), []),
-    settleApi(wpFetch<Astrologer[]>("/astrologers"), []),
-    settleApi(wpFetch<AstrologyService[]>("/services"), []),
-  ]);
-  const [travel, faqs, testimonials, articles, vendors] = await Promise.all([
-    settleApi(wpFetch<TravelDestination[]>("/travel"), []),
-    settleApi(wpFetch<FaqItem[]>("/faqs"), []),
-    settleApi(wpFetch<Testimonial[]>("/testimonials"), []),
-    settleApi(wpFetch<Article[]>("/articles"), []),
-    settleApi(wpFetch<Vendor[]>("/vendors"), []),
-  ]);
-  return publicSite({ settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles, vendors });
+  const [settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles, vendors] =
+    await Promise.all([
+      settleApi(wpFetch<SiteSettings>("/settings"), emptySettings),
+      settleApi(wpFetch<Pooja[]>("/poojas"), []),
+      settleApi(wpFetch<Product[]>("/products"), []),
+      settleApi(wpFetch<Astrologer[]>("/astrologers"), []),
+      settleApi(wpFetch<AstrologyService[]>("/services"), []),
+      settleApi(wpFetch<TravelDestination[]>("/travel"), []),
+      settleApi(wpFetch<FaqItem[]>("/faqs"), []),
+      settleApi(wpFetch<Testimonial[]>("/testimonials"), []),
+      settleApi(wpFetch<Article[]>("/articles"), []),
+      settleApi(wpFetch<Vendor[]>("/vendors"), []),
+    ]);
+  return publicSite({
+    settings,
+    poojas,
+    products,
+    astrologers,
+    services,
+    travel,
+    faqs,
+    testimonials,
+    articles,
+    vendors: withCurrentTemplePosts(vendors),
+  });
 });

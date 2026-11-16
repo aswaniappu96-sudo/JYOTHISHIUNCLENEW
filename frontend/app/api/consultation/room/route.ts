@@ -82,12 +82,19 @@ async function roomFromBookings(id: string, token: string) {
   };
 }
 
+const missingRoomUntil = new Map<string, number>();
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id") || "";
   const key = (url.searchParams.get("k") || "").toLowerCase();
   if (!/^\d+$/.test(id) || (key && !/^[a-f0-9]{32}$/.test(key))) {
     return NextResponse.json({ ok: false, message: "This video link is not valid." }, { status: 403 });
+  }
+
+  const missKey = `${id}:${key}`;
+  if ((missingRoomUntil.get(missKey) || 0) > Date.now()) {
+    return NextResponse.json({ ok: false, message: "This consultation was not found." }, { status: 404 });
   }
 
   const token = tokenFromCookie(request.headers.get("cookie"));
@@ -113,6 +120,7 @@ export async function GET(request: Request) {
       }
       booking = fallback.booking;
     } else if (primary.status === 404) {
+      missingRoomUntil.set(missKey, Date.now() + 60_000);
       return NextResponse.json({ ok: false, message: "This consultation was not found." }, { status: 404 });
     } else {
       return NextResponse.json({ ok: false, message: "This video link is not valid." }, { status: 403 });
@@ -147,7 +155,7 @@ export async function GET(request: Request) {
   };
 
   if (slot.phase === "live") {
-    const storedRoom = booking.room_id || "";
+    const storedRoom = (booking.room_id || "").trim();
     const roomId = storedRoom === `consult${id}` ? storedRoom : `consult${id}`;
     const userId = role === "host" ? `h${id}` : `c${id}`;
     const creds = videoCredentials(roomId, userId);

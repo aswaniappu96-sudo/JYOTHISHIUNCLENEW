@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { BrandText } from "@/components/brand/BrandText";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { Reveal } from "@/components/ui/Reveal";
 import { stripHtml, stripPublicPrices, telHref } from "@/lib/html";
 import type { MsgKey } from "@/lib/i18n";
 import { usableWhatsapp } from "@/components/layout/SitePrefs";
@@ -203,6 +202,31 @@ const TRUST_CARDS = [
   { title: "trust.connect" as const, copy: "trust.connectCopy" as const, icon: ChatTrust },
 ];
 
+export function TrustCards() {
+  const { t } = usePrefs();
+  return (
+    <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+      {TRUST_CARDS.map((item) => {
+        const Icon = item.icon;
+        return (
+          <div
+            key={item.title}
+            className="group relative flex items-start gap-3 rounded-[18px] border border-[#EAD9B0] bg-white/80 px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18),0_1px_0_0_rgba(245,230,200,0.8)_inset] transition-all duration-300 hover:-translate-y-px hover:shadow-[0_16px_36px_-18px_rgba(61,44,30,0.22)]"
+          >
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] shadow-[0_1px_0_0_white_inset]">
+              <Icon />
+            </div>
+            <div className="min-w-0 pt-0.5">
+              <h3 className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{t(item.title)}</h3>
+              <p className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 const POPULAR: { title: MsgKey; copy: MsgKey; consult: string; icon: () => ReactNode }[] = [
   { title: "pop.kundli", copy: "pop.kundliCopy", consult: "kundli", icon: KundliGlyph },
   { title: "pop.marriage", copy: "pop.marriageCopy", consult: "marriage", icon: HeartGlyph },
@@ -218,7 +242,13 @@ function accordionDomId(title: MsgKey) {
   return String(title).replace(".", "-");
 }
 
-function WhyMaharshiOm({ phone, whatsapp }: { phone?: string; whatsapp?: string }) {
+export function PopularGuidanceSection({
+  phone,
+  whatsapp,
+}: {
+  phone?: string;
+  whatsapp?: string;
+}) {
   const { t } = usePrefs();
   const router = useRouter();
   const [open, setOpen] = useState<string | null>(null);
@@ -263,42 +293,7 @@ function WhyMaharshiOm({ phone, whatsapp }: { phone?: string; whatsapp?: string 
   }, []);
 
   return (
-    <div id="why" className="relative mt-8 scroll-mt-36 pt-6 md:mt-10 md:pt-8">
-      <div className="h-px w-full bg-gradient-to-r from-[#EAD9B0]/0 via-[#EAD9B0] to-[#EAD9B0]/0" />
-
-      <div className="mt-8 md:mt-10">
-        <div className="max-w-[760px]">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="inline-block h-px w-8 bg-[#E9C07A]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]"><BrandText>{t("trust.kicker")}</BrandText></span>
-          </div>
-          <PageHeading lead={t("trust.lead")} accent={t("trust.accent")} />
-          <p className="mt-5 max-w-[520px] text-[15.5px] leading-[1.85] text-[#6E6256]">{t("trust.copy")}</p>
-        </div>
-
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-          {TRUST_CARDS.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.title}
-                className="group relative flex items-start gap-3 rounded-[18px] border border-[#EAD9B0] bg-white/80 px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18),0_1px_0_0_rgba(245,230,200,0.8)_inset] transition-all duration-300 hover:-translate-y-px hover:shadow-[0_16px_36px_-18px_rgba(61,44,30,0.22)]"
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] shadow-[0_1px_0_0_white_inset]">
-                  <Icon />
-                </div>
-                <div className="min-w-0 pt-0.5">
-                  <h3 className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{t(item.title)}</h3>
-                  <p className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="mt-8 h-px w-full bg-gradient-to-r from-[#EAD9B0]/0 via-[#EAD9B0] to-[#EAD9B0]/0 md:mt-10" />
-
+    <>
       <div className="mt-8 grid grid-cols-1 items-stretch gap-8 md:mt-10 lg:grid-cols-[1.22fr_0.88fr] lg:gap-10">
         <div>
           <div className="mb-7 flex items-center gap-3 md:mb-8">
@@ -343,18 +338,18 @@ function WhyMaharshiOm({ phone, whatsapp }: { phone?: string; whatsapp?: string 
                     </span>
                     <span
                       className={`mt-1.5 flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
-                        active ? "border-[#1E160E] bg-[#1E160E] text-white" : "border-[#EAD9B0] text-[#C9A86A] group-hover:border-[#E9C07A]"
+                        active ? "border-[#1E160E] bg-[#1E160E] text-white" : "border-[#8A7048] text-[#1E160E] group-hover:border-[#1E160E]"
                       }`}
                     >
                       <svg width="10" height="10" viewBox="0 0 12 12" fill="none" className={active ? "rotate-180 transition-transform" : "transition-transform"} aria-hidden>
-                        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
                   </button>
                   {active ? (
-                    <div className="mt-2 ml-12 rounded-[16px] border border-[#EAD9B0] bg-[#FBF6EC] px-3 py-2.5">
+                    <div className="mx-auto mt-2 w-fit max-w-full rounded-[16px] border border-[#EAD9B0] bg-[#FBF6EC] px-3 py-2.5 text-center">
                       <p className="text-[11px] font-semibold tracking-[0.04em] text-[#9C8360]">{t("trust.connectCopy")}</p>
-                      <div className="mt-2 flex items-center gap-2">
+                      <div className="mt-2 flex items-center justify-center gap-2">
                         <a href={chatHref} target="_blank" rel="noreferrer" className={modeBtn} aria-label={t("hero.chat")}>
                           <ModeChatGlyph />
                         </a>
@@ -366,7 +361,8 @@ function WhyMaharshiOm({ phone, whatsapp }: { phone?: string; whatsapp?: string 
                           className={modeBtn}
                           aria-label={t("hero.video")}
                           onClick={() => {
-                            window.dispatchEvent(new CustomEvent("ju:consult-video", { detail: item.consult }));
+                            const target = document.getElementById("astrologer-cards") || document.getElementById("astrologers");
+                            target?.scrollIntoView({ behavior: "smooth", block: "start" });
                           }}
                         >
                           <ModeVideoGlyph />
@@ -471,20 +467,16 @@ function WhyMaharshiOm({ phone, whatsapp }: { phone?: string; whatsapp?: string 
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 }
 
 export function AboutTeaser({
   excerpt,
   image: _image,
-  phone,
-  whatsapp,
 }: {
   excerpt?: string;
   image?: WPImage;
-  phone?: string;
-  whatsapp?: string;
 }) {
   const { t, copy } = usePrefs();
   const fromCms = stripPublicPrices(stripHtml(copy("about_excerpt", excerpt || ""))).trim();
@@ -533,7 +525,7 @@ export function AboutTeaser({
         <div className="absolute -right-[200px] top-[-80px] h-[600px] w-[600px] rounded-full bg-gradient-to-br from-[#FFE9B8] to-[#FFDDA1] opacity-[0.35] blur-[40px]" />
       </div>
 
-      <Reveal className={INNER}>
+      <div className={INNER}>
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 xl:gap-16">
           <div className="relative max-w-[600px]">
             <div className="mb-6 flex items-center gap-3">
@@ -721,9 +713,7 @@ export function AboutTeaser({
             <div className="pointer-events-none absolute -bottom-4 -left-8 -z-10 h-[200px] w-[200px] rounded-full bg-[#FBF0D9] opacity-80" aria-hidden />
           </div>
         </div>
-
-        <WhyMaharshiOm phone={phone} whatsapp={whatsapp} />
-      </Reveal>
+      </div>
     </section>
   );
 }

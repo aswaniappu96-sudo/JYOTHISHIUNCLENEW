@@ -23,6 +23,27 @@ export function Field({
   );
 }
 
+export function ModalCloseButton({
+  onClose,
+  className = "bg-surface-highest/80 text-on-surface-variant hover:text-primary",
+}: {
+  onClose: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClose}
+      className={`absolute top-4 right-4 z-10 grid h-9 w-9 place-items-center rounded-full p-0 leading-none ${className}`}
+      aria-label="Close"
+    >
+      <svg viewBox="0 0 24 24" className="block h-4 w-4" fill="none" aria-hidden>
+        <path d="M7 7l10 10M17 7 7 17" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+      </svg>
+    </button>
+  );
+}
+
 export function ModalShell({
   title,
   eyebrow,
@@ -69,18 +90,11 @@ export function ModalShell({
           <div className="absolute -top-16 -left-16 h-40 w-40 rounded-full bg-primary/20 blur-[60px]" />
           <div className="absolute -right-16 -bottom-16 h-40 w-40 rounded-full bg-secondary-container/30 blur-[60px]" />
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-surface-highest/80 text-lg text-on-surface-variant hover:text-primary"
-          aria-label="Close"
-        >
-          ×
-        </button>
+        <ModalCloseButton onClose={onClose} />
         {eyebrow ? (
           <p className="relative pr-10 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">{eyebrow}</p>
         ) : null}
-        <h2 className="relative mt-2 pr-10 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[40px]">{title}</h2>
+        <h2 className="relative mt-2 pr-10 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[40px]">{title}</h2>
         {lead ? <div className="relative mt-5">{lead}</div> : null}
         <div className="no-scrollbar relative mt-5 max-h-[min(68vh,36rem)] overflow-x-hidden overflow-y-auto overscroll-contain">
           {children}

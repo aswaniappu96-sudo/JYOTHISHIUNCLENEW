@@ -168,7 +168,7 @@ export function TravelDetailView({
         <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-12">
           <div className="mx-auto max-w-3xl space-y-2 text-center">
             <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Sacred wisdom</p>
-            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Why this temple yatra</h2>
+            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Why this temple yatra</h2>
             <p className="text-sm text-on-surface-variant">Guidance for darshan, timing, and family rituals — not a packaged tour checkout.</p>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -188,7 +188,7 @@ export function TravelDetailView({
           {aboutHtml ? (
             <div className="space-y-3">
               <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this yatra</p>
-              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">The path, simply explained</h2>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">The path, simply explained</h2>
               <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={aboutHtml} />
             </div>
           ) : null}
@@ -197,7 +197,7 @@ export function TravelDetailView({
               <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
                 <div>
                   <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">The path of illumination</p>
-                  <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Travel information</h2>
+                  <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Travel information</h2>
                 </div>
                 <p className="max-w-md text-sm text-on-surface-variant">Practical notes so the family can plan with a calm sankalpa.</p>
               </div>
@@ -226,7 +226,7 @@ export function TravelDetailView({
         <div className="mx-auto max-w-7xl space-y-8 px-4 md:px-12">
           <div className="mx-auto max-w-2xl space-y-2 text-center">
             <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">What is arranged</p>
-            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">What is included in this yatra guidance</h2>
+            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">What is included in this yatra guidance</h2>
             <p className="text-sm text-on-surface-variant">We keep the family informed so attention stays on darshan — not on a public price list.</p>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -245,7 +245,7 @@ export function TravelDetailView({
           <div className="flex flex-col justify-between gap-3 border-b border-outline-variant/30 pb-6 md:flex-row md:items-end">
             <div>
               <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Sacred registration</p>
-              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Reserve your yatra slot</h2>
+              <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Reserve your yatra slot</h2>
             </div>
             <p className="max-w-sm text-sm text-on-surface-variant">
               Send the name, preferred dates, and any family notes. We confirm the rest privately.
@@ -288,7 +288,7 @@ export function TravelDetailView({
       {nearby.length ? (
         <section className="mx-auto max-w-7xl px-4 py-16 md:px-12">
           <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Other yatras</p>
-          <h2 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">More temple journeys</h2>
+          <h2 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">More temple journeys</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {nearby.map((item) => (
               <TravelCard key={item.id} travel={item} whatsappNumber={whatsapp} />

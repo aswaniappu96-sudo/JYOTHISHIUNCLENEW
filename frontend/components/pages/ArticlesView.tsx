@@ -55,7 +55,7 @@ export function ArticlesView({
           </span>
           <span className="text-xs text-secondary">☉</span>
         </div>
-        <PageHeading as="h1" title={loc?.title || "Illuminations of the Rishis: Vedic Wisdom & Astrological Articles"} className="mb-6 max-w-4xl" />
+        <PageHeading as="h1" tone="ink" title={loc?.title || "Illuminations of the Rishis: Vedic Wisdom & Astrological Articles"} className="mb-6 max-w-4xl" />
         <p className="mx-auto max-w-3xl text-base leading-relaxed text-on-surface-variant">
           {loc?.hero_copy ||
             "Quiet reading on pooja, consultation, and temple journeys — written for families seeking clear, traditional guidance."}
@@ -139,7 +139,7 @@ export function ArticlesView({
                       {readingMinutes(featured.content || featured.excerpt)} min read
                     </span>
                   </div>
-                  <h2 className="mb-4 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">
+                  <h2 className="mb-4 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
                     {featured.title}
                   </h2>
                   <p className="mb-6 text-sm leading-relaxed text-on-surface-variant">{featured.excerpt}</p>
@@ -173,7 +173,7 @@ export function ArticlesView({
           <div className="relative z-10 mx-auto mb-10 flex max-w-6xl flex-col justify-between pb-4 md:flex-row md:items-end">
             <div>
               <span className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Archive chronicles</span>
-              <h3 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Cosmic discourses</h3>
+              <h3 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Cosmic discourses</h3>
             </div>
             <p className="mt-2 max-w-md text-sm text-on-surface-variant md:mt-0">
               Quiet notes on pooja, consultation, and family ritual — published as they are written.
@@ -206,7 +206,7 @@ export function ArticlesView({
             ॐ
           </div>
           <span className="mb-3 text-[11px] font-bold tracking-[0.25em] text-secondary uppercase">Personal guidance</span>
-          <h3 className="mb-4 max-w-2xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">
+          <h3 className="mb-4 max-w-2xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
             Need personal guidance beyond the articles?
           </h3>
           <p className="mb-8 max-w-2xl text-base leading-relaxed text-on-surface-variant">

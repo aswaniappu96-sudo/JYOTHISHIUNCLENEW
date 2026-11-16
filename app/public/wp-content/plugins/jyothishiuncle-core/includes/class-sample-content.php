@@ -16,6 +16,7 @@ class JU_Sample_Content {
 	const PRIVACY_VERSION    = '2026-10-12';
 	const DISCLAIMER_VERSION = '2026-10-12';
 	const REFUND_VERSION     = '2026-10-12';
+	const ANJOOR_STRIP_VERSION = '2026-11-10';
 
 	public static function notice() {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -85,6 +86,87 @@ class JU_Sample_Content {
 		self::ensure_disclaimer_page();
 		self::ensure_refund_page();
 		self::services();
+		self::strip_anjoor_kalarikkal();
+	}
+
+	private static function strip_anjoor_kalarikkal_text( $text ) {
+		$next = preg_replace( '/\bAnjoor[\s\-–—]*Kalarikkal\b/iu', '', (string) $text );
+		if ( null === $next ) {
+			return (string) $text;
+		}
+		$next = preg_replace( '/\s{2,}/u', ' ', $next );
+		$next = preg_replace( '/^[\s,·–—\-]+|[\s,·]+$/u', '', (string) $next );
+		return trim( (string) $next );
+	}
+
+	private static function strip_anjoor_kalarikkal() {
+		if ( get_option( 'ju_anjoor_strip_version' ) === self::ANJOOR_STRIP_VERSION ) {
+			return;
+		}
+
+		$posts = get_posts(
+			array(
+				'post_type'      => array( 'vendor', 'religious_travel', 'pooja', 'post', 'page' ),
+				'posts_per_page' => -1,
+				'post_status'    => 'any',
+			)
+		);
+
+		$locales   = array( 'hi', 'ta', 'ml', 'kn', 'te' );
+		$meta_keys = array( 'location', 'short_description', 'full_description', 'title' );
+		foreach ( $locales as $locale ) {
+			$meta_keys[] = 'title_' . $locale;
+			$meta_keys[] = 'location_' . $locale;
+			$meta_keys[] = 'short_description_' . $locale;
+			$meta_keys[] = 'full_description_' . $locale;
+		}
+
+		foreach ( $posts as $post ) {
+			$title   = self::strip_anjoor_kalarikkal_text( $post->post_title );
+			$content = self::strip_anjoor_kalarikkal_text( $post->post_content );
+			$excerpt = self::strip_anjoor_kalarikkal_text( $post->post_excerpt );
+			if ( '' === $title ) {
+				$title = $post->post_title;
+			}
+			if ( $title !== $post->post_title || $content !== $post->post_content || $excerpt !== $post->post_excerpt ) {
+				wp_update_post(
+					array(
+						'ID'           => $post->ID,
+						'post_title'   => $title,
+						'post_content' => $content,
+						'post_excerpt' => $excerpt,
+					)
+				);
+			}
+
+			foreach ( $meta_keys as $meta_key ) {
+				$raw = get_post_meta( $post->ID, $meta_key, true );
+				if ( ! is_string( $raw ) || '' === $raw ) {
+					continue;
+				}
+				$next = self::strip_anjoor_kalarikkal_text( $raw );
+				if ( $next === $raw ) {
+					continue;
+				}
+				update_post_meta( $post->ID, $meta_key, $next );
+				if ( function_exists( 'update_field' ) ) {
+					update_field( $meta_key, $next, $post->ID );
+				}
+			}
+
+			$thumb_id = get_post_thumbnail_id( $post->ID );
+			if ( $thumb_id ) {
+				$alt = get_post_meta( $thumb_id, '_wp_attachment_image_alt', true );
+				if ( is_string( $alt ) && '' !== $alt ) {
+					$next_alt = self::strip_anjoor_kalarikkal_text( $alt );
+					if ( $next_alt !== $alt ) {
+						update_post_meta( $thumb_id, '_wp_attachment_image_alt', $next_alt );
+					}
+				}
+			}
+		}
+
+		update_option( 'ju_anjoor_strip_version', self::ANJOOR_STRIP_VERSION );
 	}
 
 	private static function poojas() {

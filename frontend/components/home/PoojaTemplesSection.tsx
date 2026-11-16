@@ -34,9 +34,9 @@ function templeCopy(temple: Vendor) {
 }
 
 function poojasForTemple(temple: Vendor, poojas: Pooja[]) {
-  const wanted = temple.pooja_ids || [];
+  const wanted = (temple.pooja_ids || []).map((id) => Number(id)).filter((id) => id > 0);
   if (!wanted.length) return [];
-  const byId = new Map(poojas.map((pooja) => [pooja.id, pooja]));
+  const byId = new Map(poojas.map((pooja) => [Number(pooja.id), pooja]));
   return wanted.flatMap((id) => {
     const pooja = byId.get(id);
     return pooja ? [pooja] : [];
@@ -66,8 +66,8 @@ export function PoojaTemplesSection({
   phone?: string;
 }) {
   const { t } = usePrefs();
-  const temples = useLocalizedList(useJuList<Vendor>("/vendors", vendors));
-  const rites = useLocalizedList(useJuList<Pooja>("/poojas", poojas));
+  const temples = useLocalizedList(useJuList<Vendor>("/vendors", vendors, true));
+  const rites = useLocalizedList(useJuList<Pooja>("/poojas", poojas, true));
   const [active, setActive] = useState(0);
   const pauseUntil = useRef(0);
   const stripRef = useRef<HTMLDivElement>(null);
@@ -227,11 +227,11 @@ export function PoojaTemplesSection({
       {selected ? (
         <article className="flex h-full min-h-0 flex-col overflow-hidden rounded-[20px] border border-[#EAD9B0] bg-white p-4 shadow-[0_14px_40px_rgba(46,32,12,0.16)] md:p-5">
           <p className="text-[10px] font-semibold tracking-[0.16em] text-[#9A7A4A] uppercase">{t("temple.featured")}</p>
-          <div className="relative mt-3 min-h-[240px] flex-1 overflow-hidden rounded-[16px] bg-[#F7F0E2] lg:min-h-0">
+          <div className="relative mt-3 h-[210px] shrink-0 overflow-hidden rounded-[16px] bg-[#F7F0E2] lg:h-auto lg:min-h-0 lg:flex-1">
             {featuredSrc ? (
               <img src={featuredSrc} alt={selected.title} className="absolute inset-0 h-full w-full object-cover object-center" />
             ) : (
-              <div className="flex h-full min-h-[240px] w-full items-center justify-center font-serif text-5xl text-[#C9A86A]">ॐ</div>
+              <div className="flex h-full w-full items-center justify-center font-serif text-5xl text-[#C9A86A]">ॐ</div>
             )}
           </div>
           <div className="mt-4">

@@ -150,7 +150,7 @@ function LotusIcon() {
 
 function GuidanceArt() {
   return (
-    <div className="relative mx-auto h-[280px] w-[280px] sm:h-[320px] sm:w-[320px] lg:mx-0 lg:h-[380px] lg:w-[380px]">
+    <div className="relative mx-auto h-[200px] w-[200px] sm:h-[320px] sm:w-[320px] lg:mx-0 lg:h-[380px] lg:w-[380px]">
       <div className="ju-sand-ripple pointer-events-none absolute left-1/2 top-1/2 h-full w-full rounded-full border border-[#E9C686]" />
       <div className="ju-sand-ripple ju-sand-ripple-delay pointer-events-none absolute left-1/2 top-1/2 h-full w-full rounded-full border border-[#E9C686]" />
       <div className="ju-sand-shadow pointer-events-none absolute bottom-[-10px] left-1/2 z-[1] h-[18px] w-[60%] rounded-full bg-[radial-gradient(ellipse,rgba(61,44,30,0.25)_0%,transparent_70%)] blur-[4px]" />

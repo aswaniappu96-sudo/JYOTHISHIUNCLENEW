@@ -3,7 +3,9 @@
 import { useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { RASHIS } from "@/lib/rashis";
+import { rashiNames } from "@/lib/rashiLocale";
 
 function polar(cx: number, cy: number, r: number, deg: number) {
   const rad = ((deg - 90) * Math.PI) / 180;
@@ -15,6 +17,7 @@ function polar(cx: number, cy: number, r: number, deg: number) {
 
 export function RashiChakraBackdrop() {
   const pathname = usePathname();
+  const { locale } = usePrefs();
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
   const clipTop = useMotionValue(10000);
@@ -27,10 +30,21 @@ export function RashiChakraBackdrop() {
 
   useEffect(() => {
     updateClip();
-    const frame = window.requestAnimationFrame(updateClip);
+    const observer = new ResizeObserver(updateClip);
+    const hero = document.querySelector("[data-hero]");
+    if (hero) observer.observe(hero);
+    let frames = 0;
+    let frame = 0;
+    const pump = () => {
+      updateClip();
+      frames += 1;
+      if (frames < 20) frame = window.requestAnimationFrame(pump);
+    };
+    frame = window.requestAnimationFrame(pump);
     window.addEventListener("resize", updateClip);
     return () => {
       window.cancelAnimationFrame(frame);
+      observer.disconnect();
       window.removeEventListener("resize", updateClip);
     };
   }, [pathname, updateClip]);
@@ -60,7 +74,7 @@ export function RashiChakraBackdrop() {
             const p = polar(200, 200, 167, i * 30 + 15);
             return (
               <text key={rashi.slug} fill="currentColor" fontSize="11" textAnchor="middle" x={p.x} y={p.y + 4}>
-                {rashi.sa}
+                {rashiNames(rashi.slug, locale).primary}
               </text>
             );
           })}

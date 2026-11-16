@@ -48,7 +48,7 @@ export function ContactView({
                 {loc?.eyebrow || "Sacred Portals & Ritual Access"}
               </span>
             </div>
-            <PageHeading as="h1" title={customTitle || "Sacred Forms & Booking Portals"} />
+            <PageHeading as="h1" tone="ink" title={customTitle || "Sacred Forms & Booking Portals"} />
             <p className="max-w-2xl text-base text-on-surface-variant">
               {loc?.hero_copy ||
                 "High-fidelity sanctuary interfaces, authenticated seeker flows, auspicious Muhurtha calendars, and consecrated order mechanisms configured for celestial accuracy."}

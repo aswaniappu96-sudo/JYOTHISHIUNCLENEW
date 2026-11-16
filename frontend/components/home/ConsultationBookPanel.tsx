@@ -72,7 +72,7 @@ export function ConsultationBookPanel({
         <button
           type="button"
           onClick={() => openForm(true)}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#E9C07A] px-6 py-[13px] text-[14px] font-semibold text-[#2B2116] shadow-[0_6px_18px_-6px_rgba(180,130,40,0.5)] transition hover:brightness-[0.98] active:scale-[0.99] sm:w-[60%]"
+          className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#E9C07A] px-6 py-[13px] text-[14px] font-semibold text-[#2B2116] shadow-[0_6px_18px_-6px_rgba(180,130,40,0.5)] transition hover:brightness-[0.98] active:scale-[0.99] sm:w-[60%]"
         >
           Book Consultation
         </button>

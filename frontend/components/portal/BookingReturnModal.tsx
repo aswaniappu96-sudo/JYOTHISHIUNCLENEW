@@ -10,10 +10,10 @@ export function BookingReturnModal({ onClose }: { onClose: () => void }) {
 
   if (isFreeConsult) {
     return (
-      <ModalShell eyebrow="Booking Saved" title="Your Free First Consultation Booked 10 Min" onClose={onClose}>
+      <ModalShell eyebrow="Booking Saved" title="Your Free First Consultation Booked 5 Min" onClose={onClose}>
         <div className="grid gap-4">
           <p className="text-sm leading-relaxed text-on-surface-variant">
-            Your first 10-minute free consultation has been successfully booked and saved with us.
+            Your first 5-minute free consultation has been successfully booked and saved with us.
           </p>
           <p className="text-sm leading-relaxed text-on-surface-variant">
             This free slot is for logged-in members only and is granted on the first successful booking.

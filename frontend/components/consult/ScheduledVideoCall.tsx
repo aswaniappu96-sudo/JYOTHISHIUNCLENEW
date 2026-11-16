@@ -55,24 +55,32 @@ export function ScheduledVideoCall({
       try {
         const response = await fetch(`/api/consultation/room?${params}`, { credentials: "include", cache: "no-store" });
         const data = (await response.json()) as RoomInfo & { message?: string };
-        if (cancelled) return;
+        if (cancelled) return false;
         if (!response.ok) {
           setInfo(null);
           setError(data.message || "This video room could not be opened.");
-          return;
+          return response.status === 404 || response.status === 403 || response.status === 422;
         }
         setError("");
         setInfo(data);
+        return false;
       } catch {
         if (!cancelled) setError("This video room could not be opened.");
+        return false;
       }
     }
 
-    void load();
-    const timer = window.setInterval(() => {
+    let timer = 0;
+    const poll = async () => {
+      const failed = await load();
+      if (cancelled || !failed) return;
+      window.clearInterval(timer);
+    };
+    void poll();
+    timer = window.setInterval(() => {
       const phase = infoRef.current?.phase;
       if (cancelled || (phase && phase !== "early")) return;
-      void load();
+      void poll();
     }, 15000);
     return () => {
       cancelled = true;
@@ -143,7 +151,7 @@ export function ScheduledVideoCall({
     return (
       <section className="mx-auto max-w-xl px-5 py-16">
         <div className="glass-card rounded-3xl p-6">
-          <h1 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">Video consultation</h1>
+          <h1 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Video consultation</h1>
           <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-on-surface md:text-base">{error}</p>
         </div>
       </section>
@@ -193,7 +201,7 @@ export function ScheduledVideoCall({
     <section className="mx-auto max-w-xl px-5 py-16">
       <div className="glass-card rounded-3xl p-6">
         <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Video consultation</p>
-        <h1 className="mt-3 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[52px]">{info.title || "Consultation"}</h1>
+        <h1 className="mt-3 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">{info.title || "Consultation"}</h1>
         <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-on-surface md:text-base">{info.bookedLabel}</p>
         {showDevice ? (
           <p className="mt-2 text-sm leading-relaxed text-on-surface-variant">On this device: {onDevice}</p>

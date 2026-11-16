@@ -49,7 +49,7 @@ export function PoojaBookingModal({
           Close
         </button>
         <p className="text-xs uppercase tracking-[0.22em] text-saffron">Book pooja</p>
-        <h2 className="mt-2 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface">{pooja.title}</h2>
+        <h2 className="mt-2 font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378]">{pooja.title}</h2>
 
         {done ? (
           <p className="mt-6 text-sm leading-relaxed text-ink/75">

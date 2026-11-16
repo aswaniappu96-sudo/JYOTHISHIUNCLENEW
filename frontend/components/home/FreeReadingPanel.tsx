@@ -17,6 +17,7 @@ export function FreeReadingPanel({
   purpose,
   callTeam,
   tarot,
+  tarotSlots = [],
 }: {
   title: string;
   facts: { label: string; value: string }[];
@@ -28,6 +29,7 @@ export function FreeReadingPanel({
   purpose?: string;
   callTeam?: boolean;
   tarot?: boolean;
+  tarotSlots?: { role: string; title: string; value: string }[];
 }) {
   const { t } = usePrefs();
   const sections = reading
@@ -48,6 +50,70 @@ export function FreeReadingPanel({
           reading.relationships ? { label: t("daily.relationships"), text: reading.relationships } : null,
         ]
     : [];
+
+  if (tarot) {
+    const typeFact = facts.find((row) => row.value) || facts[0];
+    return (
+      <div className="flex h-full flex-col rounded-[22px] border border-[#E7DCCB] bg-[#FBF7F1] p-5 sm:p-7">
+        <p className="font-serif text-[32px] leading-none text-[#9A6F3A] sm:text-[38px]">{title}</p>
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-[15px] text-[#1A1106]">{typeFact?.label}</p>
+          {typeFact?.value ? (
+            <span className="rounded-full bg-[#e5c378] px-4 py-1.5 text-[13px] font-semibold text-[#1A1106]">{typeFact.value}</span>
+          ) : null}
+        </div>
+        <p className="mt-4 text-[14px] leading-relaxed text-[#1A1106]/75">{empty}</p>
+        <div className="mt-6 flex items-end justify-center gap-3">
+          {tarotSlots.map((slot, index) => (
+            <div
+              key={slot.role}
+              className="h-[108px] w-[74px] sm:h-[124px] sm:w-[84px]"
+              style={{ transform: `rotate(${[-8, 0, 8][index] || 0}deg)` }}
+            >
+              {slot.value ? <TarotFace name={slot.value} size="panel" /> : (
+                <span className="flex h-full w-full items-center justify-center rounded-[12px] bg-[#1A1106] font-serif text-[32px] text-[#e5c378] shadow-[0_10px_18px_-12px_rgba(8,4,0,0.6)]">
+                  ॐ
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+        {reading ? (
+          <div className="mt-6 space-y-4">
+            {sections.filter(Boolean).map((section) =>
+              section ? (
+                <section key={section.label}>
+                  <h3 className="font-serif text-[16px] text-[#9A6F3A]">{section.label}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-[#1A1106]">{section.text}</p>
+                </section>
+              ) : null,
+            )}
+            <p className="text-xs leading-relaxed text-[#1A1106]/60">
+              <BrandText>{reading.note || t("daily.generalNote")}</BrandText>
+            </p>
+            {busy ? <p className="text-xs font-semibold text-[#9A6F3A]">{t("daily.generating")}</p> : null}
+            <FreeConsultActions phone={phone} whatsapp={whatsapp} purpose={purpose} callTeam={callTeam} />
+          </div>
+        ) : (
+          <div className="mt-6 text-center">
+            <p className="font-serif text-[22px] text-[#1A1106] sm:text-[24px]">{t("daily.tarotAppear")}</p>
+            <p className="mx-auto mt-2 max-w-md text-[13px] leading-relaxed text-[#1A1106]/70">{t("daily.tarotReveal")}</p>
+            {busy ? <p className="mt-3 text-xs font-semibold text-[#9A6F3A]">{t("daily.generating")}</p> : null}
+          </div>
+        )}
+        {reading ? null : (
+          <div className="mt-5 space-y-3">
+            {tarotSlots.map((slot) => (
+              <div key={slot.role} className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-3 rounded-xl border border-dashed border-[#D9CBB6] px-3 py-2.5">
+                <span className="text-[11px] font-bold tracking-[0.16em] text-[#1A1106]/70 uppercase">{slot.role}</span>
+                <span className="text-[14px] text-[#1A1106]/80">{slot.value || t("daily.tarotWait", { card: slot.title })}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full flex-col rounded-[28px] border border-[#e5c378]/80 bg-white p-5 sm:p-6">

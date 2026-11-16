@@ -1,11 +1,12 @@
 import { submitPoojaBooking } from "@/lib/api/submit";
+import { templePostName } from "@/lib/templeNames";
 import { formatBookingDate, poojaWhatsAppMessage, whatsappUrl } from "@/lib/whatsapp";
 import type { Vendor } from "@/types/wordpress";
 
 export function vendorTempleLabel(vendors: Vendor[], slug: string) {
   const vendor = vendors.find((item) => item.slug === slug);
   if (!vendor) return slug;
-  return vendor.location ? `${vendor.title} — ${vendor.location}` : vendor.title;
+  return templePostName(vendor.slug, vendor.title) || slug;
 }
 
 export async function savePoojaBookingAndWhatsApp({

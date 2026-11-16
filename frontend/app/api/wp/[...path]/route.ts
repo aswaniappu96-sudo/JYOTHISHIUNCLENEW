@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { wpFetch } from "@/lib/api/client";
+import { presentVendors } from "@/lib/api/wordpress";
 
 export async function GET(request: Request, context: { params: Promise<{ path: string[] }> }) {
   const { path } = await context.params;
@@ -7,7 +8,8 @@ export async function GET(request: Request, context: { params: Promise<{ path: s
   const query = new URL(request.url).search;
   try {
     const data = await wpFetch(`${juPath}${query}`, { cache: "no-store" });
-    return NextResponse.json(data);
+    const body = juPath === "/vendors" ? presentVendors(data) : data;
+    return NextResponse.json(body);
   } catch (error) {
     const message = error instanceof Error ? error.message : "WordPress list failed.";
     return NextResponse.json({ message }, { status: 502 });

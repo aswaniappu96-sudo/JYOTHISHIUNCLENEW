@@ -1,5 +1,7 @@
 "use client";
 
+import { stripOmanHighlight } from "@/lib/publicCopy";
+import { withCurrentTemplePosts } from "@/lib/templeNames";
 import type { Vendor } from "@/types/wordpress";
 
 export function PoojaOfferingFields({
@@ -11,6 +13,7 @@ export function PoojaOfferingFields({
   fieldClass: string;
   defaultVendor?: string;
 }) {
+  const temples = withCurrentTemplePosts(vendors);
   return (
     <>
       <label className="block text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">
@@ -20,15 +23,14 @@ export function PoojaOfferingFields({
           <option value="offline">Offline pooja</option>
         </select>
       </label>
-      {vendors.length ? (
+      {temples.length ? (
         <label className="block text-[11px] font-bold tracking-wider text-on-surface-variant uppercase">
-          Pooja temple
+          Temple
           <select required name="vendor" defaultValue={defaultVendor} className={`${fieldClass} mt-1`}>
-            <option value="">Choose a pooja temple</option>
-            {vendors.map((vendor) => (
+            <option value="">Select temple</option>
+            {temples.map((vendor) => (
               <option key={vendor.id || vendor.slug} value={vendor.slug}>
-                {vendor.title}
-                {vendor.location ? ` — ${vendor.location}` : ""}
+                {stripOmanHighlight(vendor.title)}
               </option>
             ))}
           </select>
