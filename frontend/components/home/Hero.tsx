@@ -32,18 +32,21 @@ function usableWhatsapp(value?: string) {
 const SLIDES = [
   {
     src: "/images/hero/banner-temple.jpg",
+    position: "object-[70%_center]",
     kicker: "hero.kicker1",
     title: "hero.title1",
     copy: "hero.copy1",
   },
   {
-    src: "/images/hero/banner-pooja.jpg",
+    src: "/images/hero/banner-homam.jpg",
+    position: "object-center",
     kicker: "hero.kicker2",
     title: "hero.title2",
     copy: "hero.copy2",
   },
   {
-    src: "/images/hero/banner-products.jpg",
+    src: "/images/hero/banner-yatra.jpg",
+    position: "object-[68%_center]",
     kicker: "hero.kicker3",
     title: "hero.title3",
     copy: "hero.copy3",
@@ -160,7 +163,7 @@ export function Hero({
               img.dataset.fallback = "1";
               img.src = SLIDES[i].src;
             }}
-            className={`absolute inset-0 h-full w-full object-cover object-[70%_center] transition-opacity duration-1000 ${
+            className={`absolute inset-0 h-full w-full object-cover ${item.position} transition-opacity duration-1000 ${
               i === index ? "opacity-100" : "opacity-0"
             }`}
           />
