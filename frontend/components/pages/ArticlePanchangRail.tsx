@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { SectionEyebrow } from "@/components/home/SectionHeading";
 import { DEFAULT_TIMEZONE, getPanchang, visitorTimeZone, type PanchangSnapshot } from "@/lib/panchang";
 
 export function ArticlePanchangRail() {
@@ -19,7 +20,7 @@ export function ArticlePanchangRail() {
   return (
     <div className="rounded-2xl bg-surface-low/90 p-4 shadow-lg backdrop-blur-xl">
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-[11px] font-bold tracking-widest text-primary uppercase">Panchangam snapshot</span>
+        <SectionEyebrow>Panchangam snapshot</SectionEyebrow>
         <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-primary" />
       </div>
       <div className="space-y-3">

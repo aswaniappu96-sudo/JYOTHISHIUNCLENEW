@@ -125,9 +125,7 @@ export function ArticlesView({
               <div className="flex flex-col justify-between bg-surface-low/95 p-6 sm:p-10 lg:col-span-5">
                 <div>
                   <div className="mb-4 flex flex-wrap items-center gap-3">
-                    <span className="rounded-full bg-secondary-container/60 px-3 py-1 text-[11px] font-bold tracking-wider text-secondary uppercase">
-                      Editor’s pick
-                    </span>
+                    <SectionEyebrow>Editor’s pick</SectionEyebrow>
                     <span className="text-xs text-on-surface-variant">
                       {readingMinutes(featured.content || featured.excerpt)} min read
                     </span>
@@ -165,7 +163,7 @@ export function ArticlesView({
         <>
           <div className="relative z-10 mx-auto mb-10 flex max-w-6xl flex-col justify-between pb-4 md:flex-row md:items-end">
             <div>
-              <span className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Archive chronicles</span>
+              <SectionEyebrow>Archive chronicles</SectionEyebrow>
               <h3 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Cosmic discourses</h3>
             </div>
             <p className="mt-2 max-w-md text-sm text-on-surface-variant md:mt-0">
@@ -198,7 +196,7 @@ export function ArticlesView({
           <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-2xl text-primary">
             ॐ
           </div>
-          <span className="mb-3 text-[11px] font-bold tracking-[0.25em] text-secondary uppercase">Personal guidance</span>
+          <SectionEyebrow className="mb-3 justify-center">Personal guidance</SectionEyebrow>
           <h3 className="mb-4 max-w-2xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
             Need personal guidance beyond the articles?
           </h3>

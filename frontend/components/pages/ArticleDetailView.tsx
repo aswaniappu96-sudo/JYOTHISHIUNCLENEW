@@ -9,7 +9,7 @@ import { ArticlePanchangRail } from "@/components/pages/ArticlePanchangRail";
 import { ArticleShareBar } from "@/components/pages/ArticleShareBar";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { articleCategory, formatArticleDate, readingMinutes, stripHtml, stripPublicPrices } from "@/lib/html";
 import { useLocalized, withLocale } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
@@ -70,10 +70,7 @@ export function ArticleDetailView({
           <span className="max-w-xs truncate text-primary md:max-w-md">{article.title}</span>
         </nav>
 
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-surface-high/90 px-3 py-1.5 text-primary shadow-md">
-          <ConchIcon className="h-3.5 w-3.5" />
-          <span className="text-[11px] font-bold tracking-[0.22em] uppercase">{category}</span>
-        </div>
+        <SectionEyebrow className="mb-3">{category}</SectionEyebrow>
 
         <PageHeading as="h1" tone="ink" title={article.title} className="mt-1 mb-6 max-w-4xl" />
 
@@ -140,10 +137,7 @@ export function ArticleDetailView({
 
           <div className="relative overflow-hidden rounded-2xl bg-linear-to-b from-surface-high via-surface-container to-surface-low p-7 shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
             <div className="pointer-events-none absolute -top-12 -right-12 h-48 w-48 rounded-full bg-primary-container/20 blur-3xl" />
-            <div className="mb-2 flex items-center gap-2 text-[11px] font-bold tracking-widest text-primary uppercase">
-              <ConchIcon className="h-4 w-4" />
-              Private session
-            </div>
+            <SectionEyebrow className="mb-2">Private session</SectionEyebrow>
             <h3 className="mb-2 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Want this applied to your chart?</h3>
             <p className="mb-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant">
               A consultation can take the teaching in this article and look at your own questions. Share your details
@@ -225,7 +219,7 @@ export function ArticleDetailView({
                   </div>
                 )}
                 <div className="flex flex-col">
-                  <span className="text-[11px] font-bold tracking-wider text-secondary uppercase">Sacred product</span>
+                  <SectionEyebrow>Sacred product</SectionEyebrow>
                   <h5 className="mt-0.5 text-lg leading-tight font-semibold text-on-surface">{product.title}</h5>
                   {product.short_description ? (
                     <span className="mt-1 line-clamp-2 text-xs text-on-surface-variant">
@@ -246,7 +240,7 @@ export function ArticleDetailView({
         <section className="mx-auto mb-12 max-w-6xl rounded-3xl bg-surface-lowest/70 px-4 py-12 md:px-12">
           <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <span className="mb-1 block text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Further reading</span>
+              <SectionEyebrow className="mb-1">Further reading</SectionEyebrow>
               <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Related articles</h2>
             </div>
             <Link href="/blog" className="inline-flex items-center gap-1 text-sm font-semibold text-secondary transition hover:text-primary">
@@ -264,7 +258,7 @@ export function ArticleDetailView({
       <div className="relative overflow-hidden bg-surface-high py-16">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,224,157,0.1),transparent_70%)]" />
         <div className="relative z-10 mx-auto max-w-4xl px-4 text-center md:px-12">
-          <span className="mb-2 block text-[11px] font-bold tracking-[0.25em] text-primary uppercase">Apply this teaching</span>
+          <SectionEyebrow className="mb-2 justify-center">Apply this teaching</SectionEyebrow>
           <h2 className="mb-3 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
             Turn this article into a private conversation
           </h2>
