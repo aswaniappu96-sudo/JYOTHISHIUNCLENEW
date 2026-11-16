@@ -40,6 +40,7 @@ export type SiteSettings = {
   logo_url: string;
   logo: WPImage;
   hero_image: WPImage;
+  hero_slides?: Array<WPImage>;
   about_teaser_image: WPImage;
   i18n?: Record<string, Record<string, string>>;
 };

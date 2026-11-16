@@ -5,7 +5,7 @@ import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { mediaUrl } from "@/lib/api/client";
 import { astrologerPhoto } from "@/lib/catalogImages";
-import type { AstrologerView } from "@/lib/astrologer-display";
+import { astrologerPath, type AstrologerView } from "@/lib/astrologer-display";
 import { telHref } from "@/lib/html";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -53,10 +53,10 @@ const actionIcon =
 
 function OnlineBadge({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold tracking-[0.08em] text-white shadow-sm">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-[#EAD9B0] bg-white/90 px-2.5 py-1 text-[10px] font-bold tracking-[0.08em] text-[#9A6F3A] shadow-sm">
       <span className="relative flex h-1.5 w-1.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
-        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C4A227] opacity-70" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#9A6F3A]" />
       </span>
       {label}
     </span>
@@ -77,17 +77,19 @@ export function TalkAstrologerCard({
   phone,
   whatsapp,
   photo = "round",
+  compact = false,
 }: {
   view: AstrologerView;
   phone: string;
   whatsapp: string;
   photo?: "round" | "full";
+  compact?: boolean;
 }) {
   const { t } = usePrefs();
   const { openConsultation } = usePortal();
   const src = astrologerPhoto(view.person.slug, mediaUrl(view.person.featured_image?.full || view.person.featured_image?.url) || "");
   const glyph = (view.name || view.location || "ॐ").trim().charAt(0);
-  const profileHref = view.person.slug ? `/astrologers/${view.person.slug}` : "/astrologers";
+  const profileHref = astrologerPath(view.person);
   const callHref = telHref(phone);
   const chatHref = whatsappUrl(
     whatsapp,
@@ -101,7 +103,7 @@ export function TalkAstrologerCard({
       className={`flex h-full min-h-0 flex-col rounded-2xl border border-[#e5c378] bg-white shadow-[0_8px_22px_-16px_rgba(26,17,6,0.18)] ${photo === "full" ? "overflow-hidden" : ""}`}
     >
       {photo === "full" ? (
-        <Link href={profileHref} className="relative aspect-[4/5] w-full shrink-0 overflow-hidden bg-[#fff8ec] xl:aspect-auto xl:min-h-0 xl:shrink xl:flex-1">
+        <Link href={profileHref} className={`relative w-full shrink-0 overflow-hidden bg-[#fff8ec] ${compact ? "aspect-[4/5] max-h-[168px]" : "aspect-[4/5] xl:aspect-auto xl:min-h-0 xl:shrink xl:flex-1"}`}>
           {src ? (
             <img src={src} alt={view.name || "Astrologer"} className="h-full w-full object-cover object-top" />
           ) : (
@@ -129,8 +131,8 @@ export function TalkAstrologerCard({
         </Link>
       )}
 
-      <div className={`flex min-h-0 flex-1 flex-col px-3.5 py-3 ${photo === "full" ? "max-sm:px-2.5 max-sm:py-2.5 xl:flex-none xl:shrink-0" : ""} ${photo === "round" ? "pt-7" : ""}`}>
-        <h3 className={`font-serif text-[18px] font-medium leading-snug ${photo === "full" ? "max-sm:text-[15px]" : ""}`}>
+      <div className={`flex min-h-0 flex-1 flex-col ${compact ? "px-2.5 py-2" : "px-3.5 py-3"} ${photo === "full" && !compact ? "max-sm:px-2.5 max-sm:py-2.5 xl:flex-none xl:shrink-0" : ""} ${photo === "round" ? "pt-7" : ""}`}>
+        <h3 className={`font-serif font-medium leading-snug ${compact ? "text-[15px]" : "text-[18px]"} ${photo === "full" && !compact ? "max-sm:text-[15px]" : ""}`}>
           <Link href={profileHref} className="text-[#1A1106] hover:text-[#9A6F3A]">
             {view.name || view.location}
           </Link>
@@ -158,7 +160,7 @@ export function TalkAstrologerCard({
           <Fact stack={photo === "full"} label={t("astro.priceMin")} value={t("astro.priceEnquire")} />
         </div>
 
-        <div className={`mt-auto flex flex-col pt-3 ${photo === "full" ? "xl:mt-3 xl:pt-0" : ""}`}>
+        <div className={`mt-auto flex flex-col ${compact ? "pt-2" : "pt-3"} ${photo === "full" && !compact ? "xl:mt-3 xl:pt-0" : ""}`}>
         <div className="flex gap-1.5 max-sm:justify-center max-sm:gap-2.5">
           <a href={chatHref} target="_blank" rel="noreferrer" className={`${actionBtn} ${actionIcon}`}>
             <ChatGlyph />

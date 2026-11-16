@@ -16,5 +16,5 @@ export default async function TravelIndexPage() {
     settleApi(getSettings(), fallbackSettings()),
   ]);
 
-  return <TravelView destinations={destinations} page={page} whatsappNumber={settings.whatsapp_number} />;
+  return <TravelView destinations={destinations} page={page} whatsappNumber={settings.whatsapp_number} phone={settings.phone_number} />;
 }

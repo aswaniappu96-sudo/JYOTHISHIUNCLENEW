@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { BrandText } from "@/components/brand/BrandText";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
@@ -94,10 +94,7 @@ export function BecomeAstrologerSection() {
       <Reveal className={SECTION_INNER}>
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8">
           <div>
-            <div className="mb-4 flex items-center gap-2.5">
-              <span className="text-[#C4A227]">✦</span>
-              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8360]">{t("join.kicker")}</span>
-            </div>
+            <SectionEyebrow className="mb-4">{t("join.kicker")}</SectionEyebrow>
             <PageHeading lead={t("join.lead")} accent={t("join.accent")} />
             <p className="mt-4 max-w-[540px] text-[15px] leading-[1.65] text-[#6E6256] sm:text-[16px]"><BrandText>{t("join.copy")}</BrandText></p>
 

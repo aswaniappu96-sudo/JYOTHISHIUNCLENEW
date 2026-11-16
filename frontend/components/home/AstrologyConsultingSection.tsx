@@ -17,14 +17,6 @@ function ArrowGlyph() {
   );
 }
 
-function Sparkle() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 text-[#C4A227]" fill="currentColor" aria-hidden>
-      <path d="M12 1.6 13.7 9 21 12l-7.3 3L12 22.4 10.3 15 3 12l7.3-3L12 1.6Z" />
-    </svg>
-  );
-}
-
 function ShieldIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
@@ -138,6 +130,16 @@ function NumbersIcon() {
   );
 }
 
+function PrashnaIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="8.2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M9.6 10.1a2.4 2.4 0 1 1 3.3 2.2c-.7.4-1.1.9-1.1 1.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="11.8" cy="16.4" r="0.8" fill="currentColor" />
+    </svg>
+  );
+}
+
 function LotusIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
@@ -155,14 +157,14 @@ function GuidanceArt() {
       <div className="ju-sand-ripple ju-sand-ripple-delay pointer-events-none absolute left-1/2 top-1/2 h-full w-full rounded-full border border-[#E9C686]" />
       <div className="ju-sand-shadow pointer-events-none absolute bottom-[-10px] left-1/2 z-[1] h-[18px] w-[60%] rounded-full bg-[radial-gradient(ellipse,rgba(61,44,30,0.25)_0%,transparent_70%)] blur-[4px]" />
       <div className="ju-sand-float relative z-[2] h-full w-full overflow-hidden rounded-full border-2 border-[#E9C686] shadow-[0_20px_60px_rgba(61,44,30,0.15),0_0_0_8px_rgba(255,251,240,0.8),0_0_40px_rgba(233,198,134,0.4)]">
-        <img src="/images/about-portrait.jpg" alt="" className="h-full w-full object-cover object-[center_18%]" />
+        <img src="/images/home-guidance.jpg" alt="Homam performed at the temple" className="h-full w-full object-cover object-[62%_42%]" />
       </div>
     </div>
   );
 }
 
 type Topic = {
-  id: GuidanceTopicId;
+  id: GuidanceTopicId | "prashna";
   title: MsgKey;
   hint: MsgKey;
   well: string;
@@ -180,6 +182,7 @@ const TOPICS: Topic[] = [
   { id: "tarot", title: "consult.tarot", hint: "consult.tarotHint", well: "bg-[#F4EEE8] text-[#8B6A4A]", wash: "text-[#DCC8B0]", icon: TarotIcon },
   { id: "numerology", title: "consult.numerology", hint: "consult.numerologyHint", well: "bg-[#EEE8F8] text-[#6B5B9A]", wash: "text-[#C8BCD8]", icon: NumbersIcon },
   { id: "remedies", title: "consult.remedies", hint: "consult.remediesHint", well: "bg-[#F8EFE4] text-[#B07A3A]", wash: "text-[#E4C8A0]", icon: LotusIcon },
+  { id: "prashna", title: "consult.prashna", hint: "consult.prashnaHint", well: "bg-[#FDE8D8] text-[#C45A28]", wash: "text-[#F0C2A4]", icon: PrashnaIcon },
 ];
 
 const TRUST = [
@@ -214,10 +217,7 @@ export function AstrologyConsultingSection() {
               </span>
             </div>
 
-            <div className="mt-5 flex items-start gap-3">
-              <Sparkle />
-              <PageHeading lead={t("consult.lead")} accent={t("consult.accent")} />
-            </div>
+            <PageHeading className="mt-5" lead={t("consult.lead")} accent={t("consult.accent")} />
             <p className="mt-4 max-w-[560px] text-[15px] leading-[1.6] text-[#1A1106]/70 sm:text-[16px]">{t("consult.copy")}</p>
 
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
@@ -273,22 +273,6 @@ export function AstrologyConsultingSection() {
               </Link>
             );
           })}
-
-          <Link
-            href="/#join"
-            className="group relative flex min-h-[214px] flex-col overflow-hidden rounded-[22px] bg-linear-to-br from-[#3A2A14] via-[#2A1C0C] to-[#1A1106] p-5 text-[#FFF8EC] shadow-[0_14px_32px_-18px_rgba(26,17,6,0.5)] transition duration-300 hover:-translate-y-1"
-          >
-            <span className="pointer-events-none absolute -right-8 -bottom-10 h-36 w-36 rounded-full bg-[#C4A227]/20 blur-2xl" />
-            <span className="text-[#E8C88A]">✦</span>
-            <h3 className="relative mt-3 font-serif text-[22px] leading-tight">{t("consult.ctaTitle")}</h3>
-            <p className="relative mt-2 flex-1 text-[13px] leading-snug text-[#FFF8EC]/72">{t("consult.ctaCopy")}</p>
-            <span className="relative mt-4 inline-flex items-center gap-2 text-[13.5px] font-semibold text-[#E8C88A]">
-              {t("join.cta")}
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#A07838] text-white transition group-hover:bg-[#8C682E]">
-                <ArrowGlyph />
-              </span>
-            </span>
-          </Link>
         </div>
       </div>
     </section>

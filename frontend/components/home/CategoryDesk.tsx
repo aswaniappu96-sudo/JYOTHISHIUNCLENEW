@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { KICKER, LEAD, SECTION_INNER } from "@/lib/layout";
+import { LEAD, SECTION_INNER } from "@/lib/layout";
 import { useLocalizedList } from "@/lib/localized";
 import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
@@ -63,7 +63,7 @@ export function CategoryDesk({
         </div>
 
         <div className="mx-auto mt-8 max-w-4xl text-center">
-          <p className={KICKER}>{t(current.label)}</p>
+          <SectionEyebrow className="justify-center">{t(current.label)}</SectionEyebrow>
           <PageHeading className="mt-3" lead={t(current.lead)} accent={t(current.accent)} />
           <p className={`${LEAD} mx-auto mt-4`}>{t(current.copy)}</p>
         </div>
@@ -71,7 +71,7 @@ export function CategoryDesk({
         <div className="mt-6">
           {tab === "pooja" ? (
             <div className={cardGrid}>
-              {poojaItems.slice(0, 8).map((item) => {
+              {poojaItems.slice(0, 4).map((item) => {
                 const src = liveCatalogPhoto("pooja", item.slug, imageSrc(item.featured_image));
                 return (
                 <Link key={item.id} href={`/pooja/${item.slug}`} className={`${cardClass} overflow-hidden p-0`}>
@@ -91,7 +91,7 @@ export function CategoryDesk({
                 );
               })}
               <Link href={POOJAS_PATH} className={`${cardClass} items-center justify-center text-center`}>
-                <p className="relative z-[1] font-serif text-[20px] text-[#fff8ec]">All poojas</p>
+                <p className="relative z-[1] font-serif text-[20px] text-[#fff8ec]">Explore more</p>
                 <p className="relative z-[1] mt-2 text-[14px] text-[#f3e6c8]">See every rite we arrange</p>
               </Link>
             </div>

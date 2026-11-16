@@ -87,7 +87,7 @@ export function HeroSearchPanel({
   );
 }
 
-export function MobileSearchDock() {
+export function MobileSearchDock({ className = "md:hidden" }: { className?: string }) {
   const { t } = usePrefs();
   const [open, setOpen] = useState(false);
 
@@ -106,7 +106,7 @@ export function MobileSearchDock() {
   }, [open]);
 
   return (
-    <div className="md:hidden">
+    <div className={className}>
       <button
         type="button"
         suppressHydrationWarning

@@ -1,5 +1,5 @@
 import { AstrologerTalkBoard } from "@/components/pages/AstrologerTalkBoard";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { PORTRAITS } from "@/lib/astrologer-display";
 import type { Astrologer } from "@/types/wordpress";
 import type { ReactNode } from "react";
@@ -35,7 +35,7 @@ export function JyotishaWisdom() {
   return (
     <section className="relative overflow-hidden px-4 py-16 md:px-12">
       <div className="mx-auto mb-12 max-w-3xl text-center">
-        <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-secondary">Jyotishya Vedanga Shastra</span>
+        <SectionEyebrow className="justify-center">Jyotishya Vedanga Shastra</SectionEyebrow>
         <PageHeading title="The Timeless Wisdom of Jyotisha: Eye of the Vedas" className="mt-1" />
         <p className="mt-3 text-sm leading-relaxed text-on-surface-variant">
           Jyotisha is not fatalistic fortune-telling; it is celestial illumination (Jyoti = Divine Light). It maps the

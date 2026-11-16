@@ -106,20 +106,20 @@ export function AstrologerProfileView({
           <span className="text-[#1A1106]">{view.name}</span>
         </nav>
 
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
-          <div className="relative overflow-hidden rounded-[28px] border-2 border-[#e5c378] bg-[#fff8ec]">
-            <div className="relative aspect-[4/5] w-full">
+        <div className="grid gap-8 lg:grid-cols-[minmax(180px,260px)_minmax(0,1fr)] lg:items-start">
+          <div className="relative mx-auto w-full max-w-[260px] overflow-hidden rounded-[24px] border-2 border-[#e5c378] bg-[#fff8ec]">
+            <div className="relative aspect-[3/4] w-full">
               {src ? (
                 <img src={src} alt={view.name} className="h-full w-full object-cover object-top" />
               ) : (
-                <div className="flex h-full min-h-[420px] w-full flex-col items-center justify-center text-[#1A1106]">
-                  <span className="font-serif text-7xl">{glyph}</span>
-                  <span className="mt-3 text-lg font-semibold">{view.name}</span>
+                <div className="flex h-full min-h-[240px] w-full flex-col items-center justify-center text-[#1A1106]">
+                  <span className="font-serif text-6xl">{glyph}</span>
+                  <span className="mt-3 text-base font-semibold">{view.name}</span>
                 </div>
               )}
               {view.online ? (
-                <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1.5 text-[11px] font-bold tracking-[0.08em] text-white">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-[#EAD9B0] bg-white/90 px-3 py-1.5 text-[11px] font-bold tracking-[0.08em] text-[#9A6F3A]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#9A6F3A]" />
                   {t("astro.onlineBadge")}
                 </span>
               ) : null}
@@ -214,7 +214,7 @@ export function AstrologerProfileView({
         {others.length ? (
           <div className="mt-14">
             <h2 className="font-serif text-[32px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[40px]">{t("astro.view")}</h2>
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
               {others.map((item) => (
                 <TalkAstrologerCard
                   key={item.person.id || item.person.slug}
@@ -222,6 +222,7 @@ export function AstrologerProfileView({
                   phone={callNumber}
                   whatsapp={chatNumber}
                   photo="full"
+                  compact
                 />
               ))}
             </div>

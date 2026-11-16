@@ -19,3 +19,16 @@
 .ju-i18n-tabs {
   margin: 12px 0 0;
 }
+
+.ju-home-block {
+  margin: 16px 0;
+  padding: 4px 16px 8px;
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-left: 4px solid #9a6f3a;
+}
+
+.ju-home-block h3 {
+  margin: 12px 0 4px;
+  font-size: 15px;
+}

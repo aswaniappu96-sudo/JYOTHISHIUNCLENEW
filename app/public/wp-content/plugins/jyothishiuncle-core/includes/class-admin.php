@@ -40,7 +40,7 @@ class JU_Admin {
 		}
 
 		$rows = array(
-			array( 'Home', admin_url( 'admin.php?page=ju-settings' ), 'JyothishiUncle → Home page', 'Logo, hero photo, homepage titles by language, WhatsApp, address, footer.' ),
+			array( 'Home', admin_url( 'admin.php?page=ju-settings' ), 'JyothishiUncle → Home page', 'Banner slider photos, banner text, and each home section heading. Language tabs: English, Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
 			array( 'Language content', admin_url( 'admin.php?page=ju-language' ), 'JyothishiUncle → Language content', 'English, Hindi, Tamil, Malayalam, Kannada, Telugu: menu, banner, buttons, footer.' ),
 			array( 'About', admin_url( 'admin.php?page=ju-edit-about' ), 'JyothishiUncle → About page', 'English title, intro, editor, Featured image. Language bar: English / Hindi / Tamil / Malayalam / Kannada / Telugu.' ),
 			array( 'Services heading', admin_url( 'admin.php?page=ju-edit-services' ), 'JyothishiUncle → Services page', 'Page title, intro, hero photo, and language tabs. Pooja/product cards are not on this screen.' ),
@@ -100,7 +100,7 @@ class JU_Admin {
 				<li>Every page and every list item uses <strong>Featured image</strong> (right sidebar) as the main photo.</li>
 				<li>About and Contact also have Photo 2 and Photo 3 under <em>Page photos &amp; headings</em>.</li>
 				<li>Poojas, products, and travel can have extra gallery photos below the editor.</li>
-				<li>Home logo and hero photo are only on <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-settings' ) ); ?>">Home page</a>.</li>
+				<li>Home logo, the three banner slides, and each home section’s text are on <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-settings' ) ); ?>">Home page</a>.</li>
 			</ul>
 		</div>
 		<?php

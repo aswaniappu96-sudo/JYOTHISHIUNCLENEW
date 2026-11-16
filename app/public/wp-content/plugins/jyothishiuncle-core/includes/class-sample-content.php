@@ -616,6 +616,22 @@ class JU_Sample_Content {
 			return (int) $existing->ID;
 		}
 
+		if ( 'astrologer' === $type ) {
+			$renamed = get_posts(
+				array(
+					'post_type'        => 'astrologer',
+					'post_status'      => 'any',
+					'posts_per_page'   => 1,
+					'meta_key'         => '_wp_old_slug',
+					'meta_value'       => $slug,
+					'suppress_filters' => true,
+				)
+			);
+			if ( $renamed ) {
+				return (int) $renamed[0]->ID;
+			}
+		}
+
 		$id = wp_insert_post(
 			array(
 				'post_title'   => $title,

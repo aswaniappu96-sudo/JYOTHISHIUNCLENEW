@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { liveCatalogPhoto } from "@/lib/catalogImages";
 import { imageSrc } from "@/lib/media";
@@ -188,10 +188,7 @@ export function PoojaSection({
       <div className={INNER}>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[720px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white/85 px-3.5 py-1.5 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#C4A227]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#9A8560]">{t("pooja.badge")}</span>
-            </div>
+            <SectionEyebrow>{t("pooja.badge")}</SectionEyebrow>
             <PageHeading className="mt-5" lead={t("pooja.lead")} accent={t("pooja.accent")} />
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#5c4a32]">{t("pooja.copy")}</p>
           </div>
@@ -235,10 +232,10 @@ export function PoojaSection({
                       ★ {t("pooja.booked")}
                     </span>
                   ) : null}
-                  <span className="absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/80 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+                  <span className="absolute top-3 right-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-[#EAD9B0] bg-white/90 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#9A6F3A]">
                     <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-600" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C4A227] opacity-70" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#9A6F3A]" />
                     </span>
                     {t("pooja.live")}
                   </span>

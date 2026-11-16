@@ -5,8 +5,7 @@ import Link from "next/link";
 import { BrandText } from "@/components/brand/BrandText";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { ArticleCard } from "@/components/pages/ArticleCard";
-import { ConchIcon } from "@/components/icons/ConchIcon";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { formatArticleDate, readingMinutes } from "@/lib/html";
 import { useLocalizedList, useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
@@ -48,13 +47,7 @@ export function ArticlesView({
       <div className="pointer-events-none absolute top-[-8rem] left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-linear-to-b from-primary/10 via-secondary-container/20 to-transparent blur-[120px]" />
 
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center pt-8 pb-12 text-center md:pt-14">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-surface-high/70 px-4 py-1.5 shadow-[0_0_20px_rgba(229,195,120,0.15)] backdrop-blur-md">
-          <ConchIcon className="h-3 w-3" />
-          <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">
-            {loc?.eyebrow || "Vedic Shastra · Sacred Wisdom"}
-          </span>
-          <span className="text-xs text-secondary">☉</span>
-        </div>
+        <SectionEyebrow className="mb-6 justify-center">{loc?.eyebrow || "Vedic Shastra · Sacred Wisdom"}</SectionEyebrow>
         <PageHeading as="h1" tone="ink" title={loc?.title || "Illuminations of the Rishis: Vedic Wisdom & Astrological Articles"} className="mb-6 max-w-4xl" />
         <p className="mx-auto max-w-3xl text-base leading-relaxed text-on-surface-variant">
           {loc?.hero_copy ||

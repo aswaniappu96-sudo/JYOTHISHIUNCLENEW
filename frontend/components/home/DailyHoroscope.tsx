@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { FreeReadingPanel } from "@/components/home/FreeReadingPanel";
 import { TarotPiles } from "@/components/home/TarotPiles";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { dailyRashiReading, HOROSCOPE_RASHIS } from "@/lib/dailyHoroscope";
@@ -311,7 +311,7 @@ export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?:
       <span id="free-tools" className="sr-only" />
       <div className="pointer-events-none absolute inset-0 opacity-[0.18]" style={{ backgroundImage: "radial-gradient(circle at 20% 10%, rgba(229,195,120,0.35), transparent 42%)" }} />
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]">
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-tertiary">{t("daily.kicker")}</p>
+        <SectionEyebrow>{t("daily.kicker")}</SectionEyebrow>
         <PageHeading className="mt-3" lead={t("daily.lead")} accent={t("daily.accent")} />
         <p className="mt-4 max-w-[620px] text-[15px] leading-relaxed text-[#1A1106]/70 sm:text-[16px]">{t("daily.copy")}</p>
 

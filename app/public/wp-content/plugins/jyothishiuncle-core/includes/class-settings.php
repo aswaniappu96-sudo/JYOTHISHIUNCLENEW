@@ -43,8 +43,43 @@ class JU_Settings {
 			'brand_ink'                 => '#2C2416',
 			'logo_id'                   => '0',
 			'hero_image_id'             => '0',
+			'hero_slide_1_id'           => '0',
+			'hero_slide_2_id'           => '0',
+			'hero_slide_3_id'           => '0',
 			'about_teaser_image_id'     => '0',
 		);
+	}
+
+	public static function repair_hero_slides() {
+		if ( get_option( 'ju_hero_slide_232' ) ) {
+			return;
+		}
+
+		$stored = get_option( self::OPTION_KEY, array() );
+		if ( ! is_array( $stored ) ) {
+			$stored = array();
+		}
+
+		$current = isset( $stored['hero_slide_2_id'] ) ? (int) $stored['hero_slide_2_id'] : 0;
+		$file    = get_attached_file( 232 );
+		if ( ! $current && $file && file_exists( $file ) ) {
+			$stored['hero_slide_2_id'] = '232';
+			update_option( self::OPTION_KEY, $stored, false );
+		}
+
+		update_option( 'ju_hero_slide_232', '1', false );
+	}
+
+	private static function image_id_from_input( $input, $current, $key ) {
+		$cleared = ! empty( $input[ $key . '_cleared' ] );
+		$posted  = isset( $input[ $key ] ) ? absint( $input[ $key ] ) : 0;
+		if ( $cleared ) {
+			return '0';
+		}
+		if ( $posted && get_attached_file( $posted ) ) {
+			return (string) $posted;
+		}
+		return isset( $current[ $key ] ) ? (string) absint( $current[ $key ] ) : '0';
 	}
 
 	public static function get() {
@@ -280,9 +315,9 @@ class JU_Settings {
 
 		$out['whatsapp_number'] = preg_replace( '/\D+/', '', $out['whatsapp_number'] );
 
-		$out['logo_id']               = isset( $input['logo_id'] ) ? (string) absint( $input['logo_id'] ) : '0';
-		$out['hero_image_id']         = isset( $input['hero_image_id'] ) ? (string) absint( $input['hero_image_id'] ) : '0';
-		$out['about_teaser_image_id'] = isset( $input['about_teaser_image_id'] ) ? (string) absint( $input['about_teaser_image_id'] ) : '0';
+		foreach ( array( 'logo_id', 'hero_image_id', 'hero_slide_1_id', 'hero_slide_2_id', 'hero_slide_3_id', 'about_teaser_image_id' ) as $image_key ) {
+			$out[ $image_key ] = self::image_id_from_input( $input, $current, $image_key );
+		}
 
 		return $out;
 	}
@@ -312,10 +347,29 @@ class JU_Settings {
 		?>
 		<div class="wrap ju-settings-wrap">
 			<h1>Home page</h1>
-			<p>This is the <strong>home page</strong> (logo, hero photo, titles). Other website pages are under this same JyothishiUncle menu. Items in the left sidebar (Poojas, Products, Astrologers, Religious Travel, Articles) are the cards and posts that fill those pages. See <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-how-to-edit' ) ); ?>">How to edit</a>.</p>
+			<p>Edit the <strong>banner slider</strong> and each <strong>home section</strong> here. Astrologer, pooja, product, yatra, review, and article cards stay in their own menus. See <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-how-to-edit' ) ); ?>">How to edit</a>.</p>
 
 			<form method="post" action="options.php">
 				<?php settings_fields( 'ju_site_settings_group' ); ?>
+
+				<h2>Banner slider images</h2>
+				<p>Three photos, in order. Leave a photo empty to keep the picture already on the website.</p>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row">Slide 1 — Astrology consultation</th>
+						<td><?php self::media_field( 'hero_slide_1_id', $s['hero_slide_1_id'], 'This is the first photo visitors see. Leave it empty and the website keeps its built-in picture. Click Save home page at the bottom, then refresh the site.' ); ?></td>
+					</tr>
+					<tr>
+						<th scope="row">Slide 2 — Homam, poojas and remedies</th>
+						<td><?php self::media_field( 'hero_slide_2_id', $s['hero_slide_2_id'], 'Wide photo behind the second banner.' ); ?></td>
+					</tr>
+					<tr>
+						<th scope="row">Slide 3 — Temple yatra</th>
+						<td><?php self::media_field( 'hero_slide_3_id', $s['hero_slide_3_id'], 'Wide photo behind the third banner. Choose the image, then click Save home page.' ); ?></td>
+					</tr>
+				</table>
+
+				<?php JU_I18n::render_home_tabs(); ?>
 
 				<h2>Contact</h2>
 				<table class="form-table" role="presentation">
@@ -357,16 +411,14 @@ class JU_Settings {
 						<td><?php self::media_field( 'logo_id', $s['logo_id'], 'Shown in the header.' ); ?></td>
 					</tr>
 					<tr>
-						<th scope="row">Hero photo</th>
-						<td><?php self::media_field( 'hero_image_id', $s['hero_image_id'], 'Optional photo behind the homepage mandala. Leave empty to keep the cosmic graphic only.' ); ?></td>
+						<th scope="row">Extra hero photo</th>
+						<td><?php self::media_field( 'hero_image_id', $s['hero_image_id'], 'Not the banner slider. Use the three slide photos above for the homepage banner.' ); ?></td>
 					</tr>
 					<tr>
 						<th scope="row">About teaser photo</th>
 						<td><?php self::media_field( 'about_teaser_image_id', $s['about_teaser_image_id'], 'Photo in the homepage Living Vedic Heritage section. If empty, the About page featured image is used.' ); ?></td>
 					</tr>
 				</table>
-
-				<?php JU_I18n::render_home_tabs(); ?>
 
 				<h2>Consultation calendar</h2>
 				<p>Times are stored in the consultation timezone. The public website converts them to each visitor’s local clock. Meetings are online only.</p>
@@ -471,7 +523,8 @@ class JU_Settings {
 		$url = $id ? wp_get_attachment_image_url( $id, 'medium' ) : '';
 		?>
 		<div class="ju-media-field">
-			<input type="hidden" name="<?php echo esc_attr( self::OPTION_KEY . '[' . $key . ']' ); ?>" value="<?php echo esc_attr( (string) $id ); ?>">
+			<input class="ju-media-id" type="hidden" name="<?php echo esc_attr( self::OPTION_KEY . '[' . $key . ']' ); ?>" value="<?php echo esc_attr( (string) $id ); ?>">
+			<input class="ju-media-cleared" type="hidden" name="<?php echo esc_attr( self::OPTION_KEY . '[' . $key . '_cleared]' ); ?>" value="0">
 			<img src="<?php echo esc_url( $url ? $url : '' ); ?>" alt="" class="ju-media-preview" style="display:<?php echo $url ? 'block' : 'none'; ?>;max-width:220px;height:auto;margin-bottom:8px;border-radius:8px;">
 			<button type="button" class="button ju-media-select">Choose image</button>
 			<button type="button" class="button ju-media-clear">Remove</button>

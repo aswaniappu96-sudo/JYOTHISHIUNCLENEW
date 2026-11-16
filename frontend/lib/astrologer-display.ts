@@ -61,6 +61,23 @@ export function guidanceTopicHref(topic: GuidanceTopicId) {
   return `/astrologers?topic=${topic}`;
 }
 
+/** Public profile address uses the astrologer's name, not an older sample slug. */
+export function astrologerNameSlug(title?: string, fallback = "") {
+  const base = (title || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return base || fallback;
+}
+
+export function astrologerPath(person: { title?: string; slug?: string }) {
+  const slug = astrologerNameSlug(person.title, person.slug || "");
+  return slug ? `/astrologers/${slug}` : "/astrologers";
+}
+
 function topicsFor(hay: string, index: number): GuidanceTopicId[] {
   const matched = GUIDANCE_TOPIC_IDS.filter((id) => TOPIC_RE[id].test(hay));
   const assigned = [0, 3, 6].map((step) => GUIDANCE_TOPIC_IDS[(index + step) % GUIDANCE_TOPIC_IDS.length]);

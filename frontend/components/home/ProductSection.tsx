@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ProductEnquiryButton } from "@/components/booking/ProductEnquiryButton";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripPublicPrices } from "@/lib/html";
 import { useLocalizedList } from "@/lib/localized";
@@ -129,10 +129,7 @@ export function ProductSection({
       <div className={INNER}>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[720px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white/85 px-3.5 py-1.5 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#C4A227]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#9A8560]">{t("store.badge")}</span>
-            </div>
+            <SectionEyebrow>{t("store.badge")}</SectionEyebrow>
             <PageHeading className="mt-5" lead={t("store.lead")} accent={t("store.accent")} />
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#5c4a32]">{t("store.copy")}</p>
           </div>

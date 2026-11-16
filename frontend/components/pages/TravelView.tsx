@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { TravelCard } from "@/components/cards/TravelCard";
 import { ConchIcon } from "@/components/icons/ConchIcon";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { useLocalizedList, useLocalizedPage } from "@/lib/localized";
@@ -85,10 +85,12 @@ export function TravelView({
   destinations,
   page,
   whatsappNumber,
+  phone = "",
 }: {
   destinations: TravelDestination[];
   page?: WPPage | null;
   whatsappNumber: string;
+  phone?: string;
 }) {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["id"]>("all");
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -186,7 +188,7 @@ export function TravelView({
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end">
             <div>
-              <span className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Elemental terrain</span>
+              <SectionEyebrow>Elemental terrain</SectionEyebrow>
               <PageHeading title="Current Sacred Expeditions" className="mt-1" />
             </div>
             <p className="text-xs text-on-surface-variant">Only 3 to 5 spots left per departure</p>
@@ -194,7 +196,7 @@ export function TravelView({
           {shown.length ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {shown.map((item) => (
-                <TravelCard key={item.id} travel={item} whatsappNumber={whatsappNumber} />
+                <TravelCard key={item.id} travel={item} whatsappNumber={whatsappNumber} phone={phone} />
               ))}
             </div>
           ) : (
@@ -222,7 +224,7 @@ export function TravelView({
       <section className="px-4 py-16 md:px-12">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-10 max-w-3xl text-center">
-            <span className="text-[11px] font-bold tracking-[0.22em] text-secondary uppercase">Vedic excellence</span>
+            <SectionEyebrow className="justify-center">Vedic excellence</SectionEyebrow>
             <PageHeading title="What Makes Our Consecrated Yatras Unique" className="mt-2" />
             <p className="mt-3 text-base leading-relaxed text-on-surface-variant">
               Unlike commercial tourism, our yatras are designed as karmic transformational rituals under orthodox Shastra
@@ -252,9 +254,7 @@ export function TravelView({
       <section className="px-4 pb-20 md:px-12">
         <div className="relative mx-auto flex max-w-5xl flex-col items-center overflow-hidden rounded-3xl bg-linear-to-b from-surface-high via-surface-container to-surface-lowest p-8 text-center shadow-[0_0_80px_rgba(229,195,120,0.25)] md:p-14">
           <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-primary/10 blur-[90px]" />
-          <span className="mb-4 inline-flex items-center rounded-full bg-surface-high/80 px-4 py-1 text-[11px] font-bold tracking-[0.22em] text-primary uppercase">
-            Astrological guidance before travel
-          </span>
+          <SectionEyebrow className="mb-4 justify-center">Astrological guidance before travel</SectionEyebrow>
           <PageHeading title="Seeking a Customized Kundali-Calibrated Pilgrimage?" className="max-w-3xl" />
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
             Every soul has a karmic destination where planetary afflictions dissolve. Consult Sri Devadathan Namboothiri

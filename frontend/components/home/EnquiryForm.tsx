@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useState, type ReactNode } from "react";
 import { BrandText } from "@/components/brand/BrandText";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usableWhatsapp } from "@/components/layout/SitePrefs";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
@@ -227,12 +227,7 @@ export function EnquiryForm({
 
       <Reveal className={INNER}>
         <div className="mb-10 md:mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-3.5 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#A67A3B]" />
-            <span className="text-[10px] font-bold tracking-[0.18em] text-[#7A6650] uppercase">
-              {isContact ? t("enquiry.contactKicker") : t("enquiry.kicker")}
-            </span>
-          </div>
+          <SectionEyebrow>{isContact ? t("enquiry.contactKicker") : t("enquiry.kicker")}</SectionEyebrow>
           <PageHeading
             className="mt-6"
             lead={isContact ? t("enquiry.contactLead") : t("enquiry.lead")}

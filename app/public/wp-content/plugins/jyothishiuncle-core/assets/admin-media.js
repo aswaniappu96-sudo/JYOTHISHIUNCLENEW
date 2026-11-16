@@ -1,4 +1,11 @@
 jQuery(function ($) {
+  function applyImage($wrap, attachment) {
+    var url = attachment.sizes && attachment.sizes.medium ? attachment.sizes.medium.url : attachment.url;
+    $wrap.find("input.ju-media-id").val(attachment.id);
+    $wrap.find("input.ju-media-cleared").val("0");
+    $wrap.find("img").attr("src", url).show();
+  }
+
   $(document).on("click", ".ju-media-select", function (event) {
     event.preventDefault();
     var $wrap = $(this).closest(".ju-media-field");
@@ -8,10 +15,12 @@ jQuery(function ($) {
       multiple: false,
     });
     frame.on("select", function () {
-      var att = frame.state().get("selection").first().toJSON();
-      var url = att.sizes && att.sizes.medium ? att.sizes.medium.url : att.url;
-      $wrap.find("input[type=hidden]").val(att.id);
-      $wrap.find("img").attr("src", url).show();
+      var selected = frame.state().get("selection").first();
+      if (selected) applyImage($wrap, selected.toJSON());
+    });
+    frame.on("close", function () {
+      var selected = frame.state().get("selection").first();
+      if (selected) applyImage($wrap, selected.toJSON());
     });
     frame.open();
   });
@@ -19,7 +28,8 @@ jQuery(function ($) {
   $(document).on("click", ".ju-media-clear", function (event) {
     event.preventDefault();
     var $wrap = $(this).closest(".ju-media-field");
-    $wrap.find("input[type=hidden]").val("");
+    $wrap.find("input.ju-media-id").val("");
+    $wrap.find("input.ju-media-cleared").val("1");
     $wrap.find("img").attr("src", "").hide();
   });
 });

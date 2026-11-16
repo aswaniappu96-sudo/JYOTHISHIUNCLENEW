@@ -210,10 +210,42 @@ class JU_REST {
 		return in_array( strtolower( trim( (string) $value ) ), array( '1', 'true', 'yes', 'on' ), true );
 	}
 
+	private static function hero_slide_image( $attachment_id ) {
+		$attachment_id = (int) $attachment_id;
+		$file          = $attachment_id ? get_attached_file( $attachment_id ) : '';
+		if ( ! $file || ! file_exists( $file ) ) {
+			return null;
+		}
+
+		$image = JU_REST_Serialize::image( $attachment_id );
+		if ( ! is_array( $image ) ) {
+			return null;
+		}
+
+		$version = get_post_modified_time( 'U', true, (int) $attachment_id );
+		foreach ( array( 'url', 'full', 'thumb' ) as $key ) {
+			if ( empty( $image[ $key ] ) || ! $version ) {
+				continue;
+			}
+			$image[ $key ] .= ( false === strpos( $image[ $key ], '?' ) ? '?' : '&' ) . 'v=' . $version;
+		}
+
+		if ( ! empty( $image['full'] ) ) {
+			$image['url'] = $image['full'];
+		}
+
+		return $image;
+	}
+
 	private static function settings_payload() {
 		$s    = JU_Settings::get();
 		$logo = JU_REST_Serialize::image( (int) $s['logo_id'] );
 		$hero = JU_REST_Serialize::image( (int) $s['hero_image_id'] );
+		$hero_slides = array(
+			self::hero_slide_image( isset( $s['hero_slide_1_id'] ) ? $s['hero_slide_1_id'] : 0 ),
+			self::hero_slide_image( isset( $s['hero_slide_2_id'] ) ? $s['hero_slide_2_id'] : 0 ),
+			self::hero_slide_image( isset( $s['hero_slide_3_id'] ) ? $s['hero_slide_3_id'] : 0 ),
+		);
 		$about_photo = JU_REST_Serialize::image( (int) $s['about_teaser_image_id'] );
 
 		return array(
@@ -248,6 +280,7 @@ class JU_REST {
 			'logo'                      => $logo,
 			'logo_url'                  => $logo && ! empty( $logo['url'] ) ? $logo['url'] : JU_CORE_URL . 'assets/logo-placeholder.svg',
 			'hero_image'                => $hero,
+			'hero_slides'               => $hero_slides,
 			'about_teaser_image'        => $about_photo,
 			'i18n'                      => JU_I18n::get_all(),
 		);
@@ -425,8 +458,110 @@ class JU_REST {
 		return $items;
 	}
 
+	public static function astrologer_slug_from_title( $data, $postarr ) {
+		if ( ! is_array( $data ) || 'astrologer' !== ( isset( $data['post_type'] ) ? $data['post_type'] : '' ) ) {
+			return $data;
+		}
+
+		$title = trim( wp_strip_all_tags( (string) ( isset( $data['post_title'] ) ? $data['post_title'] : '' ) ) );
+		if ( '' === $title || 'Auto Draft' === $title ) {
+			return $data;
+		}
+
+		$slug = sanitize_title( $title );
+		if ( ! $slug ) {
+			return $data;
+		}
+
+		$id                  = isset( $postarr['ID'] ) ? (int) $postarr['ID'] : 0;
+		$status              = isset( $data['post_status'] ) ? $data['post_status'] : 'draft';
+		$data['post_name']   = wp_unique_post_slug( $slug, $id, $status, 'astrologer', 0 );
+		return $data;
+	}
+
+	public static function remove_restored_sample_astrologers() {
+		if ( get_option( 'ju_astrologer_sample_cleanup' ) ) {
+			return;
+		}
+
+		$samples = array(
+			'sri-devadathan-namboothiri',
+			'pandit-radhakrishnan-shastri',
+			'vidushi-gayatri-devi',
+			'acharya-shankaranarayana-bhat',
+		);
+
+		foreach ( $samples as $slug ) {
+			$post = get_page_by_path( $slug, OBJECT, 'astrologer' );
+			if ( ! $post ) {
+				continue;
+			}
+			$renamed = get_posts(
+				array(
+					'post_type'        => 'astrologer',
+					'post_status'      => 'any',
+					'posts_per_page'   => 1,
+					'meta_key'         => '_wp_old_slug',
+					'meta_value'       => $slug,
+					'suppress_filters' => true,
+				)
+			);
+			if ( $renamed && (int) $renamed[0]->ID !== (int) $post->ID ) {
+				wp_delete_post( $post->ID, true );
+			}
+		}
+
+		update_option( 'ju_astrologer_sample_cleanup', '1', false );
+	}
+
+	public static function sync_astrologer_slugs() {
+		$posts = get_posts(
+			array(
+				'post_type'        => 'astrologer',
+				'post_status'      => 'publish',
+				'posts_per_page'   => -1,
+				'suppress_filters' => true,
+			)
+		);
+
+		foreach ( $posts as $post ) {
+			$slug = sanitize_title( $post->post_title );
+			if ( ! $slug || $slug === $post->post_name ) {
+				continue;
+			}
+			$unique = wp_unique_post_slug( $slug, $post->ID, $post->post_status, 'astrologer', 0 );
+			if ( ! $unique || $unique === $post->post_name ) {
+				continue;
+			}
+			wp_update_post(
+				array(
+					'ID'        => $post->ID,
+					'post_name' => $unique,
+				)
+			);
+		}
+	}
+
+	private static function astrologer_by_former_slug( $slug ) {
+		$posts = get_posts(
+			array(
+				'post_type'        => 'astrologer',
+				'post_status'      => 'publish',
+				'posts_per_page'   => 1,
+				'meta_key'         => '_wp_old_slug',
+				'meta_value'       => $slug,
+				'suppress_filters' => true,
+			)
+		);
+		return $posts ? $posts[0] : null;
+	}
+
 	private static function one( $post_type, $slug, $callback ) {
-		$post = get_page_by_path( sanitize_title( $slug ), OBJECT, $post_type );
+		$slug = sanitize_title( $slug );
+		$post = get_page_by_path( $slug, OBJECT, $post_type );
+		if ( ( ! $post || 'publish' !== $post->post_status ) && 'astrologer' === $post_type ) {
+			$post = self::astrologer_by_former_slug( $slug );
+		}
 		if ( ! $post || 'publish' !== $post->post_status ) {
 			return new WP_Error( 'ju_not_found', 'Not found.', array( 'status' => 404 ) );
 		}

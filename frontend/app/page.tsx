@@ -25,6 +25,7 @@ export default async function HomePage() {
         services={data.services || []}
         phone={data.settings.phone_number}
         whatsapp={data.settings.whatsapp_number}
+        slides={data.settings.hero_slides}
       />
       <div className="relative z-10">
         <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />

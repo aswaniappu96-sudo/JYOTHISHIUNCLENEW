@@ -4,12 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { CosmicMandala } from "@/components/home/CosmicMandala";
-import { HeroSearchPanel } from "@/components/home/HeroSearch";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { DEFAULT_TIMEZONE, getPanchang, visitorTimeZone, type PanchangSnapshot } from "@/lib/panchang";
 import { telHref } from "@/lib/html";
 import { HEADER_PULL, SHELL } from "@/lib/layout";
 import { allSiteServices } from "@/lib/siteServices";
+import { PRODUCTS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { AstrologyService } from "@/types/wordpress";
@@ -50,13 +50,7 @@ const SLIDES = [
   },
 ] as const;
 
-function splitHeroHeading(text: string) {
-  const sentence = text.match(/^(.*?[.।])\s+(.+)$/);
-  if (sentence && sentence[1] && sentence[2]) return { lead: sentence[1], accent: sentence[2] };
-  const through = text.match(/^(.*?)\s+(Through\b.*)$/i);
-  if (through && through[1] && through[2]) return { lead: through[1], accent: through[2] };
-  return { lead: text, accent: "" };
-}
+const TRUST_POINTS = ["hero.trustOne", "hero.trustMoola", "hero.trustReach"] as const;
 
 const ctaPrimary =
   "inline-flex items-center justify-center rounded-full bg-primary-container px-5 py-2.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_10px_28px_rgba(201,162,39,0.4)] transition hover:brightness-95";
@@ -107,10 +101,12 @@ export function Hero({
   services = [],
   phone,
   whatsapp,
+  slides: slideImages,
 }: {
   services?: AstrologyService[];
   phone?: string;
   whatsapp?: string;
+  slides?: Array<{ url?: string | null; full?: string | null } | null>;
 }) {
   const { t } = usePrefs();
   const wpServices = useJuList<AstrologyService>("/services", services);
@@ -118,11 +114,24 @@ export function Hero({
   const serviceTrack = catalog.length ? [...catalog, ...catalog] : [];
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [index, setIndex] = useState(0);
-  const slide = SLIDES[index];
-  const heading = splitHeroHeading(t(slide.title));
+  const slides = SLIDES.map((item, i) => ({
+    ...item,
+    src: slideImages?.[i]?.full || slideImages?.[i]?.url || item.src,
+  }));
+  const slide = slides[index];
+  const consultSlide = index === 0;
+  const ritualSlide = index === 1;
+  const yatraSlide = index === 2;
   const callNumber = usablePhone(phone);
   const chatNumber = usableWhatsapp(whatsapp);
-  const chatHref = whatsappUrl(chatNumber, "Namaste. I would like to chat with an astrologer at MaharshiOm.");
+  const chatHref = whatsappUrl(
+    chatNumber,
+    yatraSlide
+      ? "Namaste. I would like yatra details from MaharshiOm."
+      : ritualSlide
+        ? "Namaste. I would like to book a pooja or homam at MaharshiOm."
+        : "Namaste. I would like to chat with an astrologer at MaharshiOm.",
+  );
   const callHref = telHref(callNumber);
 
   useEffect(() => {
@@ -133,18 +142,24 @@ export function Hero({
   }, []);
 
   useEffect(() => {
-    const id = window.setInterval(() => setIndex((value) => (value + 1) % SLIDES.length), 12000);
+    const id = window.setInterval(() => setIndex((value) => (value + 1) % slides.length), 12000);
     return () => window.clearInterval(id);
   }, [index]);
 
   return (
-    <section data-hero className={`relative z-20 w-full overflow-hidden ${HEADER_PULL}`}>
-      <div className="relative flex flex-col overflow-hidden pt-24 md:pt-20 lg:min-h-[72vh]">
-        {SLIDES.map((item, i) => (
+    <section data-hero className={`relative z-20 flex min-h-dvh w-full flex-col overflow-hidden ${HEADER_PULL}`}>
+      <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden pt-28 pb-10 md:pt-32 md:pb-14">
+        {slides.map((item, i) => (
           <img
-            key={item.src}
+            key={SLIDES[i].src}
             src={item.src}
             alt=""
+            onError={(event) => {
+              const img = event.currentTarget;
+              if (img.dataset.fallback === "1") return;
+              img.dataset.fallback = "1";
+              img.src = SLIDES[i].src;
+            }}
             className={`absolute inset-0 h-full w-full object-cover object-[70%_center] transition-opacity duration-1000 ${
               i === index ? "opacity-100" : "opacity-0"
             }`}
@@ -162,7 +177,7 @@ export function Hero({
         <div className={`relative z-20 flex min-h-0 flex-1 flex-col justify-start gap-2 pb-2 pt-1 lg:grid lg:grid-cols-12 lg:items-center lg:gap-4 lg:py-12 ${SHELL}`}>
           <div className="relative flex items-start gap-3 pr-16 lg:col-span-7 lg:pr-0">
             <div className="mt-2 flex shrink-0 flex-col items-center gap-2 lg:mt-3" aria-label="Banner slides">
-              {SLIDES.map((item, i) => (
+              {slides.map((item, i) => (
                 <button
                   key={item.src}
                   type="button"
@@ -176,15 +191,12 @@ export function Hero({
             <div key={index}>
               <p className="text-[10px] font-bold uppercase tracking-[0.06em] text-[#e5c378] sm:text-[11px] sm:tracking-[0.14em]">
                 <span aria-hidden>◆ </span>
-                MaharshiOm
-                <span aria-hidden> · </span>
                 {t(slide.kicker)}
               </p>
-              <h1 className="mt-2 max-w-xl font-serif text-[26px] font-medium leading-[1.12] tracking-[-0.03em] text-[#fff8ec] sm:text-[32px] md:text-[44px]">
-                <span className="block">{heading.lead}</span>
-                {heading.accent ? <em className="mt-1 block italic text-[#e5c378]">{heading.accent}</em> : null}
+              <h1 className="mt-2 max-w-3xl font-serif text-[30px] font-bold not-italic leading-[1.08] tracking-[-0.03em] text-[#fff8ec] sm:text-[36px] md:text-[48px] lg:text-[54px]">
+                {t(slide.title)}
               </h1>
-              <p className="mt-2 max-w-lg line-clamp-3 text-[13px] font-medium leading-relaxed text-[#f3e6c8] sm:mt-4 sm:text-sm md:text-[15px]">
+              <p className="mt-3 max-w-2xl text-[16px] font-medium not-italic leading-relaxed text-[#f3e6c8] sm:mt-4 md:text-[18px]">
                 {t(slide.copy)}
               </p>
               <div className="mt-3 flex flex-wrap gap-2 md:mt-5 md:hidden">
@@ -200,24 +212,34 @@ export function Hero({
               </div>
               <div className="mt-5 hidden flex-wrap gap-2 md:flex">
                 <a href={chatHref} target="_blank" rel="noreferrer" className={ctaPrimary}>
-                  {t("hero.chat")}
+                  {consultSlide ? t("hero.consultWa") : ritualSlide ? t("hero.bookPoojaWa") : t("hero.yatraWa")}
                 </a>
-                <a href={callHref} className={ctaGhost}>
-                  {t("hero.call")}
-                </a>
+                {consultSlide ? (
+                  <Link href="/astrologers" className={ctaGhost}>
+                    {t("hero.acharyas")}
+                  </Link>
+                ) : ritualSlide ? (
+                  <Link href={PRODUCTS_PATH} className={ctaGhost}>
+                    {t("hero.remedies")}
+                  </Link>
+                ) : (
+                  <Link href="/religious-travel" className={ctaGhost}>
+                    {t("hero.familyYatra")}
+                  </Link>
+                )}
                 <BookConsultationButton className={ctaGhost}>{t("hero.video")}</BookConsultationButton>
               </div>
               <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#f3e6c8]/85 sm:mt-4 sm:text-[11px]">
-                <span>{t("hero.trustVerified")}</span>
+                <span>{consultSlide ? t("hero.trustSessions") : ritualSlide ? t("hero.trustSankalpa") : t("hero.trustPace")}</span>
                 <span aria-hidden className="text-[#e5c378]">|</span>
-                <span>{t("hero.trustPrivate")}</span>
+                <span>{consultSlide ? t("hero.trustModes") : ritualSlide ? t("hero.trustStream") : t("hero.trustMeals")}</span>
                 <span aria-hidden className="text-[#e5c378]">|</span>
-                <span>{t("hero.trustLanguages")}</span>
+                <span>{consultSlide ? t("hero.trustLangs") : ritualSlide ? t("hero.trustPrasad") : t("hero.trustRituals")}</span>
               </p>
 
-              <div className="mt-5 hidden max-w-xl md:block">
-                <HeroSearchPanel />
-              </div>
+              <p className="mt-5 max-w-xl text-[15px] font-semibold leading-relaxed text-[#fff8ec] md:text-[17px]">
+                {t("hero.serviceLine")}
+              </p>
 
               <div className="mt-5 hidden max-w-xl grid-cols-2 gap-2 sm:grid-cols-4 lg:grid">
                 {[
@@ -233,16 +255,11 @@ export function Hero({
                 ))}
               </div>
 
-              <div className="mt-4 hidden max-w-xl grid-cols-3 divide-x divide-[#f3e6c8]/20 rounded-xl border border-[#f3e6c8]/20 bg-[#1c1008]/45 py-3 backdrop-blur-sm lg:grid">
-                {[
-                  ["10+", t("stat.languages")],
-                  ["500+", t("stat.years")],
-                  ["50,000+", t("stat.clients")],
-                ].map(([stat, label]) => (
-                  <div key={label} className="px-2 text-center">
-                    <p className="font-serif text-xl font-bold tracking-tight text-[#e5c378] md:text-2xl">{stat}</p>
-                    <p className="mt-0.5 text-[10px] font-medium leading-snug text-[#f3e6c8]/90 md:text-xs">{label}</p>
-                  </div>
+              <div className="mt-4 hidden max-w-2xl grid-cols-3 divide-x divide-[#f3e6c8]/20 rounded-xl border border-[#f3e6c8]/20 bg-[#1c1008]/45 py-3 backdrop-blur-sm lg:grid">
+                {TRUST_POINTS.map((key) => (
+                  <p key={key} className="px-3 text-center text-[13px] font-semibold leading-snug text-[#fff8ec]">
+                    {t(key)}
+                  </p>
                 ))}
               </div>
             </div>
@@ -269,15 +286,10 @@ export function Hero({
                 ))}
               </div>
               <div className="grid grid-cols-3 divide-x divide-[#f3e6c8]/20 rounded-xl border border-[#f3e6c8]/20 bg-[#1c1008]/45 py-3 backdrop-blur-sm">
-                {[
-                  ["10+", t("stat.languages")],
-                  ["500+", t("stat.years")],
-                  ["50,000+", t("stat.clients")],
-                ].map(([stat, label]) => (
-                  <div key={label} className="px-2 text-center">
-                    <p className="font-serif text-xl font-bold tracking-tight text-[#e5c378]">{stat}</p>
-                    <p className="mt-0.5 text-[10px] font-medium leading-snug text-[#f3e6c8]/90">{label}</p>
-                  </div>
+                {TRUST_POINTS.map((key) => (
+                  <p key={key} className="px-2 text-center text-[12px] font-semibold leading-snug text-[#fff8ec]">
+                    {t(key)}
+                  </p>
                 ))}
               </div>
             </div>

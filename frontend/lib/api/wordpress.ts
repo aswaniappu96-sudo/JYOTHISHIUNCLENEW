@@ -44,8 +44,10 @@ function decodeI18n(i18n?: ContentI18n): ContentI18n | undefined {
   return out;
 }
 
+const freshSettings = { cache: "no-store" as const };
+
 export async function getSettings() {
-  return publicSite(await settleApi(wpFetch<SiteSettings>("/settings"), emptySettings));
+  return publicSite(await settleApi(wpFetch<SiteSettings>("/settings", freshSettings), emptySettings));
 }
 
 export async function getPoojas(homepage = false) {
@@ -93,6 +95,25 @@ export async function getAstrologers(homepage = false) {
 export async function getAstrologer(slug: string) {
   const item = await wpFetchOptional<Astrologer>(`/astrologers/${slug}`);
   return item ? publicSite(item) : null;
+}
+
+export async function resolveAstrologer(slug: string) {
+  const direct = await getAstrologer(slug);
+  if (direct) return direct;
+  const all = await getAstrologers();
+  const wanted = slug.toLowerCase();
+  return (
+    all.find((item) => {
+      const name = (item.title || "")
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/&/g, " and ")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      return name === wanted;
+    }) || null
+  );
 }
 
 export async function getService(slug: string) {
@@ -184,6 +205,7 @@ const emptySettings: SiteSettings = {
   logo_url: "",
   logo: null,
   hero_image: null,
+  hero_slides: [],
   i18n: {},
   about_teaser_image: null,
 };
@@ -203,7 +225,7 @@ export function fallbackSettings() {
 export const getHomePayload = cache(async (): Promise<HomePayload> => {
   const [settings, poojas, products, astrologers, services, travel, faqs, testimonials, articles, vendors] =
     await Promise.all([
-      settleApi(wpFetch<SiteSettings>("/settings"), emptySettings),
+      settleApi(wpFetch<SiteSettings>("/settings", freshSettings), emptySettings),
       settleApi(wpFetch<Pooja[]>("/poojas"), []),
       settleApi(wpFetch<Product[]>("/products"), []),
       settleApi(wpFetch<Astrologer[]>("/astrologers"), []),

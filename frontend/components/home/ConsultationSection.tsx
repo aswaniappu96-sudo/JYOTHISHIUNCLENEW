@@ -6,7 +6,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { ConsultationBookPanel } from "@/components/home/ConsultationBookPanel";
 import type { SelectedConsultationDay } from "@/components/home/HomeConsultationCalendar";
 import { TrustCards } from "@/components/home/AboutTeaser";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usableWhatsapp } from "@/components/layout/SitePrefs";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
@@ -223,10 +223,7 @@ export function ConsultationSection({
 
       <div className={embedded ? "" : INNER}>
         <div className="max-w-[760px]">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-3.5 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-[#8A6A3A] shadow-[0_1px_0_0_rgba(0,0,0,0.02)]">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#25D366]" />
-            {t("video.kicker")}
-          </div>
+          <SectionEyebrow>{t("video.kicker")}</SectionEyebrow>
           <PageHeading className="mt-6" lead={t("video.lead")} accent={t("video.accent")} />
           <p className="mt-4 max-w-[520px] text-[15px] leading-[1.6] text-[#7A6B59]">{t("video.copy")}</p>
           {freeStillOpen ? (

@@ -1,6 +1,6 @@
 "use client";
 
-import { SectionHeading } from "@/components/home/SectionHeading";
+import { SectionEyebrow, SectionHeading } from "@/components/home/SectionHeading";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { stripHtml } from "@/lib/html";
 import { liveCatalogPhoto } from "@/lib/catalogImages";
@@ -42,10 +42,7 @@ export function PoojaVendorsSection({
     <section id="pooja-temples" className={embed ? "scroll-mt-28 space-y-4" : "scroll-mt-28 space-y-8"}>
       {embed ? (
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="h-[2px] w-8 bg-primary" />
-            <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Pooja temples</span>
-          </div>
+          <SectionEyebrow>Pooja temples</SectionEyebrow>
           <p className="text-sm leading-relaxed text-on-surface-variant">
             Pooja can be arranged through various temples. Choose a temple in the booking form for an online or offline ritual.
           </p>

@@ -1,5 +1,4 @@
-import { ConchIcon } from "@/components/icons/ConchIcon";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 
 export function Eyebrow({
   children,
@@ -8,17 +7,7 @@ export function Eyebrow({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <div
-      className={`inline-flex items-center gap-2 rounded-full bg-surface-high/70 px-4 py-1.5 shadow-[0_0_25px_rgba(72,41,179,0.3)] backdrop-blur-md ${className}`}
-    >
-      <span className="text-primary">
-        <ConchIcon className="h-3 w-3" />
-      </span>
-      <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">{children}</span>
-      <span className="text-xs text-secondary">☉</span>
-    </div>
-  );
+  return <SectionEyebrow className={className}>{children}</SectionEyebrow>;
 }
 
 export function PageHero({

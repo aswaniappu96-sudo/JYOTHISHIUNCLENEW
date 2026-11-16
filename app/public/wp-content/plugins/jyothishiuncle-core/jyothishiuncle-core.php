@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JU_CORE_VERSION', '0.8.6' );
+define( 'JU_CORE_VERSION', '0.8.8' );
 define( 'JU_CORE_FILE', __FILE__ );
 define( 'JU_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'JU_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -70,6 +70,11 @@ function ju_core_deactivate() {
 	flush_rewrite_rules();
 }
 
+add_action( 'init', array( 'JU_I18n', 'migrate_slide_three' ) );
+add_action( 'init', array( 'JU_Settings', 'repair_hero_slides' ) );
+add_action( 'init', array( 'JU_REST', 'sync_astrologer_slugs' ), 40 );
+add_action( 'init', array( 'JU_REST', 'remove_restored_sample_astrologers' ), 41 );
+add_filter( 'wp_insert_post_data', array( 'JU_REST', 'astrologer_slug_from_title' ), 20, 2 );
 add_action( 'init', array( 'JU_Roles', 'register' ) );
 add_action( 'init', array( 'JU_Post_Types', 'register' ) );
 add_action( 'init', array( 'JU_Post_Types', 'seed_categories' ), 20 );

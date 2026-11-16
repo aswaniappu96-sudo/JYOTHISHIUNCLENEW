@@ -197,7 +197,7 @@ export function ServicesView({
             {visiblePoojas.length ? (
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {visiblePoojas.map((pooja) => (
-                  <PoojaCard key={pooja.id} pooja={pooja} />
+                  <PoojaCard key={pooja.id} pooja={pooja} whatsappNumber={whatsappNumber} />
                 ))}
               </div>
             ) : (
@@ -218,8 +218,8 @@ export function ServicesView({
           <div className="mx-auto max-w-7xl">
             <div className="mb-8">
               <div className="mb-1 flex items-center gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-secondary">02 / Sacred products</span>
-                <span className="h-px w-12 bg-secondary/40" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">02 / Sacred products</span>
+                <span className="h-px w-12 bg-primary/40" />
               </div>
               <PageHeading title="Sacred Planetary Products & Talismans" />
               <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">

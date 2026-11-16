@@ -3,7 +3,7 @@
 import { Fragment, Suspense, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { TalkAstrologerCard } from "@/components/pages/TalkAstrologerCard";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
@@ -133,15 +133,7 @@ function AstrologerTalkBoardInner({
       <div className={SECTION_INNER}>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#e5c378]/55 bg-white px-3 py-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600" />
-              </span>
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#1A1106]/70">
-                {t("online.now", { n: views.filter((item) => item.online).length || views.length })}
-              </span>
-            </div>
+            <SectionEyebrow>{t("online.now", { n: views.filter((item) => item.online).length || views.length })}</SectionEyebrow>
             <PageHeading
               as={headingAs}
               className="mt-5"
@@ -232,7 +224,7 @@ function AstrologerTalkBoardInner({
                 key={line}
                 className="inline-flex items-center gap-1.5 rounded-full border border-[#e5c378]/55 bg-white px-3 py-1.5 text-[12px] font-semibold text-[#1A1106]/70"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#9A6F3A]" />
                 {line}
               </span>
             ))}

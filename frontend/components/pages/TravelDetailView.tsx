@@ -291,7 +291,7 @@ export function TravelDetailView({
           <h2 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">More temple journeys</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {nearby.map((item) => (
-              <TravelCard key={item.id} travel={item} whatsappNumber={whatsapp} />
+              <TravelCard key={item.id} travel={item} whatsappNumber={whatsapp} phone={phone} />
             ))}
           </div>
         </section>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripHtml, stripPublicPrices } from "@/lib/html";
@@ -93,10 +93,7 @@ export function BlogSection({
       <div className={INNER}>
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[640px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-4 py-1.5 text-[10px] font-medium tracking-[0.18em] text-[#8A6A3A] shadow-[0_1px_0_0_#F5E8C6]">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#B87E3B]" />
-              {t("articles.kicker")}
-            </div>
+            <SectionEyebrow>{t("articles.kicker")}</SectionEyebrow>
             <PageHeading className="mt-6" lead={t("articles.lead")} accent={t("articles.accent")} />
             <p className="mt-4 max-w-[520px] text-[15px] leading-[1.6] text-[#6B5E53] md:text-[16px]">
               {t("articles.copy")}{" "}

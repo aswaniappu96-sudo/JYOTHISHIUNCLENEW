@@ -189,6 +189,34 @@ function ToolsGlyph({ open }: { open: boolean }) {
   );
 }
 
+function ToolCluster({ open, onToggle }: { open: boolean; onToggle?: () => void }) {
+  return (
+    <>
+      {open ? (
+        <>
+          <LanguageSwitch />
+          <ThemeToggle />
+          <MobileSearchDock className="" />
+        </>
+      ) : null}
+      <button
+        type="button"
+        suppressHydrationWarning
+        onClick={onToggle}
+        className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-full text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] transition hover:scale-105 ${
+          open
+            ? "bg-surface-lowest ring-1 ring-outline-variant hover:bg-surface-low"
+            : "bg-[#E8D9C4] p-0 ring-0"
+        }`}
+        aria-expanded={open}
+        aria-label={open ? "Hide tools" : "Language, theme and search"}
+      >
+        <ToolsGlyph open={open} />
+      </button>
+    </>
+  );
+}
+
 export function PrefsDock() {
   const [expanded, setExpanded] = useState(false);
   const [away, setAway] = useState(false);
@@ -214,33 +242,29 @@ export function PrefsDock() {
         away ? "pointer-events-none translate-x-3 opacity-0 md:pointer-events-auto md:translate-x-0 md:opacity-100" : "opacity-100"
       }`}
     >
-      <div className="hidden flex-col items-end gap-2 md:flex">
-        <LanguageSwitch />
-        <ThemeToggle />
-      </div>
-
-      <div className="flex flex-col items-end gap-2 md:hidden">
-        {expanded ? (
-          <>
-            <LanguageSwitch />
-            <ThemeToggle />
-            <MobileSearchDock />
-          </>
-        ) : null}
+      <div className="group hidden flex-col items-end gap-2 md:flex">
+        <div className="hidden flex-col items-end gap-2 group-hover:flex group-focus-within:flex">
+          <LanguageSwitch />
+          <ThemeToggle />
+          <MobileSearchDock className="" />
+        </div>
         <button
           type="button"
           suppressHydrationWarning
-          onClick={() => setExpanded((value) => !value)}
-          className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-full text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] transition hover:scale-105 ${
-            expanded
-              ? "bg-surface-lowest ring-1 ring-outline-variant hover:bg-surface-low"
-              : "bg-[#E8D9C4] p-0 ring-0"
-          }`}
-          aria-expanded={expanded}
-          aria-label={expanded ? "Hide tools" : "Language, theme and search"}
+          className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#E8D9C4] p-0 text-primary shadow-[0_8px_24px_rgba(8,4,0,0.18)] transition hover:scale-105 group-hover:bg-surface-lowest group-hover:ring-1 group-hover:ring-outline-variant group-focus-within:bg-surface-lowest group-focus-within:ring-1 group-focus-within:ring-outline-variant"
+          aria-label="Language, theme and search"
         >
-          <ToolsGlyph open={expanded} />
+          <span className="flex h-full w-full group-hover:hidden group-focus-within:hidden">
+            <ToolsGlyph open={false} />
+          </span>
+          <span className="hidden group-hover:flex group-focus-within:flex">
+            <ToolsGlyph open />
+          </span>
         </button>
+      </div>
+
+      <div className="flex flex-col items-end gap-2 md:hidden">
+        <ToolCluster open={expanded} onToggle={() => setExpanded((value) => !value)} />
       </div>
     </div>
   );

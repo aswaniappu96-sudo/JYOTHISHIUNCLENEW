@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, type MouseEvent } from "react";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripPublicPrices } from "@/lib/html";
 import { imageSrc } from "@/lib/media";
@@ -111,12 +111,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
       <div className={INNER}>
         <div className="mb-10 flex flex-col gap-8 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[720px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#EAD9B0] bg-white px-3.5 py-1.5 shadow-[0_1px_0_#EAD9B0]">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#1FA971]" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8C6F3A] md:text-[11px]">
-                {t("review.kicker")}
-              </span>
-            </div>
+            <SectionEyebrow>{t("review.kicker")}</SectionEyebrow>
             <PageHeading className="mt-5" lead={t("review.lead")} accent={t("review.accent")} />
             <p className="mt-4 max-w-[560px] text-[15px] leading-6 text-[#7C6E5C] md:text-[16px]">{t("review.copy")}</p>
           </div>

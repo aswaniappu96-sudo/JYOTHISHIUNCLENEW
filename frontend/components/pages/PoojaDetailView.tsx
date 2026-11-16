@@ -243,7 +243,7 @@ export function PoojaDetailView({
           <div className="mx-auto mt-12 grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-3">
             {relatedPoojas.slice(0, 3).map((item, index) => (
               <Reveal key={item.id} delay={index * 0.08}>
-                <PoojaCard pooja={item} />
+                <PoojaCard pooja={item} whatsappNumber={settings.whatsapp_number} />
               </Reveal>
             ))}
           </div>

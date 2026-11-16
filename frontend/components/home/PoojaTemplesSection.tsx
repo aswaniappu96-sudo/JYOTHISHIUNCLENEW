@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { BookPoojaButton } from "@/components/booking/BookPoojaButton";
+import { HeadingHighlight } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripHtml, telHref } from "@/lib/html";
 import { useLocalizedList } from "@/lib/localized";
@@ -125,7 +126,7 @@ export function PoojaTemplesSection({
       <aside className="flex h-full min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#EAD9B0] bg-[#FFFBF0] p-4 shadow-[0_8px_24px_-16px_rgba(184,126,59,0.22)] md:p-5">
         <p className="text-[10px] font-semibold tracking-[0.16em] text-[#9A7A4A] uppercase">{t("articles.templeKicker")}</p>
         <h3 className="mt-1.5 font-serif text-[22px] font-medium leading-[1.2] tracking-[-0.02em] text-[#1A1106]">
-          {t("articles.templeLead")} <span className="italic text-[#9A6F3A]">{t("articles.templeAccent")}</span>
+          {t("articles.templeLead")} <HeadingHighlight>{t("articles.templeAccent")}</HeadingHighlight>
         </h3>
         <p className="mt-2 text-[13px] leading-[1.55] text-[#6B5E53]">{t("articles.templeCopy")}</p>
         <ul className="mt-3 space-y-1.5">

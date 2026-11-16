@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { usePortal } from "@/components/portal/PortalProvider";
 import { htmlListItems, stripHtml, stripPublicPrices } from "@/lib/html";
@@ -183,10 +183,7 @@ export function TravelSection({
       <div className={INNER}>
         <div className="mb-12 flex flex-col gap-8 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[640px]">
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#EAD9B0] bg-white px-3.5 py-1.5 shadow-[0_1px_0_0_#EAD9B0]">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#B87E3B]" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#6B5A42] md:text-[11px]">{t("yatra.badge")}</span>
-            </div>
+            <SectionEyebrow>{t("yatra.badge")}</SectionEyebrow>
             <PageHeading className="mt-6" lead={t("yatra.lead")} accent={t("yatra.accent")} />
             <p className="mt-4 text-[15px] leading-[1.6] text-[#7A6B5A]">{t("yatra.copy")}</p>
           </div>

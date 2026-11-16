@@ -1,16 +1,72 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { CmsHtml } from "@/components/brand/CmsHtml";
 import { CategoryDesk } from "@/components/home/CategoryDesk";
 import { EnquiryForm } from "@/components/home/EnquiryForm";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
-import { EnquireButton } from "@/components/portal/EnquireButton";
 import { useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
-import { POOJAS_PATH } from "@/lib/siteRoutes";
+import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 import type { Pooja, Product, SiteSettings, TravelDestination, WPPage } from "@/types/wordpress";
+
+const BOOKINGS = [
+  { href: POOJAS_PATH, label: "Book Homam" },
+  { href: PRODUCTS_PATH, label: "Book Product" },
+  { href: "/religious-travel", label: "Book Yatra" },
+];
+
+function BookingMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: MouseEvent) => {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="menu"
+        onClick={() => setOpen((value) => !value)}
+        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-primary/30 bg-transparent px-4 py-2.5 text-sm font-medium text-primary transition hover:bg-surface-highest"
+      >
+        Book Homam
+        <span aria-hidden className={`text-[10px] leading-none transition ${open ? "rotate-180" : ""}`}>
+          ▾
+        </span>
+      </button>
+      {open ? (
+        <div role="menu" className="absolute right-0 z-30 mt-2 min-w-[190px] overflow-hidden rounded-xl border border-[#EAD9B0] bg-white py-1 shadow-lg">
+          {BOOKINGS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="block px-4 py-2.5 text-sm font-medium text-[#6b4a12] transition hover:bg-[#FFF8EC]"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function scrollToEnquiry() {
+  document.getElementById("enquiry")?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 const HAVAN =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuD6vwXvFwWTl9DdS3WxNvBSUNcIq6C6i6dhEa_1z0cFOCVTTLJG1Xdie6yvU5L2WxrCDLl0CCy6RsPz3eNnxp5jbzC2M2agr3IVSKjmfCcN3o-yWaQrD65hSaAkUZUON_PcaLxxGl_hWePN8PLOmD2ctMU-ZeXKZJzc_bab6ctXeOWugx9VrzHBJbJG6KbKc20RtYJyDJuLYP7RAcbbpm7-cwgWgAAQFqHLC4LQha31E-Bl1oKszKBCnw";
@@ -38,16 +94,13 @@ export function ContactView({
 
   return (
     <div>
-      <section className="relative overflow-hidden px-4 py-10 md:px-12">
-        <div className="pointer-events-none absolute -top-40 left-1/4 h-96 w-96 rounded-full bg-primary/10 blur-[130px]" />
+      <section className="relative px-4 py-10 md:px-12">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div className="absolute -top-40 left-1/4 h-96 w-96 rounded-full bg-primary/10 blur-[130px]" />
+        </div>
         <div className="mx-auto mb-12 flex max-w-7xl flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full bg-surface-high/80 px-3.5 py-1 backdrop-blur-md">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
-                {loc?.eyebrow || "Sacred Portals & Ritual Access"}
-              </span>
-            </div>
+            <SectionEyebrow>{loc?.eyebrow || "Sacred Portals & Ritual Access"}</SectionEyebrow>
             <PageHeading as="h1" tone="ink" title={customTitle || "Sacred Forms & Booking Portals"} />
             <p className="max-w-2xl text-base text-on-surface-variant">
               {loc?.hero_copy ||
@@ -61,18 +114,17 @@ export function ContactView({
             ) : null}
           </div>
           <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-surface-low/90 p-2 shadow-xl backdrop-blur-xl">
-            <BookConsultationButton className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-on-primary">
+            <BookConsultationButton className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-[#FFF8EC]">
               Launch Consultation Portal
             </BookConsultationButton>
-            <Link
-              href={POOJAS_PATH}
-              className="inline-flex items-center justify-center rounded-xl border border-primary/30 bg-transparent px-4 py-2.5 text-sm font-medium text-primary transition hover:bg-surface-highest"
+            <BookingMenu />
+            <button
+              type="button"
+              onClick={scrollToEnquiry}
+              className="inline-flex items-center rounded-xl bg-surface-high px-4 py-2.5 text-sm font-medium text-primary"
             >
-              Book Homam
-            </Link>
-            <EnquireButton className="inline-flex items-center rounded-xl bg-surface-high px-4 py-2.5 text-sm font-medium text-primary" subject="General Shastric Enquiry">
               Open Enquiry
-            </EnquireButton>
+            </button>
           </div>
         </div>
         {cmsHtml ? <CmsHtml className="prose-ju mx-auto mb-8 max-w-3xl" html={cmsHtml} /> : null}

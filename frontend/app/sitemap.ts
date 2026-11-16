@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { astrologerNameSlug } from "@/lib/astrologer-display";
 import {
   getArticles,
   getAstrologers,
@@ -35,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticRoutes,
-    ...astrologers.map((item) => ({ url: `${base}/astrologers/${item.slug}` })),
+    ...astrologers.map((item) => ({ url: `${base}/astrologers/${astrologerNameSlug(item.title, item.slug)}` })),
     ...poojas.map((item) => ({ url: `${base}/pooja/${item.slug}` })),
     ...products.map((item) => ({ url: `${base}/product/${item.slug}` })),
     ...travel.map((item) => ({ url: `${base}/religious-travel/${item.slug}` })),

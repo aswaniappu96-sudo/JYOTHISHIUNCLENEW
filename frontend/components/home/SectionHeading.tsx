@@ -1,12 +1,20 @@
+import type { ReactNode } from "react";
 import { BrandMark, BrandText } from "@/components/brand/BrandText";
 import { isBrandName } from "@/lib/brand";
-import { KICKER, LEAD, PAGE_ACCENT, PAGE_TITLE_GOLD, PAGE_TITLE_SHAPE, splitHeading } from "@/lib/layout";
+import { LEAD, PAGE_ACCENT, PAGE_TITLE_GOLD, PAGE_TITLE_SHAPE, splitHeading } from "@/lib/layout";
 
-export function SectionChip({ children }: { children: string }) {
+export function HeadingHighlight({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <span className={`${PAGE_ACCENT} ${className}`.trim()}>{children}</span>;
+}
+
+export function SectionEyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <span className="inline-flex items-center justify-center rounded-full bg-primary-container px-5 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-on-primary shadow-[0_8px_22px_rgba(201,162,39,0.35)]">
-      {children}
-    </span>
+    <p className={`inline-flex items-center gap-2.5 ${className}`.trim()}>
+      <svg viewBox="0 0 24 24" className="h-3 w-3 shrink-0 text-[#C4A227]" fill="currentColor" aria-hidden>
+        <path d="M12 1.6 13.7 9 21 12l-7.3 3L12 22.4 10.3 15 3 12l7.3-3L12 1.6Z" />
+      </svg>
+      <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9A6F3A]">{children}</span>
+    </p>
   );
 }
 
@@ -37,9 +45,8 @@ export function PageHeading({
       {parts.accent ? (
         <>
           {parts.lead ? " " : null}
-          <span className={brandAccent ? "relative inline-block" : `${PAGE_ACCENT} relative inline-block`}>
-            <span className="relative z-10">{brandAccent ? <BrandMark /> : <BrandText>{parts.accent}</BrandText>}</span>
-            {brandAccent ? null : <span aria-hidden className="heading-glisten" />}
+          <span className={PAGE_ACCENT}>
+            {brandAccent ? <BrandMark /> : <BrandText>{parts.accent}</BrandText>}
           </span>
         </>
       ) : null}
@@ -73,7 +80,6 @@ export function SectionHeading({
   lead,
   accent,
   copy,
-  badge,
   align = "center",
 }: {
   eyebrow: string;
@@ -86,13 +92,8 @@ export function SectionHeading({
 }) {
   return (
     <div className={align === "center" ? "mx-auto max-w-4xl text-center" : "max-w-4xl"}>
-      <p className={KICKER}>{eyebrow}</p>
+      <SectionEyebrow className={align === "center" ? "justify-center" : ""}>{eyebrow}</SectionEyebrow>
       <TwoToneHeading title={title} lead={lead} accent={accent} className="mt-1" />
-      {badge ? (
-        <div className={align === "center" ? "mt-4 flex justify-center" : "mt-4"}>
-          <SectionChip>{badge}</SectionChip>
-        </div>
-      ) : null}
       {copy ? <p className={`${LEAD} mx-auto mt-3 ${align === "center" ? "" : "mx-0"}`}>{copy}</p> : null}
     </div>
   );

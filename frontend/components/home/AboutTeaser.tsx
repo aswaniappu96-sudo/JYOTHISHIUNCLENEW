@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BrandText } from "@/components/brand/BrandText";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { HeadingHighlight, PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripHtml, stripPublicPrices, telHref } from "@/lib/html";
 import type { MsgKey } from "@/lib/i18n";
@@ -296,10 +296,7 @@ export function PopularGuidanceSection({
     <>
       <div className="mt-8 grid grid-cols-1 items-stretch gap-8 md:mt-10 lg:grid-cols-[1.22fr_0.88fr] lg:gap-10">
         <div>
-          <div className="mb-7 flex items-center gap-3 md:mb-8">
-            <span className="inline-block h-px w-8 bg-[#E9C07A]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("pop.kicker")}</span>
-          </div>
+          <SectionEyebrow className="mb-7 md:mb-8">{t("pop.kicker")}</SectionEyebrow>
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 md:gap-y-7 lg:pr-8">
             {POPULAR.map((item) => {
               const Icon = item.icon;
@@ -385,12 +382,9 @@ export function PopularGuidanceSection({
             <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E9C07A]/60 to-transparent" />
             <div className="absolute right-0 top-0 h-[220px] w-[220px] rounded-full opacity-60 blur-[42px]" style={{ background: "radial-gradient(circle, rgba(232,223,245,0.45) 0%, transparent 70%)" }} />
             <div className="relative flex flex-1 flex-col p-6 md:p-7">
-              <div className="mb-3 flex items-center gap-3">
-                <span className="inline-block h-px w-8 bg-[#E9C07A]" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("how.kicker")}</span>
-              </div>
+              <SectionEyebrow className="mb-3">{t("how.kicker")}</SectionEyebrow>
               <h3 className="font-serif text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[#1A1106] sm:text-[28px]">
-                {t("how.lead")} <span className="italic text-[#9A6F3A]">{t("how.accent")}</span>
+                {t("how.lead")} <HeadingHighlight>{t("how.accent")}</HeadingHighlight>
               </h3>
 
               <ol className="relative mt-5 space-y-4">
@@ -528,10 +522,7 @@ export function AboutTeaser({
       <div className={INNER}>
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 xl:gap-16">
           <div className="relative max-w-[600px]">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="inline-block h-px w-8 bg-[#E9C07A]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9C8360]">{t("about.kicker")}</span>
-            </div>
+            <SectionEyebrow className="mb-6">{t("about.kicker")}</SectionEyebrow>
 
             <PageHeading lead={t("about.lead")} accent={t("about.accent")} rest={t("about.rest")} />
 
