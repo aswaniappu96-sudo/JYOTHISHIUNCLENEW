@@ -7,6 +7,12 @@ const getInflight = new Map<string, Promise<unknown>>();
 
 function wordpressOrigin() {
   const fromEnv = process.env.WORDPRESS_URL?.replace(/\/$/, "");
+  const retired =
+    !fromEnv ||
+    isLocalHost(fromEnv) ||
+    fromEnv === FALLBACK_WP_URL ||
+    fromEnv === "https://jyothishiuncle.ct.ws";
+  if (process.env.VERCEL && retired) return PRODUCTION_WP_URL;
   if (fromEnv) return fromEnv;
   if (process.env.VERCEL) return PRODUCTION_WP_URL;
   return DEFAULT_WP_URL;
