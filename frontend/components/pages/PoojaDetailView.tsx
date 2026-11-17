@@ -20,29 +20,6 @@ import type { Pooja, SiteSettings, Vendor } from "@/types/wordpress";
 const FALLBACK =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAbWL3okzkn5bZg1MCUYym3qKo4bQQTQPlPXLbT6d1x9RWPa5sTlCq_b_-f1erDJfDWDoMb6vptFclDzhHSyqVP9IaAVKzvsBJUumDsI6J5F1JBb1Wlq1rSAXVErXWkSf0ME7OgwEkXDS_V2m3wHTS9IqaLyafkga0XEEdmfPuLA5igFfy5OWiYvTsIGHlMA5HIboICnaxpUx4bSUoZF6K6v9b43IdxK9WDFvLW7rYYgeofbUUKoRVQ-w";
 
-const PHASES = [
-  {
-    label: "Phase 01 · Enquiry",
-    title: "Share the sankalpa",
-    copy: "Send the name, preferred date, and any family notes. We read this before confirming the ritual.",
-  },
-  {
-    label: "Phase 02 · Confirmation",
-    title: "We confirm privately",
-    copy: "Timing, priest notes, and dakshina are shared on WhatsApp or email. Nothing is billed on this page.",
-  },
-  {
-    label: "Phase 03 · Ritual",
-    title: "Pooja is performed",
-    copy: "The homam or pooja is offered as discussed, with your sankalpa held by the priests.",
-  },
-  {
-    label: "Phase 04 · Follow-up",
-    title: "Notes after the offering",
-    copy: "We share confirmation and any prasad or next-step guidance that was arranged with you.",
-  },
-];
-
 export function PoojaDetailView({
   pooja: raw,
   settings,
@@ -219,23 +196,6 @@ export function PoojaDetailView({
           <PoojaTemplesSection vendors={vendors} poojas={[pooja, ...relatedPoojas]} phone={settings.phone_number} />
         </div>
       ) : null}
-
-      <div className="mx-auto mt-12 w-full max-w-7xl space-y-4 rounded-3xl bg-surface-low p-6 shadow-2xl md:px-12 md:p-8">
-        <div className="mx-auto max-w-2xl space-y-1 text-center">
-          <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">How it is arranged</p>
-          <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">From enquiry to offering</h2>
-          <p className="text-sm text-on-surface-variant">A simple path — no checkout, no public price list.</p>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          {PHASES.map((phase) => (
-            <div key={phase.label} className="flex flex-col space-y-2 rounded-2xl bg-surface-container p-4 shadow-md">
-              <span className="text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">{phase.label}</span>
-              <p className="font-semibold text-primary">{phase.title}</p>
-              <p className="text-sm leading-relaxed text-on-surface-variant">{phase.copy}</p>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {relatedPoojas.length ? (
         <section className="mx-auto mt-12 w-full max-w-7xl px-4 md:px-12">
