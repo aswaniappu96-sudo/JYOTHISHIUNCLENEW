@@ -220,7 +220,7 @@ export function PoojaDetailView({
             Reserve this consecrated pooja
           </h2>
           <p className="max-w-2xl text-base leading-relaxed text-on-surface-variant">
-            Share your details and we will confirm the ritual privately. Prices are never listed on the website.
+            Share your details and we will confirm the ritual privately. Connect for more details.
           </p>
         </div>
         <div className="relative z-10 flex flex-wrap items-center justify-center gap-3 pt-2">

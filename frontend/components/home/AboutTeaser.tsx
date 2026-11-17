@@ -669,7 +669,7 @@ export function AboutTeaser({
                       </div>
                     </div>
 
-                    <div className="absolute -right-1 top-14 rounded-[14px] border border-[#EAD9B0] bg-white px-3 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+                    <div className="absolute -right-3 bottom-16 z-10 rounded-[14px] border border-[#EAD9B0] bg-white px-3 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
                       <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9C8360]">{t("about.worldwide")}</div>
                       <div className="grid grid-cols-5 gap-[4px]">
                         {Array.from({ length: 15 }).map((_, n) => (
