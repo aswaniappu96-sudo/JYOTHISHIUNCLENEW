@@ -45,7 +45,6 @@ export function CatalogFilterBar({
           {groups.map((chip) => (
             <button key={chip.id} type="button" aria-pressed={groupId === chip.id} onClick={() => onGroup(chip.id)} className={chipClass(groupId === chip.id)}>
               {chip.label}
-              <span className="ml-1.5 text-[11px] font-bold opacity-80">{chip.count}</span>
             </button>
           ))}
         </div>
@@ -60,7 +59,6 @@ export function CatalogFilterBar({
             .map((chip) => (
               <button key={chip.id} type="button" aria-pressed={stockId === chip.id} onClick={() => onStock(chip.id)} className={chipClass(stockId === chip.id)}>
                 {chip.label}
-                <span className="ml-1.5 text-[11px] font-bold opacity-80">{chip.count}</span>
               </button>
             ))}
         </div>
