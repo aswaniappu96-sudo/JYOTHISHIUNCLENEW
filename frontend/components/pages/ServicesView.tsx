@@ -158,11 +158,11 @@ export function ServicesView({
             </span>
             <span className="text-outline-variant">|</span>
             <span>
-              PRIESTHOOD: <span className="text-on-surface">Traditional Vedic priesthood</span>
+              PRIESTHOOD: <span className="text-on-surface">Gurukula-Trained Acharyas</span>
             </span>
             <span className="text-outline-variant">|</span>
             <span>
-              SANKALPA GUARANTEE: <span className="text-on-surface">100% Individualized</span>
+              SANKALPA: <span className="text-on-surface">100% Personalized to Your Name & Gotra</span>
             </span>
           </div>
         </div>
