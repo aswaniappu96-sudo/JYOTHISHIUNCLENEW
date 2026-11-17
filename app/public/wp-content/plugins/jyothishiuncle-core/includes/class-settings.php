@@ -46,8 +46,38 @@ class JU_Settings {
 			'hero_slide_1_id'           => '0',
 			'hero_slide_2_id'           => '0',
 			'hero_slide_3_id'           => '0',
+			'hero_astro_1_id'           => '0',
+			'hero_astro_2_id'           => '0',
+			'hero_astro_3_id'           => '0',
+			'hero_astro_4_id'           => '0',
 			'about_teaser_image_id'     => '0',
+			'guidance_image_id'         => '0',
+			'join_image_id'             => '0',
+			'cta_image_id'              => '0',
 		);
+	}
+
+	/** Image attachment keys shared across languages (not translated). */
+	public static function image_keys() {
+		return array(
+			'logo_id',
+			'hero_image_id',
+			'hero_slide_1_id',
+			'hero_slide_2_id',
+			'hero_slide_3_id',
+			'hero_astro_1_id',
+			'hero_astro_2_id',
+			'hero_astro_3_id',
+			'hero_astro_4_id',
+			'about_teaser_image_id',
+			'guidance_image_id',
+			'join_image_id',
+			'cta_image_id',
+		);
+	}
+
+	public static function render_media_field( $key, $value, $help ) {
+		self::media_field( $key, $value, $help );
 	}
 
 	public static function repair_hero_slides() {
@@ -315,7 +345,7 @@ class JU_Settings {
 
 		$out['whatsapp_number'] = preg_replace( '/\D+/', '', $out['whatsapp_number'] );
 
-		foreach ( array( 'logo_id', 'hero_image_id', 'hero_slide_1_id', 'hero_slide_2_id', 'hero_slide_3_id', 'about_teaser_image_id' ) as $image_key ) {
+		foreach ( self::image_keys() as $image_key ) {
 			$out[ $image_key ] = self::image_id_from_input( $input, $current, $image_key );
 		}
 
@@ -347,27 +377,10 @@ class JU_Settings {
 		?>
 		<div class="wrap ju-settings-wrap">
 			<h1>Home page</h1>
-			<p>Edit the <strong>banner slider</strong> and each <strong>home section</strong> here. Astrologer, pooja, product, yatra, review, and article cards stay in their own menus. See <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-how-to-edit' ) ); ?>">How to edit</a>.</p>
+			<p>Each <strong>section tab</strong> below is one block on the homepage. Pick a language, then a section, edit the text and photos, then click <strong>Save home page</strong>. Astrologer, pooja, product, yatra, review, and article <em>cards</em> stay in their own left-menu lists. See <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-how-to-edit' ) ); ?>">How to edit</a>.</p>
 
 			<form method="post" action="options.php">
 				<?php settings_fields( 'ju_site_settings_group' ); ?>
-
-				<h2>Banner slider images</h2>
-				<p>Three photos, in order. Leave a photo empty to keep the picture already on the website.</p>
-				<table class="form-table" role="presentation">
-					<tr>
-						<th scope="row">Slide 1 — Astrology consultation</th>
-						<td><?php self::media_field( 'hero_slide_1_id', $s['hero_slide_1_id'], 'This is the first photo visitors see. Leave it empty and the website keeps its built-in picture. Click Save home page at the bottom, then refresh the site.' ); ?></td>
-					</tr>
-					<tr>
-						<th scope="row">Slide 2 — Homam, poojas and remedies</th>
-						<td><?php self::media_field( 'hero_slide_2_id', $s['hero_slide_2_id'], 'Wide photo behind the second banner.' ); ?></td>
-					</tr>
-					<tr>
-						<th scope="row">Slide 3 — Temple yatra</th>
-						<td><?php self::media_field( 'hero_slide_3_id', $s['hero_slide_3_id'], 'Wide photo behind the third banner. Choose the image, then click Save home page.' ); ?></td>
-					</tr>
-				</table>
 
 				<?php JU_I18n::render_home_tabs(); ?>
 
@@ -403,8 +416,8 @@ class JU_Settings {
 					</tr>
 				</table>
 
-				<h2>Homepage photos</h2>
-				<p>Upload images from the Media Library. These replace the design placeholders on the public homepage.</p>
+				<h2>Site logo</h2>
+				<p>Section photos (banner, about, guidance, join, closing) are inside the section tabs above. Leave a photo empty to keep the built-in website picture.</p>
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row">Logo</th>
@@ -412,11 +425,7 @@ class JU_Settings {
 					</tr>
 					<tr>
 						<th scope="row">Extra hero photo</th>
-						<td><?php self::media_field( 'hero_image_id', $s['hero_image_id'], 'Not the banner slider. Use the three slide photos above for the homepage banner.' ); ?></td>
-					</tr>
-					<tr>
-						<th scope="row">About teaser photo</th>
-						<td><?php self::media_field( 'about_teaser_image_id', $s['about_teaser_image_id'], 'Photo in the homepage Living Vedic Heritage section. If empty, the About page featured image is used.' ); ?></td>
+						<td><?php self::media_field( 'hero_image_id', $s['hero_image_id'], 'Optional spare photo. Banner slides are edited in sections 1–3.' ); ?></td>
 					</tr>
 				</table>
 

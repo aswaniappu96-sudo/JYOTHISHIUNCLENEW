@@ -5,9 +5,11 @@ import Link from "next/link";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { type GuidanceTopicId } from "@/lib/astrologer-display";
+import { imageSrc } from "@/lib/media";
 import { popularAccordionHref } from "@/lib/siteServices";
 import { SECTION_INNER } from "@/lib/layout";
 import type { MsgKey } from "@/lib/i18n";
+import type { WPImage } from "@/types/wordpress";
 
 function ArrowGlyph() {
   return (
@@ -150,14 +152,16 @@ function LotusIcon() {
   );
 }
 
-function GuidanceArt() {
+const GUIDANCE_FALLBACK = "/images/home-guidance.jpg";
+
+function GuidanceArt({ src }: { src: string }) {
   return (
     <div className="relative mx-auto h-[200px] w-[200px] sm:h-[320px] sm:w-[320px] lg:mx-0 lg:h-[380px] lg:w-[380px]">
       <div className="ju-sand-ripple pointer-events-none absolute left-1/2 top-1/2 h-full w-full rounded-full border border-[#E9C686]" />
       <div className="ju-sand-ripple ju-sand-ripple-delay pointer-events-none absolute left-1/2 top-1/2 h-full w-full rounded-full border border-[#E9C686]" />
       <div className="ju-sand-shadow pointer-events-none absolute bottom-[-10px] left-1/2 z-[1] h-[18px] w-[60%] rounded-full bg-[radial-gradient(ellipse,rgba(61,44,30,0.25)_0%,transparent_70%)] blur-[4px]" />
       <div className="ju-sand-float relative z-[2] h-full w-full overflow-hidden rounded-full border-2 border-[#E9C686] shadow-[0_20px_60px_rgba(61,44,30,0.15),0_0_0_8px_rgba(255,251,240,0.8),0_0_40px_rgba(233,198,134,0.4)]">
-        <img src="/images/home-guidance.jpg" alt="Homam performed at the temple" className="h-full w-full object-cover object-[62%_42%]" />
+        <img src={src} alt="Homam performed at the temple" className="h-full w-full object-cover object-[62%_42%]" />
       </div>
     </div>
   );
@@ -192,8 +196,9 @@ const TRUST = [
   { key: "consult.trustQuick" as const, icon: ClockIcon },
 ];
 
-export function AstrologyConsultingSection() {
+export function AstrologyConsultingSection({ image }: { image?: WPImage } = {}) {
   const { t } = usePrefs();
+  const artSrc = imageSrc(image, GUIDANCE_FALLBACK);
 
   return (
     <section id="all-services" className="relative w-full overflow-hidden scroll-mt-36 py-10 sm:py-14 lg:py-16">
@@ -236,7 +241,7 @@ export function AstrologyConsultingSection() {
           </div>
 
           <div className="relative flex flex-col items-center lg:items-end xl:pr-[148px]">
-            <GuidanceArt />
+            <GuidanceArt src={artSrc} />
             <p className="mt-3 max-w-[220px] text-center font-serif text-[15px] italic leading-snug text-[#9A6F3A] xl:absolute xl:right-0 xl:top-[18%] xl:mt-0 xl:max-w-[148px] xl:text-right">
               {t("consult.quote")}
             </p>

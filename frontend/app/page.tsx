@@ -22,20 +22,22 @@ export default async function HomePage() {
   return (
     <div>
       <Hero
+        astrologers={data.astrologers || []}
         services={data.services || []}
         phone={data.settings.phone_number}
         whatsapp={data.settings.whatsapp_number}
         slides={data.settings.hero_slides}
+        astroSlides={data.settings.hero_astro_slides}
       />
       <div className="relative z-10">
         <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />
-        <AstrologyConsultingSection />
+        <AstrologyConsultingSection image={data.settings.guidance_image} />
         <AstrologersSection
           astrologers={data.astrologers || []}
           phone={data.settings.phone_number}
           whatsapp={data.settings.whatsapp_number}
         />
-        <BecomeAstrologerSection />
+        <BecomeAstrologerSection image={data.settings.join_image} />
         <DailyHoroscope phone={data.settings.phone_number} whatsapp={data.settings.whatsapp_number} />
         <ConsultationSection settings={data.settings} services={data.services || []} />
         <PoojaSection poojas={data.poojas} vendors={data.vendors || []} whatsappNumber={data.settings.whatsapp_number} />
@@ -48,6 +50,7 @@ export default async function HomePage() {
           whatsappNumber={data.settings.whatsapp_number}
           phone={data.settings.phone_number}
           address={data.settings.address}
+          image={data.settings.cta_image}
         />
       </div>
     </div>

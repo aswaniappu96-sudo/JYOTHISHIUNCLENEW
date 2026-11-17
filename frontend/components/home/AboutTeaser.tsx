@@ -9,6 +9,7 @@ import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { stripHtml, stripPublicPrices, telHref } from "@/lib/html";
 import type { MsgKey } from "@/lib/i18n";
 import { usableWhatsapp } from "@/components/layout/SitePrefs";
+import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { WPImage } from "@/types/wordpress";
 
@@ -467,7 +468,7 @@ export function PopularGuidanceSection({
 
 export function AboutTeaser({
   excerpt,
-  image: _image,
+  image,
 }: {
   excerpt?: string;
   image?: WPImage;
@@ -475,6 +476,7 @@ export function AboutTeaser({
   const { t, copy } = usePrefs();
   const fromCms = stripPublicPrices(stripHtml(copy("about_excerpt", excerpt || ""))).trim();
   const lead = fromCms || FALLBACK;
+  const photo = imageSrc(image);
 
   const chips = [
     { icon: "time" as const, label: t("about.statYears") },
@@ -612,45 +614,49 @@ export function AboutTeaser({
                   <div className="relative mx-auto h-[300px] w-[300px]">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#FFE9B8] to-[#FFD6A0] opacity-60 blur-[1px]" />
                     <div className="absolute inset-[10px] flex items-center justify-center overflow-hidden rounded-full border border-[#F0DFB8] bg-white shadow-[inset_0_1px_0_white]">
-                      <div className="relative flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_50%_35%,#FFFBF0_0%,#FFF3D8_55%,#FFE9B8_100%)]">
-                        <div className="mb-3 text-[#C89B5A] opacity-80" aria-hidden>
-                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2v4M9 6h6M8 10c0-2 2-4 4-4s4 2 4 4c0 2-2 3-4 5-2-2-4-3-4-5Z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                            <path d="M8 18h8M9 22h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-                          </svg>
-                        </div>
-                        <div className="flex items-end">
-                          <div className="flex h-[68px] w-[48px] flex-col items-center rounded-t-full border border-[#D8C39A] bg-gradient-to-b from-[#F5E6C8] to-[#EAD9B0] pt-2">
-                            <div className="h-6 w-6 rounded-full bg-[#1E160E]/10" />
-                            <div className="mt-1 h-[2px] w-8 bg-[#1E160E]/10" />
-                            <div className="mt-3 h-8 w-[36px] rounded-sm bg-white/60" />
+                      {photo ? (
+                        <img src={photo} alt="" className="h-full w-full object-cover object-center" />
+                      ) : (
+                        <div className="relative flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_50%_35%,#FFFBF0_0%,#FFF3D8_55%,#FFE9B8_100%)]">
+                          <div className="mb-3 text-[#C89B5A] opacity-80" aria-hidden>
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 2v4M9 6h6M8 10c0-2 2-4 4-4s4 2 4 4c0 2-2 3-4 5-2-2-4-3-4-5Z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                              <path d="M8 18h8M9 22h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                            </svg>
                           </div>
-                          <div className="relative z-10 -mx-2 flex h-[92px] w-[56px] flex-col items-center rounded-t-full border border-[#E9C07A] bg-gradient-to-b from-[#FFF8E9] to-[#F0DFB8] pt-3 shadow-[0_4px_12px_rgba(0,0,0,0.06)]">
-                            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#D8C39A] bg-[#EAD9B0] font-serif text-[14px]">
-                              ॐ
+                          <div className="flex items-end">
+                            <div className="flex h-[68px] w-[48px] flex-col items-center rounded-t-full border border-[#D8C39A] bg-gradient-to-b from-[#F5E6C8] to-[#EAD9B0] pt-2">
+                              <div className="h-6 w-6 rounded-full bg-[#1E160E]/10" />
+                              <div className="mt-1 h-[2px] w-8 bg-[#1E160E]/10" />
+                              <div className="mt-3 h-8 w-[36px] rounded-sm bg-white/60" />
                             </div>
-                            <div className="mt-2 h-[3px] w-10 rounded-full bg-[#C9A86A]/40" />
-                            <div className="mt-1 h-[3px] w-8 rounded-full bg-[#C9A86A]/30" />
-                            <div className="mt-4 flex h-[28px] w-[44px] items-center justify-center rounded-[6px] border border-[#EAD9B0] bg-white">
-                              <span className="text-[10px] tracking-widest text-[#9C8360]">VEDA</span>
+                            <div className="relative z-10 -mx-2 flex h-[92px] w-[56px] flex-col items-center rounded-t-full border border-[#E9C07A] bg-gradient-to-b from-[#FFF8E9] to-[#F0DFB8] pt-3 shadow-[0_4px_12px_rgba(0,0,0,0.06)]">
+                              <div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#D8C39A] bg-[#EAD9B0] font-serif text-[14px]">
+                                ॐ
+                              </div>
+                              <div className="mt-2 h-[3px] w-10 rounded-full bg-[#C9A86A]/40" />
+                              <div className="mt-1 h-[3px] w-8 rounded-full bg-[#C9A86A]/30" />
+                              <div className="mt-4 flex h-[28px] w-[44px] items-center justify-center rounded-[6px] border border-[#EAD9B0] bg-white">
+                                <span className="text-[10px] tracking-widest text-[#9C8360]">VEDA</span>
+                              </div>
+                            </div>
+                            <div className="flex h-[68px] w-[48px] flex-col items-center rounded-t-full border border-[#D8C39A] bg-gradient-to-b from-[#F5E6C8] to-[#EAD9B0] pt-2">
+                              <div className="h-6 w-6 rounded-full bg-[#1E160E]/10" />
+                              <div className="mt-1 h-[2px] w-8 bg-[#1E160E]/10" />
+                              <div className="mt-3 h-8 w-[36px] rounded-sm bg-white/60" />
                             </div>
                           </div>
-                          <div className="flex h-[68px] w-[48px] flex-col items-center rounded-t-full border border-[#D8C39A] bg-gradient-to-b from-[#F5E6C8] to-[#EAD9B0] pt-2">
-                            <div className="h-6 w-6 rounded-full bg-[#1E160E]/10" />
-                            <div className="mt-1 h-[2px] w-8 bg-[#1E160E]/10" />
-                            <div className="mt-3 h-8 w-[36px] rounded-sm bg-white/60" />
+                          <div className="mt-4 flex h-[28px] w-[180px] items-center justify-center gap-1 rounded-[8px] border border-[#C9A86A]/30 bg-gradient-to-r from-[#EAD9B0] to-[#D8C39A] px-2 shadow-sm">
+                            <div className="h-[2px] flex-1 rounded-full bg-[#1E160E]/15" />
+                            <div className="h-[2px] flex-1 rounded-full bg-[#1E160E]/15" />
+                            <div className="h-[2px] flex-1 rounded-full bg-[#1E160E]/15" />
+                            <div className="ml-1 h-3 w-3 rounded-full bg-[#1E160E]/20" />
                           </div>
+                          <span className="absolute top-6 left-8 h-1 w-1 rounded-full bg-[#E9C07A] opacity-60" />
+                          <span className="absolute top-12 right-10 h-1 w-1 rounded-full bg-[#E9C07A] opacity-40" />
+                          <span className="absolute bottom-14 left-12 h-1 w-1 rounded-full bg-[#E9C07A] opacity-50" />
                         </div>
-                        <div className="mt-4 flex h-[28px] w-[180px] items-center justify-center gap-1 rounded-[8px] border border-[#C9A86A]/30 bg-gradient-to-r from-[#EAD9B0] to-[#D8C39A] px-2 shadow-sm">
-                          <div className="h-[2px] flex-1 rounded-full bg-[#1E160E]/15" />
-                          <div className="h-[2px] flex-1 rounded-full bg-[#1E160E]/15" />
-                          <div className="h-[2px] flex-1 rounded-full bg-[#1E160E]/15" />
-                          <div className="ml-1 h-3 w-3 rounded-full bg-[#1E160E]/20" />
-                        </div>
-                        <span className="absolute top-6 left-8 h-1 w-1 rounded-full bg-[#E9C07A] opacity-60" />
-                        <span className="absolute top-12 right-10 h-1 w-1 rounded-full bg-[#E9C07A] opacity-40" />
-                        <span className="absolute bottom-14 left-12 h-1 w-1 rounded-full bg-[#E9C07A] opacity-50" />
-                      </div>
+                      )}
                     </div>
 
                     <div className="absolute -left-2 bottom-8 flex items-center gap-2.5 rounded-full border border-[#EAD9B0] bg-white px-3.5 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.08)]">

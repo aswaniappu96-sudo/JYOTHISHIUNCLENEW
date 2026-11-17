@@ -40,14 +40,14 @@ class JU_Admin {
 		}
 
 		$rows = array(
-			array( 'Home', admin_url( 'admin.php?page=ju-settings' ), 'JyothishiUncle → Home page', 'Banner slider photos, banner text, and each home section heading. Language tabs: English, Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
+			array( 'Home', admin_url( 'admin.php?page=ju-settings' ), 'JyothishiUncle → Home page', 'Section tabs (1 · eyebrow name): banner photos, oval portraits, about/guidance/join/CTA photos, and each section’s text. Language tabs: English, Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
 			array( 'Language content', admin_url( 'admin.php?page=ju-language' ), 'JyothishiUncle → Language content', 'English, Hindi, Tamil, Malayalam, Kannada, Telugu: menu, banner, buttons, footer.' ),
 			array( 'About', admin_url( 'admin.php?page=ju-edit-about' ), 'JyothishiUncle → About page', 'English title, intro, editor, Featured image. Language bar: English / Hindi / Tamil / Malayalam / Kannada / Telugu.' ),
 			array( 'Services heading', admin_url( 'admin.php?page=ju-edit-services' ), 'JyothishiUncle → Services page', 'Page title, intro, hero photo, and language tabs. Pooja/product cards are not on this screen.' ),
 			array( 'Pooja cards', admin_url( 'edit.php?post_type=pooja' ), 'Left menu → Poojas', 'Each pooja: English title and text, Featured image, gallery, and a Category. Categories added under Poojas → Categories appear in the website filter. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
 			array( 'Pooja temples', admin_url( 'edit.php?post_type=vendor' ), 'Left menu → Pooja Temples', 'Temples that can host online or offline poojas. Tick Poojas at this temple so those poojas appear under the temple. They also appear in the booking form.' ),
 			array( 'Product cards', admin_url( 'edit.php?post_type=product' ), 'Left menu → Products', 'Each product: English title and text, Featured image, gallery, and a Category. Categories added under Products → Categories appear in the website filter. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
-			array( 'Astrologers heading', admin_url( 'admin.php?page=ju-edit-astrologers' ), 'JyothishiUncle → Astrologers page', 'Page title, intro, hero photo, and language tabs.' ),
+			array( 'Astrologers heading', admin_url( 'admin.php?page=ju-edit-astrologers' ), 'JyothishiUncle → Astrologers page', 'Section tabs: 1 · Page hero, 2 · Astrologer listing (cards in left menu), 3 · Lower sections. Language tabs for translations.' ),
 			array( 'Astrologer cards', admin_url( 'edit.php?post_type=astrologer' ), 'Left menu → Astrologers', 'Each astrologer: English name, bio, location, portrait. Language tabs: Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
 			array( 'Travel heading', admin_url( 'admin.php?page=ju-edit-travel' ), 'JyothishiUncle → Religious Travel page', 'Page title, intro, hero photo, and language tabs.' ),
 			array( 'Travel places', admin_url( 'edit.php?post_type=religious_travel' ), 'Left menu → Religious Travel', 'Each destination: title, text, Featured image, gallery. Language tabs: English, Hindi, Tamil, Malayalam, Kannada, Telugu.' ),
@@ -100,7 +100,7 @@ class JU_Admin {
 				<li>Every page and every list item uses <strong>Featured image</strong> (right sidebar) as the main photo.</li>
 				<li>About and Contact also have Photo 2 and Photo 3 under <em>Page photos &amp; headings</em>.</li>
 				<li>Poojas, products, and travel can have extra gallery photos below the editor.</li>
-				<li>Home logo, the three banner slides, and each home section’s text are on <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-settings' ) ); ?>">Home page</a>.</li>
+				<li>Home logo and each home section (text + photos) are on <a href="<?php echo esc_url( admin_url( 'admin.php?page=ju-settings' ) ); ?>">Home page</a> — open a section tab such as <em>5 · About us</em> or <em>9 · Are You an Astrologer?</em>.</li>
 			</ul>
 		</div>
 		<?php
@@ -239,7 +239,7 @@ class JU_Admin {
 			$extra = array(
 				'about'             => ' About: Featured image is the portrait. Photo 2 and Photo 3 are extra ritual photos.',
 				'services'          => ' This heading appears on the Services page. Individual poojas and products are in the left menu.',
-				'astrologers'       => ' This heading appears on the Astrologers page. Individual astrologers are in the left menu.',
+				'astrologers'       => ' Use the section tabs: 1 · Page hero (title, eyebrow, intro, Featured image), 2 · Astrologer listing (cards are under left menu → Astrologers), 3 · Lower page sections.',
 				'religious-travel'  => ' This heading appears on the Travel page. Individual destinations are in Religious Travel.',
 				'articles'          => ' This heading appears on the Articles listing. Individual posts are in Articles.',
 				'contact'           => ' Contact: Featured image is the first large photo. Photo 2 is the second large photo.',

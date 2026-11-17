@@ -41,7 +41,11 @@ export type SiteSettings = {
   logo: WPImage;
   hero_image: WPImage;
   hero_slides?: Array<WPImage>;
+  hero_astro_slides?: Array<WPImage>;
   about_teaser_image: WPImage;
+  guidance_image?: WPImage;
+  join_image?: WPImage;
+  cta_image?: WPImage;
   i18n?: Record<string, Record<string, string>>;
 };
 

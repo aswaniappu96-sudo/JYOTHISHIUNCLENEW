@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JU_CORE_VERSION', '0.8.8' );
+define( 'JU_CORE_VERSION', '0.8.9' );
 define( 'JU_CORE_FILE', __FILE__ );
 define( 'JU_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'JU_CORE_URL', plugin_dir_url( __FILE__ ) );

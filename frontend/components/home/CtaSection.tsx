@@ -7,21 +7,33 @@ import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { SECTION_INNER } from "@/lib/layout";
+import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
+import type { WPImage } from "@/types/wordpress";
 
 export function CtaSection({
   whatsappNumber,
+  image,
 }: {
   whatsappNumber: string;
   phone?: string;
   address?: string;
+  image?: WPImage;
 }) {
   const { t } = usePrefs();
+  const bg = imageSrc(image);
 
   return (
     <section className="relative flex w-full flex-col items-center justify-center overflow-hidden py-6 text-center">
       <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
-        <div className="h-[700px] w-[700px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(229,195,120,0.18),rgba(72,41,179,0.12),rgba(15,12,28,0))] blur-[120px]" />
+        {bg ? (
+          <>
+            <img src={bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-25" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,251,240,0.55),rgba(247,241,232,0.92))]" />
+          </>
+        ) : (
+          <div className="h-[700px] w-[700px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(229,195,120,0.18),rgba(72,41,179,0.12),rgba(15,12,28,0))] blur-[120px]" />
+        )}
       </div>
       <div className={SECTION_INNER}>
         <div className="relative overflow-hidden rounded-2xl bg-linear-to-b from-surface-high/70 via-surface-container/60 to-surface-lowest/90 p-5 shadow-[0_0_40px_rgba(229,195,120,0.2)] md:p-7">

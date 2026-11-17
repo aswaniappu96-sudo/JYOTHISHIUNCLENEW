@@ -7,6 +7,10 @@ import { usePortal } from "@/components/portal/PortalProvider";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { Reveal } from "@/components/ui/Reveal";
 import { SECTION_INNER } from "@/lib/layout";
+import { imageSrc } from "@/lib/media";
+import type { WPImage } from "@/types/wordpress";
+
+const JOIN_FALLBACK = "/images/join-astrologer-studio.png";
 
 function IconWrap({ children }: { children: ReactNode }) {
   return (
@@ -80,9 +84,10 @@ const ITEMS = [
   { key: "join.item6" as const, icon: ShieldIcon },
 ];
 
-export function BecomeAstrologerSection() {
+export function BecomeAstrologerSection({ image }: { image?: WPImage } = {}) {
   const { t } = usePrefs();
   const { openAuth } = usePortal();
+  const src = imageSrc(image, JOIN_FALLBACK);
 
   return (
     <section id="join" className="relative w-full overflow-hidden scroll-mt-36 py-10 sm:py-14 lg:py-16">
@@ -144,7 +149,7 @@ export function BecomeAstrologerSection() {
               aria-hidden
             />
             <img
-              src="/images/join-astrologer-studio.jpg"
+              src={src}
               alt="Astrologer offering chat, call, and video consultations"
               className="relative z-10 h-auto w-full rounded-[28px] object-cover shadow-[0_22px_48px_rgba(46,32,12,0.16)]"
             />

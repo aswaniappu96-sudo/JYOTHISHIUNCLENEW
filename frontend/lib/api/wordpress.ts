@@ -206,8 +206,12 @@ const emptySettings: SiteSettings = {
   logo: null,
   hero_image: null,
   hero_slides: [],
+  hero_astro_slides: [],
   i18n: {},
   about_teaser_image: null,
+  guidance_image: null,
+  join_image: null,
+  cta_image: null,
 };
 
 export async function settleApi<T>(task: Promise<T>, fallback: T): Promise<T> {

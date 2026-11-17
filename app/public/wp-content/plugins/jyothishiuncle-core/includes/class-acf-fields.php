@@ -704,49 +704,255 @@ class JU_ACF_Fields {
 			);
 		}
 
-		$fields   = array();
+		$about_id       = self::page_id_by_slug( 'about' );
+		$contact_id     = self::page_id_by_slug( 'contact' );
+		$astrologers_id = self::page_id_by_slug( 'astrologers' );
+		$exclude_ids    = array_values( array_filter( array( $about_id, $contact_id, $astrologers_id ) ) );
+
+		self::register_page_heading_group(
+			'group_ju_site_pages',
+			'Page headings & languages',
+			$locales,
+			array(
+				'eyebrow'   => true,
+				'hero_copy' => true,
+				'about'     => false,
+				'photos'    => false,
+			),
+			self::page_locations_excluding( $exclude_ids ),
+			'<strong>1 · Page hero:</strong> edit the title above, the eyebrow and intro here, and set <em>Featured image</em> in the right sidebar.<br><strong>Languages:</strong> English / Hindi / Tamil / Malayalam / Kannada / Telugu. Leave a language blank to keep English.'
+		);
+
+		if ( $about_id ) {
+			self::register_page_heading_group(
+				'group_ju_about_page',
+				'About page sections',
+				$locales,
+				array(
+					'eyebrow'   => true,
+					'hero_copy' => true,
+					'about'     => true,
+					'photos'    => true,
+				),
+				array(
+					array(
+						array(
+							'param'    => 'page',
+							'operator' => '==',
+							'value'    => (string) $about_id,
+						),
+					),
+				),
+				'<strong>1 · Page hero:</strong> title, eyebrow, intro, Featured image (portrait).<br><strong>2 · Extra photos:</strong> Photo 2 and Photo 3 below.<br><strong>Languages:</strong> use the language tabs, then Update.'
+			);
+		}
+
+		if ( $contact_id ) {
+			self::register_page_heading_group(
+				'group_ju_contact_page',
+				'Contact page sections',
+				$locales,
+				array(
+					'eyebrow'   => true,
+					'hero_copy' => true,
+					'about'     => false,
+					'photos'    => true,
+					'photo3'    => false,
+				),
+				array(
+					array(
+						array(
+							'param'    => 'page',
+							'operator' => '==',
+							'value'    => (string) $contact_id,
+						),
+					),
+				),
+				'<strong>1 · Page hero:</strong> title, eyebrow, intro, Featured image (first large photo).<br><strong>2 · Photo 2:</strong> second large photo below.<br><strong>Languages:</strong> use the language tabs, then Update.'
+			);
+		}
+
+		if ( $astrologers_id ) {
+			$astro_fields   = array();
+			$astro_fields[] = array(
+				'key'       => 'field_astro_page_tab_hero',
+				'label'     => '1 · Page hero',
+				'name'      => '',
+				'type'      => 'tab',
+				'placement' => 'top',
+			);
+			$astro_fields[] = array(
+				'key'     => 'field_astro_page_hero_help',
+				'label'   => 'Page hero',
+				'name'    => '',
+				'type'    => 'message',
+				'message' => '<p>This tab is the <strong>Astrologers page heading</strong> visitors see at the top.</p><ul><li><strong>Title</strong> — the main WordPress title field above this box.</li><li><strong>Eyebrow</strong> — short gold label above the title.</li><li><strong>Intro</strong> — text under the title.</li><li><strong>Featured image</strong> — optional page hero photo in the right sidebar.</li></ul><p>Use the language tabs (English / Hindi / …) for translations, then click Update.</p>',
+			);
+			$astro_fields[] = self::field( 'field_astro_page_eyebrow', 'eyebrow', 'Small heading (eyebrow)', 'text', 'Short gold label above the title. Example: Live video consulting.' );
+			$astro_fields[] = self::field( 'field_astro_page_hero_copy', 'hero_copy', 'Intro text under the title', 'textarea', 'Shown under the page title on the public website.' );
+
+			$astro_fields[] = array(
+				'key'       => 'field_astro_page_tab_listing',
+				'label'     => '2 · Astrologer listing',
+				'name'      => '',
+				'type'      => 'tab',
+				'placement' => 'top',
+			);
+			$astro_fields[] = array(
+				'key'     => 'field_astro_page_listing_help',
+				'label'   => 'Astrologer cards',
+				'name'    => '',
+				'type'    => 'message',
+				'message' => '<p>Astrologer <strong>cards and portraits are not edited on this page</strong>.</p><p>Open <strong>Astrologers</strong> in the left menu. Each person has a name, bio, languages, and Featured image (portrait). Those cards appear in the listing below the page hero.</p>',
+			);
+
+			$astro_fields[] = array(
+				'key'       => 'field_astro_page_tab_cta',
+				'label'     => '3 · Lower page sections',
+				'name'      => '',
+				'type'      => 'tab',
+				'placement' => 'top',
+			);
+			$astro_fields[] = array(
+				'key'     => 'field_astro_page_cta_help',
+				'label'   => 'Wisdom, tools, match CTA',
+				'name'    => '',
+				'type'    => 'message',
+				'message' => '<p>Below the listing, the public page also shows Jyotisha wisdom, free tools, and a match CTA. Homepage-style headings for those shared blocks are edited under <a href="' . esc_url( admin_url( 'admin.php?page=ju-settings' ) ) . '">JyothishiUncle → Home page</a> section tabs (Talk to an Astrologer, Free astrology tools, Personalized Guidance).</p>',
+			);
+
+			$translated = array(
+				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
+				array( 'name' => 'eyebrow', 'label' => 'Small heading (eyebrow)', 'type' => 'text' ),
+				array( 'name' => 'hero_copy', 'label' => 'Intro text under the title', 'type' => 'textarea' ),
+				array( 'name' => 'content', 'label' => 'Page body', 'type' => 'wysiwyg' ),
+			);
+			foreach ( $locales as $locale ) {
+				$id             = sanitize_key( $locale['id'] );
+				$astro_fields[] = array(
+					'key'       => 'field_astro_page_tab_' . $id,
+					'label'     => $locale['native'],
+					'name'      => '',
+					'type'      => 'tab',
+					'placement' => 'top',
+				);
+				foreach ( $translated as $field ) {
+					$name           = $field['name'] . '_' . $id;
+					$astro_fields[] = self::field(
+						'field_astro_page_i18n_' . $name,
+						$name,
+						$field['label'],
+						$field['type'],
+						'Leave blank to keep the English text on the website.'
+					);
+				}
+			}
+
+			acf_add_local_field_group(
+				array(
+					'key'        => 'group_ju_astrologers_page',
+					'title'      => 'Astrologers page sections',
+					'fields'     => $astro_fields,
+					'location'   => array(
+						array(
+							array(
+								'param'    => 'page',
+								'operator' => '==',
+								'value'    => (string) $astrologers_id,
+							),
+						),
+					),
+					'position'   => 'acf_after_title',
+					'menu_order' => 0,
+				)
+			);
+		}
+	}
+
+	private static function page_id_by_slug( $slug ) {
+		$page = get_page_by_path( $slug );
+		return $page ? (int) $page->ID : 0;
+	}
+
+	private static function page_locations_excluding( $exclude_ids ) {
+		$rule = array(
+			array(
+				'param'    => 'post_type',
+				'operator' => '==',
+				'value'    => 'page',
+			),
+		);
+		foreach ( (array) $exclude_ids as $id ) {
+			$rule[] = array(
+				'param'    => 'page',
+				'operator' => '!=',
+				'value'    => (string) $id,
+			);
+		}
+		return array( $rule );
+	}
+
+	private static function register_page_heading_group( $key, $title, $locales, $opts, $location, $help_html ) {
+		$prefix = 'field_' . sanitize_key( str_replace( 'group_', '', $key ) ) . '_';
+		$fields = array();
 		$fields[] = array(
-			'key'       => 'field_page_tab_en',
+			'key'       => $prefix . 'tab_en',
 			'label'     => 'English',
 			'name'      => '',
 			'type'      => 'tab',
 			'placement' => 'top',
 		);
 		$fields[] = array(
-			'key'     => 'field_page_i18n_help',
+			'key'     => $prefix . 'help',
 			'label'   => 'How to edit this page',
 			'name'    => '',
 			'type'    => 'message',
-			'message' => '<strong>Language switcher:</strong> use the tabs English / Hindi / Tamil / Malayalam / Kannada / Telugu. English title and body are the fields above this box. Then click Save.',
+			'message' => $help_html,
 		);
-		$fields[] = self::field( 'field_page_eyebrow', 'eyebrow', 'Small heading (eyebrow)', 'text', 'Short gold label above the title. Example: Vedic Lineage.' );
-		$fields[] = self::field( 'field_page_hero_copy', 'hero_copy', 'Intro text under the title', 'textarea', 'Shown under the page title on the public website.' );
-		$fields[] = self::field( 'field_page_portrait_name', 'portrait_name', 'Portrait name (About page)', 'text', 'Name on the portrait plaque. Used on About only.' );
-		$fields[] = self::field( 'field_page_portrait_note', 'portrait_caption', 'Portrait caption (About page)', 'text' );
-		$fields[] = self::image_field( 'field_page_image_1', 'image_1', 'Photo 2', 'Set Featured image (right sidebar) first — that is Photo 1. Photo 2: About homam, Contact second large photo. Optional on other pages.' );
-		$fields[] = self::field( 'field_page_image_1_title', 'image_1_title', 'Photo 2 title', 'text' );
-		$fields[] = self::field( 'field_page_image_1_copy', 'image_1_copy', 'Photo 2 text', 'textarea' );
-		$fields[] = self::image_field( 'field_page_image_2', 'image_2', 'Photo 3', 'About: Navagraha photo. Optional extra photo on other pages.' );
-		$fields[] = self::field( 'field_page_image_2_title', 'image_2_title', 'Photo 3 title', 'text' );
-		$fields[] = self::field( 'field_page_image_2_copy', 'image_2_copy', 'Photo 3 text', 'textarea' );
+		if ( ! empty( $opts['eyebrow'] ) ) {
+			$fields[] = self::field( $prefix . 'eyebrow', 'eyebrow', 'Small heading (eyebrow)', 'text', 'Short gold label above the title. Example: Vedic Lineage.' );
+		}
+		if ( ! empty( $opts['hero_copy'] ) ) {
+			$fields[] = self::field( $prefix . 'hero_copy', 'hero_copy', 'Intro text under the title', 'textarea', 'Shown under the page title on the public website.' );
+		}
+		if ( ! empty( $opts['about'] ) ) {
+			$fields[] = self::field( $prefix . 'portrait_name', 'portrait_name', 'Portrait name (About page)', 'text', 'Name on the portrait plaque. Used on About only.' );
+			$fields[] = self::field( $prefix . 'portrait_note', 'portrait_caption', 'Portrait caption (About page)', 'text' );
+		}
+		if ( ! empty( $opts['photos'] ) ) {
+			$fields[] = self::image_field( $prefix . 'image_1', 'image_1', 'Photo 2', 'Set Featured image (right sidebar) first — that is Photo 1.' );
+			$fields[] = self::field( $prefix . 'image_1_title', 'image_1_title', 'Photo 2 title', 'text' );
+			$fields[] = self::field( $prefix . 'image_1_copy', 'image_1_copy', 'Photo 2 text', 'textarea' );
+			if ( ! isset( $opts['photo3'] ) || $opts['photo3'] ) {
+				$fields[] = self::image_field( $prefix . 'image_2', 'image_2', 'Photo 3', 'About: Navagraha photo. Optional on Contact.' );
+				$fields[] = self::field( $prefix . 'image_2_title', 'image_2_title', 'Photo 3 title', 'text' );
+				$fields[] = self::field( $prefix . 'image_2_copy', 'image_2_copy', 'Photo 3 text', 'textarea' );
+			}
+		}
 
 		$translated = array(
 			array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
 			array( 'name' => 'eyebrow', 'label' => 'Small heading (eyebrow)', 'type' => 'text' ),
 			array( 'name' => 'hero_copy', 'label' => 'Intro text under the title', 'type' => 'textarea' ),
 			array( 'name' => 'content', 'label' => 'Page body', 'type' => 'wysiwyg' ),
-			array( 'name' => 'portrait_name', 'label' => 'Portrait name', 'type' => 'text' ),
-			array( 'name' => 'portrait_caption', 'label' => 'Portrait caption', 'type' => 'text' ),
-			array( 'name' => 'image_1_title', 'label' => 'Photo 2 title', 'type' => 'text' ),
-			array( 'name' => 'image_1_copy', 'label' => 'Photo 2 text', 'type' => 'textarea' ),
-			array( 'name' => 'image_2_title', 'label' => 'Photo 3 title', 'type' => 'text' ),
-			array( 'name' => 'image_2_copy', 'label' => 'Photo 3 text', 'type' => 'textarea' ),
 		);
+		if ( ! empty( $opts['about'] ) ) {
+			$translated[] = array( 'name' => 'portrait_name', 'label' => 'Portrait name', 'type' => 'text' );
+			$translated[] = array( 'name' => 'portrait_caption', 'label' => 'Portrait caption', 'type' => 'text' );
+		}
+		if ( ! empty( $opts['photos'] ) ) {
+			$translated[] = array( 'name' => 'image_1_title', 'label' => 'Photo 2 title', 'type' => 'text' );
+			$translated[] = array( 'name' => 'image_1_copy', 'label' => 'Photo 2 text', 'type' => 'textarea' );
+			if ( ! isset( $opts['photo3'] ) || $opts['photo3'] ) {
+				$translated[] = array( 'name' => 'image_2_title', 'label' => 'Photo 3 title', 'type' => 'text' );
+				$translated[] = array( 'name' => 'image_2_copy', 'label' => 'Photo 3 text', 'type' => 'textarea' );
+			}
+		}
 
 		foreach ( $locales as $locale ) {
 			$id       = sanitize_key( $locale['id'] );
 			$fields[] = array(
-				'key'       => 'field_page_tab_' . $id,
+				'key'       => $prefix . 'tab_' . $id,
 				'label'     => $locale['native'],
 				'name'      => '',
 				'type'      => 'tab',
@@ -755,7 +961,7 @@ class JU_ACF_Fields {
 			foreach ( $translated as $field ) {
 				$name     = $field['name'] . '_' . $id;
 				$fields[] = self::field(
-					'field_page_i18n_' . $name,
+					$prefix . 'i18n_' . $name,
 					$name,
 					$field['label'],
 					$field['type'],
@@ -766,18 +972,10 @@ class JU_ACF_Fields {
 
 		acf_add_local_field_group(
 			array(
-				'key'        => 'group_ju_site_pages',
-				'title'      => 'Page photos, headings & languages',
+				'key'        => $key,
+				'title'      => $title,
 				'fields'     => $fields,
-				'location'   => array(
-					array(
-						array(
-							'param'    => 'post_type',
-							'operator' => '==',
-							'value'    => 'page',
-						),
-					),
-				),
+				'location'   => $location,
 				'position'   => 'acf_after_title',
 				'menu_order' => 0,
 			)

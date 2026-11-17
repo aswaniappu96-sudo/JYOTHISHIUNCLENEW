@@ -246,7 +246,16 @@ class JU_REST {
 			self::hero_slide_image( isset( $s['hero_slide_2_id'] ) ? $s['hero_slide_2_id'] : 0 ),
 			self::hero_slide_image( isset( $s['hero_slide_3_id'] ) ? $s['hero_slide_3_id'] : 0 ),
 		);
-		$about_photo = JU_REST_Serialize::image( (int) $s['about_teaser_image_id'] );
+		$hero_astro_slides = array(
+			self::hero_slide_image( isset( $s['hero_astro_1_id'] ) ? $s['hero_astro_1_id'] : 0 ),
+			self::hero_slide_image( isset( $s['hero_astro_2_id'] ) ? $s['hero_astro_2_id'] : 0 ),
+			self::hero_slide_image( isset( $s['hero_astro_3_id'] ) ? $s['hero_astro_3_id'] : 0 ),
+			self::hero_slide_image( isset( $s['hero_astro_4_id'] ) ? $s['hero_astro_4_id'] : 0 ),
+		);
+		$about_photo    = JU_REST_Serialize::image( (int) $s['about_teaser_image_id'] );
+		$guidance_photo = JU_REST_Serialize::image( isset( $s['guidance_image_id'] ) ? (int) $s['guidance_image_id'] : 0 );
+		$join_photo     = JU_REST_Serialize::image( isset( $s['join_image_id'] ) ? (int) $s['join_image_id'] : 0 );
+		$cta_photo      = JU_REST_Serialize::image( isset( $s['cta_image_id'] ) ? (int) $s['cta_image_id'] : 0 );
 
 		return array(
 				'site_tagline'              => $s['site_tagline'],
@@ -281,7 +290,11 @@ class JU_REST {
 			'logo_url'                  => $logo && ! empty( $logo['url'] ) ? $logo['url'] : JU_CORE_URL . 'assets/logo-placeholder.svg',
 			'hero_image'                => $hero,
 			'hero_slides'               => $hero_slides,
+			'hero_astro_slides'         => $hero_astro_slides,
 			'about_teaser_image'        => $about_photo,
+			'guidance_image'            => $guidance_photo,
+			'join_image'                => $join_photo,
+			'cta_image'                 => $cta_photo,
 			'i18n'                      => JU_I18n::get_all(),
 		);
 	}

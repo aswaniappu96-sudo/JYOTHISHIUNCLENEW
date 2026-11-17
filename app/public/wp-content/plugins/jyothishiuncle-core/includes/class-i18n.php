@@ -407,12 +407,20 @@ class JU_I18n {
 		}
 	}
 
+	/**
+	 * Homepage editor sections. short_label is the eyebrow-style tab name (English admin UI).
+	 * images: shared media keys shown inside that section tab (English panel only).
+	 */
 	public static function home_blocks() {
 		return array(
 			array(
-				'title'  => 'Slide 1 — Astrology consultation',
-				'help'   => 'Eyebrow, headline, sub-headline, buttons, and trust line on the first banner.',
-				'fields' => array(
+				'id'          => 'banner-1',
+				'short_label' => 'Connect with Vedic astrologers',
+				'help'        => 'First banner slide text and wide photo.',
+				'images'      => array(
+					array( 'hero_slide_1_id', 'Banner photo', 'Wide photo behind this slide. Leave empty to keep the built-in picture.' ),
+				),
+				'fields'      => array(
 					array( 'hero.kicker1', 'Eyebrow', 'text' ),
 					array( 'hero.title1', 'Headline', 'text' ),
 					array( 'hero.copy1', 'Sub-headline', 'textarea' ),
@@ -424,9 +432,13 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Slide 2 — Homam, poojas and remedies',
-				'help'   => 'Text on the second banner. The third button, Book Video Consultation, is shared below.',
-				'fields' => array(
+				'id'          => 'banner-2',
+				'short_label' => 'Homam, poojas and remedies',
+				'help'        => 'Second banner slide text and wide photo.',
+				'images'      => array(
+					array( 'hero_slide_2_id', 'Banner photo', 'Wide photo behind this slide.' ),
+				),
+				'fields'      => array(
 					array( 'hero.kicker2', 'Eyebrow', 'text' ),
 					array( 'hero.title2', 'Headline', 'text' ),
 					array( 'hero.copy2', 'Sub-headline', 'textarea' ),
@@ -438,9 +450,13 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Slide 3 — Temple yatra',
-				'help'   => 'Text on the third banner. The video button is shared with the other slides.',
-				'fields' => array(
+				'id'          => 'banner-3',
+				'short_label' => 'Temple yatra',
+				'help'        => 'Third banner slide text and wide photo.',
+				'images'      => array(
+					array( 'hero_slide_3_id', 'Banner photo', 'Wide photo behind this slide.' ),
+				),
+				'fields'      => array(
 					array( 'hero.kicker3', 'Eyebrow', 'text' ),
 					array( 'hero.title3', 'Headline', 'text' ),
 					array( 'hero.copy3', 'Sub-headline', 'textarea' ),
@@ -453,9 +469,16 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Service line under the banner',
-				'help'   => 'Shown where the search box used to be, on every slide.',
-				'fields' => array(
+				'id'          => 'service-line',
+				'short_label' => 'Service line & oval portraits',
+				'help'        => 'Service line under the banner, plus the four oval astrologer photos on the right of the banner.',
+				'images'      => array(
+					array( 'hero_astro_1_id', 'Oval 1', 'First oval. Leave empty to use an Astrologers portrait.' ),
+					array( 'hero_astro_2_id', 'Oval 2', 'Second oval.' ),
+					array( 'hero_astro_3_id', 'Oval 3', 'Third oval.' ),
+					array( 'hero_astro_4_id', 'Oval 4', 'Fourth oval.' ),
+				),
+				'fields'      => array(
 					array( 'hero.serviceLine', 'Service line', 'text' ),
 					array( 'hero.trustOne', 'Trust box 1', 'text' ),
 					array( 'hero.trustMoola', 'Trust box 2', 'text' ),
@@ -463,9 +486,13 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'About section',
-				'help'   => 'The first section under the banner.',
-				'fields' => array(
+				'id'          => 'about',
+				'short_label' => 'About us',
+				'help'        => 'Homepage about teaser under the banner.',
+				'images'      => array(
+					array( 'about_teaser_image_id', 'Section photo', 'Shown in the about teaser circle. Leave empty to keep the built-in heritage graphic.' ),
+				),
+				'fields'      => array(
 					array( 'about.kicker', 'Eyebrow', 'text' ),
 					array( 'about.lead', 'Heading start', 'text' ),
 					array( 'about.accent', 'Heading highlight', 'text' ),
@@ -476,8 +503,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'How it works',
-				'fields' => array(
+				'id'          => 'how',
+				'short_label' => 'How It Works',
+				'help'        => 'Three-step guidance strip (no separate photo).',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'how.kicker', 'Eyebrow', 'text' ),
 					array( 'how.lead', 'Heading start', 'text' ),
 					array( 'how.accent', 'Heading highlight', 'text' ),
@@ -488,8 +518,13 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Guidance topics',
-				'fields' => array(
+				'id'          => 'guidance',
+				'short_label' => 'Vedic Astrology guidance',
+				'help'        => 'Guidance topics grid and circular photo.',
+				'images'      => array(
+					array( 'guidance_image_id', 'Section photo', 'Circular photo beside the guidance topics. Leave empty to keep the built-in temple/homam picture.' ),
+				),
+				'fields'      => array(
 					array( 'consult.lead', 'Heading start', 'text' ),
 					array( 'consult.accent', 'Heading highlight', 'text' ),
 					array( 'consult.copy', 'Paragraph', 'textarea' ),
@@ -499,9 +534,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Astrologers section',
-				'help'   => 'Headings only. Each astrologer card is edited under Astrologers.',
-				'fields' => array(
+				'id'          => 'astrologers',
+				'short_label' => 'Talk to an Astrologer',
+				'help'        => 'Headings only. Each astrologer card is edited under Astrologers in the left menu.',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'astro.kicker', 'Eyebrow', 'text' ),
 					array( 'astro.lead', 'Heading start', 'text' ),
 					array( 'astro.accent', 'Heading highlight', 'text' ),
@@ -510,8 +547,13 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Join as an astrologer',
-				'fields' => array(
+				'id'          => 'join',
+				'short_label' => 'Are You an Astrologer?',
+				'help'        => 'Join-as-astrologer section text and studio photo.',
+				'images'      => array(
+					array( 'join_image_id', 'Section photo', 'Large photo on the right. Leave empty to keep the built-in studio picture.' ),
+				),
+				'fields'      => array(
 					array( 'join.kicker', 'Eyebrow', 'text' ),
 					array( 'join.lead', 'Heading start', 'text' ),
 					array( 'join.accent', 'Heading highlight', 'text' ),
@@ -520,8 +562,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Free astrology tools',
-				'fields' => array(
+				'id'          => 'daily',
+				'short_label' => 'Free astrology tools',
+				'help'        => 'Daily horoscope / free tools headings (no separate photo).',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'daily.kicker', 'Eyebrow', 'text' ),
 					array( 'daily.lead', 'Heading start', 'text' ),
 					array( 'daily.accent', 'Heading highlight', 'text' ),
@@ -529,9 +574,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Pooja section',
-				'help'   => 'Headings only. Each pooja card is edited under Poojas.',
-				'fields' => array(
+				'id'          => 'pooja',
+				'short_label' => 'Pooja & Homam',
+				'help'        => 'Headings only. Each pooja card is edited under Poojas.',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'pooja.badge', 'Eyebrow', 'text' ),
 					array( 'pooja.lead', 'Heading start', 'text' ),
 					array( 'pooja.accent', 'Heading highlight', 'text' ),
@@ -540,9 +587,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Products section',
-				'help'   => 'Headings only. Each product card is edited under Products.',
-				'fields' => array(
+				'id'          => 'products',
+				'short_label' => 'Holy products',
+				'help'        => 'Headings only. Each product card is edited under Products.',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'store.badge', 'Eyebrow', 'text' ),
 					array( 'store.lead', 'Heading start', 'text' ),
 					array( 'store.accent', 'Heading highlight', 'text' ),
@@ -551,9 +600,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Temple yatra section',
-				'help'   => 'Headings only. Each yatra card is edited under Religious Travel.',
-				'fields' => array(
+				'id'          => 'yatra',
+				'short_label' => 'Temple yatra',
+				'help'        => 'Headings only. Each yatra card is edited under Religious Travel.',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'yatra.badge', 'Eyebrow', 'text' ),
 					array( 'yatra.lead', 'Heading start', 'text' ),
 					array( 'yatra.accent', 'Heading highlight', 'text' ),
@@ -562,9 +613,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Reviews section',
-				'help'   => 'Headings only. Each review is edited under Testimonials.',
-				'fields' => array(
+				'id'          => 'reviews',
+				'short_label' => 'Verified Reviews',
+				'help'        => 'Headings only. Each review is edited under Testimonials.',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'review.kicker', 'Eyebrow', 'text' ),
 					array( 'review.lead', 'Heading start', 'text' ),
 					array( 'review.accent', 'Heading highlight', 'text' ),
@@ -572,9 +625,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Articles section',
-				'help'   => 'Headings only. Each article is edited under Articles.',
-				'fields' => array(
+				'id'          => 'articles',
+				'short_label' => 'Articles',
+				'help'        => 'Headings only. Article cards use Featured images under Articles. YouTube link is under Social links below.',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'articles.kicker', 'Eyebrow', 'text' ),
 					array( 'articles.lead', 'Heading start', 'text' ),
 					array( 'articles.accent', 'Heading highlight', 'text' ),
@@ -583,8 +638,11 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Enquiry section',
-				'fields' => array(
+				'id'          => 'enquiry',
+				'short_label' => 'Sanctuary inquiries',
+				'help'        => 'Enquiry form headings (no separate photo).',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'enquiry.kicker', 'Eyebrow', 'text' ),
 					array( 'enquiry.lead', 'Heading start', 'text' ),
 					array( 'enquiry.accent', 'Heading highlight', 'text' ),
@@ -592,22 +650,39 @@ class JU_I18n {
 				),
 			),
 			array(
-				'title'  => 'Closing section',
-				'fields' => array(
+				'id'          => 'cta',
+				'short_label' => 'Personalized Guidance',
+				'help'        => 'Closing call-to-action block.',
+				'images'      => array(
+					array( 'cta_image_id', 'Background photo', 'Optional soft background behind the closing block. Leave empty to keep the gold glow only.' ),
+				),
+				'fields'      => array(
 					array( 'cta.lead', 'Heading start', 'text' ),
 					array( 'cta.accent', 'Heading highlight', 'text' ),
 					array( 'cta.copy', 'Paragraph', 'textarea' ),
 				),
 			),
 			array(
-				'title'  => 'Footer and site line',
-				'fields' => array(
+				'id'          => 'footer',
+				'short_label' => 'Footer',
+				'help'        => 'Site-wide tagline and footer line.',
+				'images'      => array(),
+				'fields'      => array(
 					array( 'site_tagline', 'Tagline', 'text' ),
 					array( 'footer_text', 'Footer text', 'text' ),
 					array( 'address', 'Address', 'textarea' ),
 				),
 			),
 		);
+	}
+
+	public static function home_section_tab_label( $index, $block ) {
+		$n     = (int) $index + 1;
+		$label = isset( $block['short_label'] ) ? trim( (string) $block['short_label'] ) : '';
+		if ( '' === $label ) {
+			return (string) $n;
+		}
+		return $n . ' · ' . $label;
 	}
 
 	private static function editor_field( $locale, $key, $label, $type ) {
@@ -630,10 +705,11 @@ class JU_I18n {
 	public static function render_home_tabs() {
 		$locales = self::locales();
 		$blocks  = self::home_blocks();
+		$settings = class_exists( 'JU_Settings' ) ? JU_Settings::get() : array();
 		?>
 		<input type="hidden" name="ju_i18n_mode" value="home">
-		<h2>Banner text and section text</h2>
-		<p>Choose a language, edit the banner and each section, then click <strong>Save home page</strong> at the bottom. English is used when another language is left blank.</p>
+		<h2>Homepage sections</h2>
+		<p>1) Choose a <strong>language</strong>. 2) Choose a <strong>section tab</strong> (named like the gold eyebrow on the website). 3) Edit text and photos. 4) Click <strong>Save home page</strong>. English fills in when another language is left blank. Photos are shared for every language — edit them under English.</p>
 		<nav class="nav-tab-wrapper ju-i18n-tabs" data-ju-tabs="home">
 			<?php foreach ( $locales as $index => $locale ) : ?>
 				<a href="#ju-home-lang-<?php echo esc_attr( $locale['id'] ); ?>" class="nav-tab<?php echo 0 === $index ? ' nav-tab-active' : ''; ?>" data-lang="<?php echo esc_attr( $locale['id'] ); ?>">
@@ -643,11 +719,45 @@ class JU_I18n {
 		</nav>
 		<?php foreach ( $locales as $index => $locale ) : ?>
 			<div class="ju-i18n-panel" data-lang="<?php echo esc_attr( $locale['id'] ); ?>" <?php echo 0 === $index ? '' : 'hidden'; ?>>
-				<?php foreach ( $blocks as $block ) : ?>
-					<div class="ju-home-block">
-						<h3><?php echo esc_html( $block['title'] ); ?></h3>
+				<nav class="nav-tab-wrapper ju-section-tabs" data-ju-section-tabs="<?php echo esc_attr( $locale['id'] ); ?>">
+					<?php foreach ( $blocks as $b_index => $block ) : ?>
+						<?php
+						$section_id = isset( $block['id'] ) ? $block['id'] : ( 'section-' . $b_index );
+						$tab_label  = self::home_section_tab_label( $b_index, $block );
+						?>
+						<a href="#ju-home-<?php echo esc_attr( $locale['id'] . '-' . $section_id ); ?>" class="nav-tab<?php echo 0 === $b_index ? ' nav-tab-active' : ''; ?>" data-section="<?php echo esc_attr( $section_id ); ?>">
+							<?php echo esc_html( $tab_label ); ?>
+						</a>
+					<?php endforeach; ?>
+				</nav>
+				<?php foreach ( $blocks as $b_index => $block ) : ?>
+					<?php
+					$section_id = isset( $block['id'] ) ? $block['id'] : ( 'section-' . $b_index );
+					$tab_label  = self::home_section_tab_label( $b_index, $block );
+					?>
+					<div class="ju-home-block ju-section-panel" data-section="<?php echo esc_attr( $section_id ); ?>" <?php echo 0 === $b_index ? '' : 'hidden'; ?>>
+						<h3><?php echo esc_html( $tab_label ); ?></h3>
 						<?php if ( ! empty( $block['help'] ) ) : ?>
 							<p class="description"><?php echo esc_html( $block['help'] ); ?></p>
+						<?php endif; ?>
+						<?php if ( ! empty( $block['images'] ) ) : ?>
+							<?php if ( 'en' === $locale['id'] ) : ?>
+								<table class="form-table" role="presentation">
+									<?php foreach ( $block['images'] as $image ) : ?>
+										<?php
+										$key  = $image[0];
+										$val  = isset( $settings[ $key ] ) ? $settings[ $key ] : '0';
+										$help = isset( $image[2] ) ? $image[2] : '';
+										?>
+										<tr>
+											<th scope="row"><?php echo esc_html( $image[1] ); ?></th>
+											<td><?php JU_Settings::render_media_field( $key, $val, $help ); ?></td>
+										</tr>
+									<?php endforeach; ?>
+								</table>
+							<?php else : ?>
+								<p class="description ju-section-photo-note">Section photos are edited under the <strong>English</strong> language tab for this same section.</p>
+							<?php endif; ?>
 						<?php endif; ?>
 						<table class="form-table" role="presentation">
 							<?php foreach ( $block['fields'] as $field ) : ?>

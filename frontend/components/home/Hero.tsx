@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { CosmicMandala } from "@/components/home/CosmicMandala";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
 import { DEFAULT_TIMEZONE, getPanchang, visitorTimeZone, type PanchangSnapshot } from "@/lib/panchang";
 import { telHref } from "@/lib/html";
+import { mediaUrl } from "@/lib/api/client";
+import { astrologerPhoto } from "@/lib/catalogImages";
 import { HEADER_PULL, SHELL } from "@/lib/layout";
 import { allSiteServices } from "@/lib/siteServices";
 import { PRODUCTS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
-import type { AstrologyService } from "@/types/wordpress";
+import type { Astrologer, AstrologyService } from "@/types/wordpress";
 
 const FALLBACK_PHONE = "+91 84519 89496";
 const FALLBACK_WHATSAPP = "918451989496";
@@ -100,23 +102,123 @@ const iconCta =
 const iconCtaGhost =
   "flex h-12 w-12 items-center justify-center rounded-full border border-[#f3e6c8]/40 bg-[#1c1008]/40 text-[#fff8ec] backdrop-blur-md transition hover:bg-[#1c1008]/65";
 
+const PAGE_PORTRAITS = [
+  "/images/astrologers/page-1.jpg",
+  "/images/astrologers/page-2.jpg",
+  "/images/astrologers/page-3.jpg",
+];
+
+const BILL_MOVE = {
+  left: "translate(-118%, -50%) scale(0.78)",
+  center: "translate(-50%, -50%) scale(1)",
+  right: "translate(18%, -50%) scale(0.78)",
+  hidden: "translate(160%, -50%) scale(0.45)",
+} as const;
+
+function billSlot(personIndex: number, current: number, total: number): keyof typeof BILL_MOVE {
+  const rel = ((personIndex - current) % total + total) % total;
+  if (rel === 0) return "center";
+  if (rel === 1) return "right";
+  if (rel === total - 1) return "left";
+  return "hidden";
+}
+
+function portraitSrc(person?: Astrologer) {
+  if (!person) return "";
+  return astrologerPhoto(person.slug, mediaUrl(person.featured_image?.full || person.featured_image?.url) || "");
+}
+
+function bannerAstroPortraits(
+  cms: Array<{ url?: string | null; full?: string | null } | null> | undefined,
+  people: Astrologer[],
+) {
+  const cmsUrls = (cms || []).slice(0, 4).map((img) => mediaUrl(img?.full || img?.url) || "");
+  const ranked = [
+    ...people.filter((person) => person.show_on_homepage),
+    ...people.filter((person) => !person.show_on_homepage),
+  ];
+  const peopleUrls = ranked.map((person) => portraitSrc(person)).filter(Boolean);
+  const list: string[] = [];
+  let next = 0;
+  for (let i = 0; i < 4; i++) {
+    if (cmsUrls[i]) {
+      list.push(cmsUrls[i]);
+      continue;
+    }
+    if (peopleUrls[next]) {
+      list.push(peopleUrls[next]);
+      next += 1;
+    }
+  }
+  return list.length ? list : PAGE_PORTRAITS.slice(0, 4);
+}
+
+function AstrologerBills({ portraits, index }: { portraits: string[]; index: number }) {
+  const list = portraits.slice(0, 4);
+  const n = list.length;
+  const prevSlots = useRef<Record<string, keyof typeof BILL_MOVE>>({});
+  if (!n) return null;
+
+  return (
+    <div className="relative mx-auto h-[320px] w-full max-w-[520px] overflow-visible sm:h-[360px] lg:h-[400px] lg:max-w-[560px]">
+      {list.map((src, personIndex) => {
+        const slot = billSlot(personIndex, index % n, n);
+        const prev = prevSlots.current[src];
+        const wrap = (prev === "left" && slot === "right") || (prev === "right" && slot === "left");
+        prevSlots.current[src] = slot;
+        const front = slot === "center";
+        return (
+          <div
+            key={`${src}-${personIndex}`}
+            className={`absolute top-1/2 left-1/2 h-[290px] w-[195px] overflow-hidden rounded-[50%] bg-[#2a1c10] shadow-[0_14px_32px_rgba(8,4,0,0.45)] ring-[3px] sm:h-[330px] sm:w-[220px] lg:h-[360px] lg:w-[240px] ${
+              front ? "ring-[#e8c56a]" : "ring-[#c4a227]/80"
+            } ${slot === "hidden" ? "pointer-events-none opacity-0" : "opacity-100"}`}
+            style={{
+              transform: BILL_MOVE[slot],
+              zIndex: front ? 30 : slot === "hidden" ? 0 : 10,
+              transition: wrap
+                ? "opacity 0.45s ease"
+                : "transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease",
+            }}
+          >
+            {src ? (
+              <img src={src} alt="" className="h-full w-full object-cover object-top" />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center font-serif text-4xl font-bold text-[#e5c378]">
+                ॐ
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function Hero({
+  astrologers = [],
   services = [],
   phone,
   whatsapp,
   slides: slideImages,
+  astroSlides,
 }: {
+  astrologers?: Astrologer[];
   services?: AstrologyService[];
   phone?: string;
   whatsapp?: string;
   slides?: Array<{ url?: string | null; full?: string | null } | null>;
+  astroSlides?: Array<{ url?: string | null; full?: string | null } | null>;
 }) {
   const { t } = usePrefs();
+  const people = useJuList<Astrologer>("/astrologers", astrologers).filter((person) => person?.title || person?.slug);
+  const astroPortraits = useMemo(() => bannerAstroPortraits(astroSlides, people), [astroSlides, people]);
   const wpServices = useJuList<AstrologyService>("/services", services);
   const catalog = useMemo(() => allSiteServices(wpServices), [wpServices]);
   const serviceTrack = catalog.length ? [...catalog, ...catalog] : [];
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [index, setIndex] = useState(0);
+  const [astroIndex, setAstroIndex] = useState(0);
   const slides = SLIDES.map((item, i) => ({
     ...item,
     src: slideImages?.[i]?.full || slideImages?.[i]?.url || item.src,
@@ -148,6 +250,15 @@ export function Hero({
     const id = window.setInterval(() => setIndex((value) => (value + 1) % slides.length), 12000);
     return () => window.clearInterval(id);
   }, [index]);
+
+  useEffect(() => {
+    if (astroPortraits.length < 2) return;
+    const id = window.setInterval(
+      () => setAstroIndex((value) => (value + 1) % astroPortraits.length),
+      5000,
+    );
+    return () => window.clearInterval(id);
+  }, [astroPortraits.length]);
 
   return (
     <section data-hero className={`relative z-20 flex min-h-dvh w-full flex-col overflow-hidden ${HEADER_PULL}`}>
@@ -268,6 +379,9 @@ export function Hero({
             </div>
           </div>
           <div className="relative z-[12] flex w-full flex-col items-center justify-start pt-1 lg:col-span-5 lg:justify-center lg:pt-0 lg:pr-12">
+            <div className="hidden w-full lg:block">
+              <AstrologerBills portraits={astroPortraits} index={astroIndex} />
+            </div>
             <div className="relative mx-auto aspect-square w-[min(78vw,20rem)] lg:hidden">
               <CosmicMandala
                 size="fill"
