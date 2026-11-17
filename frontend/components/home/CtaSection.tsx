@@ -45,17 +45,17 @@ export function CtaSection({
             <p className="mx-auto mb-7 max-w-2xl text-base leading-relaxed text-[#3a2a14]"><BrandText>{t("cta.copy")}</BrandText></p>
             <div className="mb-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
               <BookConsultationButton className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-primary via-primary-container to-primary px-5 py-2.5 text-sm font-semibold text-on-primary shadow-[0_0_25px_rgba(229,195,120,0.45)]">
-                Book your 1-on-1 consultation →
+                {t("cta.book")}
               </BookConsultationButton>
               <ButtonLink href="/services" variant="light">
-                Explore sacred pooja & homams
+                {t("cta.pooja")}
               </ButtonLink>
               <ButtonLink
                 href={whatsappUrl(whatsappNumber, "Hello, I would like to know more about MaharshiOm.")}
                 variant="ghost"
                 external
               >
-                WhatsApp
+                {t("cta.whatsapp")}
               </ButtonLink>
             </div>
             <div className="grid w-full grid-cols-1 gap-2 border-t border-outline-variant/30 pt-4 text-center sm:grid-cols-2 lg:grid-cols-4">

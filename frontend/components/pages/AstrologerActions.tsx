@@ -111,10 +111,10 @@ export function AstrologerMatchCta({
             subject="Astrologer matching / free guidance"
             className="inline-flex w-full items-center justify-center rounded-full bg-primary-container px-6 py-2.5 text-sm font-semibold text-on-primary sm:w-auto"
           >
-            Speak with Astrological Concierge (Free Guidance)
+            {loc?.cta_button || "Speak with Astrological Concierge (Free Guidance)"}
           </EnquireButton>
           <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-surface-highest px-5 py-2.5 text-sm font-semibold text-on-surface hover:text-primary sm:w-auto">
-            Book Direct 1-on-1 Consultation
+            {loc?.cta_button_2 || "Book Direct 1-on-1 Consultation"}
           </BookConsultationButton>
           {whatsappNumber ? (
             <a
@@ -123,15 +123,15 @@ export function AstrologerMatchCta({
               rel="noreferrer"
               className="inline-flex w-full items-center justify-center rounded-full bg-surface-high px-5 py-2.5 text-sm font-semibold text-secondary sm:w-auto"
             >
-              WhatsApp Priest Desk
+              {loc?.cta_button_3 || "WhatsApp Priest Desk"}
             </a>
           ) : null}
         </div>
         <div className="mt-12 grid w-full max-w-4xl grid-cols-1 gap-6 border-t border-outline-variant/20 pt-8 sm:grid-cols-3">
           {[
-            ["100% Confidential", "Gotra & Janma Sankalpa Protected"],
-            ["Authentic Lineage", "Strictly Gurukula-Certified Acharyas"],
-            ["Sacred Channels", "Video consulting"],
+            [loc?.proof_1_title || "100% Confidential", loc?.proof_1_copy || "Gotra & Janma Sankalpa Protected"],
+            [loc?.proof_2_title || "Authentic Lineage", loc?.proof_2_copy || "Strictly Gurukula-Certified Acharyas"],
+            [loc?.proof_3_title || "Sacred Channels", loc?.proof_3_copy || "Video consulting"],
           ].map(([title, copy]) => (
             <div key={title} className="flex flex-col items-center gap-1">
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-on-surface">{title}</span>

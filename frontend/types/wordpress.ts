@@ -187,6 +187,15 @@ export type WPPage = {
   cta_eyebrow?: string;
   cta_title?: string;
   cta_copy?: string;
+  cta_button?: string;
+  cta_button_2?: string;
+  cta_button_3?: string;
+  proof_1_title?: string;
+  proof_1_copy?: string;
+  proof_2_title?: string;
+  proof_2_copy?: string;
+  proof_3_title?: string;
+  proof_3_copy?: string;
   unique_eyebrow?: string;
   unique_title?: string;
   unique_copy?: string;

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: JyothishiUncle Core
  * Description: Custom post types, site settings, galleries, and sample content for the JyothishiUncle headless website. The public site is Next.js — do not install a page-builder theme.
- * Version: 0.8.8
+ * Version: 0.8.9
  * Author: JyothishiUncle
  * Requires at least: 6.4
  * Requires PHP: 8.1

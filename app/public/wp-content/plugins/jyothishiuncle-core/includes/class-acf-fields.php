@@ -881,6 +881,8 @@ class JU_ACF_Fields {
 					self::acf_message( 'field_contact_hero_help', 'Banner', '<p><strong>Title</strong> — WordPress title above. <strong>Featured image</strong> — first large photo in “Sanctified Environment”.</p>' ),
 					self::field( 'field_contact_eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Example: Sacred Portals & Ritual Access' ),
 					self::field( 'field_contact_hero_copy', 'hero_copy', 'Intro under the title', 'textarea' ),
+					self::field( 'field_contact_cta_button', 'cta_button', 'Consultation button text', 'text', 'Example: Consultation Portal' ),
+					self::field( 'field_contact_cta_button_2', 'cta_button_2', 'Enquiry button text', 'text', 'Example: Open Enquiry' ),
 				),
 				self::section_tab( 'field_contact_tab_enquiry', '2 · Enquiry form' ),
 				array(
@@ -915,6 +917,8 @@ class JU_ACF_Fields {
 					array( 'name' => 'title', 'label' => 'Banner title', 'type' => 'text' ),
 					array( 'name' => 'eyebrow', 'label' => 'Banner eyebrow', 'type' => 'text' ),
 					array( 'name' => 'hero_copy', 'label' => 'Banner intro', 'type' => 'textarea' ),
+					array( 'name' => 'cta_button', 'label' => 'Consultation button text', 'type' => 'text' ),
+					array( 'name' => 'cta_button_2', 'label' => 'Enquiry button text', 'type' => 'text' ),
 					array( 'name' => 'photos_eyebrow', 'label' => 'Photos eyebrow', 'type' => 'text' ),
 					array( 'name' => 'photos_lead', 'label' => 'Photos heading', 'type' => 'text' ),
 					array( 'name' => 'photos_copy', 'label' => 'Photos intro', 'type' => 'textarea' ),
@@ -958,6 +962,7 @@ class JU_ACF_Fields {
 					self::field( 'field_services_cta_eyebrow', 'cta_eyebrow', 'CTA eyebrow', 'text', 'Example: Live Astrological Ephemeris Sync' ),
 					self::field( 'field_services_cta_title', 'cta_title', 'CTA heading', 'text', 'Example: Book a 1-on-1 Consultation' ),
 					self::field( 'field_services_cta_copy', 'cta_copy', 'CTA text', 'textarea' ),
+					self::field( 'field_services_cta_button', 'cta_button', 'Button text', 'text', 'Example: Book Consultation' ),
 				)
 			);
 			self::register_sectioned_page(
@@ -979,6 +984,7 @@ class JU_ACF_Fields {
 					array( 'name' => 'cta_eyebrow', 'label' => 'CTA eyebrow', 'type' => 'text' ),
 					array( 'name' => 'cta_title', 'label' => 'CTA heading', 'type' => 'text' ),
 					array( 'name' => 'cta_copy', 'label' => 'CTA text', 'type' => 'textarea' ),
+					array( 'name' => 'cta_button', 'label' => 'Button text', 'type' => 'text' ),
 				)
 			);
 		}
@@ -1031,6 +1037,8 @@ class JU_ACF_Fields {
 					self::field( 'field_travel_cta_eyebrow', 'cta_eyebrow', 'CTA eyebrow', 'text' ),
 					self::field( 'field_travel_cta_title', 'cta_title', 'CTA heading', 'text' ),
 					self::field( 'field_travel_cta_copy', 'cta_copy', 'CTA text', 'textarea' ),
+					self::field( 'field_travel_cta_button', 'cta_button', 'Primary button text', 'text', 'Example: Book Pilgrimage Consultation' ),
+					self::field( 'field_travel_cta_button_2', 'cta_button_2', 'WhatsApp button text', 'text', 'Example: Speak via WhatsApp' ),
 				)
 			);
 			self::register_sectioned_page(
@@ -1072,6 +1080,8 @@ class JU_ACF_Fields {
 					array( 'name' => 'cta_eyebrow', 'label' => 'CTA eyebrow', 'type' => 'text' ),
 					array( 'name' => 'cta_title', 'label' => 'CTA heading', 'type' => 'text' ),
 					array( 'name' => 'cta_copy', 'label' => 'CTA text', 'type' => 'textarea' ),
+					array( 'name' => 'cta_button', 'label' => 'Primary button text', 'type' => 'text' ),
+					array( 'name' => 'cta_button_2', 'label' => 'WhatsApp button text', 'type' => 'text' ),
 				)
 			);
 		}
@@ -1097,6 +1107,8 @@ class JU_ACF_Fields {
 					self::field( 'field_articles_cta_eyebrow', 'cta_eyebrow', 'CTA eyebrow', 'text', 'Example: Personal guidance' ),
 					self::field( 'field_articles_cta_title', 'cta_title', 'CTA heading', 'text' ),
 					self::field( 'field_articles_cta_copy', 'cta_copy', 'CTA text', 'textarea' ),
+					self::field( 'field_articles_cta_button', 'cta_button', 'Primary button text', 'text', 'Example: Book 1-on-1 consultation' ),
+					self::field( 'field_articles_cta_button_2', 'cta_button_2', 'WhatsApp button text', 'text', 'Example: WhatsApp' ),
 				)
 			);
 			self::register_sectioned_page(
@@ -1115,6 +1127,8 @@ class JU_ACF_Fields {
 					array( 'name' => 'cta_eyebrow', 'label' => 'CTA eyebrow', 'type' => 'text' ),
 					array( 'name' => 'cta_title', 'label' => 'CTA heading', 'type' => 'text' ),
 					array( 'name' => 'cta_copy', 'label' => 'CTA text', 'type' => 'textarea' ),
+					array( 'name' => 'cta_button', 'label' => 'Primary button text', 'type' => 'text' ),
+					array( 'name' => 'cta_button_2', 'label' => 'WhatsApp button text', 'type' => 'text' ),
 				)
 			);
 		}
@@ -1177,6 +1191,15 @@ class JU_ACF_Fields {
 					self::field( 'field_astro_match_eyebrow', 'cta_eyebrow', 'CTA eyebrow (optional)', 'text' ),
 					self::field( 'field_astro_match_title', 'cta_title', 'CTA heading', 'text', 'Example: Unsure Which Astrologer is Aligned with Your Kundali?' ),
 					self::field( 'field_astro_match_copy', 'cta_copy', 'CTA text', 'textarea' ),
+					self::field( 'field_astro_match_button', 'cta_button', 'Primary button text', 'text', 'Example: Speak with Astrological Concierge (Free Guidance)' ),
+					self::field( 'field_astro_match_button_2', 'cta_button_2', 'Secondary button text', 'text', 'Example: Book Direct 1-on-1 Consultation' ),
+					self::field( 'field_astro_match_button_3', 'cta_button_3', 'WhatsApp button text', 'text', 'Example: WhatsApp Priest Desk' ),
+					self::field( 'field_astro_match_proof_1_title', 'proof_1_title', 'Bottom label 1', 'text', 'Example: 100% Confidential' ),
+					self::field( 'field_astro_match_proof_1_copy', 'proof_1_copy', 'Bottom text 1', 'text', 'Example: Gotra & Janma Sankalpa Protected' ),
+					self::field( 'field_astro_match_proof_2_title', 'proof_2_title', 'Bottom label 2', 'text', 'Example: Authentic Lineage' ),
+					self::field( 'field_astro_match_proof_2_copy', 'proof_2_copy', 'Bottom text 2', 'text', 'Example: Strictly Gurukula-Certified Acharyas' ),
+					self::field( 'field_astro_match_proof_3_title', 'proof_3_title', 'Bottom label 3', 'text', 'Example: Sacred Channels' ),
+					self::field( 'field_astro_match_proof_3_copy', 'proof_3_copy', 'Bottom text 3', 'text', 'Example: Video consulting' ),
 				)
 			);
 			self::register_sectioned_page(
@@ -1212,6 +1235,15 @@ class JU_ACF_Fields {
 					array( 'name' => 'cta_eyebrow', 'label' => 'Match CTA eyebrow', 'type' => 'text' ),
 					array( 'name' => 'cta_title', 'label' => 'Match CTA heading', 'type' => 'text' ),
 					array( 'name' => 'cta_copy', 'label' => 'Match CTA text', 'type' => 'textarea' ),
+					array( 'name' => 'cta_button', 'label' => 'Primary button text', 'type' => 'text' ),
+					array( 'name' => 'cta_button_2', 'label' => 'Secondary button text', 'type' => 'text' ),
+					array( 'name' => 'cta_button_3', 'label' => 'WhatsApp button text', 'type' => 'text' ),
+					array( 'name' => 'proof_1_title', 'label' => 'Bottom label 1', 'type' => 'text' ),
+					array( 'name' => 'proof_1_copy', 'label' => 'Bottom text 1', 'type' => 'text' ),
+					array( 'name' => 'proof_2_title', 'label' => 'Bottom label 2', 'type' => 'text' ),
+					array( 'name' => 'proof_2_copy', 'label' => 'Bottom text 2', 'type' => 'text' ),
+					array( 'name' => 'proof_3_title', 'label' => 'Bottom label 3', 'type' => 'text' ),
+					array( 'name' => 'proof_3_copy', 'label' => 'Bottom text 3', 'type' => 'text' ),
 					array( 'name' => 'content', 'label' => 'Extra page body', 'type' => 'wysiwyg' ),
 				)
 			);

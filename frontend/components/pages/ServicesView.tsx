@@ -269,7 +269,7 @@ export function ServicesView({
               "Confidential sessions online through video consulting. Calendar dates that are already taken stay closed."}
           </p>
           <div className="mt-6">
-            <BookConsultationButton />
+            <BookConsultationButton>{loc?.cta_button || "Book Consultation"}</BookConsultationButton>
           </div>
         </div>
       </section>

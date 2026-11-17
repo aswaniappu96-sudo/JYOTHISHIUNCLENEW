@@ -293,11 +293,11 @@ export function TravelView({
               prefill={{ whatsapp: whatsappNumber }}
               className="inline-flex items-center justify-center rounded-full bg-primary-container px-6 py-2.5 text-sm font-semibold text-on-primary shadow-[0_0_24px_rgba(229,195,120,0.4)]"
             >
-              Book Pilgrimage Consultation
+              {loc?.cta_button || "Book Pilgrimage Consultation"}
             </BookConsultationButton>
             {waHref ? (
               <ButtonLink href={waHref} variant="ghost" external>
-                Speak via WhatsApp
+                {loc?.cta_button_2 || "Speak via WhatsApp"}
               </ButtonLink>
             ) : null}
           </div>

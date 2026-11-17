@@ -424,8 +424,8 @@ class JU_I18n {
 					array( 'hero.kicker1', 'Eyebrow', 'text' ),
 					array( 'hero.title1', 'Headline', 'text' ),
 					array( 'hero.copy1', 'Sub-headline', 'textarea' ),
-					array( 'hero.consultWa', 'Primary button', 'text' ),
-					array( 'hero.acharyas', 'Secondary button', 'text' ),
+					array( 'hero.consultWa', 'Primary button text', 'text' ),
+					array( 'hero.acharyas', 'Secondary button text', 'text' ),
 					array( 'hero.trustSessions', 'Trust line — part 1', 'text' ),
 					array( 'hero.trustModes', 'Trust line — part 2', 'text' ),
 					array( 'hero.trustLangs', 'Trust line — part 3', 'text' ),
@@ -442,8 +442,8 @@ class JU_I18n {
 					array( 'hero.kicker2', 'Eyebrow', 'text' ),
 					array( 'hero.title2', 'Headline', 'text' ),
 					array( 'hero.copy2', 'Sub-headline', 'textarea' ),
-					array( 'hero.bookPoojaWa', 'Primary button', 'text' ),
-					array( 'hero.remedies', 'Secondary button', 'text' ),
+					array( 'hero.bookPoojaWa', 'Primary button text', 'text' ),
+					array( 'hero.remedies', 'Secondary button text', 'text' ),
 					array( 'hero.trustSankalpa', 'Trust line — part 1', 'text' ),
 					array( 'hero.trustStream', 'Trust line — part 2', 'text' ),
 					array( 'hero.trustPrasad', 'Trust line — part 3', 'text' ),
@@ -460,9 +460,9 @@ class JU_I18n {
 					array( 'hero.kicker3', 'Eyebrow', 'text' ),
 					array( 'hero.title3', 'Headline', 'text' ),
 					array( 'hero.copy3', 'Sub-headline', 'textarea' ),
-					array( 'hero.yatraWa', 'Primary button', 'text' ),
-					array( 'hero.familyYatra', 'Secondary button', 'text' ),
-					array( 'hero.video', 'Video button (shown on every slide)', 'text' ),
+					array( 'hero.yatraWa', 'Primary button text', 'text' ),
+					array( 'hero.familyYatra', 'Secondary button text', 'text' ),
+					array( 'hero.video', 'Video button text (shown on every slide)', 'text' ),
 					array( 'hero.trustPace', 'Trust line — part 1', 'text' ),
 					array( 'hero.trustMeals', 'Trust line — part 2', 'text' ),
 					array( 'hero.trustRituals', 'Trust line — part 3', 'text' ),
@@ -499,7 +499,7 @@ class JU_I18n {
 					array( 'about.rest', 'Heading end', 'text' ),
 					array( 'about.body', 'Paragraph', 'textarea' ),
 					array( 'about_excerpt', 'Longer about text', 'textarea' ),
-					array( 'about.read', 'Button', 'text' ),
+					array( 'about.read', 'Button text', 'text' ),
 				),
 			),
 			array(
@@ -514,7 +514,7 @@ class JU_I18n {
 					array( 'how.step1', 'Step 1', 'text' ),
 					array( 'how.step2', 'Step 2', 'text' ),
 					array( 'how.step3', 'Step 3', 'text' ),
-					array( 'how.cta', 'Button', 'text' ),
+					array( 'how.cta', 'Button text', 'text' ),
 				),
 			),
 			array(
@@ -531,6 +531,7 @@ class JU_I18n {
 					array( 'consult.quote', 'Quote', 'textarea' ),
 					array( 'consult.ctaTitle', 'Side heading', 'text' ),
 					array( 'consult.ctaCopy', 'Side text', 'textarea' ),
+					array( 'consult.book', 'Topic card button text', 'text', 'Example: View Astrologers' ),
 				),
 			),
 			array(
@@ -543,7 +544,7 @@ class JU_I18n {
 					array( 'astro.lead', 'Heading start', 'text' ),
 					array( 'astro.accent', 'Heading highlight', 'text' ),
 					array( 'astro.copy', 'Paragraph', 'textarea' ),
-					array( 'astro.view', 'Button', 'text' ),
+					array( 'astro.view', 'Button text', 'text' ),
 				),
 			),
 			array(
@@ -558,7 +559,8 @@ class JU_I18n {
 					array( 'join.lead', 'Heading start', 'text' ),
 					array( 'join.accent', 'Heading highlight', 'text' ),
 					array( 'join.copy', 'Paragraph', 'textarea' ),
-					array( 'join.cta', 'Button', 'text' ),
+					array( 'join.cta', 'Primary button text', 'text' ),
+					array( 'join.login', 'Secondary button text', 'text', 'Example: Already registered? Login' ),
 				),
 			),
 			array(
@@ -571,6 +573,7 @@ class JU_I18n {
 					array( 'daily.lead', 'Heading start', 'text' ),
 					array( 'daily.accent', 'Heading highlight', 'text' ),
 					array( 'daily.copy', 'Paragraph', 'textarea' ),
+					array( 'daily.cta', 'Button text', 'text', 'Example: Get video horoscope' ),
 				),
 			),
 			array(
@@ -583,7 +586,7 @@ class JU_I18n {
 					array( 'pooja.lead', 'Heading start', 'text' ),
 					array( 'pooja.accent', 'Heading highlight', 'text' ),
 					array( 'pooja.copy', 'Paragraph', 'textarea' ),
-					array( 'pooja.view', 'Button', 'text' ),
+					array( 'pooja.view', 'Button text', 'text' ),
 				),
 			),
 			array(
@@ -596,7 +599,7 @@ class JU_I18n {
 					array( 'store.lead', 'Heading start', 'text' ),
 					array( 'store.accent', 'Heading highlight', 'text' ),
 					array( 'store.copy', 'Paragraph', 'textarea' ),
-					array( 'store.view', 'Button', 'text' ),
+					array( 'store.view', 'Button text', 'text' ),
 				),
 			),
 			array(
@@ -609,7 +612,7 @@ class JU_I18n {
 					array( 'yatra.lead', 'Heading start', 'text' ),
 					array( 'yatra.accent', 'Heading highlight', 'text' ),
 					array( 'yatra.copy', 'Paragraph', 'textarea' ),
-					array( 'yatra.view', 'Button', 'text' ),
+					array( 'yatra.view', 'Button text', 'text' ),
 				),
 			),
 			array(
@@ -634,7 +637,7 @@ class JU_I18n {
 					array( 'articles.lead', 'Heading start', 'text' ),
 					array( 'articles.accent', 'Heading highlight', 'text' ),
 					array( 'articles.copy', 'Paragraph', 'textarea' ),
-					array( 'articles.view', 'Button', 'text' ),
+					array( 'articles.view', 'Button text', 'text' ),
 				),
 			),
 			array(
@@ -647,6 +650,9 @@ class JU_I18n {
 					array( 'enquiry.lead', 'Heading start', 'text' ),
 					array( 'enquiry.accent', 'Heading highlight', 'text' ),
 					array( 'enquiry.copy', 'Paragraph', 'textarea' ),
+					array( 'enquiry.submit', 'Submit button text', 'text' ),
+					array( 'enquiry.chat', 'WhatsApp button text', 'text' ),
+					array( 'enquiry.contactSubmit', 'Contact-page submit button text', 'text' ),
 				),
 			),
 			array(
@@ -660,6 +666,9 @@ class JU_I18n {
 					array( 'cta.lead', 'Heading start', 'text' ),
 					array( 'cta.accent', 'Heading highlight', 'text' ),
 					array( 'cta.copy', 'Paragraph', 'textarea' ),
+					array( 'cta.book', 'Primary button text', 'text', 'Example: Book your 1-on-1 consultation →' ),
+					array( 'cta.pooja', 'Secondary button text', 'text', 'Example: Explore sacred pooja & homams' ),
+					array( 'cta.whatsapp', 'WhatsApp button text', 'text', 'Example: WhatsApp' ),
 				),
 			),
 			array(
@@ -685,7 +694,7 @@ class JU_I18n {
 		return $n . ' · ' . $label;
 	}
 
-	private static function editor_field( $locale, $key, $label, $type ) {
+	private static function editor_field( $locale, $key, $label, $type, $help = '' ) {
 		$name  = 'ju_i18n[' . $locale . '][' . $key . ']';
 		$id    = 'ju_i18n_' . $locale . '_' . sanitize_html_class( str_replace( '.', '_', $key ) );
 		$value = self::value( $locale, $key );
@@ -695,6 +704,9 @@ class JU_I18n {
 			echo '<textarea name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="large-text" rows="3">' . esc_textarea( $value ) . '</textarea>';
 		} else {
 			echo '<input name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" type="text" class="large-text" value="' . esc_attr( $value ) . '">';
+		}
+		if ( $help ) {
+			echo '<p class="description">' . esc_html( $help ) . '</p>';
 		}
 		if ( 'en' !== $locale ) {
 			echo '<p class="description">English: ' . esc_html( self::value( 'en', $key ) ) . '</p>';
@@ -761,7 +773,7 @@ class JU_I18n {
 						<?php endif; ?>
 						<table class="form-table" role="presentation">
 							<?php foreach ( $block['fields'] as $field ) : ?>
-								<?php self::editor_field( $locale['id'], $field[0], $field[1], $field[2] ); ?>
+								<?php self::editor_field( $locale['id'], $field[0], $field[1], $field[2], isset( $field[3] ) ? $field[3] : '' ); ?>
 							<?php endforeach; ?>
 						</table>
 					</div>

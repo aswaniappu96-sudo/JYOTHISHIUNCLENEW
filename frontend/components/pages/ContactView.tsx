@@ -115,7 +115,7 @@ export function ContactView({
           </div>
           <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-surface-low/90 p-2 shadow-xl backdrop-blur-xl">
             <BookConsultationButton className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-[#FFF8EC]">
-              Consultation Portal
+              {loc?.cta_button || "Consultation Portal"}
             </BookConsultationButton>
             <BookingMenu />
             <button
@@ -123,7 +123,7 @@ export function ContactView({
               onClick={scrollToEnquiry}
               className="inline-flex items-center rounded-xl bg-surface-high px-4 py-2.5 text-sm font-medium text-primary"
             >
-              Open Enquiry
+              {loc?.cta_button_2 || "Open Enquiry"}
             </button>
           </div>
         </div>

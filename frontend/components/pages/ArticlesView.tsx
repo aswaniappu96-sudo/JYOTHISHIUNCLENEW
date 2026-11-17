@@ -208,7 +208,7 @@ export function ArticlesView({
           </p>
           <div className="mb-10 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
             <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container px-8 py-3.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_0_24px_rgba(229,195,120,0.45)] transition hover:brightness-95 sm:w-auto">
-              Book 1-on-1 consultation
+              {loc?.cta_button || "Book 1-on-1 consultation"}
             </BookConsultationButton>
             {whatsappNumber ? (
               <a
@@ -217,7 +217,7 @@ export function ArticlesView({
                 rel="noreferrer"
                 className="inline-flex w-full items-center justify-center rounded-full bg-surface-highest px-8 py-3.5 text-sm font-semibold text-on-surface transition hover:text-primary sm:w-auto"
               >
-                WhatsApp
+                {loc?.cta_button_2 || "WhatsApp"}
               </a>
             ) : null}
           </div>
