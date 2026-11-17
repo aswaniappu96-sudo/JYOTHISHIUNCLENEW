@@ -637,8 +637,8 @@ const en = {
   "footer.refund": "Refund Policy",
   "footer.disclaimer": "Disclaimer",
   "footer.social": "Social",
-  "footer.warningLabel": "Warning",
-  "footer.warning": "Astrology is belief-based guidance. It does not guarantee results and is not medical, legal, or financial advice. Beware of fraud and scams that demand money with a promise of a sure cure, wealth, or marriage.",
+  "footer.warningLabel": "Our Ethical Commitment",
+  "footer.warning": "Vedic astrology and rituals offer traditional, faith-based guidance, not medical, legal, or financial advice. MaharshiOm never guarantees outcomes or uses fear-based remedies. Please only communicate through our official website and verified numbers.",
   "footer.copy": "© MaharshiOm",
 };
 
@@ -1267,8 +1267,8 @@ const hi: Record<keyof typeof en, string> = {
   "footer.refund": "वापसी नीति",
   "footer.disclaimer": "अस्वीकरण",
   "footer.social": "सोशल",
-  "footer.warningLabel": "चेतावनी",
-  "footer.warning": "ज्योतिष विश्वास पर आधारित मार्गदर्शन है। यह परिणाम की गारंटी नहीं है और चिकित्सा, कानूनी या वित्तीय सलाह नहीं है। निश्चित इलाज, धन या विवाह का वादा करके पैसे माँगने वाले धोखे और घोटाले से बचें।",
+  "footer.warningLabel": "हमारी नैतिक प्रतिबद्धता",
+  "footer.warning": "वैदिक ज्योतिष और अनुष्ठान पारंपरिक, विश्वास-आधारित मार्गदर्शन देते हैं — चिकित्सा, कानूनी या वित्तीय सलाह नहीं। महर्षिओम परिणाम की गारंटी नहीं देता और भय-आधारित उपाय नहीं अपनाता। कृपया केवल हमारी आधिकारिक वेबसाइट और सत्यापित नंबरों से ही संपर्क करें।",
   "footer.copy": "© ज्योतिषी अंकल",
 };
 
@@ -1897,8 +1897,8 @@ const ta: Record<keyof typeof en, string> = {
   "footer.refund": "திருப்பித் தரும் கொள்கை",
   "footer.disclaimer": "பொறுப்புத்துறப்பு",
   "footer.social": "சமூக ஊடகம்",
-  "footer.warningLabel": "எச்சரிக்கை",
-  "footer.warning": "ஜோதிடம் நம்பிக்கை சார்ந்த வழிகாட்டல். இது முடிவை உறுதி செய்யாது; மருத்துவ, சட்ட அல்லது நிதி ஆலோசனை அல்ல. உறுதியான குணம், செல்வம் அல்லது திருமணம் என வாக்குறுதி அளித்து பணம் கேட்கும் மோசடிகளை எச்சரிக்கையுடன் பாருங்கள்.",
+  "footer.warningLabel": "எங்கள் நெறிமுறை உறுதிப்பாடு",
+  "footer.warning": "வேத ஜோதிடமும் சடங்குகளும் பாரம்பரிய, நம்பிக்கை சார்ந்த வழிகாட்டல் தரும் — மருத்துவ, சட்ட அல்லது நிதி ஆலோசனை அல்ல. மகரிஷிஓம் முடிவுகளை உத்தரவாதம் செய்யாது; பயத்தை அடிப்படையாகக் கொண்ட பரிகாரங்களையும் பயன்படுத்தாது. அதிகாரப்பூர்வ இணையதளம் மற்றும் சரிபார்க்கப்பட்ட எண்கள் மூலமாகவே தொடர்பு கொள்ளுங்கள்.",
   "footer.copy": "© ஜோதிஷி அங்கிள்",
 };
 
@@ -2527,8 +2527,8 @@ const ml: Record<keyof typeof en, string> = {
   "footer.refund": "റീഫണ്ട് നയം",
   "footer.disclaimer": "നിരാകരണം",
   "footer.social": "സോഷ്യൽ",
-  "footer.warningLabel": "മുന്നറിയിപ്പ്",
-  "footer.warning": "ജ്യോതിഷം വിശ്വാസാധിഷ്ഠിത മാർഗനിർദേശമാണ്. ഫലം ഉറപ്പില്ല. ഇത് വൈദ്യ, നിയമ, അല്ലെങ്കിൽ സാമ്പത്തിക ഉപദേശമല്ല. ഉറപ്പായ രോഗശാന്തി, സമ്പത്ത്, വിവാഹം എന്നിവ വാഗ്ദാനം ചെയ്ത് പണം ചോദിക്കുന്ന തട്ടിപ്പുകളിൽ നിന്ന് സൂക്ഷിക്കുക.",
+  "footer.warningLabel": "ഞങ്ങളുടെ ധാർമ്മിക പ്രതിബദ്ധത",
+  "footer.warning": "വൈദിക ജ്യോതിഷവും അനുഷ്ഠാനങ്ങളും പരമ്പരാഗത, വിശ്വാസാധിഷ്ഠിത മാർഗനിർദേശം നൽകുന്നു — വൈദ്യ, നിയമ, അല്ലെങ്കിൽ സാമ്പത്തിക ഉപദേശമല്ല. മഹർഷിഓം ഫലങ്ങൾ ഉറപ്പ് നൽകുന്നില്ല; ഭയാധിഷ്ഠിത പരിഹാരങ്ങളും ഉപയോഗിക്കുന്നില്ല. ഔദ്യോഗിക വെബ്‌സൈറ്റിലൂടെയും സ്ഥിരീകരിച്ച നമ്പറുകളിലൂടെയും മാത്രം ബന്ധപ്പെടുക.",
   "footer.copy": "© ജ്യോതിഷി അങ്കിൾ",
 };
 
@@ -3157,8 +3157,8 @@ const kn: Record<keyof typeof en, string> = {
   "footer.refund": "ಮರುಪಾವತಿ ನೀತಿ",
   "footer.disclaimer": "ಹಕ್ಕುತ್ಯಾಗ",
   "footer.social": "ಸಾಮಾಜಿಕ",
-  "footer.warningLabel": "ಎಚ್ಚರಿಕೆ",
-  "footer.warning": "ಜ್ಯೋತಿಷ್ಯ ನಂಬಿಕೆ ಆಧಾರಿತ ಮಾರ್ಗದರ್ಶನ. ಇದು ಫಲಿತಾಂಶವನ್ನು ಖಾತರಿ ಮಾಡುವುದಿಲ್ಲ ಮತ್ತು ವೈದ್ಯಕೀಯ, ಕಾನೂನು ಅಥವಾ ಹಣಕಾಸಿನ ಸಲಹೆಯಲ್ಲ. ಖಚಿತ ಗುಣ, ಸಂಪತ್ತು ಅಥವಾ ಮದುವೆ ಎಂದು ಭರವಸೆ ನೀಡಿ ಹಣ ಕೇಳುವ ವಂಚನೆಗಳಿಂದ ಎಚ್ಚರವಿರಿ.",
+  "footer.warningLabel": "ನಮ್ಮ ನೈತಿಕ ಬದ್ಧತೆ",
+  "footer.warning": "ವೈದಿಕ ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಆಚರಣೆಗಳು ಸಾಂಪ್ರದಾಯಿಕ, ನಂಬಿಕೆ ಆಧಾರಿತ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತವೆ — ವೈದ್ಯಕೀಯ, ಕಾನೂನು ಅಥವಾ ಹಣಕಾಸಿನ ಸಲಹೆಯಲ್ಲ. ಮಹರ್ಷಿಓಮ್ ಫಲಿತಾಂಶಗಳನ್ನು ಖಾತರಿ ಮಾಡುವುದಿಲ್ಲ ಮತ್ತು ಭಯ ಆಧಾರಿತ ಪರಿಹಾರಗಳನ್ನು ಬಳಸುವುದಿಲ್ಲ. ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್ ಮತ್ತು ಪರಿಶೀಲಿತ ಸಂಖ್ಯೆಗಳ ಮೂಲಕ ಮಾತ್ರ ಸಂಪರ್ಕಿಸಿ.",
   "footer.copy": "© ಜ್ಯೋತಿಷಿ ಅಂಕಲ್",
 };
 
@@ -3787,8 +3787,8 @@ const te: Record<keyof typeof en, string> = {
   "footer.refund": "రీఫండ్ విధానం",
   "footer.disclaimer": "నిరాకరణ",
   "footer.social": "సోషల్",
-  "footer.warningLabel": "హెచ్చరిక",
-  "footer.warning": "జ్యోతిష్యం నమ్మకంపై ఆధారపడిన మార్గదర్శకం. ఇది ఫలితాన్ని హామీ ఇవ్వదు. వైద్య, న్యాయ లేదా ఆర్థిక సలహా కాదు. ఖచ్చితమైన నయం, సంపద లేదా వివాహం అని మాట ఇచ్చి డబ్బు అడిగే మోసాల పట్ల జాగ్రత్త.",
+  "footer.warningLabel": "మా నైతిక నిబద్ధత",
+  "footer.warning": "వేద జ్యోతిష్యం మరియు ఆచారాలు సాంప్రదాయ, నమ్మక ఆధారిత మార్గదర్శకం ఇస్తాయి — వైద్య, న్యాయ లేదా ఆర్థిక సలహా కాదు. మహర్షిఓమ్ ఫలితాలను హామీ ఇవ్వదు; భయం ఆధారిత పరిహారాలు ఉపయోగించదు. అధికారిక వెబ్‌సైట్ మరియు ధృవీకరించిన నంబర్ల ద్వారా మాత్రమే సంప్రదించండి.",
   "footer.copy": "© జ్యోతిషి అంకుల్",
 };
 

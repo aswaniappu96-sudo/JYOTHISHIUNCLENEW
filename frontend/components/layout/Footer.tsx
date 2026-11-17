@@ -160,9 +160,11 @@ export function Footer({
           />
         </div>
 
-        <div className="mt-8 rounded-xl border border-[#3A2A14] bg-[#1E160E] px-4 py-3 text-center sm:px-6">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#E9C07A]">{t("footer.warningLabel")}</p>
-          <p className="mx-auto mt-1 max-w-4xl text-[12px] font-semibold leading-relaxed text-[#FFF4D8]">{t("footer.warning")}</p>
+        <div className="mt-8 rounded-xl border border-primary/30 bg-surface-container px-4 py-3 text-center sm:px-6">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{t("footer.warningLabel")}</p>
+          <p className="mx-auto mt-1 max-w-4xl text-[12px] font-semibold leading-relaxed text-on-surface-variant">
+            {t("footer.warning")}
+          </p>
         </div>
 
         <div className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-outline-variant/30 pt-6 sm:flex-row">
