@@ -707,11 +707,18 @@ class JU_ACF_Fields {
 		$about_id       = self::page_id_by_slug( 'about' );
 		$contact_id     = self::page_id_by_slug( 'contact' );
 		$astrologers_id = self::page_id_by_slug( 'astrologers' );
-		$exclude_ids    = array_values( array_filter( array( $about_id, $contact_id, $astrologers_id ) ) );
+		$services_id    = self::page_id_by_slug( 'services' );
+		$travel_id      = self::page_id_by_slug( 'religious-travel' );
+		$articles_id    = self::page_id_by_slug( 'articles' );
+		$exclude_ids    = array_values(
+			array_filter(
+				array( $about_id, $contact_id, $astrologers_id, $services_id, $travel_id, $articles_id )
+			)
+		);
 
 		self::register_page_heading_group(
 			'group_ju_site_pages',
-			'Page headings & languages',
+			'Page sections',
 			$locales,
 			array(
 				'eyebrow'   => true,
@@ -720,117 +727,114 @@ class JU_ACF_Fields {
 				'photos'    => false,
 			),
 			self::page_locations_excluding( $exclude_ids ),
-			'<strong>1 · Page hero:</strong> edit the title above, the eyebrow and intro here, and set <em>Featured image</em> in the right sidebar.<br><strong>Languages:</strong> English / Hindi / Tamil / Malayalam / Kannada / Telugu. Leave a language blank to keep English.'
+			'<p><strong>1 · Page hero</strong> — title (WordPress title above), eyebrow, intro, Featured image.</p><p><strong>2 · Page body</strong> — use the main WordPress editor for policy / long text.</p><p><strong>Languages</strong> — Hindi / Tamil / Malayalam / Kannada / Telugu tabs. Leave blank to keep English.</p>'
 		);
 
 		if ( $about_id ) {
-			self::register_page_heading_group(
-				'group_ju_about_page',
-				'About page sections',
-				$locales,
-				array(
-					'eyebrow'   => true,
-					'hero_copy' => true,
-					'about'     => true,
-					'photos'    => true,
-				),
-				array(
-					array(
-						array(
-							'param'    => 'page',
-							'operator' => '==',
-							'value'    => (string) $about_id,
-						),
-					),
-				),
-				'<strong>1 · Page hero:</strong> title, eyebrow, intro, Featured image (portrait).<br><strong>2 · Extra photos:</strong> Photo 2 and Photo 3 below.<br><strong>Languages:</strong> use the language tabs, then Update.'
-			);
-		}
-
-		if ( $contact_id ) {
-			self::register_page_heading_group(
-				'group_ju_contact_page',
-				'Contact page sections',
-				$locales,
-				array(
-					'eyebrow'   => true,
-					'hero_copy' => true,
-					'about'     => false,
-					'photos'    => true,
-					'photo3'    => false,
-				),
-				array(
-					array(
-						array(
-							'param'    => 'page',
-							'operator' => '==',
-							'value'    => (string) $contact_id,
-						),
-					),
-				),
-				'<strong>1 · Page hero:</strong> title, eyebrow, intro, Featured image (first large photo).<br><strong>2 · Photo 2:</strong> second large photo below.<br><strong>Languages:</strong> use the language tabs, then Update.'
-			);
-		}
-
-		if ( $astrologers_id ) {
-			$astro_fields   = array();
-			$astro_fields[] = array(
-				'key'       => 'field_astro_page_tab_hero',
-				'label'     => '1 · Page hero',
+			$about_fields   = array();
+			$about_fields[] = array(
+				'key'       => 'field_about_tab_banner',
+				'label'     => '1 · Guru-Shishya Parampara (banner)',
 				'name'      => '',
 				'type'      => 'tab',
 				'placement' => 'top',
 			);
-			$astro_fields[] = array(
-				'key'     => 'field_astro_page_hero_help',
-				'label'   => 'Page hero',
+			$about_fields[] = array(
+				'key'     => 'field_about_banner_help',
+				'label'   => 'Banner',
 				'name'    => '',
 				'type'    => 'message',
-				'message' => '<p>This tab is the <strong>Astrologers page heading</strong> visitors see at the top.</p><ul><li><strong>Title</strong> — the main WordPress title field above this box.</li><li><strong>Eyebrow</strong> — short gold label above the title.</li><li><strong>Intro</strong> — text under the title.</li><li><strong>Featured image</strong> — optional page hero photo in the right sidebar.</li></ul><p>Use the language tabs (English / Hindi / …) for translations, then click Update.</p>',
+				'message' => '<p><strong>Title</strong> — use the main WordPress title above this box (example: The Unbroken Lineage of Stellar Seers).</p><p>This tab is the top banner: eyebrow, intro, and the four lineage cards under the tree graphic.</p>',
 			);
-			$astro_fields[] = self::field( 'field_astro_page_eyebrow', 'eyebrow', 'Small heading (eyebrow)', 'text', 'Short gold label above the title. Example: Live video consulting.' );
-			$astro_fields[] = self::field( 'field_astro_page_hero_copy', 'hero_copy', 'Intro text under the title', 'textarea', 'Shown under the page title on the public website.' );
+			$about_fields[] = self::field( 'field_about_eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Short gold label above the title. Example: Guru-Shishya Parampara · Vedic Lineage' );
+			$about_fields[] = self::field( 'field_about_hero_copy', 'hero_copy', 'Intro under the title', 'textarea', 'Shown under the banner heading.' );
+			$about_fields[] = self::field( 'field_about_root_1_title', 'root_1_title', 'Lineage card 1 title', 'text', 'Example: PARASHARA HORA' );
+			$about_fields[] = self::field( 'field_about_root_1_copy', 'root_1_copy', 'Lineage card 1 text', 'text', 'Example: Vedic Astrology Foundation' );
+			$about_fields[] = self::field( 'field_about_root_2_title', 'root_2_title', 'Lineage card 2 title', 'text' );
+			$about_fields[] = self::field( 'field_about_root_2_copy', 'root_2_copy', 'Lineage card 2 text', 'text' );
+			$about_fields[] = self::field( 'field_about_root_3_title', 'root_3_title', 'Lineage card 3 title', 'text' );
+			$about_fields[] = self::field( 'field_about_root_3_copy', 'root_3_copy', 'Lineage card 3 text', 'text' );
+			$about_fields[] = self::field( 'field_about_root_4_title', 'root_4_title', 'Lineage card 4 title', 'text' );
+			$about_fields[] = self::field( 'field_about_root_4_copy', 'root_4_copy', 'Lineage card 4 text', 'text' );
 
-			$astro_fields[] = array(
-				'key'       => 'field_astro_page_tab_listing',
-				'label'     => '2 · Astrologer listing',
+			$about_fields[] = array(
+				'key'       => 'field_about_tab_family',
+				'label'     => '2 · About Us',
 				'name'      => '',
 				'type'      => 'tab',
 				'placement' => 'top',
 			);
-			$astro_fields[] = array(
-				'key'     => 'field_astro_page_listing_help',
-				'label'   => 'Astrologer cards',
+			$about_fields[] = array(
+				'key'     => 'field_about_family_help',
+				'label'   => 'About Us block',
 				'name'    => '',
 				'type'    => 'message',
-				'message' => '<p>Astrologer <strong>cards and portraits are not edited on this page</strong>.</p><p>Open <strong>Astrologers</strong> in the left menu. Each person has a name, bio, languages, and Featured image (portrait). Those cards appear in the listing below the page hero.</p>',
+				'message' => '<p>Left portrait + right text (“A family of traditional astrologers”).</p><p><strong>Featured image</strong> in the right sidebar is the portrait photo for this section.</p>',
 			);
+			$about_fields[] = self::field( 'field_about_section_eyebrow', 'about_eyebrow', 'Eyebrow', 'text', 'Example: About Us' );
+			$about_fields[] = self::field( 'field_about_section_lead', 'about_lead', 'Heading (first part)', 'text', 'Example: A family of traditional' );
+			$about_fields[] = self::field( 'field_about_section_accent', 'about_accent', 'Heading (gold italic part)', 'text', 'Example: astrologers.' );
+			$about_fields[] = self::field( 'field_about_section_body', 'about_body', 'About text', 'wysiwyg', 'Main About Us paragraphs. Leave blank to keep the website default text.' );
+			$about_fields[] = self::field( 'field_about_portrait_name', 'portrait_name', 'Portrait name plaque', 'text', 'Optional name on the portrait.' );
+			$about_fields[] = self::field( 'field_about_portrait_caption', 'portrait_caption', 'Portrait caption', 'text' );
 
-			$astro_fields[] = array(
-				'key'       => 'field_astro_page_tab_cta',
-				'label'     => '3 · Lower page sections',
+			$about_fields[] = array(
+				'key'       => 'field_about_tab_tantric',
+				'label'     => '3 · Agni Kund & Tantric Vidya',
 				'name'      => '',
 				'type'      => 'tab',
 				'placement' => 'top',
 			);
-			$astro_fields[] = array(
-				'key'     => 'field_astro_page_cta_help',
-				'label'   => 'Wisdom, tools, match CTA',
+			$about_fields[] = array(
+				'key'     => 'field_about_tantric_help',
+				'label'   => 'Tantric Vidya',
 				'name'    => '',
 				'type'    => 'message',
-				'message' => '<p>Below the listing, the public page also shows Jyotisha wisdom, free tools, and a match CTA. Homepage-style headings for those shared blocks are edited under <a href="' . esc_url( admin_url( 'admin.php?page=ju-settings' ) ) . '">JyothishiUncle → Home page</a> section tabs (Talk to an Astrologer, Free astrology tools, Personalized Guidance).</p>',
+				'message' => '<p>Rituals block with two large photos (homam / Navagraha).</p>',
 			);
+			$about_fields[] = self::field( 'field_about_tantric_eyebrow', 'tantric_eyebrow', 'Eyebrow', 'text', 'Example: Agni Kund & Tantric Vidya' );
+			$about_fields[] = self::field( 'field_about_tantric_lead', 'tantric_lead', 'Heading (first part)', 'text', 'Example: Authentic Shastric Rituals &' );
+			$about_fields[] = self::field( 'field_about_tantric_accent', 'tantric_accent', 'Heading (gold italic part)', 'text', 'Example: Planetary Remediation' );
+			$about_fields[] = self::field( 'field_about_tantric_copy', 'tantric_copy', 'Intro under heading', 'textarea' );
+			$about_fields[] = self::image_field( 'field_about_image_1', 'image_1', 'Photo 1 (left ritual card)', 'Homam / Agni photo.' );
+			$about_fields[] = self::field( 'field_about_image_1_title', 'image_1_title', 'Photo 1 title', 'text' );
+			$about_fields[] = self::field( 'field_about_image_1_copy', 'image_1_copy', 'Photo 1 text', 'textarea' );
+			$about_fields[] = self::image_field( 'field_about_image_2', 'image_2', 'Photo 2 (right ritual card)', 'Navagraha photo.' );
+			$about_fields[] = self::field( 'field_about_image_2_title', 'image_2_title', 'Photo 2 title', 'text' );
+			$about_fields[] = self::field( 'field_about_image_2_copy', 'image_2_copy', 'Photo 2 text', 'textarea' );
 
 			$translated = array(
-				array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
-				array( 'name' => 'eyebrow', 'label' => 'Small heading (eyebrow)', 'type' => 'text' ),
-				array( 'name' => 'hero_copy', 'label' => 'Intro text under the title', 'type' => 'textarea' ),
-				array( 'name' => 'content', 'label' => 'Page body', 'type' => 'wysiwyg' ),
+				array( 'name' => 'title', 'label' => 'Banner title', 'type' => 'text' ),
+				array( 'name' => 'eyebrow', 'label' => 'Banner eyebrow', 'type' => 'text' ),
+				array( 'name' => 'hero_copy', 'label' => 'Banner intro', 'type' => 'textarea' ),
+				array( 'name' => 'root_1_title', 'label' => 'Lineage card 1 title', 'type' => 'text' ),
+				array( 'name' => 'root_1_copy', 'label' => 'Lineage card 1 text', 'type' => 'text' ),
+				array( 'name' => 'root_2_title', 'label' => 'Lineage card 2 title', 'type' => 'text' ),
+				array( 'name' => 'root_2_copy', 'label' => 'Lineage card 2 text', 'type' => 'text' ),
+				array( 'name' => 'root_3_title', 'label' => 'Lineage card 3 title', 'type' => 'text' ),
+				array( 'name' => 'root_3_copy', 'label' => 'Lineage card 3 text', 'type' => 'text' ),
+				array( 'name' => 'root_4_title', 'label' => 'Lineage card 4 title', 'type' => 'text' ),
+				array( 'name' => 'root_4_copy', 'label' => 'Lineage card 4 text', 'type' => 'text' ),
+				array( 'name' => 'about_eyebrow', 'label' => 'About Us eyebrow', 'type' => 'text' ),
+				array( 'name' => 'about_lead', 'label' => 'About Us heading (first part)', 'type' => 'text' ),
+				array( 'name' => 'about_accent', 'label' => 'About Us heading (gold part)', 'type' => 'text' ),
+				array( 'name' => 'about_body', 'label' => 'About Us text', 'type' => 'wysiwyg' ),
+				array( 'name' => 'portrait_name', 'label' => 'Portrait name', 'type' => 'text' ),
+				array( 'name' => 'portrait_caption', 'label' => 'Portrait caption', 'type' => 'text' ),
+				array( 'name' => 'tantric_eyebrow', 'label' => 'Tantric eyebrow', 'type' => 'text' ),
+				array( 'name' => 'tantric_lead', 'label' => 'Tantric heading (first part)', 'type' => 'text' ),
+				array( 'name' => 'tantric_accent', 'label' => 'Tantric heading (gold part)', 'type' => 'text' ),
+				array( 'name' => 'tantric_copy', 'label' => 'Tantric intro', 'type' => 'textarea' ),
+				array( 'name' => 'image_1_title', 'label' => 'Photo 1 title', 'type' => 'text' ),
+				array( 'name' => 'image_1_copy', 'label' => 'Photo 1 text', 'type' => 'textarea' ),
+				array( 'name' => 'image_2_title', 'label' => 'Photo 2 title', 'type' => 'text' ),
+				array( 'name' => 'image_2_copy', 'label' => 'Photo 2 text', 'type' => 'textarea' ),
+				array( 'name' => 'content', 'label' => 'Extra page body (optional)', 'type' => 'wysiwyg' ),
 			);
 			foreach ( $locales as $locale ) {
 				$id             = sanitize_key( $locale['id'] );
-				$astro_fields[] = array(
-					'key'       => 'field_astro_page_tab_' . $id,
+				$about_fields[] = array(
+					'key'       => 'field_about_tab_' . $id,
 					'label'     => $locale['native'],
 					'name'      => '',
 					'type'      => 'tab',
@@ -838,8 +842,8 @@ class JU_ACF_Fields {
 				);
 				foreach ( $translated as $field ) {
 					$name           = $field['name'] . '_' . $id;
-					$astro_fields[] = self::field(
-						'field_astro_page_i18n_' . $name,
+					$about_fields[] = self::field(
+						'field_about_i18n_' . $name,
 						$name,
 						$field['label'],
 						$field['type'],
@@ -850,20 +854,365 @@ class JU_ACF_Fields {
 
 			acf_add_local_field_group(
 				array(
-					'key'        => 'group_ju_astrologers_page',
-					'title'      => 'Astrologers page sections',
-					'fields'     => $astro_fields,
+					'key'        => 'group_ju_about_page',
+					'title'      => 'About page sections',
+					'fields'     => $about_fields,
 					'location'   => array(
 						array(
 							array(
 								'param'    => 'page',
 								'operator' => '==',
-								'value'    => (string) $astrologers_id,
+								'value'    => (string) $about_id,
 							),
 						),
 					),
 					'position'   => 'acf_after_title',
 					'menu_order' => 0,
+				)
+			);
+		}
+
+		if ( $contact_id ) {
+			$fields = array();
+			$fields = array_merge(
+				$fields,
+				self::section_tab( 'field_contact_tab_hero', '1 · Sacred Portals (banner)' ),
+				array(
+					self::acf_message( 'field_contact_hero_help', 'Banner', '<p><strong>Title</strong> — WordPress title above. <strong>Featured image</strong> — first large photo in “Sanctified Environment”.</p>' ),
+					self::field( 'field_contact_eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Example: Sacred Portals & Ritual Access' ),
+					self::field( 'field_contact_hero_copy', 'hero_copy', 'Intro under the title', 'textarea' ),
+				),
+				self::section_tab( 'field_contact_tab_enquiry', '2 · Enquiry form' ),
+				array(
+					self::acf_message(
+						'field_contact_enquiry_help',
+						'Enquiry',
+						'<p>The enquiry form uses contact details from <a href="' . esc_url( admin_url( 'admin.php?page=ju-settings' ) ) . '">JyothishiUncle → Home page / settings</a> (phone, email, address, hours). Form headings are under the Enquiry section there.</p>'
+					),
+				),
+				self::section_tab( 'field_contact_tab_photos', '3 · Sanctified Environment' ),
+				array(
+					self::acf_message( 'field_contact_photos_help', 'Photos', '<p>Two large photos under the enquiry form. Featured image = photo 1. Photo 2 field below = second card.</p>' ),
+					self::field( 'field_contact_photos_eyebrow', 'photos_eyebrow', 'Section eyebrow', 'text', 'Example: Sanctified Environment' ),
+					self::field( 'field_contact_photos_lead', 'photos_lead', 'Section heading', 'text', 'Example: Where Every Form Transmutes into Ahuti' ),
+					self::field( 'field_contact_photos_copy', 'photos_copy', 'Section intro', 'textarea' ),
+					self::field( 'field_contact_photo1_badge', 'photo1_badge', 'Photo 1 badge', 'text', 'Example: Agni Pratishtapana' ),
+					self::field( 'field_contact_photo1_title', 'photo1_title', 'Photo 1 title', 'text' ),
+					self::field( 'field_contact_photo1_copy', 'photo1_copy', 'Photo 1 text', 'textarea' ),
+					self::image_field( 'field_contact_image_1', 'image_1', 'Photo 2', 'Second large photo.' ),
+					self::field( 'field_contact_image_1_title', 'image_1_title', 'Photo 2 title', 'text' ),
+					self::field( 'field_contact_image_1_copy', 'image_1_copy', 'Photo 2 text', 'textarea' ),
+					self::field( 'field_contact_photo2_badge', 'photo2_badge', 'Photo 2 badge', 'text', 'Example: Jyotish Ratna Sanctity' ),
+				)
+			);
+			self::register_sectioned_page(
+				'group_ju_contact_page',
+				'Contact page sections',
+				$contact_id,
+				$fields,
+				$locales,
+				array(
+					array( 'name' => 'title', 'label' => 'Banner title', 'type' => 'text' ),
+					array( 'name' => 'eyebrow', 'label' => 'Banner eyebrow', 'type' => 'text' ),
+					array( 'name' => 'hero_copy', 'label' => 'Banner intro', 'type' => 'textarea' ),
+					array( 'name' => 'photos_eyebrow', 'label' => 'Photos eyebrow', 'type' => 'text' ),
+					array( 'name' => 'photos_lead', 'label' => 'Photos heading', 'type' => 'text' ),
+					array( 'name' => 'photos_copy', 'label' => 'Photos intro', 'type' => 'textarea' ),
+					array( 'name' => 'photo1_badge', 'label' => 'Photo 1 badge', 'type' => 'text' ),
+					array( 'name' => 'photo1_title', 'label' => 'Photo 1 title', 'type' => 'text' ),
+					array( 'name' => 'photo1_copy', 'label' => 'Photo 1 text', 'type' => 'textarea' ),
+					array( 'name' => 'photo2_badge', 'label' => 'Photo 2 badge', 'type' => 'text' ),
+					array( 'name' => 'image_1_title', 'label' => 'Photo 2 title', 'type' => 'text' ),
+					array( 'name' => 'image_1_copy', 'label' => 'Photo 2 text', 'type' => 'textarea' ),
+					array( 'name' => 'content', 'label' => 'Extra page body', 'type' => 'wysiwyg' ),
+				)
+			);
+		}
+
+		if ( $services_id ) {
+			$fields = array();
+			$fields = array_merge(
+				$fields,
+				self::section_tab( 'field_services_tab_hero', '1 · Vedic Tantric Shastra (banner)' ),
+				array(
+					self::acf_message( 'field_services_hero_help', 'Banner', '<p><strong>Title</strong> — WordPress title. <strong>Featured image</strong> — optional soft hero background.</p>' ),
+					self::field( 'field_services_eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Example: Vedic Tantric Shastra · Anushthana Protocols' ),
+					self::field( 'field_services_hero_copy', 'hero_copy', 'Intro under the title', 'textarea' ),
+				),
+				self::section_tab( 'field_services_tab_poojas', '2 · Agnikarya & Yajnas (poojas)' ),
+				array(
+					self::acf_message( 'field_services_pooja_help', 'Poojas listing', '<p>Section headings above the pooja cards. Cards themselves come from <strong>Poojas</strong> in the left menu.</p>' ),
+					self::field( 'field_services_list_eyebrow', 'list_eyebrow', 'Section eyebrow', 'text', 'Example: 01 / Agnikarya & Yajnas' ),
+					self::field( 'field_services_list_title', 'list_title', 'Section heading', 'text', 'Example: Sacred Fire Homams & Poojas' ),
+					self::field( 'field_services_list_copy', 'list_copy', 'Section intro', 'textarea' ),
+				),
+				self::section_tab( 'field_services_tab_products', '3 · Sacred products' ),
+				array(
+					self::acf_message( 'field_services_products_help', 'Products listing', '<p>Shown when visitors open the Products tab. Product cards come from <strong>Products</strong> in the left menu.</p>' ),
+					self::field( 'field_services_list2_eyebrow', 'list2_eyebrow', 'Section eyebrow', 'text', 'Example: 02 / Sacred products' ),
+					self::field( 'field_services_list2_title', 'list2_title', 'Section heading', 'text', 'Example: Sacred Planetary Products & Talismans' ),
+					self::field( 'field_services_list2_copy', 'list2_copy', 'Section intro', 'textarea' ),
+				),
+				self::section_tab( 'field_services_tab_cta', '4 · Book consultation' ),
+				array(
+					self::field( 'field_services_cta_eyebrow', 'cta_eyebrow', 'CTA eyebrow', 'text', 'Example: Live Astrological Ephemeris Sync' ),
+					self::field( 'field_services_cta_title', 'cta_title', 'CTA heading', 'text', 'Example: Book a 1-on-1 Consultation' ),
+					self::field( 'field_services_cta_copy', 'cta_copy', 'CTA text', 'textarea' ),
+				)
+			);
+			self::register_sectioned_page(
+				'group_ju_services_page',
+				'Services page sections',
+				$services_id,
+				$fields,
+				$locales,
+				array(
+					array( 'name' => 'title', 'label' => 'Banner title', 'type' => 'text' ),
+					array( 'name' => 'eyebrow', 'label' => 'Banner eyebrow', 'type' => 'text' ),
+					array( 'name' => 'hero_copy', 'label' => 'Banner intro', 'type' => 'textarea' ),
+					array( 'name' => 'list_eyebrow', 'label' => 'Poojas eyebrow', 'type' => 'text' ),
+					array( 'name' => 'list_title', 'label' => 'Poojas heading', 'type' => 'text' ),
+					array( 'name' => 'list_copy', 'label' => 'Poojas intro', 'type' => 'textarea' ),
+					array( 'name' => 'list2_eyebrow', 'label' => 'Products eyebrow', 'type' => 'text' ),
+					array( 'name' => 'list2_title', 'label' => 'Products heading', 'type' => 'text' ),
+					array( 'name' => 'list2_copy', 'label' => 'Products intro', 'type' => 'textarea' ),
+					array( 'name' => 'cta_eyebrow', 'label' => 'CTA eyebrow', 'type' => 'text' ),
+					array( 'name' => 'cta_title', 'label' => 'CTA heading', 'type' => 'text' ),
+					array( 'name' => 'cta_copy', 'label' => 'CTA text', 'type' => 'textarea' ),
+				)
+			);
+		}
+
+		if ( $travel_id ) {
+			$fields = array();
+			$fields = array_merge(
+				$fields,
+				self::section_tab( 'field_travel_tab_hero', '1 · Tirtha Yatra (banner)' ),
+				array(
+					self::acf_message( 'field_travel_hero_help', 'Banner', '<p><strong>Title</strong> — WordPress title. <strong>Featured image</strong> — optional hero background. Stats chips below are editable here.</p>' ),
+					self::field( 'field_travel_eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Example: Tirtha Yatra · Consecrated pilgrimages' ),
+					self::field( 'field_travel_hero_copy', 'hero_copy', 'Intro under the title', 'textarea' ),
+					self::field( 'field_travel_stat_1_value', 'stat_1_value', 'Stat 1 value', 'text', 'Example: 12 Peethas' ),
+					self::field( 'field_travel_stat_1_note', 'stat_1_note', 'Stat 1 note', 'text' ),
+					self::field( 'field_travel_stat_2_value', 'stat_2_value', 'Stat 2 value', 'text' ),
+					self::field( 'field_travel_stat_2_note', 'stat_2_note', 'Stat 2 note', 'text' ),
+					self::field( 'field_travel_stat_3_value', 'stat_3_value', 'Stat 3 value', 'text' ),
+					self::field( 'field_travel_stat_3_note', 'stat_3_note', 'Stat 3 note', 'text' ),
+					self::field( 'field_travel_stat_4_value', 'stat_4_value', 'Stat 4 value', 'text' ),
+					self::field( 'field_travel_stat_4_note', 'stat_4_note', 'Stat 4 note', 'text' ),
+				),
+				self::section_tab( 'field_travel_tab_list', '2 · Current Sacred Expeditions' ),
+				array(
+					self::acf_message( 'field_travel_list_help', 'Expeditions', '<p>Listing headings. Destination cards come from <strong>Religious Travel</strong> in the left menu.</p>' ),
+					self::field( 'field_travel_list_eyebrow', 'list_eyebrow', 'Section eyebrow', 'text', 'Example: Elemental terrain' ),
+					self::field( 'field_travel_list_title', 'list_title', 'Section heading', 'text', 'Example: Current Sacred Expeditions' ),
+					self::field( 'field_travel_list_copy', 'list_copy', 'Note beside heading', 'text', 'Example: Only 3 to 5 spots left per departure' ),
+				),
+				self::section_tab( 'field_travel_tab_unique', '3 · What Makes Yatras Unique' ),
+				array(
+					self::field( 'field_travel_unique_eyebrow', 'unique_eyebrow', 'Section eyebrow', 'text', 'Example: Vedic excellence' ),
+					self::field( 'field_travel_unique_title', 'unique_title', 'Section heading', 'text' ),
+					self::field( 'field_travel_unique_copy', 'unique_copy', 'Section intro', 'textarea' ),
+					self::field( 'field_travel_unique_1_title', 'unique_1_title', 'Card 1 title', 'text' ),
+					self::field( 'field_travel_unique_1_copy', 'unique_1_copy', 'Card 1 text', 'textarea' ),
+					self::field( 'field_travel_unique_1_note', 'unique_1_note', 'Card 1 footer label', 'text', 'Example: 01 · Astro synchronicity' ),
+					self::field( 'field_travel_unique_2_title', 'unique_2_title', 'Card 2 title', 'text' ),
+					self::field( 'field_travel_unique_2_copy', 'unique_2_copy', 'Card 2 text', 'textarea' ),
+					self::field( 'field_travel_unique_2_note', 'unique_2_note', 'Card 2 footer label', 'text' ),
+					self::field( 'field_travel_unique_3_title', 'unique_3_title', 'Card 3 title', 'text' ),
+					self::field( 'field_travel_unique_3_copy', 'unique_3_copy', 'Card 3 text', 'textarea' ),
+					self::field( 'field_travel_unique_3_note', 'unique_3_note', 'Card 3 footer label', 'text' ),
+					self::field( 'field_travel_unique_4_title', 'unique_4_title', 'Card 4 title', 'text' ),
+					self::field( 'field_travel_unique_4_copy', 'unique_4_copy', 'Card 4 text', 'textarea' ),
+					self::field( 'field_travel_unique_4_note', 'unique_4_note', 'Card 4 footer label', 'text' ),
+				),
+				self::section_tab( 'field_travel_tab_cta', '4 · Kundali pilgrimage CTA' ),
+				array(
+					self::field( 'field_travel_cta_eyebrow', 'cta_eyebrow', 'CTA eyebrow', 'text' ),
+					self::field( 'field_travel_cta_title', 'cta_title', 'CTA heading', 'text' ),
+					self::field( 'field_travel_cta_copy', 'cta_copy', 'CTA text', 'textarea' ),
+				)
+			);
+			self::register_sectioned_page(
+				'group_ju_travel_page',
+				'Religious travel page sections',
+				$travel_id,
+				$fields,
+				$locales,
+				array(
+					array( 'name' => 'title', 'label' => 'Banner title', 'type' => 'text' ),
+					array( 'name' => 'eyebrow', 'label' => 'Banner eyebrow', 'type' => 'text' ),
+					array( 'name' => 'hero_copy', 'label' => 'Banner intro', 'type' => 'textarea' ),
+					array( 'name' => 'stat_1_value', 'label' => 'Stat 1 value', 'type' => 'text' ),
+					array( 'name' => 'stat_1_note', 'label' => 'Stat 1 note', 'type' => 'text' ),
+					array( 'name' => 'stat_2_value', 'label' => 'Stat 2 value', 'type' => 'text' ),
+					array( 'name' => 'stat_2_note', 'label' => 'Stat 2 note', 'type' => 'text' ),
+					array( 'name' => 'stat_3_value', 'label' => 'Stat 3 value', 'type' => 'text' ),
+					array( 'name' => 'stat_3_note', 'label' => 'Stat 3 note', 'type' => 'text' ),
+					array( 'name' => 'stat_4_value', 'label' => 'Stat 4 value', 'type' => 'text' ),
+					array( 'name' => 'stat_4_note', 'label' => 'Stat 4 note', 'type' => 'text' ),
+					array( 'name' => 'list_eyebrow', 'label' => 'Expeditions eyebrow', 'type' => 'text' ),
+					array( 'name' => 'list_title', 'label' => 'Expeditions heading', 'type' => 'text' ),
+					array( 'name' => 'list_copy', 'label' => 'Expeditions note', 'type' => 'text' ),
+					array( 'name' => 'unique_eyebrow', 'label' => 'Unique eyebrow', 'type' => 'text' ),
+					array( 'name' => 'unique_title', 'label' => 'Unique heading', 'type' => 'text' ),
+					array( 'name' => 'unique_copy', 'label' => 'Unique intro', 'type' => 'textarea' ),
+					array( 'name' => 'unique_1_title', 'label' => 'Card 1 title', 'type' => 'text' ),
+					array( 'name' => 'unique_1_copy', 'label' => 'Card 1 text', 'type' => 'textarea' ),
+					array( 'name' => 'unique_1_note', 'label' => 'Card 1 footer', 'type' => 'text' ),
+					array( 'name' => 'unique_2_title', 'label' => 'Card 2 title', 'type' => 'text' ),
+					array( 'name' => 'unique_2_copy', 'label' => 'Card 2 text', 'type' => 'textarea' ),
+					array( 'name' => 'unique_2_note', 'label' => 'Card 2 footer', 'type' => 'text' ),
+					array( 'name' => 'unique_3_title', 'label' => 'Card 3 title', 'type' => 'text' ),
+					array( 'name' => 'unique_3_copy', 'label' => 'Card 3 text', 'type' => 'textarea' ),
+					array( 'name' => 'unique_3_note', 'label' => 'Card 3 footer', 'type' => 'text' ),
+					array( 'name' => 'unique_4_title', 'label' => 'Card 4 title', 'type' => 'text' ),
+					array( 'name' => 'unique_4_copy', 'label' => 'Card 4 text', 'type' => 'textarea' ),
+					array( 'name' => 'unique_4_note', 'label' => 'Card 4 footer', 'type' => 'text' ),
+					array( 'name' => 'cta_eyebrow', 'label' => 'CTA eyebrow', 'type' => 'text' ),
+					array( 'name' => 'cta_title', 'label' => 'CTA heading', 'type' => 'text' ),
+					array( 'name' => 'cta_copy', 'label' => 'CTA text', 'type' => 'textarea' ),
+				)
+			);
+		}
+
+		if ( $articles_id ) {
+			$fields = array();
+			$fields = array_merge(
+				$fields,
+				self::section_tab( 'field_articles_tab_hero', '1 · Vedic Shastra (banner)' ),
+				array(
+					self::acf_message( 'field_articles_hero_help', 'Banner', '<p><strong>Title</strong> — WordPress title. Article cards come from <strong>Posts</strong>.</p>' ),
+					self::field( 'field_articles_eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Example: Vedic Shastra · Sacred Wisdom' ),
+					self::field( 'field_articles_hero_copy', 'hero_copy', 'Intro under the title', 'textarea' ),
+				),
+				self::section_tab( 'field_articles_tab_archive', '2 · Archive chronicles' ),
+				array(
+					self::field( 'field_articles_list_eyebrow', 'list_eyebrow', 'Archive eyebrow', 'text', 'Example: Archive chronicles' ),
+					self::field( 'field_articles_list_title', 'list_title', 'Archive heading', 'text', 'Example: Cosmic discourses' ),
+					self::field( 'field_articles_list_copy', 'list_copy', 'Archive intro', 'textarea' ),
+				),
+				self::section_tab( 'field_articles_tab_cta', '3 · Personal guidance CTA' ),
+				array(
+					self::field( 'field_articles_cta_eyebrow', 'cta_eyebrow', 'CTA eyebrow', 'text', 'Example: Personal guidance' ),
+					self::field( 'field_articles_cta_title', 'cta_title', 'CTA heading', 'text' ),
+					self::field( 'field_articles_cta_copy', 'cta_copy', 'CTA text', 'textarea' ),
+				)
+			);
+			self::register_sectioned_page(
+				'group_ju_articles_page',
+				'Articles page sections',
+				$articles_id,
+				$fields,
+				$locales,
+				array(
+					array( 'name' => 'title', 'label' => 'Banner title', 'type' => 'text' ),
+					array( 'name' => 'eyebrow', 'label' => 'Banner eyebrow', 'type' => 'text' ),
+					array( 'name' => 'hero_copy', 'label' => 'Banner intro', 'type' => 'textarea' ),
+					array( 'name' => 'list_eyebrow', 'label' => 'Archive eyebrow', 'type' => 'text' ),
+					array( 'name' => 'list_title', 'label' => 'Archive heading', 'type' => 'text' ),
+					array( 'name' => 'list_copy', 'label' => 'Archive intro', 'type' => 'textarea' ),
+					array( 'name' => 'cta_eyebrow', 'label' => 'CTA eyebrow', 'type' => 'text' ),
+					array( 'name' => 'cta_title', 'label' => 'CTA heading', 'type' => 'text' ),
+					array( 'name' => 'cta_copy', 'label' => 'CTA text', 'type' => 'textarea' ),
+				)
+			);
+		}
+
+		if ( $astrologers_id ) {
+			$fields = array();
+			$fields = array_merge(
+				$fields,
+				self::section_tab( 'field_astro_page_tab_hero', '1 · Talk to an Astrologer (banner)' ),
+				array(
+					self::acf_message(
+						'field_astro_page_hero_help',
+						'Banner',
+						'<p>Page hero text. If left blank, the website uses Home page → “Talk to an Astrologer” strings.</p><p><strong>Title</strong> — WordPress title above (optional override).</p>'
+					),
+					self::field( 'field_astro_page_eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Leave blank to use Home page online count eyebrow.' ),
+					self::field( 'field_astro_page_hero_copy', 'hero_copy', 'Intro under the title', 'textarea' ),
+					self::field( 'field_astro_page_list_title', 'list_title', 'Heading (first / gold part)', 'text', 'Optional override for the main heading lead.' ),
+					self::field( 'field_astro_page_list_copy', 'list_copy', 'Heading (accent / italic part)', 'text', 'Optional override for the gold italic accent.' ),
+				),
+				self::section_tab( 'field_astro_page_tab_listing', '2 · Astrologer listing' ),
+				array(
+					self::acf_message(
+						'field_astro_page_listing_help',
+						'Cards',
+						'<p>Astrologer cards are edited under <strong>Astrologers</strong> in the left menu (name, bio, languages, Featured image).</p>'
+					),
+				),
+				self::section_tab( 'field_astro_page_tab_wisdom', '3 · Jyotishya Vedanga Shastra' ),
+				array(
+					self::field( 'field_astro_wisdom_eyebrow', 'wisdom_eyebrow', 'Section eyebrow', 'text', 'Example: Jyotishya Vedanga Shastra' ),
+					self::field( 'field_astro_wisdom_title', 'wisdom_title', 'Section heading', 'text' ),
+					self::field( 'field_astro_wisdom_copy', 'wisdom_copy', 'Section intro', 'textarea' ),
+					self::field( 'field_astro_wisdom_1_kicker', 'wisdom_1_kicker', 'Card 1 kicker', 'text' ),
+					self::field( 'field_astro_wisdom_1_title', 'wisdom_1_title', 'Card 1 title', 'text' ),
+					self::field( 'field_astro_wisdom_1_copy', 'wisdom_1_copy', 'Card 1 text', 'textarea' ),
+					self::field( 'field_astro_wisdom_1_left', 'wisdom_1_left', 'Card 1 footer left', 'text' ),
+					self::field( 'field_astro_wisdom_1_right', 'wisdom_1_right', 'Card 1 footer right', 'text' ),
+					self::field( 'field_astro_wisdom_2_kicker', 'wisdom_2_kicker', 'Card 2 kicker', 'text' ),
+					self::field( 'field_astro_wisdom_2_title', 'wisdom_2_title', 'Card 2 title', 'text' ),
+					self::field( 'field_astro_wisdom_2_copy', 'wisdom_2_copy', 'Card 2 text', 'textarea' ),
+					self::field( 'field_astro_wisdom_2_left', 'wisdom_2_left', 'Card 2 footer left', 'text' ),
+					self::field( 'field_astro_wisdom_2_right', 'wisdom_2_right', 'Card 2 footer right', 'text' ),
+					self::field( 'field_astro_wisdom_3_kicker', 'wisdom_3_kicker', 'Card 3 kicker', 'text' ),
+					self::field( 'field_astro_wisdom_3_title', 'wisdom_3_title', 'Card 3 title', 'text' ),
+					self::field( 'field_astro_wisdom_3_copy', 'wisdom_3_copy', 'Card 3 text', 'textarea' ),
+					self::field( 'field_astro_wisdom_3_left', 'wisdom_3_left', 'Card 3 footer left', 'text' ),
+					self::field( 'field_astro_wisdom_3_right', 'wisdom_3_right', 'Card 3 footer right', 'text' ),
+				),
+				self::section_tab( 'field_astro_page_tab_tools', '4 · Free astrology tools' ),
+				array(
+					self::acf_message(
+						'field_astro_page_tools_help',
+						'Horoscope band',
+						'<p>The rashi / free-tools strip uses Home page → <strong>Free astrology tools</strong> section. Edit it under <a href="' . esc_url( admin_url( 'admin.php?page=ju-settings' ) ) . '">JyothishiUncle → Home page</a>.</p>'
+					),
+				),
+				self::section_tab( 'field_astro_page_tab_match', '5 · Astrologer match CTA' ),
+				array(
+					self::field( 'field_astro_match_eyebrow', 'cta_eyebrow', 'CTA eyebrow (optional)', 'text' ),
+					self::field( 'field_astro_match_title', 'cta_title', 'CTA heading', 'text', 'Example: Unsure Which Astrologer is Aligned with Your Kundali?' ),
+					self::field( 'field_astro_match_copy', 'cta_copy', 'CTA text', 'textarea' ),
+				)
+			);
+			self::register_sectioned_page(
+				'group_ju_astrologers_page',
+				'Astrologers page sections',
+				$astrologers_id,
+				$fields,
+				$locales,
+				array(
+					array( 'name' => 'title', 'label' => 'Banner title', 'type' => 'text' ),
+					array( 'name' => 'eyebrow', 'label' => 'Banner eyebrow', 'type' => 'text' ),
+					array( 'name' => 'hero_copy', 'label' => 'Banner intro', 'type' => 'textarea' ),
+					array( 'name' => 'list_title', 'label' => 'Heading lead', 'type' => 'text' ),
+					array( 'name' => 'list_copy', 'label' => 'Heading accent', 'type' => 'text' ),
+					array( 'name' => 'wisdom_eyebrow', 'label' => 'Wisdom eyebrow', 'type' => 'text' ),
+					array( 'name' => 'wisdom_title', 'label' => 'Wisdom heading', 'type' => 'text' ),
+					array( 'name' => 'wisdom_copy', 'label' => 'Wisdom intro', 'type' => 'textarea' ),
+					array( 'name' => 'wisdom_1_kicker', 'label' => 'Wisdom card 1 kicker', 'type' => 'text' ),
+					array( 'name' => 'wisdom_1_title', 'label' => 'Wisdom card 1 title', 'type' => 'text' ),
+					array( 'name' => 'wisdom_1_copy', 'label' => 'Wisdom card 1 text', 'type' => 'textarea' ),
+					array( 'name' => 'wisdom_1_left', 'label' => 'Wisdom card 1 footer left', 'type' => 'text' ),
+					array( 'name' => 'wisdom_1_right', 'label' => 'Wisdom card 1 footer right', 'type' => 'text' ),
+					array( 'name' => 'wisdom_2_kicker', 'label' => 'Wisdom card 2 kicker', 'type' => 'text' ),
+					array( 'name' => 'wisdom_2_title', 'label' => 'Wisdom card 2 title', 'type' => 'text' ),
+					array( 'name' => 'wisdom_2_copy', 'label' => 'Wisdom card 2 text', 'type' => 'textarea' ),
+					array( 'name' => 'wisdom_2_left', 'label' => 'Wisdom card 2 footer left', 'type' => 'text' ),
+					array( 'name' => 'wisdom_2_right', 'label' => 'Wisdom card 2 footer right', 'type' => 'text' ),
+					array( 'name' => 'wisdom_3_kicker', 'label' => 'Wisdom card 3 kicker', 'type' => 'text' ),
+					array( 'name' => 'wisdom_3_title', 'label' => 'Wisdom card 3 title', 'type' => 'text' ),
+					array( 'name' => 'wisdom_3_copy', 'label' => 'Wisdom card 3 text', 'type' => 'textarea' ),
+					array( 'name' => 'wisdom_3_left', 'label' => 'Wisdom card 3 footer left', 'type' => 'text' ),
+					array( 'name' => 'wisdom_3_right', 'label' => 'Wisdom card 3 footer right', 'type' => 'text' ),
+					array( 'name' => 'cta_eyebrow', 'label' => 'Match CTA eyebrow', 'type' => 'text' ),
+					array( 'name' => 'cta_title', 'label' => 'Match CTA heading', 'type' => 'text' ),
+					array( 'name' => 'cta_copy', 'label' => 'Match CTA text', 'type' => 'textarea' ),
+					array( 'name' => 'content', 'label' => 'Extra page body', 'type' => 'wysiwyg' ),
 				)
 			);
 		}
@@ -892,29 +1241,90 @@ class JU_ACF_Fields {
 		return array( $rule );
 	}
 
+	private static function section_tab( $key, $label ) {
+		return array(
+			array(
+				'key'       => $key,
+				'label'     => $label,
+				'name'      => '',
+				'type'      => 'tab',
+				'placement' => 'top',
+			),
+		);
+	}
+
+	private static function acf_message( $key, $label, $message ) {
+		return array(
+			'key'     => $key,
+			'label'   => $label,
+			'name'    => '',
+			'type'    => 'message',
+			'message' => $message,
+		);
+	}
+
+	private static function register_sectioned_page( $key, $title, $page_id, $fields, $locales, $translated ) {
+		if ( ! $page_id ) {
+			return;
+		}
+		$prefix = 'field_' . sanitize_key( str_replace( 'group_', '', $key ) ) . '_';
+		foreach ( $locales as $locale ) {
+			$id       = sanitize_key( $locale['id'] );
+			$fields[] = array(
+				'key'       => $prefix . 'tab_' . $id,
+				'label'     => $locale['native'],
+				'name'      => '',
+				'type'      => 'tab',
+				'placement' => 'top',
+			);
+			foreach ( $translated as $field ) {
+				$name     = $field['name'] . '_' . $id;
+				$fields[] = self::field(
+					$prefix . 'i18n_' . $name,
+					$name,
+					$field['label'],
+					$field['type'],
+					'Leave blank to keep the English text on the website.'
+				);
+			}
+		}
+		acf_add_local_field_group(
+			array(
+				'key'        => $key,
+				'title'      => $title,
+				'fields'     => $fields,
+				'location'   => array(
+					array(
+						array(
+							'param'    => 'page',
+							'operator' => '==',
+							'value'    => (string) $page_id,
+						),
+					),
+				),
+				'position'   => 'acf_after_title',
+				'menu_order' => 0,
+			)
+		);
+	}
+
 	private static function register_page_heading_group( $key, $title, $locales, $opts, $location, $help_html ) {
 		$prefix = 'field_' . sanitize_key( str_replace( 'group_', '', $key ) ) . '_';
 		$fields = array();
-		$fields[] = array(
-			'key'       => $prefix . 'tab_en',
-			'label'     => 'English',
-			'name'      => '',
-			'type'      => 'tab',
-			'placement' => 'top',
-		);
-		$fields[] = array(
-			'key'     => $prefix . 'help',
-			'label'   => 'How to edit this page',
-			'name'    => '',
-			'type'    => 'message',
-			'message' => $help_html,
-		);
+		$fields = array_merge( $fields, self::section_tab( $prefix . 'tab_hero', '1 · Page hero' ) );
+		$fields[] = self::acf_message( $prefix . 'help', 'How to edit this page', $help_html );
 		if ( ! empty( $opts['eyebrow'] ) ) {
-			$fields[] = self::field( $prefix . 'eyebrow', 'eyebrow', 'Small heading (eyebrow)', 'text', 'Short gold label above the title. Example: Vedic Lineage.' );
+			$fields[] = self::field( $prefix . 'eyebrow', 'eyebrow', 'Eyebrow', 'text', 'Short gold label above the title.' );
 		}
 		if ( ! empty( $opts['hero_copy'] ) ) {
-			$fields[] = self::field( $prefix . 'hero_copy', 'hero_copy', 'Intro text under the title', 'textarea', 'Shown under the page title on the public website.' );
+			$fields[] = self::field( $prefix . 'hero_copy', 'hero_copy', 'Intro under the title', 'textarea', 'Shown under the page title on the public website.' );
 		}
+		$fields = array_merge( $fields, self::section_tab( $prefix . 'tab_body', '2 · Page body' ) );
+		$fields[] = self::acf_message(
+			$prefix . 'body_help',
+			'Body',
+			'<p>Use the main WordPress editor above this box for long page text (policies, disclaimers).</p>'
+		);
 		if ( ! empty( $opts['about'] ) ) {
 			$fields[] = self::field( $prefix . 'portrait_name', 'portrait_name', 'Portrait name (About page)', 'text', 'Name on the portrait plaque. Used on About only.' );
 			$fields[] = self::field( $prefix . 'portrait_note', 'portrait_caption', 'Portrait caption (About page)', 'text' );
@@ -924,7 +1334,7 @@ class JU_ACF_Fields {
 			$fields[] = self::field( $prefix . 'image_1_title', 'image_1_title', 'Photo 2 title', 'text' );
 			$fields[] = self::field( $prefix . 'image_1_copy', 'image_1_copy', 'Photo 2 text', 'textarea' );
 			if ( ! isset( $opts['photo3'] ) || $opts['photo3'] ) {
-				$fields[] = self::image_field( $prefix . 'image_2', 'image_2', 'Photo 3', 'About: Navagraha photo. Optional on Contact.' );
+				$fields[] = self::image_field( $prefix . 'image_2', 'image_2', 'Photo 3', 'Optional third photo.' );
 				$fields[] = self::field( $prefix . 'image_2_title', 'image_2_title', 'Photo 3 title', 'text' );
 				$fields[] = self::field( $prefix . 'image_2_copy', 'image_2_copy', 'Photo 3 text', 'textarea' );
 			}
@@ -932,8 +1342,8 @@ class JU_ACF_Fields {
 
 		$translated = array(
 			array( 'name' => 'title', 'label' => 'Title', 'type' => 'text' ),
-			array( 'name' => 'eyebrow', 'label' => 'Small heading (eyebrow)', 'type' => 'text' ),
-			array( 'name' => 'hero_copy', 'label' => 'Intro text under the title', 'type' => 'textarea' ),
+			array( 'name' => 'eyebrow', 'label' => 'Eyebrow', 'type' => 'text' ),
+			array( 'name' => 'hero_copy', 'label' => 'Intro under the title', 'type' => 'textarea' ),
 			array( 'name' => 'content', 'label' => 'Page body', 'type' => 'wysiwyg' ),
 		);
 		if ( ! empty( $opts['about'] ) ) {

@@ -163,11 +163,13 @@ export function ArticlesView({
         <>
           <div className="relative z-10 mx-auto mb-10 flex max-w-6xl flex-col justify-between pb-4 md:flex-row md:items-end">
             <div>
-              <SectionEyebrow>Archive chronicles</SectionEyebrow>
-              <h3 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Cosmic discourses</h3>
+              <SectionEyebrow>{loc?.list_eyebrow || "Archive chronicles"}</SectionEyebrow>
+              <h3 className="mt-1 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
+                {loc?.list_title || "Cosmic discourses"}
+              </h3>
             </div>
             <p className="mt-2 max-w-md text-sm text-on-surface-variant md:mt-0">
-              Quiet notes on pooja, consultation, and family ritual — published as they are written.
+              {loc?.list_copy || "Quiet notes on pooja, consultation, and family ritual — published as they are written."}
             </p>
           </div>
           <div className="relative z-10 mx-auto mb-16 grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -196,12 +198,13 @@ export function ArticlesView({
           <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-2xl text-primary">
             ॐ
           </div>
-          <SectionEyebrow className="mb-3 justify-center">Personal guidance</SectionEyebrow>
+          <SectionEyebrow className="mb-3 justify-center">{loc?.cta_eyebrow || "Personal guidance"}</SectionEyebrow>
           <h3 className="mb-4 max-w-2xl font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
-            Need personal guidance beyond the articles?
+            {loc?.cta_title || "Need personal guidance beyond the articles?"}
           </h3>
           <p className="mb-8 max-w-2xl text-base leading-relaxed text-on-surface-variant">
-            Articles share general teaching. A private consultation looks at your chart and questions in confidence.
+            {loc?.cta_copy ||
+              "Articles share general teaching. A private consultation looks at your chart and questions in confidence."}
           </p>
           <div className="mb-10 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
             <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container px-8 py-3.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_0_24px_rgba(229,195,120,0.45)] transition hover:brightness-95 sm:w-auto">

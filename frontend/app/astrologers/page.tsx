@@ -5,7 +5,7 @@ import { AstrologerMatchCta } from "@/components/pages/AstrologerActions";
 import { HoroscopeBand } from "@/components/home/HoroscopeBand";
 import { PopularGuidanceSection } from "@/components/home/AboutTeaser";
 import { ScrollToAstrologers } from "@/components/pages/ScrollToAstrologers";
-import { fallbackSettings, getAstrologers, getSettings, settleApi } from "@/lib/api/wordpress";
+import { fallbackSettings, getAstrologers, getPage, getSettings, settleApi } from "@/lib/api/wordpress";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default async function AstrologersPage() {
-  const [astrologers, settings] = await Promise.all([
+  const [astrologers, settings, page] = await Promise.all([
     settleApi(getAstrologers(), []),
     settleApi(getSettings(), fallbackSettings()),
+    settleApi(getPage("astrologers"), null),
   ]);
 
   return (
@@ -30,9 +31,9 @@ export default async function AstrologersPage() {
         whatsapp={settings.whatsapp_number}
         afterIntro={<PopularGuidanceSection phone={settings.phone_number} whatsapp={settings.whatsapp_number} />}
       />
-      <JyotishaWisdom />
+      <JyotishaWisdom page={page} />
       <HoroscopeBand />
-      <AstrologerMatchCta whatsappNumber={settings.whatsapp_number} />
+      <AstrologerMatchCta whatsappNumber={settings.whatsapp_number} page={page} />
     </div>
   );
 }

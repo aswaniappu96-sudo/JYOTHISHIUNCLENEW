@@ -144,39 +144,40 @@ export function ContactView({
       <section className="mx-auto max-w-7xl px-4 pt-4 pb-16 md:px-12">
         <div className="mb-8 flex flex-col justify-between gap-4 border-t border-surface-highest/30 pt-12 md:flex-row md:items-end">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Sanctified Environment</span>
-            <PageHeading title="Where Every Form Transmutes into Ahuti" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+              {loc?.photos_eyebrow || "Sanctified Environment"}
+            </span>
+            <PageHeading title={loc?.photos_lead || "Where Every Form Transmutes into Ahuti"} />
           </div>
           <p className="max-w-md text-sm text-on-surface-variant">
-            Every form submission is received directly by authorized priests at our consecrated sanctum centers across
-            Varanasi, Ujjain, and Rameswaram.
+            {loc?.photos_copy ||
+              "Every form submission is received directly by authorized priests at our consecrated sanctum centers across Varanasi, Ujjain, and Rameswaram."}
           </p>
         </div>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="group relative flex min-h-[320px] flex-col justify-end overflow-hidden rounded-2xl p-6 shadow-2xl">
-            <img alt={loc?.image_1_title || "Vedic fire ritual"} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={visual1} />
+            <img alt={loc?.photo1_title || "Vedic fire ritual"} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={visual1} />
             <div className="absolute inset-0 bg-linear-to-t from-surface-lowest via-surface-lowest/60 to-transparent" />
             <div className="relative z-10 space-y-2">
               <span className="rounded-full bg-primary-container/30 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-primary backdrop-blur-md">
-                Agni Pratishtapana
+                {loc?.photo1_badge || "Agni Pratishtapana"}
               </span>
-              <h3 className="font-serif text-[22px] text-primary">Pure Vedic Sankalpa Rituals</h3>
+              <h3 className="font-serif text-[22px] text-primary">{loc?.photo1_title || "Pure Vedic Sankalpa Rituals"}</h3>
               <p className="text-sm text-on-surface-variant">
-                Chanted with authentic swaras from the Rig and Yajur Vedas under the guidance of Acharyas.
+                {loc?.photo1_copy || "Chanted with authentic swaras from the Rig and Yajur Vedas under the guidance of Acharyas."}
               </p>
             </div>
           </div>
           <div className="group relative flex min-h-[320px] flex-col justify-end overflow-hidden rounded-2xl p-6 shadow-2xl">
-            <img alt={loc?.image_1_title || loc?.image_2_title || "Planetary gemstones"} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={visual2} />
+            <img alt={loc?.image_1_title || "Planetary gemstones"} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={visual2} />
             <div className="absolute inset-0 bg-linear-to-t from-surface-lowest via-surface-lowest/60 to-transparent" />
             <div className="relative z-10 space-y-2">
               <span className="rounded-full bg-secondary/30 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-secondary backdrop-blur-md">
-                Jyotish Ratna Sanctity
+                {loc?.photo2_badge || "Jyotish Ratna Sanctity"}
               </span>
-              <h3 className="font-serif text-[22px] text-secondary">{loc?.image_1_title || loc?.image_2_title || "Planetary Gemstones & Malas"}</h3>
+              <h3 className="font-serif text-[22px] text-secondary">{loc?.image_1_title || "Planetary Gemstones & Malas"}</h3>
               <p className="text-sm text-on-surface-variant">
                 {loc?.image_1_copy ||
-                  loc?.image_2_copy ||
                   "Certified natural stones attuned according to planetary transits and natal Kundali Dasha periods."}
               </p>
             </div>

@@ -149,7 +149,12 @@ export function TravelView({
           <PageHeading as="h1" tone="ink" title={title} className="max-w-4xl" />
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-on-surface-variant">{copy}</p>
           <div className="mt-8 grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
-            {STATS.map((stat) => (
+            {[
+              { value: loc?.stat_1_value || STATS[0].value, note: loc?.stat_1_note || STATS[0].note },
+              { value: loc?.stat_2_value || STATS[1].value, note: loc?.stat_2_note || STATS[1].note },
+              { value: loc?.stat_3_value || STATS[2].value, note: loc?.stat_3_note || STATS[2].note },
+              { value: loc?.stat_4_value || STATS[3].value, note: loc?.stat_4_note || STATS[3].note },
+            ].map((stat) => (
               <div
                 key={stat.value}
                 className="flex flex-col items-center rounded-2xl border border-outline-variant/40 bg-surface-low/80 px-3 py-4 shadow-sm backdrop-blur-md"
@@ -188,10 +193,10 @@ export function TravelView({
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-end">
             <div>
-              <SectionEyebrow>Elemental terrain</SectionEyebrow>
-              <PageHeading title="Current Sacred Expeditions" className="mt-1" />
+              <SectionEyebrow>{loc?.list_eyebrow || "Elemental terrain"}</SectionEyebrow>
+              <PageHeading title={loc?.list_title || "Current Sacred Expeditions"} className="mt-1" />
             </div>
-            <p className="text-xs text-on-surface-variant">Only 3 to 5 spots left per departure</p>
+            <p className="text-xs text-on-surface-variant">{loc?.list_copy || "Only 3 to 5 spots left per departure"}</p>
           </div>
           {shown.length ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -224,15 +229,36 @@ export function TravelView({
       <section className="px-4 py-16 md:px-12">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-10 max-w-3xl text-center">
-            <SectionEyebrow className="justify-center">Vedic excellence</SectionEyebrow>
-            <PageHeading title="What Makes Our Consecrated Yatras Unique" className="mt-2" />
+            <SectionEyebrow className="justify-center">{loc?.unique_eyebrow || "Vedic excellence"}</SectionEyebrow>
+            <PageHeading title={loc?.unique_title || "What Makes Our Consecrated Yatras Unique"} className="mt-2" />
             <p className="mt-3 text-base leading-relaxed text-on-surface-variant">
-              Unlike commercial tourism, our yatras are designed as karmic transformational rituals under orthodox Shastra
-              mandates.
+              {loc?.unique_copy ||
+                "Unlike commercial tourism, our yatras are designed as karmic transformational rituals under orthodox Shastra mandates."}
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {UNIQUES.map((item) => (
+            {[
+              {
+                n: loc?.unique_1_note || UNIQUES[0].n,
+                title: loc?.unique_1_title || UNIQUES[0].title,
+                copy: loc?.unique_1_copy || UNIQUES[0].copy,
+              },
+              {
+                n: loc?.unique_2_note || UNIQUES[1].n,
+                title: loc?.unique_2_title || UNIQUES[1].title,
+                copy: loc?.unique_2_copy || UNIQUES[1].copy,
+              },
+              {
+                n: loc?.unique_3_note || UNIQUES[2].n,
+                title: loc?.unique_3_title || UNIQUES[2].title,
+                copy: loc?.unique_3_copy || UNIQUES[2].copy,
+              },
+              {
+                n: loc?.unique_4_note || UNIQUES[3].n,
+                title: loc?.unique_4_title || UNIQUES[3].title,
+                copy: loc?.unique_4_copy || UNIQUES[3].copy,
+              },
+            ].map((item) => (
               <article
                 key={item.n}
                 className="flex h-full flex-col justify-between rounded-2xl bg-surface-high/70 p-6 shadow-lg backdrop-blur-xl"
@@ -254,11 +280,13 @@ export function TravelView({
       <section className="px-4 pb-20 md:px-12">
         <div className="relative mx-auto flex max-w-5xl flex-col items-center overflow-hidden rounded-3xl bg-linear-to-b from-surface-high via-surface-container to-surface-lowest p-8 text-center shadow-[0_0_80px_rgba(229,195,120,0.25)] md:p-14">
           <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-primary/10 blur-[90px]" />
-          <SectionEyebrow className="mb-4 justify-center">Astrological guidance before travel</SectionEyebrow>
-          <PageHeading title="Seeking a Customized Kundali-Calibrated Pilgrimage?" className="max-w-3xl" />
+          <SectionEyebrow className="mb-4 justify-center">
+            {loc?.cta_eyebrow || "Astrological guidance before travel"}
+          </SectionEyebrow>
+          <PageHeading title={loc?.cta_title || "Seeking a Customized Kundali-Calibrated Pilgrimage?"} className="max-w-3xl" />
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
-            Every soul has a karmic destination where planetary afflictions dissolve. Consult Sri Devadathan Namboothiri
-            to determine which sacred temple vortex aligns with your current transit.
+            {loc?.cta_copy ||
+              "Every soul has a karmic destination where planetary afflictions dissolve. Consult Sri Devadathan Namboothiri to determine which sacred temple vortex aligns with your current transit."}
           </p>
           <div className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
             <BookConsultationButton

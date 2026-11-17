@@ -59,11 +59,18 @@ export function AboutView({
   travel?: TravelDestination[];
 }) {
   const loc = useLocalizedPage(page);
-  const portrait = PORTRAIT;
+  const portrait = imageSrc(loc?.featured_image, PORTRAIT);
   const ritual1 = imageSrc(loc?.image_1, HOMAM);
   const ritual2 = imageSrc(loc?.image_2, NAVAGRAHA);
   const customTitle = loc?.title && !/^about( us)?$/i.test(loc.title) ? loc.title : null;
   const cmsHtml = loc?.content && !/This is sample copy/i.test(loc.content) ? loc.content : undefined;
+  const aboutBody = loc?.about_body && String(loc.about_body).trim() ? loc.about_body : undefined;
+  const roots: [string, string][] = [
+    [loc?.root_1_title || ROOTS[0][0], loc?.root_1_copy || ROOTS[0][1]],
+    [loc?.root_2_title || ROOTS[1][0], loc?.root_2_copy || ROOTS[1][1]],
+    [loc?.root_3_title || ROOTS[2][0], loc?.root_3_copy || ROOTS[2][1]],
+    [loc?.root_4_title || ROOTS[3][0], loc?.root_4_copy || ROOTS[3][1]],
+  ];
 
   return (
     <div>
@@ -111,7 +118,7 @@ export function AboutView({
               <circle cx="760" cy="190" fill="#ffe09d" r="3" />
             </svg>
             <div className="-mt-2 grid w-full grid-cols-2 gap-4 sm:grid-cols-4">
-              {ROOTS.map(([title, copy]) => (
+              {roots.map(([title, copy]) => (
                 <div key={title} className="flex flex-col items-center rounded-xl bg-surface-low/60 p-3 text-center backdrop-blur-md">
                   <span className="mb-1 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{title}</span>
                   <span className="text-xs text-on-surface-variant">{copy}</span>
@@ -134,33 +141,42 @@ export function AboutView({
           <div className="flex flex-col space-y-6 lg:col-span-7">
             <div className="flex items-center gap-2">
               <span className="h-px w-8 bg-primary" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">About Us</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+                {loc?.about_eyebrow || "About Us"}
+              </span>
             </div>
-            <PageHeading lead="A family of traditional" accent="astrologers." />
-            <div className="space-y-4 text-base leading-relaxed text-on-surface-variant">
-              <p>
-                <BrandMark>MaharshiOm.com</BrandMark> is a venture from a family of Traditional Astrologers from Keralam with more than 500+
-                years of tradition. We practice Astrology as divine and this wisdom is being transferred through
-                Generations. Our Aim is to make people understand our true spiritual traditions of Bharat and practice or
-                follow this in its true spirit for a better tomorrow filled with discipline / happiness. We offer a
-                better space for astrologers, who preaches or practices Astrology in its true spirit and share their
-                wisdom for the betterment of the society. Even guidance shall be given to Astrologers for unique
-                predictions based on true astro guidelines.
-              </p>
-              <p>
-                Here, astrologers get respect, freedom, and a room to practice authentically. If you want to work with
-                our platform that genuinely cares, please contact us at{" "}
-                <a href="mailto:admn@maharshiom.com" className="font-medium underline underline-offset-2">
-                  <BrandMark>admn@maharshiom.com</BrandMark>
-                </a>{" "}
-                or WhatsApp:{" "}
-                <a href="https://wa.me/918451989496" className="font-medium text-primary underline underline-offset-2">
-                  +918451989496
-                </a>
-                .
-              </p>
-              <p>Let&apos;s build something better together for a better tomorrow based on our true traditions.</p>
-            </div>
+            <PageHeading
+              lead={loc?.about_lead || "A family of traditional"}
+              accent={loc?.about_accent || "astrologers."}
+            />
+            {aboutBody ? (
+              <CmsHtml className="space-y-4 text-base leading-relaxed text-on-surface-variant" html={aboutBody} />
+            ) : (
+              <div className="space-y-4 text-base leading-relaxed text-on-surface-variant">
+                <p>
+                  <BrandMark>MaharshiOm.com</BrandMark> is a venture from a family of Traditional Astrologers from Keralam with more than 500+
+                  years of tradition. We practice Astrology as divine and this wisdom is being transferred through
+                  Generations. Our Aim is to make people understand our true spiritual traditions of Bharat and practice or
+                  follow this in its true spirit for a better tomorrow filled with discipline / happiness. We offer a
+                  better space for astrologers, who preaches or practices Astrology in its true spirit and share their
+                  wisdom for the betterment of the society. Even guidance shall be given to Astrologers for unique
+                  predictions based on true astro guidelines.
+                </p>
+                <p>
+                  Here, astrologers get respect, freedom, and a room to practice authentically. If you want to work with
+                  our platform that genuinely cares, please contact us at{" "}
+                  <a href="mailto:admn@maharshiom.com" className="font-medium underline underline-offset-2">
+                    <BrandMark>admn@maharshiom.com</BrandMark>
+                  </a>{" "}
+                  or WhatsApp:{" "}
+                  <a href="https://wa.me/918451989496" className="font-medium text-primary underline underline-offset-2">
+                    +918451989496
+                  </a>
+                  .
+                </p>
+                <p>Let&apos;s build something better together for a better tomorrow based on our true traditions.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -174,12 +190,23 @@ export function AboutView({
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div className="max-w-2xl space-y-2">
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Agni Kund & Tantric Vidya</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+                  {loc?.tantric_eyebrow || "Agni Kund & Tantric Vidya"}
+                </span>
               </div>
-              <PageHeading lead="Authentic Shastric Rituals &" accent="Planetary Remediation" />
+              <PageHeading
+                lead={loc?.tantric_lead || "Authentic Shastric Rituals &"}
+                accent={loc?.tantric_accent || "Planetary Remediation"}
+              />
               <p className="text-sm text-on-surface-variant">
-                Remedies at <BrandText>MaharshiOm</BrandText> are never symbolic tokens. They are sacred, mathematically synchronized Vedic
-                invocations performed by traditionally consecrated priests in adherence to the Rigveda and Agamas.
+                {loc?.tantric_copy ? (
+                  <BrandText>{loc.tantric_copy}</BrandText>
+                ) : (
+                  <>
+                    Remedies at <BrandText>MaharshiOm</BrandText> are never symbolic tokens. They are sacred, mathematically synchronized Vedic
+                    invocations performed by traditionally consecrated priests in adherence to the Rigveda and Agamas.
+                  </>
+                )}
               </p>
             </div>
             <Link href={POOJAS_PATH} className="inline-flex items-center gap-2 rounded-full bg-primary-container px-4 py-2.5 text-sm font-semibold text-on-primary hover:brightness-95">

@@ -2,11 +2,13 @@
 
 import { EnquireButton } from "@/components/portal/EnquireButton";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
-import { PageHeading } from "@/components/home/SectionHeading";
+import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePortal } from "@/components/portal/PortalProvider";
+import { useLocalizedPage } from "@/lib/localized";
 import { contactNumber } from "@/lib/consultation";
 import { telHref } from "@/lib/html";
 import { whatsappUrl } from "@/lib/whatsapp";
+import type { WPPage } from "@/types/wordpress";
 
 const pill =
   "inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/30 bg-surface-highest px-3 py-2 text-xs font-semibold text-on-surface";
@@ -80,16 +82,29 @@ export function AstrologerActions({
   );
 }
 
-export function AstrologerMatchCta({ whatsappNumber }: { whatsappNumber: string }) {
+export function AstrologerMatchCta({
+  whatsappNumber,
+  page,
+}: {
+  whatsappNumber: string;
+  page?: WPPage | null;
+}) {
+  const loc = useLocalizedPage(page);
   return (
     <section className="px-4 py-16 md:px-12">
       <div className="relative mx-auto flex max-w-6xl flex-col items-center overflow-hidden rounded-2xl bg-linear-to-b from-surface-low via-surface-container to-surface-lowest p-8 text-center shadow-2xl md:p-14">
         <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-primary/10 blur-[90px]" />
         <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-surface-highest text-2xl text-primary">ॐ</div>
-        <PageHeading title="Unsure Which Astrologer is Aligned with Your Kundali?" className="max-w-3xl" />
+        {loc?.cta_eyebrow ? (
+          <SectionEyebrow className="mb-3 justify-center">{loc.cta_eyebrow}</SectionEyebrow>
+        ) : null}
+        <PageHeading
+          title={loc?.cta_title || "Unsure Which Astrologer is Aligned with Your Kundali?"}
+          className="max-w-3xl"
+        />
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-on-surface-variant">
-          Let our sacred intake concierge match your birth nakshatra and specific life inquiry with the hereditary guru
-          best equipped to decipher your karmic chart.
+          {loc?.cta_copy ||
+            "Let our sacred intake concierge match your birth nakshatra and specific life inquiry with the hereditary guru best equipped to decipher your karmic chart."}
         </p>
         <div className="mt-8 flex w-full max-w-2xl flex-col items-center justify-center gap-3 sm:flex-row">
           <EnquireButton

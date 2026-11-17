@@ -174,13 +174,15 @@ export function ServicesView({
             <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
               <div>
                 <div className="mb-1 flex items-center gap-2">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">01 / Agnikarya & Yajnas</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
+                    {loc?.list_eyebrow || "01 / Agnikarya & Yajnas"}
+                  </span>
                   <span className="h-px w-12 bg-primary/40" />
                 </div>
-                <PageHeading title="Sacred Fire Homams & Poojas" />
+                <PageHeading title={loc?.list_title || "Sacred Fire Homams & Poojas"} />
                 <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
-                  HD Live Sankalpa Stream & Consecrated Prasadam shipped worldwide. Fees are shared privately after your
-                  booking request.
+                  {loc?.list_copy ||
+                    "HD Live Sankalpa Stream & Consecrated Prasadam shipped worldwide. Fees are shared privately after your booking request."}
                 </p>
               </div>
             </div>
@@ -218,12 +220,14 @@ export function ServicesView({
           <div className="mx-auto max-w-7xl">
             <div className="mb-8">
               <div className="mb-1 flex items-center gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">02 / Sacred products</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
+                  {loc?.list2_eyebrow || "02 / Sacred products"}
+                </span>
                 <span className="h-px w-12 bg-primary/40" />
               </div>
-              <PageHeading title="Sacred Planetary Products & Talismans" />
+              <PageHeading title={loc?.list2_title || "Sacred Planetary Products & Talismans"} />
               <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
-                Items for puja and japa, prepared with care. Fees are shared privately after you enquire.
+                {loc?.list2_copy || "Items for puja and japa, prepared with care. Fees are shared privately after you enquire."}
               </p>
             </div>
             <div className="mb-8">
@@ -256,10 +260,13 @@ export function ServicesView({
 
       <section id="consultation" className="px-4 pb-20 md:px-12">
         <div className="mx-auto flex max-w-5xl flex-col items-center rounded-2xl bg-surface-low/90 p-8 text-center shadow-2xl md:p-12">
-          <span className="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">Live Astrological Ephemeris Sync</span>
-          <PageHeading title="Book a 1-on-1 Consultation" />
+          <span className="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+            {loc?.cta_eyebrow || "Live Astrological Ephemeris Sync"}
+          </span>
+          <PageHeading title={loc?.cta_title || "Book a 1-on-1 Consultation"} />
           <p className="mt-2 max-w-2xl text-sm text-on-surface-variant">
-            Confidential sessions online through video consulting. Calendar dates that are already taken stay closed.
+            {loc?.cta_copy ||
+              "Confidential sessions online through video consulting. Calendar dates that are already taken stay closed."}
           </p>
           <div className="mt-6">
             <BookConsultationButton />
