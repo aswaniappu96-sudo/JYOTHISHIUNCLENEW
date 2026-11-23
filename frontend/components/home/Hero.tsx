@@ -145,13 +145,13 @@ function AstrologerBills({ portraits, index }: { portraits: string[]; index: num
   const active = index % n;
 
   return (
-    <div className="relative mx-auto h-[320px] w-full max-w-[280px] sm:h-[360px] lg:h-[400px] lg:max-w-[300px]">
+    <div className="relative mx-auto h-[270px] w-full max-w-[220px] sm:h-[300px] lg:h-[330px] lg:max-w-[240px]">
       {list.map((src, personIndex) => {
         const front = personIndex === active;
         return (
           <div
             key={`${src}-${personIndex}`}
-            className={`absolute top-1/2 left-1/2 h-[290px] w-[195px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[50%] bg-[#2a1c10] shadow-[0_14px_32px_rgba(8,4,0,0.45)] ring-[3px] ring-[#e8c56a] transition-opacity duration-700 sm:h-[330px] sm:w-[220px] lg:h-[360px] lg:w-[240px] ${
+            className={`absolute top-1/2 left-1/2 h-[240px] w-[160px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[50%] bg-[#2a1c10] shadow-[0_14px_32px_rgba(8,4,0,0.45)] ring-[3px] ring-[#e8c56a] transition-opacity duration-700 sm:h-[270px] sm:w-[180px] lg:h-[300px] lg:w-[200px] ${
               front ? "z-10 opacity-100" : "pointer-events-none z-0 opacity-0"
             }`}
           >
