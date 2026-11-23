@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { loginCustomer } from "@/lib/api/submit";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { queueServicesPopup } from "@/lib/firstVisit";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,8 +21,6 @@ export default function LoginPage() {
     try {
       await loginCustomer(String(data.get("email") || ""), String(data.get("password") || ""));
       await refresh();
-      queueServicesPopup();
-      window.dispatchEvent(new Event("ju-queue-services"));
       router.push("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to log in.");

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { registerCustomer } from "@/lib/api/submit";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { queueServicesPopup } from "@/lib/firstVisit";
 import { SERVICE_INTEREST_OPTIONS } from "@/types/forms";
 
 export default function RegisterPage() {
@@ -35,8 +34,6 @@ export default function RegisterPage() {
         account_type: "user",
       });
       await refresh();
-      queueServicesPopup();
-      window.dispatchEvent(new Event("ju-queue-services"));
       router.push("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to register.");

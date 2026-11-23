@@ -50,6 +50,9 @@ export function CtaSection({
               <ButtonLink href="/services" variant="light">
                 {t("cta.pooja")}
               </ButtonLink>
+              <ButtonLink href="/contact#enquiry" variant="ghost">
+                {t("cta.enquiry")}
+              </ButtonLink>
               <ButtonLink
                 href={whatsappUrl(whatsappNumber, "Hello, I would like to know more about MaharshiOm.")}
                 variant="ghost"

@@ -6,10 +6,10 @@ import { BlogSection } from "@/components/home/BlogSection";
 import { ConsultationSection } from "@/components/home/ConsultationSection";
 import { CtaSection } from "@/components/home/CtaSection";
 import { DailyHoroscope } from "@/components/home/DailyHoroscope";
-import { EnquiryForm } from "@/components/home/EnquiryForm";
 import { Hero } from "@/components/home/Hero";
 import { PoojaSection } from "@/components/home/PoojaSection";
 import { ProductSection } from "@/components/home/ProductSection";
+import { ServicesPathSection } from "@/components/home/ServicesPathSection";
 import { Testimonials } from "@/components/home/Testimonials";
 import { TravelSection } from "@/components/home/TravelSection";
 import { getHomePayload } from "@/lib/api/wordpress";
@@ -30,6 +30,7 @@ export default async function HomePage() {
         astroSlides={data.settings.hero_astro_slides}
       />
       <div className="relative z-10">
+        <ServicesPathSection />
         <AboutTeaser excerpt={data.settings.about_excerpt} image={data.settings.about_teaser_image} />
         <AstrologyConsultingSection image={data.settings.guidance_image} />
         <AstrologersSection
@@ -45,7 +46,6 @@ export default async function HomePage() {
         <TravelSection travel={data.travel} whatsappNumber={data.settings.whatsapp_number} />
         <Testimonials testimonials={data.testimonials} />
         <BlogSection articles={data.articles} youtubeUrl={data.settings.social_youtube} />
-        <EnquiryForm whatsappNumber={data.settings.whatsapp_number} faqs={data.faqs} />
         <CtaSection
           whatsappNumber={data.settings.whatsapp_number}
           phone={data.settings.phone_number}
