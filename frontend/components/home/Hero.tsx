@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { CosmicMandala } from "@/components/home/CosmicMandala";
@@ -108,21 +108,6 @@ const PAGE_PORTRAITS = [
   "/images/astrologers/page-3.jpg",
 ];
 
-const BILL_MOVE = {
-  left: "translate(-118%, -50%) scale(0.78)",
-  center: "translate(-50%, -50%) scale(1)",
-  right: "translate(18%, -50%) scale(0.78)",
-  hidden: "translate(160%, -50%) scale(0.45)",
-} as const;
-
-function billSlot(personIndex: number, current: number, total: number): keyof typeof BILL_MOVE {
-  const rel = ((personIndex - current) % total + total) % total;
-  if (rel === 0) return "center";
-  if (rel === 1) return "right";
-  if (rel === total - 1) return "left";
-  return "hidden";
-}
-
 function portraitSrc(person?: Astrologer) {
   if (!person) return "";
   return astrologerPhoto(person.slug, mediaUrl(person.featured_image?.full || person.featured_image?.url) || "");
@@ -156,30 +141,19 @@ function bannerAstroPortraits(
 function AstrologerBills({ portraits, index }: { portraits: string[]; index: number }) {
   const list = portraits.slice(0, 4);
   const n = list.length;
-  const prevSlots = useRef<Record<string, keyof typeof BILL_MOVE>>({});
   if (!n) return null;
+  const active = index % n;
 
   return (
-    <div className="relative mx-auto h-[320px] w-full max-w-[520px] overflow-visible sm:h-[360px] lg:h-[400px] lg:max-w-[560px]">
+    <div className="relative mx-auto h-[320px] w-full max-w-[280px] sm:h-[360px] lg:h-[400px] lg:max-w-[300px]">
       {list.map((src, personIndex) => {
-        const slot = billSlot(personIndex, index % n, n);
-        const prev = prevSlots.current[src];
-        const wrap = (prev === "left" && slot === "right") || (prev === "right" && slot === "left");
-        prevSlots.current[src] = slot;
-        const front = slot === "center";
+        const front = personIndex === active;
         return (
           <div
             key={`${src}-${personIndex}`}
-            className={`absolute top-1/2 left-1/2 h-[290px] w-[195px] overflow-hidden rounded-[50%] bg-[#2a1c10] shadow-[0_14px_32px_rgba(8,4,0,0.45)] ring-[3px] sm:h-[330px] sm:w-[220px] lg:h-[360px] lg:w-[240px] ${
-              front ? "ring-[#e8c56a]" : "ring-[#c4a227]/80"
-            } ${slot === "hidden" ? "pointer-events-none opacity-0" : "opacity-100"}`}
-            style={{
-              transform: BILL_MOVE[slot],
-              zIndex: front ? 30 : slot === "hidden" ? 0 : 10,
-              transition: wrap
-                ? "opacity 0.45s ease"
-                : "transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease",
-            }}
+            className={`absolute top-1/2 left-1/2 h-[290px] w-[195px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[50%] bg-[#2a1c10] shadow-[0_14px_32px_rgba(8,4,0,0.45)] ring-[3px] ring-[#e8c56a] transition-opacity duration-700 sm:h-[330px] sm:w-[220px] lg:h-[360px] lg:w-[240px] ${
+              front ? "z-10 opacity-100" : "pointer-events-none z-0 opacity-0"
+            }`}
           >
             {src ? (
               <img src={src} alt="" className="h-full w-full object-cover object-top" />
