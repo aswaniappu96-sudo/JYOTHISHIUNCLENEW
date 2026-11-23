@@ -6,13 +6,17 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ConchIcon } from "@/components/icons/ConchIcon";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
+import { telHref } from "@/lib/html";
 import { SECTION_INNER } from "@/lib/layout";
 import { imageSrc } from "@/lib/media";
 import { whatsappUrl } from "@/lib/whatsapp";
 import type { WPImage } from "@/types/wordpress";
 
+const FALLBACK_PHONE = "+918451989496";
+
 export function CtaSection({
   whatsappNumber,
+  phone,
   image,
 }: {
   whatsappNumber: string;
@@ -22,6 +26,7 @@ export function CtaSection({
 }) {
   const { t } = usePrefs();
   const bg = imageSrc(image);
+  const callNumber = (phone || "").trim() || FALLBACK_PHONE;
 
   return (
     <section className="relative flex w-full flex-col items-center justify-center overflow-hidden py-6 text-center">
@@ -47,8 +52,8 @@ export function CtaSection({
               <BookConsultationButton className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-primary via-primary-container to-primary px-5 py-2.5 text-sm font-semibold text-on-primary shadow-[0_0_25px_rgba(229,195,120,0.45)]">
                 {t("cta.book")}
               </BookConsultationButton>
-              <ButtonLink href="/services" variant="light">
-                {t("cta.pooja")}
+              <ButtonLink href={telHref(callNumber)} variant="light">
+                {t("cta.call")}
               </ButtonLink>
               <ButtonLink href="/contact#enquiry" variant="ghost">
                 {t("cta.enquiry")}
