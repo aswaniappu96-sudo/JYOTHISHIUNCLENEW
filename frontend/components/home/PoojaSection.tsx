@@ -10,7 +10,7 @@ import { useLocalizedList } from "@/lib/localized";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
-import { PoojaTemplesSection } from "@/components/home/PoojaTemplesSection";
+import { TempleNamesSlider } from "@/components/home/TempleNamesSlider";
 import type { Pooja, Vendor } from "@/types/wordpress";
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
@@ -293,7 +293,7 @@ export function PoojaSection({
         </Link>
 
         <div className="mt-8">
-          <PoojaTemplesSection vendors={vendors} poojas={list.length ? list : FALLBACKS} />
+          <TempleNamesSlider vendors={vendors} />
         </div>
 
         <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center">
