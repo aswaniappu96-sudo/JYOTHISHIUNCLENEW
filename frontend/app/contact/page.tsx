@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ContactView } from "@/components/pages/ContactView";
 import {
   fallbackSettings,
+  getFAQs,
   getPage,
   getPoojas,
   getProducts,
@@ -18,12 +19,13 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const [settings, page, poojas, products, travel] = await Promise.all([
+  const [settings, page, poojas, products, travel, faqs] = await Promise.all([
     settleApi(getSettings(), fallbackSettings()),
     settleApi(getPage("contact"), null),
     settleApi(getPoojas(), []),
     settleApi(getProducts(), []),
     settleApi(getTravelDestinations(), []),
+    settleApi(getFAQs(), []),
   ]);
 
   return (
@@ -33,6 +35,7 @@ export default async function ContactPage() {
       poojas={poojas}
       products={products}
       travel={travel}
+      faqs={faqs}
     />
   );
 }

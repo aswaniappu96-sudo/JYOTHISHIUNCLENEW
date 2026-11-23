@@ -10,7 +10,7 @@ import { BookConsultationButton } from "@/components/portal/BookConsultationButt
 import { useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
-import type { Pooja, Product, SiteSettings, TravelDestination, WPPage } from "@/types/wordpress";
+import type { FaqItem, Pooja, Product, SiteSettings, TravelDestination, WPPage } from "@/types/wordpress";
 
 const BOOKINGS = [
   { href: POOJAS_PATH, label: "Book Homam" },
@@ -79,12 +79,14 @@ export function ContactView({
   poojas = [],
   products = [],
   travel = [],
+  faqs = [],
 }: {
   settings: SiteSettings;
   page: WPPage | null;
   poojas?: Pooja[];
   products?: Product[];
   travel?: TravelDestination[];
+  faqs?: FaqItem[];
 }) {
   const loc = useLocalizedPage(page);
   const visual1 = imageSrc(loc?.featured_image, HAVAN);
@@ -132,6 +134,7 @@ export function ContactView({
 
       <EnquiryForm
         whatsappNumber={settings.whatsapp_number}
+        faqs={faqs}
         variant="contact"
         address={settings.address}
         email={settings.contact_email}

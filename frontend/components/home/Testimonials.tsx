@@ -261,7 +261,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
         <div className="mt-10 flex flex-col items-center justify-center gap-3 rounded-[20px] border border-dashed border-[#D9C29A] bg-[#FFFEFB] px-6 py-5 md:flex-row">
           <span className="text-[14px] text-[#7C6E5C]">{t("review.asked")}</span>
           <a
-            href="#enquiry"
+            href="/contact#enquiry"
             className="inline-flex items-center gap-2 rounded-full border border-[#B87E3B] bg-white px-5 py-2 text-[13px] font-semibold text-[#8A5A24] transition-colors hover:bg-[#FFFBF0]"
           >
             {t("review.leave")}

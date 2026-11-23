@@ -123,7 +123,6 @@ export function EnquiryForm({
   const [busy, setBusy] = useState(false);
   const [queryLen, setQueryLen] = useState(0);
   const isContact = variant === "contact";
-  const withFaq = !isContact;
   const wa = usableWhatsapp(whatsappNumber);
   const contactAddress = publicAddress(address);
   const contactEmail = usableContact(email, FALLBACK_EMAIL);
@@ -238,7 +237,11 @@ export function EnquiryForm({
           </p>
         </div>
 
-        <div className={`grid grid-cols-1 items-start gap-8 ${withFaq || isContact ? "lg:grid-cols-[1.15fr_0.85fr]" : "lg:max-w-3xl"}`}>
+        <div
+          className={`grid grid-cols-1 items-start gap-8 ${
+            isContact ? "" : "lg:grid-cols-[1.15fr_0.85fr]"
+          }`}
+        >
           <div className="rounded-[24px] border border-[#EAD9B0] bg-white p-[22px] shadow-[0_18px_60px_rgba(166,122,59,0.08),0_2px_8px_rgba(0,0,0,0.04)] md:p-[28px]">
             <form onSubmit={onSubmit} className="space-y-5">
               <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" suppressHydrationWarning />
@@ -290,67 +293,41 @@ export function EnquiryForm({
                     suppressHydrationWarning
                   />
                 </div>
-                {isContact ? (
-                  <div className="space-y-2">
-                    <label className={LABEL} htmlFor="enquiry-subject">
-                      {t("enquiry.subject")}
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="enquiry-subject"
-                        name="subject"
-                        defaultValue={CONTACT_SUBJECTS[0]}
-                        className={`${FIELD} pr-10`}
-                        suppressHydrationWarning
-                      >
-                        {subjects.map((subject) => (
-                          <option key={subject}>{subject}</option>
-                        ))}
-                      </select>
-                      <Chevron />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    <label className={LABEL} htmlFor="enquiry-location">
-                      {t("enquiry.location")}
-                    </label>
-                    <input
-                      id="enquiry-location"
-                      name="location"
-                      defaultValue={user?.location}
-                      placeholder={t("enquiry.phLocation")}
-                      className={FIELD}
-                      suppressHydrationWarning
-                    />
-                  </div>
-                )}
+                <div className="space-y-2">
+                  <label className={LABEL} htmlFor="enquiry-location">
+                    {t("enquiry.location")}
+                  </label>
+                  <input
+                    id="enquiry-location"
+                    name="location"
+                    defaultValue={user?.location}
+                    placeholder={t("enquiry.phLocation")}
+                    className={FIELD}
+                    suppressHydrationWarning
+                  />
+                </div>
               </div>
 
-              {isContact ? (
-                <input type="hidden" name="location" defaultValue={user?.location} suppressHydrationWarning />
-              ) : (
-                <div className="space-y-2">
-                  <label className={LABEL} htmlFor="enquiry-subject">
-                    {t("enquiry.subject")}
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="enquiry-subject"
-                      required
-                      name="subject"
-                      defaultValue={HOME_SUBJECTS[0]}
-                      className={`${FIELD} pr-10`}
-                      suppressHydrationWarning
-                    >
-                      {subjects.map((subject) => (
-                        <option key={subject}>{subject}</option>
-                      ))}
-                    </select>
-                    <Chevron />
-                  </div>
+              <div className="space-y-2">
+                <label className={LABEL} htmlFor="enquiry-subject">
+                  {t("enquiry.subject")}
+                </label>
+                <div className="relative">
+                  <select
+                    id="enquiry-subject"
+                    required
+                    name="subject"
+                    defaultValue={subjects[0]}
+                    className={`${FIELD} pr-10`}
+                    suppressHydrationWarning
+                  >
+                    {subjects.map((subject) => (
+                      <option key={subject}>{subject}</option>
+                    ))}
+                  </select>
+                  <Chevron />
                 </div>
-              )}
+              </div>
 
               <div className="space-y-2">
                 <label className={LABEL} htmlFor="enquiry-source">
@@ -411,7 +388,7 @@ export function EnquiryForm({
             </form>
           </div>
 
-          {withFaq ? (
+          {!isContact ? (
             <aside id="faq" className="scroll-mt-36 lg:sticky lg:top-8">
               <FaqAccordion faqs={faqs} />
               {waCard}
@@ -421,51 +398,59 @@ export function EnquiryForm({
                 <div className="h-px flex-1 bg-[#EAD9B0]/70" />
               </div>
             </aside>
-          ) : isContact ? (
-            <aside className="lg:sticky lg:top-28">
-              <div className="flex h-full flex-col rounded-[24px] border border-[#EAD9B0] bg-white p-6 shadow-[0_18px_60px_rgba(166,122,59,0.08),0_2px_8px_rgba(0,0,0,0.04)] md:p-8">
-                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#A67A3B]">MaharshiOm</p>
-                <h2 className="mt-2 font-serif text-[32px] leading-tight text-[#1E160E]">Address & contact</h2>
-                <p className="mt-2 text-[13.5px] leading-relaxed text-[#7A6F63]">
-                  Reach the team by post, email, phone, or WhatsApp.
-                </p>
-                <div className="mt-6 flex flex-1 flex-col gap-3">
-                  <ContactDetail label="Address">
-                    <p>{contactAddress}</p>
-                  </ContactDetail>
-                  <ContactDetail label="Email">
-                    <a href={`mailto:${contactEmail}`} className="font-medium text-[#8B6A3A] underline underline-offset-2">
-                      {contactEmail}
-                    </a>
-                  </ContactDetail>
-                  <ContactDetail label="Phone">
-                    <a href={telHref(contactPhone)} className="font-medium text-[#8B6A3A] underline underline-offset-2">
-                      {contactPhone}
-                    </a>
-                  </ContactDetail>
-                  <ContactDetail label="WhatsApp">
-                    <a
-                      href={whatsappUrl(wa, "Namaste. I have a question about MaharshiOm.")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 font-medium text-[#1DA851] underline underline-offset-2"
-                    >
-                      <WhatsAppMark />
-                      {contactPhone}
-                    </a>
-                  </ContactDetail>
-                  {contactHours ? (
-                    <ContactDetail label="Hours">
-                      <p>{contactHours}</p>
-                    </ContactDetail>
-                  ) : null}
-                </div>
-              </div>
-            </aside>
-          ) : (
-            waCard
-          )}
+          ) : null}
         </div>
+
+        {isContact ? (
+          <div className="mt-10">
+            <div className="mb-5 max-w-2xl">
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#A67A3B]">MaharshiOm</p>
+              <h2 className="mt-2 font-serif text-[28px] leading-tight text-[#1E160E] sm:text-[32px]">Address & contact</h2>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[#7A6F63]">
+                Reach the team by post, email, phone, or WhatsApp.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              <ContactDetail label="Address">
+                <p>{contactAddress}</p>
+              </ContactDetail>
+              <ContactDetail label="Email">
+                <a href={`mailto:${contactEmail}`} className="font-medium break-all text-[#8B6A3A] underline underline-offset-2">
+                  {contactEmail}
+                </a>
+              </ContactDetail>
+              <ContactDetail label="Phone">
+                <a href={telHref(contactPhone)} className="font-medium text-[#8B6A3A] underline underline-offset-2">
+                  {contactPhone}
+                </a>
+              </ContactDetail>
+              <ContactDetail label="WhatsApp">
+                <a
+                  href={whatsappUrl(wa, "Namaste. I have a question about MaharshiOm.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-medium text-[#1DA851] underline underline-offset-2"
+                >
+                  <WhatsAppMark />
+                  {contactPhone}
+                </a>
+              </ContactDetail>
+              {contactHours ? (
+                <ContactDetail label="Hours">
+                  <p>{contactHours}</p>
+                </ContactDetail>
+              ) : null}
+            </div>
+            {faqs.length ? (
+              <aside id="faq" className="mt-10 scroll-mt-36">
+                <FaqAccordion faqs={faqs} />
+                {waCard}
+              </aside>
+            ) : (
+              waCard
+            )}
+          </div>
+        ) : null}
       </Reveal>
 
       <div
