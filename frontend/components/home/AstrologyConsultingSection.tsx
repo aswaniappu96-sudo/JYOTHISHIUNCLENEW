@@ -222,7 +222,7 @@ export function AstrologyConsultingSection({ image }: { image?: WPImage } = {}) 
               </span>
             </div>
 
-            <PageHeading className="mt-5" lead={t("consult.lead")} accent={t("consult.accent")} />
+            <PageHeading className="mt-5" lead="MaharshiOm" accent="Your Family Astrologer" />
             <p className="mt-4 max-w-[560px] text-[15px] leading-[1.6] text-[#1A1106]/70 sm:text-[16px]">{t("consult.copy")}</p>
 
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
