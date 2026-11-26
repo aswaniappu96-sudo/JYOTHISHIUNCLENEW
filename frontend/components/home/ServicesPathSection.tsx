@@ -44,7 +44,7 @@ export function ServicesPathSection() {
       <div className={SECTION_INNER}>
         <div className="max-w-[720px]">
           <SectionEyebrow>Our services</SectionEyebrow>
-          <PageHeading className="mt-5" lead="Find your" accent="path" />
+          <PageHeading className="mt-5" lead="MaharshiOm" accent="Your Family Astrologer" />
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#5c4a32]">
             Four sacred paths begin here. Choose one to explore.
           </p>
