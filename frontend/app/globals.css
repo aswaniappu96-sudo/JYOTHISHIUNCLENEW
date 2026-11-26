@@ -124,8 +124,22 @@ body {
   transform-origin: center center;
 }
 
+.brand-mark.brand-mark--in-title {
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  color: inherit;
+  vertical-align: baseline;
+}
+
 html.dark .brand-mark {
   color: #e5c378;
+}
+
+html.dark .brand-mark.brand-mark--in-title {
+  color: inherit;
 }
 
 @keyframes brand-gold-flash {

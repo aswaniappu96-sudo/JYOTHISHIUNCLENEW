@@ -39,14 +39,15 @@ export function PageHeading({
   const brandLead = isBrandName(parts.lead);
   const brandAccent = isBrandName(parts.accent);
   const titleColor = tone === "ink" ? "text-on-surface" : PAGE_TITLE_GOLD;
+  const brandInTitle = "brand-mark--in-title";
   return (
     <Tag className={`${PAGE_TITLE_SHAPE} ${titleColor} ${className}`.trim()}>
-      {brandLead ? <BrandMark /> : <BrandText>{parts.lead}</BrandText>}
+      {brandLead ? <BrandMark className={brandInTitle} /> : <BrandText>{parts.lead}</BrandText>}
       {parts.accent ? (
         <>
           {parts.lead ? " " : null}
           <span className={PAGE_ACCENT}>
-            {brandAccent ? <BrandMark /> : <BrandText>{parts.accent}</BrandText>}
+            {brandAccent ? <BrandMark className={brandInTitle} /> : <BrandText>{parts.accent}</BrandText>}
           </span>
         </>
       ) : null}
