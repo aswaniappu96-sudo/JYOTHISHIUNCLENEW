@@ -61,6 +61,19 @@ function categoryLabel(topic: string) {
   return topic.toUpperCase();
 }
 
+function isUncategorized(article: Article) {
+  const cats = (article.categories || []).map((item) => item.trim()).filter(Boolean);
+  if (!cats.length) return true;
+  return cats.every((item) => item.toLowerCase() === "uncategorized");
+}
+
+function badgeFor(article: Article) {
+  const topic = articleTopic(article);
+  if (isUncategorized(article) && topic === "Guidance") return null;
+  if (topic === "Guidance") return null;
+  return categoryLabel(topic);
+}
+
 export function BlogSection({ articles }: { articles: Article[] }) {
   const { t } = usePrefs();
   const list = useJuList<Article>("/articles", articles);
@@ -88,9 +101,14 @@ export function BlogSection({ articles }: { articles: Article[] }) {
           <div className="max-w-[640px]">
             <SectionEyebrow>{t("articles.kicker")}</SectionEyebrow>
             <PageHeading className="mt-6" lead={t("articles.lead")} accent={t("articles.accent")} />
-            <p className="mt-4 max-w-[520px] text-[15px] leading-[1.6] text-[#6B5E53] md:text-[16px]">
-              {t("articles.copy")}{" "}
-              <span className="text-[#2B241E]">{t("articles.copyEnd")}</span>
+            <p className="mt-4 max-w-[620px] text-[15px] leading-[1.6] text-[#6B5E53] md:text-[16px]">
+              {t("articles.copy")}
+              {t("articles.copyEnd") ? (
+                <>
+                  {" "}
+                  <span className="text-[#2B241E]">{t("articles.copyEnd")}</span>
+                </>
+              ) : null}
             </p>
           </div>
           <Link
@@ -161,6 +179,7 @@ function FeaturedCard({ article, fallback }: { article: Article; fallback: strin
   const src = imageSrc(article.featured_image);
   const topic = articleTopic(article);
   const service = serviceFor(topic);
+  const badge = badgeFor(article);
   const mins = readMins(article);
   const excerpt = stripPublicPrices(stripHtml(article.excerpt || ""));
 
@@ -174,10 +193,12 @@ function FeaturedCard({ article, fallback }: { article: Article; fallback: strin
       </Link>
       <Reveal className="p-4 md:p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-[#FFF2D6] px-3 py-1 text-[10px] font-semibold tracking-[0.14em] text-[#8A5A1F]">
-            {categoryLabel(topic)}
-          </span>
-          <span className="text-[12px] text-[#9A8A7A]">•</span>
+          {badge ? (
+            <span className="rounded-full bg-[#FFF2D6] px-3 py-1 text-[10px] font-semibold tracking-[0.14em] text-[#8A5A1F]">
+              {badge}
+            </span>
+          ) : null}
+          {badge ? <span className="text-[12px] text-[#9A8A7A]">•</span> : null}
           <span className="text-[12px] text-[#9A8A7A]">{mins} min</span>
         </div>
         <h3 className="mt-2.5 font-serif text-[17px] font-bold leading-[1.3] tracking-[-0.01em] text-[#221C16] md:text-[19px]">
@@ -207,6 +228,7 @@ function RailCard({ article, fallback }: { article: Article; fallback: string })
   const src = imageSrc(article.featured_image);
   const topic = articleTopic(article);
   const service = serviceFor(topic);
+  const badge = badgeFor(article);
   const excerpt = stripPublicPrices(stripHtml(article.excerpt || ""));
 
   return (
@@ -216,8 +238,8 @@ function RailCard({ article, fallback }: { article: Article; fallback: string })
       </Link>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <span className="truncate text-[10px] font-semibold tracking-[0.12em] text-[#9A7A4A]">{categoryLabel(topic)}</span>
-          <span className="text-[10px] text-[#C7B89E]">• {readMins(article)} min</span>
+          {badge ? <span className="truncate text-[10px] font-semibold tracking-[0.12em] text-[#9A7A4A]">{badge}</span> : null}
+          <span className="text-[10px] text-[#C7B89E]">{badge ? `• ${readMins(article)} min` : `${readMins(article)} min`}</span>
         </div>
         <h3 className="mt-1 line-clamp-2 font-serif text-[14px] font-bold leading-[1.3] text-[#231E19]">
           <Link href={`/blog/${article.slug}`}>{article.title}</Link>
@@ -239,6 +261,7 @@ function RailCard({ article, fallback }: { article: Article; fallback: string })
 function GridCard({ article }: { article: Article; fallback: string }) {
   const topic = articleTopic(article);
   const service = serviceFor(topic);
+  const badge = badgeFor(article);
   const excerpt = stripPublicPrices(stripHtml(article.excerpt || ""));
   const src = imageSrc(article.featured_image);
 
@@ -250,9 +273,13 @@ function GridCard({ article }: { article: Article; fallback: string }) {
         </Link>
       ) : null}
       <div className="flex items-start justify-between gap-2">
-        <span className="rounded-full bg-[#FFF2D6] px-2.5 py-1 text-[10px] font-semibold tracking-wide text-[#8A5A1F]">
-          {categoryLabel(topic)}
-        </span>
+        {badge ? (
+          <span className="rounded-full bg-[#FFF2D6] px-2.5 py-1 text-[10px] font-semibold tracking-wide text-[#8A5A1F]">
+            {badge}
+          </span>
+        ) : (
+          <span />
+        )}
         <span className="text-[11px] text-[#9A8A7A]">{readMins(article)} min</span>
       </div>
       <h4 className="mt-3 line-clamp-2 font-serif text-[15px] font-semibold leading-[1.35] text-[#221C16]">

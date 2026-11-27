@@ -116,11 +116,18 @@ export function ArticlesView({
                 ) : (
                   <div className="h-full w-full bg-linear-to-br from-surface-lowest to-secondary-container/50" />
                 )}
-                <div className="absolute top-4 left-4 flex items-center gap-2 rounded-md bg-surface-lowest/80 px-3 py-1.5 backdrop-blur-md">
-                  <span className="text-[11px] font-bold tracking-widest text-on-surface uppercase">
-                    {featured.categories[0] || "Featured reading"}
-                  </span>
-                </div>
+                {(() => {
+                  const cat = (featured.categories || []).find(
+                    (name) => name.trim() && name.toLowerCase() !== "uncategorized",
+                  );
+                  return (
+                    <div className="absolute top-4 left-4 flex items-center gap-2 rounded-md bg-surface-lowest/80 px-3 py-1.5 backdrop-blur-md">
+                      <span className="text-[11px] font-bold tracking-widest text-on-surface uppercase">
+                        {cat || "Featured reading"}
+                      </span>
+                    </div>
+                  );
+                })()}
               </div>
               <div className="flex flex-col justify-between bg-surface-low/95 p-6 sm:p-10 lg:col-span-5">
                 <div>

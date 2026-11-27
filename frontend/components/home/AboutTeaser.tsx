@@ -488,6 +488,7 @@ export function AboutTeaser({
     { emoji: "📜", title: t("about.tileKundli"), sub: t("about.tileKundliSub") },
     { emoji: "🔥", title: t("about.tilePooja"), sub: t("about.tilePoojaSub") },
     { emoji: "🛕", title: t("about.tileYatra"), sub: t("about.tileYatraSub") },
+    { emoji: "🪷", title: t("about.tileProducts"), sub: t("about.tileProductsSub") },
   ];
 
   return (
@@ -684,7 +685,7 @@ export function AboutTeaser({
                   </div>
                 </div>
 
-                <div className="relative mt-6 grid grid-cols-3 gap-3">
+                <div className="relative mt-6 grid grid-cols-2 gap-3">
                   {tiles.map((tile) => (
                     <div key={tile.title} className="rounded-[12px] border border-[#F0DFB8] bg-white px-3 py-3">
                       <div className="mb-2 flex h-7 w-7 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FFFBF0] text-[13px]">
