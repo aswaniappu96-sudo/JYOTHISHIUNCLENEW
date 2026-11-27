@@ -306,7 +306,6 @@ export function PoojaSection({
             <span className="hidden h-3 w-px bg-[#EAD9B0] sm:block" />
             <span className="inline-flex items-center gap-1.5">✓ {t("pooja.foot4")}</span>
           </div>
-          <p className="text-[12px] text-[#9A8560] lg:ml-2">{t("pooja.note")}</p>
         </div>
       </div>
     </section>
