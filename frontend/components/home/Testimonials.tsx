@@ -3,9 +3,7 @@
 import { useMemo, useRef, useState, type MouseEvent } from "react";
 import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { usePrefs } from "@/components/prefs/PrefsProvider";
-import { stripPublicPrices } from "@/lib/html";
-import { imageSrc } from "@/lib/media";
-import { useJuList } from "@/lib/useJuList";
+import { CURATED_REVIEWS, type CuratedReview } from "@/lib/curatedTestimonials";
 import type { Testimonial } from "@/types/wordpress";
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
@@ -21,8 +19,6 @@ const GRADIENTS = [
   "from-[#D8F0E8] to-[#9AC9B8]",
 ];
 
-type CatKey = "review.catKundli" | "review.catPrashna" | "review.catPooja" | "review.catYatra" | "review.catMatch" | "review.catConsult";
-
 type Card = {
   id: number;
   name: string;
@@ -32,26 +28,9 @@ type Card = {
   rating: number;
   image: string;
   gradient: string;
-  category: CatKey;
+  tag: string;
   liveTag: string;
 };
-
-function splitName(raw: string, worldwide: string) {
-  const cleaned = stripPublicPrices(raw).trim();
-  const parts = cleaned.split(",").map((part) => part.trim()).filter(Boolean);
-  if (parts.length >= 2) return { name: parts[0], place: parts.slice(1).join(", ") };
-  return { name: cleaned || "Family", place: worldwide };
-}
-
-function categoryFor(text: string): CatKey {
-  const key = text.toLowerCase();
-  if (/yatra|yathra|temple|darshan|pilgrim|chardham|rameswaram|sabarimal/.test(key)) return "review.catYatra";
-  if (/prashna|prasna/.test(key)) return "review.catPrashna";
-  if (/match|marriage|jathaka|kundali matching|compatibility/.test(key)) return "review.catMatch";
-  if (/homam|pooja|puja|sankalpa|prasad|priest/.test(key)) return "review.catPooja";
-  if (/kundli|kundali|chart|dasha/.test(key)) return "review.catKundli";
-  return "review.catConsult";
-}
 
 function liveTagFor(text: string) {
   const key = text.toLowerCase();
@@ -65,34 +44,28 @@ function stars(count: number) {
   return "★".repeat(n);
 }
 
-function toCard(item: Testimonial, index: number, worldwide: string): Card {
-  const { name, place } = splitName(item.name, worldwide);
-  const quote = stripPublicPrices(item.review || "").trim();
+function toCard(item: CuratedReview, index: number): Card {
   return {
     id: item.id,
-    name,
-    place,
-    initial: (name.replace(/[^A-Za-z\u0900-\u0D7F]/g, "")[0] || "J").toUpperCase(),
-    quote,
+    name: item.name,
+    place: item.place,
+    initial: (item.name.replace(/[^A-Za-z\u0900-\u0D7F]/g, "")[0] || "J").toUpperCase(),
+    quote: item.quote,
     rating: item.rating || 5,
-    image: imageSrc(item.image),
+    image: "",
     gradient: GRADIENTS[index % GRADIENTS.length],
-    category: categoryFor(`${item.name} ${quote}`),
-    liveTag: liveTagFor(quote),
+    tag: item.tag,
+    liveTag: liveTagFor(item.quote),
   };
 }
 
-export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
-  const list = useJuList<Testimonial>("/testimonials", testimonials);
+export function Testimonials({ testimonials: _testimonials }: { testimonials: Testimonial[] }) {
   const { t } = usePrefs();
   const streamRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState<Card | null>(null);
   const [helpful, setHelpful] = useState<Record<number, boolean>>({});
 
-  const cards = useMemo(
-    () => list.map((item, index) => toCard(item, index, t("review.worldwide"))),
-    [list, t],
-  );
+  const cards = useMemo(() => CURATED_REVIEWS.map((item, index) => toCard(item, index)), []);
   const featured = cards.slice(0, 3);
   const stream = cards.length ? [...cards, ...cards] : [];
   const avg = cards.length
@@ -169,7 +142,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                         <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#1FA971] text-[10px] text-white">✓</span>
                       </div>
                       <div className="mt-0.5 text-[12px] font-medium text-[#9C8A6E]">
-                        {item.place} • {t(item.category)}
+                        {item.place} • {item.tag}
                       </div>
                     </div>
                   </div>
@@ -185,7 +158,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
               <div className="mt-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-[#EAD9B0] bg-[#FFFBF0] px-3 py-1.5 text-[11px] font-semibold text-[#7A5A2E]">
-                    {t(item.category)}
+                    {item.tag}
                   </span>
                   {item.liveTag ? (
                     <span className="inline-flex items-center gap-1 rounded-full border border-[#EAD9B0] bg-white px-2.5 py-1 text-[10px] font-bold tracking-wide text-[#B87E3B] uppercase">
@@ -238,7 +211,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                     <span className="max-w-[280px] truncate text-[13px] font-medium text-[#4A3D2E]">“{item.quote}”</span>
                   </div>
                   <span className="rounded-full border border-[#EAD9B0] bg-[#FFFBF0] px-2 py-0.5 text-[10px] font-bold tracking-wide text-[#8C6F3A] uppercase">
-                    {t(item.category)}
+                    {item.tag}
                   </span>
                 </div>
               ))}
@@ -300,7 +273,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                   </span>
                 </div>
                 <div className="text-[12px] text-[#9C8A6E]">
-                  {open.place} • {t(open.category)}
+                  {open.place} • {open.tag}
                 </div>
               </div>
             </div>
@@ -313,7 +286,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
             <p className="mt-4 font-serif text-[18px] leading-[1.5] italic text-[#3D2E1E]">“{open.quote}”</p>
             <div className="mt-6 flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[#EAD9B0] bg-[#FFFBF0] px-3 py-1.5 text-[11px] font-semibold text-[#7A5A2E]">
-                {t(open.category)}
+                {open.tag}
               </span>
               {open.liveTag ? (
                 <span className="inline-flex items-center gap-1 rounded-full border border-[#EAD9B0] bg-white px-2.5 py-1 text-[10px] font-bold tracking-wide text-[#B87E3B] uppercase">

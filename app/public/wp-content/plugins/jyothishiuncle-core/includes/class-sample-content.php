@@ -450,19 +450,44 @@ class JU_Sample_Content {
 	private static function testimonials() {
 		$items = array(
 			array(
-				'name'   => 'Lakshmi, Kochi',
-				'review' => 'The consultation was clear and calm. We received the meeting link after confirmation and the guidance was practical for our family.',
+				'name'   => 'Karthik, Chennai • Homam',
+				'review' => 'We had been facing continuous delays and obstacles in our family business for months. After performing the Sudarshana Homam with proper priest guidance & vedic way, things slowly began moving forward and our pending approvals finally cleared. Seeing growth in my business within a month',
 				'order'  => 1,
 			),
 			array(
-				'name'   => 'Arun, Kochi',
-				'review' => 'We booked Ganapathi Homam online. Communication was simple on WhatsApp and the sankalpa was explained well.',
+				'name'   => 'Meera Nair, Bengaluru • Homam',
+				'review' => 'Before moving into our new home, we booked a Ganapathi Homam online. The process was explained clearly on WhatsApp, and since the ritual, our family has felt a deep sense of peace and positive progress.',
 				'order'  => 2,
 			),
 			array(
-				'name'   => 'Meera, Bengaluru',
-				'review' => 'Marriage matching was explained without pressure. We knew what to do next after the session.',
+				'name'   => 'Ananya Krishnan, Hyderabad • Personal Guidance',
+				'review' => 'My sister’s marriage had been delayed for over three years despite multiple alliances. Following the astrologer’s simple remedies and timing guidance, we found the right match within a few months and finally she got married in oct 2026.',
 				'order'  => 3,
+			),
+			array(
+				'name'   => 'Raghavan Pillai, Thiruvananthapuram • Prashna',
+				'review' => 'Our property registration was stalled due to unexpected hurdles. Through Prashna, the astrologer identified the exact block and guided us on a simple temple offering—within weeks, the entire issue resolved smoothly.',
+				'order'  => 4,
+			),
+			array(
+				'name'   => 'Deepa Subramanian, Singapore (Worldwide) • Prashna',
+				'review' => 'We didn\'t have exact birth details for a family matter that was causing constant worry. The Prashna reading was remarkably accurate, and following the remedies brought stability back to our household.',
+				'order'  => 5,
+			),
+			array(
+				'name'   => 'Harishankar V., Mysuru • Energised Products',
+				'review' => 'I started wearing the energised Rudraksha and using the blessed Sri Yantra as advised during my consultation. Along with daily prayers, I’ve noticed much better mental clarity and steady relief from constant work stress.',
+				'order'  => 6,
+			),
+			array(
+				'name'   => 'Padma & Rajagopal, Madurai • Temple Yatra',
+				'review' => 'We took our family on the Navagraha parihara yatra arranged by Maharshiom to pray for our daughter\'s marriage and health. Everything was handled smoothly, and within six months, our prayers were answered with good news.',
+				'order'  => 7,
+			),
+			array(
+				'name'   => 'Divya Nambiar, Dubai (Worldwide) • Jathagam',
+				'review' => 'Understanding my husband’s planetary dasha through his horoscope helped us prepare for a difficult financial phase. Because we followed the remedies early, we crossed that period without major loss.',
+				'order'  => 8,
 			),
 		);
 
