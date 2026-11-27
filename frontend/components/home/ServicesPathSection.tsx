@@ -16,7 +16,7 @@ const LEAVES = [
     href: PRODUCTS_PATH,
     title: "Spiritual Products",
     script: "आध्यात्मिक",
-    copy: "Blessed yantras, rudraksha, incense, and authentic pooja essentials.",
+    copy: "Energized Yantras, Rudraksha, Elas and authentic pooja products.",
     image: "/images/hero/banner-products.jpg",
     focus: "object-[78%_center]",
   },
