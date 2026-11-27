@@ -225,10 +225,9 @@ export function ServicesView({
                 </span>
                 <span className="h-px w-12 bg-primary/40" />
               </div>
-              <PageHeading title={loc?.list2_title || "Authentic & Energised Spiritual Products"} />
+              <PageHeading title="Vedic Remedies & Spiritual Products" />
               <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
-                {loc?.list2_copy ||
-                  "Hand-selected Rudrakshas, Yantras, Elas and traditional pooja essentials—energised through authentic Vedic rituals and personalized to your birth details, Gotra, and family’s prayers."}
+                Pure, mantra-energised spiritual products crafted for daily sadhana and family well-being.
               </p>
             </div>
             <div className="mb-8">
