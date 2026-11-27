@@ -5,8 +5,9 @@ import { fallbackSettings, getPage, getSettings, getTravelDestinations, settleAp
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Sacred Temple Yatras & Himalayan Sanctuaries",
-  description: "Consecrated temple yatras and pilgrimage guidance from MaharshiOm. Dates and dakshina are confirmed privately.",
+  title: "Spiritually Guided Temple Yatras",
+  description:
+    "Experience peaceful, unhurried Darshan with wholesome Satvik food, clean stay, and traditional temple rituals — guided step by step for families and elders.",
 };
 
 export default async function TravelIndexPage() {

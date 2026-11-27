@@ -14,14 +14,11 @@ import type { TravelDestination, WPPage } from "@/types/wordpress";
 
 const PAGE_SIZE = 6;
 
-const STALE_TITLES = new Set(["Temples and sacred places", "Religious travel"]);
-const STALE_COPY = "Confirm dates and temple rules locally";
-
 const FILTERS = [
-  { id: "all", label: "All Sacred Yatras", match: () => true },
+  { id: "all", label: "All Temple Yatras", match: () => true },
   {
     id: "himalaya",
-    label: "Himalayan Sanctuaries",
+    label: "Himalayan Yatras",
     match: (hay: string) =>
       /himalay|kailash|kedarnath|badrinath|amarnath|muktinath|mansarovar|gangotri|yamunotri|spiti|ladakh|nepal|tibet|vaishno/i.test(
         hay,
@@ -37,21 +34,21 @@ const FILTERS = [
   },
   {
     id: "navagraha",
-    label: "Navagraha Temple Trail",
+    label: "Navagraha Temple Yatras",
     match: (hay: string) => /navagraha|graha trail|suryanar|kanjanur|thingalur|alangludi|vaitheeswaran/i.test(hay),
   },
   {
     id: "temples",
-    label: "Temple sanctuaries",
+    label: "Temple Sanctuaries",
     match: (hay: string) => /guruvayur|sabarimala|ayyappa|pathanamthitta|krishna/i.test(hay),
   },
 ] as const;
 
 const STATS = [
-  { value: "12 Peethas", note: "Divine Shakti Peethas" },
-  { value: "4 Mahadhams", note: "Primordial Cardinal Sites" },
-  { value: "Max 8 Seekers", note: "Intimate Sacred Cohorts" },
-  { value: "Vedic Gurus", note: "Astrologer Accompanied" },
+  { value: "Unhurried Darshan", note: "Peaceful Temple Visits" },
+  { value: "Satvik Food & Stay", note: "Clean, Wholesome Comfort" },
+  { value: "Small Groups", note: "Personal Family Care" },
+  { value: "Vedic Guidance", note: "Astrologer Accompanied" },
 ];
 
 const UNIQUES = [
@@ -98,14 +95,10 @@ export function TravelView({
   const places = useLocalizedList(destinations);
   const heroImage = imageSrc(loc?.featured_image);
 
-  const eyebrow =
-    loc?.eyebrow && !STALE_TITLES.has(loc.eyebrow) ? loc.eyebrow : "Tirtha Yatra · Consecrated pilgrimages";
-  const title =
-    loc?.title && !STALE_TITLES.has(loc.title) ? loc.title : "Sacred Temple Yatras & Himalayan Sanctuaries";
+  const eyebrow = "Tirtha Yatra";
+  const title = "Spiritually Guided Temple Yatras";
   const copy =
-    loc?.hero_copy && !loc.hero_copy.includes(STALE_COPY)
-      ? loc.hero_copy
-      : "Immersive spiritual journeys led by consecrated Vedic scholars. Experience high-frequency temple vortices, private sanctum pujas, and planetary alignments at primordial sacred sites.";
+    "Experience peaceful, unhurried Darshan with wholesome Satvik food, clean stay, and traditional temple rituals — guided step by step for families and elders.";
 
   const filtered = useMemo(() => {
     const active = FILTERS.find((item) => item.id === filter) || FILTERS[0];
@@ -149,12 +142,7 @@ export function TravelView({
           <PageHeading as="h1" tone="ink" title={title} className="max-w-4xl" />
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-on-surface-variant">{copy}</p>
           <div className="mt-8 grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
-            {[
-              { value: loc?.stat_1_value || STATS[0].value, note: loc?.stat_1_note || STATS[0].note },
-              { value: loc?.stat_2_value || STATS[1].value, note: loc?.stat_2_note || STATS[1].note },
-              { value: loc?.stat_3_value || STATS[2].value, note: loc?.stat_3_note || STATS[2].note },
-              { value: loc?.stat_4_value || STATS[3].value, note: loc?.stat_4_note || STATS[3].note },
-            ].map((stat) => (
+            {STATS.map((stat) => (
               <div
                 key={stat.value}
                 className="flex flex-col items-center rounded-2xl border border-outline-variant/40 bg-surface-low/80 px-3 py-4 shadow-sm backdrop-blur-md"

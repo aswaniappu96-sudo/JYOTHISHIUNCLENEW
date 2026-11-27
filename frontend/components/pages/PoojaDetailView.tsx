@@ -183,8 +183,7 @@ export function PoojaDetailView({
             <div className="text-center sm:text-left">
               <p className="font-semibold text-primary">Guided with traditional care</p>
               <p className="text-sm leading-relaxed text-on-surface-variant">
-                Every pooja is arranged with a clear sankalpa. Dakshina is confirmed privately — this page never shows a
-                price.
+                Every pooja is arranged with a clear sankalpa.
               </p>
             </div>
           </div>
