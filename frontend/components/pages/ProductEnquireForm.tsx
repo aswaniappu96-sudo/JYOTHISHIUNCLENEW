@@ -62,7 +62,7 @@ export function ProductEnquireForm({
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 font-serif text-primary">ॐ</span>
         <div>
           <h3 className="font-serif text-xl text-primary">Reserve this product</h3>
-          <p className="text-xs text-on-surface-variant">Share your details. Dakshina is confirmed privately — this page never shows a price.</p>
+          <p className="text-xs text-on-surface-variant">Share your details. We will confirm privately on WhatsApp or email.</p>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
