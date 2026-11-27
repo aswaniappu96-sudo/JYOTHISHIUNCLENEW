@@ -29,13 +29,13 @@ const SLIDER_H = CARD_H * VISIBLE + CARD_GAP * (VISIBLE - 1);
 type ToolId = "kundli" | "match" | "horoscope" | "rashi" | "nakshatra" | "numerology" | "tarot";
 
 const TOOLS: { id: ToolId; label: "daily.tabKundli" | "daily.tabMatch" | "daily.tabHoroscope" | "daily.tabRashi" | "daily.tabNakshatra" | "daily.tabNumerology" | "daily.tabTarot" }[] = [
-  { id: "tarot", label: "daily.tabTarot" },
+  { id: "horoscope", label: "daily.tabHoroscope" },
   { id: "kundli", label: "daily.tabKundli" },
   { id: "match", label: "daily.tabMatch" },
-  { id: "horoscope", label: "daily.tabHoroscope" },
   { id: "rashi", label: "daily.tabRashi" },
   { id: "nakshatra", label: "daily.tabNakshatra" },
   { id: "numerology", label: "daily.tabNumerology" },
+  { id: "tarot", label: "daily.tabTarot" },
 ];
 
 const TAROT_TYPES = [
@@ -137,7 +137,7 @@ function ToolCard({ children, className = "" }: { children: React.ReactNode; cla
 
 export function DailyHoroscope({ phone, whatsapp }: { phone?: string; whatsapp?: string } = {}) {
   const { t, locale } = usePrefs();
-  const [tab, setTab] = useState<ToolId>("tarot");
+  const [tab, setTab] = useState<ToolId>("horoscope");
   const [selected, setSelected] = useState<(typeof RASHIS)[number]>(RASHIS[0]);
   const [panchang, setPanchang] = useState<PanchangSnapshot>(() => getPanchang(DEFAULT_TIMEZONE));
   const [tz, setTz] = useState(DEFAULT_TIMEZONE);
