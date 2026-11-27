@@ -148,7 +148,7 @@ export function ServicesView({
               }`}
             >
               <span className="sm:hidden">Products</span>
-              <span className="hidden sm:inline">Sacred Products</span>
+              <span className="hidden sm:inline">Spiritual Products</span>
             </Link>
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs text-on-surface-variant/80">
@@ -221,13 +221,14 @@ export function ServicesView({
             <div className="mb-8">
               <div className="mb-1 flex items-center gap-2">
                 <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
-                  {loc?.list2_eyebrow || "02 / Sacred products"}
+                  {loc?.list2_eyebrow || "02 / Energised Spiritual Products"}
                 </span>
                 <span className="h-px w-12 bg-primary/40" />
               </div>
-              <PageHeading title={loc?.list2_title || "Sacred Planetary Products & Talismans"} />
+              <PageHeading title={loc?.list2_title || "Authentic & Energised Spiritual Products"} />
               <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
-                {loc?.list2_copy || "Items for puja and japa, prepared with care. Fees are shared privately after you enquire."}
+                {loc?.list2_copy ||
+                  "Hand-selected Rudrakshas, Yantras, Elas and traditional pooja essentials—energised through authentic Vedic rituals and personalized to your birth details, Gotra, and family’s prayers."}
               </p>
             </div>
             <div className="mb-8">

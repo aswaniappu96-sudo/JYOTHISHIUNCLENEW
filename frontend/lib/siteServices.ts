@@ -26,10 +26,10 @@ export const OFFERING_SERVICES: SiteServiceLink[] = [
   },
   {
     id: "products",
-    label: "Sacred products",
+    label: "Spiritual products",
     short: "Products",
-    hint: "Rudraksha, ghee, stones",
-    detail: "Rudraksha, ghee, and puja items. Enquire privately — no public prices.",
+    hint: "Rudraksha, yantras, elas",
+    detail: "Hand-selected Rudrakshas, Yantras, Elas and traditional pooja essentials—energised through authentic Vedic rituals.",
     href: PRODUCTS_PATH,
     group: "offer",
   },
