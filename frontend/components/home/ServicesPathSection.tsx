@@ -30,7 +30,7 @@ const LEAVES = [
   },
   {
     href: "/religious-travel",
-    title: "Religious Travel",
+    title: "Spiritually Guided Temple Yatras",
     script: "यात्रा",
     copy: "Embark on divine journeys with temple yatra, stay, and darshan guidance.",
     image: "/images/hero/banner-temple.jpg",
