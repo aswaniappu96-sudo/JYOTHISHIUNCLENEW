@@ -48,12 +48,11 @@ function availabilityLabel(value: string) {
   return "Available";
 }
 
-function assurancePair(item: string): [string, string] {
-  const idx = item.indexOf(": ");
-  if (idx > 1 && idx < 36) {
-    return [item.slice(0, idx), item.slice(idx + 2)];
+function cleanInfoItem(item: string) {
+  if (/aids in spiritual growth/i.test(item)) {
+    return "Material and packing: 100% natural, lab-tested Nepali & Indonesian beads, cleansed and packed securely in traditional sacred cloth.";
   }
-  return ["", item];
+  return item.replace(/\s*This page never shows a price\.?/gi, "").trim();
 }
 
 export function ProductDetailView({
@@ -70,9 +69,9 @@ export function ProductDetailView({
   const product = useLocalized(raw);
   const title = stripPublicPrices(product.title);
   const summary = stripPublicPrices(product.short_description);
-  const aboutHtml = stripPublicPrices(product.full_description);
-  const infoHtml = stripPublicPrices(product.product_info);
-  const infoItems = htmlListItems(infoHtml);
+  const aboutHtml = stripPublicPrices(product.full_description).replace(/\s*This page never shows a price\.?/gi, "");
+  const infoHtml = stripPublicPrices(product.product_info).replace(/\s*This page never shows a price\.?/gi, "");
+  const infoItems = htmlListItems(infoHtml).map(cleanInfoItem).filter(Boolean);
   const available = availabilityLabel(product.availability);
   const phone = settings.phone_number;
   const whatsapp = settings.whatsapp_number;
@@ -87,7 +86,7 @@ export function ProductDetailView({
   ].filter((item): item is { url: string; alt: string } => Boolean(item?.url));
   const uniqueImages = images.filter((item, index) => images.findIndex((other) => other.url === item.url) === index);
 
-  const assurances = (infoItems.length ? infoItems.map(assurancePair) : ASSURANCE_FALLBACKS).slice(0, 4);
+  const assurances = ASSURANCE_FALLBACKS;
 
   const whyCards = [
     {
@@ -186,9 +185,12 @@ export function ProductDetailView({
       <section className="mt-16 bg-surface-low py-16">
         <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-12">
           <div className="mx-auto max-w-3xl space-y-2 text-center">
-            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Spiritually Energised Product</p>
-            <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Why this product</h2>
-            <p className="text-sm text-on-surface-variant">Personalised spiritual guidance for pooja, japa, and wearing</p>
+            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">
+              Sacred Guidance · Spiritually Energised Product
+            </p>
+            <p className="text-sm text-on-surface-variant">
+              Personalised spiritual guidance for pooja, japa, and wearing
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {whyCards.map((card) => (

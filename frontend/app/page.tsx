@@ -40,7 +40,11 @@ export default async function HomePage() {
         />
         <BecomeAstrologerSection image={data.settings.join_image} />
         <DailyHoroscope phone={data.settings.phone_number} whatsapp={data.settings.whatsapp_number} />
-        <ConsultationSection settings={data.settings} services={data.services || []} />
+        <ConsultationSection
+          settings={data.settings}
+          services={data.services || []}
+          joinImage={data.settings.join_image}
+        />
         <PoojaSection poojas={data.poojas} vendors={data.vendors || []} whatsappNumber={data.settings.whatsapp_number} />
         <ProductSection products={data.products} whatsappNumber={data.settings.whatsapp_number} />
         <TravelSection travel={data.travel} whatsappNumber={data.settings.whatsapp_number} />

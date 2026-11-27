@@ -17,7 +17,7 @@ import { consultPanelAnchor, consultServicesFromWp } from "@/lib/siteServices";
 import { POOJAS_PATH, PRODUCTS_PATH } from "@/lib/siteRoutes";
 import { useJuList } from "@/lib/useJuList";
 import { whatsappUrl } from "@/lib/whatsapp";
-import type { AstrologyService, SiteSettings } from "@/types/wordpress";
+import type { AstrologyService, SiteSettings, WPImage } from "@/types/wordpress";
 
 const INNER = "relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-[56px]";
 
@@ -93,10 +93,12 @@ export function ConsultationSection({
   embedded = false,
   settings,
   services,
+  joinImage,
 }: {
   embedded?: boolean;
   settings: SiteSettings;
   services: AstrologyService[];
+  joinImage?: WPImage;
 }) {
   const { t, locale } = usePrefs();
   const chrome = panelChrome(locale);
@@ -235,7 +237,7 @@ export function ConsultationSection({
           ) : null}
         </div>
 
-        <TrustCards />
+        <TrustCards image={joinImage} />
 
         <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-stretch">
           <div

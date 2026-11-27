@@ -203,27 +203,41 @@ const TRUST_CARDS = [
   { title: "trust.connect" as const, copy: "trust.connectCopy" as const, icon: ChatTrust },
 ];
 
-export function TrustCards() {
+const TRUST_SIDE_IMAGE = "/images/join-astrologer-studio.png";
+
+export function TrustCards({ image }: { image?: WPImage } = {}) {
   const { t } = usePrefs();
+  const src = imageSrc(image, TRUST_SIDE_IMAGE);
+
   return (
-    <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-      {TRUST_CARDS.map((item) => {
-        const Icon = item.icon;
-        return (
-          <div
-            key={item.title}
-            className="group relative flex items-start gap-3 rounded-[18px] border border-[#EAD9B0] bg-white/80 px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18),0_1px_0_0_rgba(245,230,200,0.8)_inset] transition-all duration-300 hover:-translate-y-px hover:shadow-[0_16px_36px_-18px_rgba(61,44,30,0.22)]"
-          >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] shadow-[0_1px_0_0_white_inset]">
-              <Icon />
+    <div className="mt-8 grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[minmax(140px,0.85fr)_minmax(0,1.5fr)_minmax(140px,0.85fr)] lg:gap-5">
+      <div className="relative hidden overflow-hidden rounded-[18px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18)] lg:block">
+        <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
+        {TRUST_CARDS.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div
+              key={item.title}
+              className="group relative flex items-start gap-3 rounded-[18px] border border-[#EAD9B0] bg-white/80 px-4 py-3.5 shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18),0_1px_0_0_rgba(245,230,200,0.8)_inset] transition-all duration-300 hover:-translate-y-px hover:shadow-[0_16px_36px_-18px_rgba(61,44,30,0.22)]"
+            >
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] text-[#8B6A3A] shadow-[0_1px_0_0_white_inset]">
+                <Icon />
+              </div>
+              <div className="min-w-0 pt-0.5">
+                <h3 className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{t(item.title)}</h3>
+                <p className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</p>
+              </div>
             </div>
-            <div className="min-w-0 pt-0.5">
-              <h3 className="text-[13.5px] font-semibold leading-[1.4] text-[#1E160E]">{t(item.title)}</h3>
-              <p className="mt-0.5 text-[12.5px] leading-[1.6] text-[#8B7E6E]">{t(item.copy)}</p>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+
+      <div className="relative hidden overflow-hidden rounded-[18px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18)] lg:block">
+        <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
+      </div>
     </div>
   );
 }
