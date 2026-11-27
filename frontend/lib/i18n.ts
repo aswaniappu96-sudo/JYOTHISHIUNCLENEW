@@ -458,7 +458,7 @@ const en = {
   "about.lead": "A family of",
   "about.accent": "traditional",
   "about.rest": "astrologers",
-  "about.body": "Video consulting for Kundli, Prashna, matchmaking, family guidance, and remedies. Pooja and homam arranged with care. Sacred products by private enquiry. Temple yatra notes for darshan. Offline poojas available. Service is worldwide.",
+  "about.body": "Video consulting for Kundli, Prashna, matchmaking, family guidance, and remedies. Pooja and homam arranged with care. Spiritual products by private enquiry. Temple yatra notes for darshan. Offline poojas available. Service is worldwide.",
   "about.statYears": "500+ years",
   "about.statOnline": "Online worldwide",
   "about.statOffline": "Offline poojas available",

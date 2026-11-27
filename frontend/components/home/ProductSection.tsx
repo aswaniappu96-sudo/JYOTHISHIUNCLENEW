@@ -29,7 +29,7 @@ function productKind(title: string) {
   if (/incense|agarbatti|dhoop/.test(key)) return "Incense";
   if (/mala|bead/.test(key)) return "Mala";
   if (/stone|gem|navratna/.test(key)) return "Gem";
-  return "Sacred item";
+  return "Spiritual item";
 }
 
 function stockLine(availability: string, ready: string, order: string, enquire: string) {

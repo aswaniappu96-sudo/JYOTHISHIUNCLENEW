@@ -25,7 +25,7 @@ const HOME_SUBJECTS = [
   "General enquiry",
   "Pooja & Ritual Booking",
   "Consultation with Acharya",
-  "Sacred Product",
+  "Spiritual Product",
   "Temple Yatra",
 ];
 

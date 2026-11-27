@@ -153,7 +153,7 @@ export function ProductDetailView({
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-container/50 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">
                 <ConchIcon className="h-3 w-3" />
-                Sacred product
+                Spiritual product
               </span>
               <span className="inline-flex items-center rounded-full bg-surface-high px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-surface-variant uppercase">
                 {available}

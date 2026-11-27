@@ -219,7 +219,7 @@ export function ArticleDetailView({
                   </div>
                 )}
                 <div className="flex flex-col">
-                  <SectionEyebrow>Sacred product</SectionEyebrow>
+                  <SectionEyebrow>Spiritual product</SectionEyebrow>
                   <h5 className="mt-0.5 text-lg leading-tight font-semibold text-on-surface">{product.title}</h5>
                   {product.short_description ? (
                     <span className="mt-1 line-clamp-2 text-xs text-on-surface-variant">
