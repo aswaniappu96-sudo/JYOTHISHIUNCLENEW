@@ -7,7 +7,7 @@ import { ConchIcon } from "@/components/icons/ConchIcon";
 import { ProductEnquireForm } from "@/components/pages/ProductEnquireForm";
 import { ProductGallery } from "@/components/pages/ProductGallery";
 import { PageHeading } from "@/components/home/SectionHeading";
-import { htmlListItems, htmlParagraphs, stripPublicPrices, telHref } from "@/lib/html";
+import { htmlListItems, stripPublicPrices, telHref } from "@/lib/html";
 import { useLocalized } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { PRODUCTS_PATH } from "@/lib/siteRoutes";
@@ -72,9 +72,7 @@ export function ProductDetailView({
   const summary = stripPublicPrices(product.short_description);
   const aboutHtml = stripPublicPrices(product.full_description);
   const infoHtml = stripPublicPrices(product.product_info);
-  const aboutParagraphs = htmlParagraphs(aboutHtml);
   const infoItems = htmlListItems(infoHtml);
-  const infoParagraphs = htmlParagraphs(infoHtml);
   const available = availabilityLabel(product.availability);
   const phone = settings.phone_number;
   const whatsapp = settings.whatsapp_number;
