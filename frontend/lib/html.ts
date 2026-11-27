@@ -50,6 +50,10 @@ export function stripPublicPrices(text: string): string {
     .replace(/\bWhatsApp for payment\b/gi, "WhatsApp")
     .replace(/\bpayment details\b/gi, "details")
     .replace(/\bfor payment\b/gi, "")
+    .replace(/\bPujahome\s+Original\b/gi, "MaharshiOm original")
+    .replace(/\bPuja\s*Home\s+Original\b/gi, "MaharshiOm original")
+    .replace(/\bPujahome\b/gi, "MaharshiOm")
+    .replace(/\bPuja\s*Home\b/gi, "MaharshiOm")
     .replace(/\s{2,}/g, " ")
     .replace(/\s+([.,;:])/g, "$1")
     .trim();

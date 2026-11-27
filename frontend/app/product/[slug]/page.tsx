@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetailView } from "@/components/pages/ProductDetailView";
 import { getProduct, getProducts, getSettings, getTestimonials } from "@/lib/api/wordpress";
+import { stripPublicPrices } from "@/lib/html";
 
 export const revalidate = 60;
 
@@ -17,10 +18,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const item = await getProduct(slug);
+  const title = item?.title ? stripPublicPrices(item.title) : undefined;
+  const description = item?.short_description ? stripPublicPrices(item.short_description) : undefined;
   return {
-    title: item?.title,
-    description: item?.short_description,
-    openGraph: { title: item?.title, description: item?.short_description },
+    title,
+    description,
+    openGraph: { title, description },
   };
 }
 
