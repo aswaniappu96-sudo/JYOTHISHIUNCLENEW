@@ -98,7 +98,7 @@ export function ProductEnquireForm({
       >
         {busy ? "Sending…" : "Buy this product"}
       </button>
-      <p className="text-center text-xs text-on-surface-variant">The selected product is available. Dates and dakshina are confirmed on WhatsApp.</p>
+      <p className="text-center text-xs text-on-surface-variant">The selected product is available. Details are confirmed on WhatsApp.</p>
     </form>
   );
 }
