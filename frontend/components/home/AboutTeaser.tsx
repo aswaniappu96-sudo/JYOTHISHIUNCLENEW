@@ -585,12 +585,12 @@ export function AboutTeaser({
 
           <div className="relative lg:pl-6">
             <div className="relative overflow-hidden rounded-[24px] border border-[#EAD9B0] bg-white shadow-[0_20px_60px_rgba(94,72,36,0.08),0_2px_0_0_#fff_inset]">
-              <div className="flex h-[56px] items-center justify-between border-b border-[#FBF0D9] bg-[#FFFBF0]/60 px-7">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[11px] text-[#8B6A3A]">
+              <div className="flex min-h-[56px] items-center justify-between border-b border-[#FBF0D9] bg-[#FFFBF0]/60 px-5 py-3 sm:px-7">
+                <div className="flex min-w-0 items-center gap-2.5">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[13px] text-[#8B6A3A]">
                     ॐ
                   </div>
-                  <span className="text-[11px] font-semibold tracking-[0.04em] text-[#9C8360]">{t("about.parampara")}</span>
+                  <span className="text-[15px] font-semibold leading-snug tracking-[0.01em] text-[#8B6A3A] sm:text-[17px]">{t("about.parampara")}</span>
                 </div>
                 <div className="flex gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#E9C07A]" />

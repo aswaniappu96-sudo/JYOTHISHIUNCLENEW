@@ -67,8 +67,8 @@ export function AboutView({ page }: { page: WPPage | null }) {
             {loc?.hero_copy ||
               "Deep in the celestial soils of ancient Bharat, wisdom descends like golden light. From Sage Parashara to the palm leaf Thaliola masters, our lineage is rooted in eternal cosmic mathematics."}
           </p>
-          <div className="relative mt-12 flex w-full max-w-3xl flex-col items-center">
-            <svg className="h-44 w-full overflow-visible text-primary opacity-85" fill="none" viewBox="0 0 800 200">
+          <div className="relative mt-8 flex w-full max-w-3xl flex-col items-center">
+            <svg className="h-28 w-full overflow-visible text-primary opacity-85" fill="none" viewBox="0 0 800 120">
               <defs>
                 <radialGradient id="rootGlow" cx="50%" cy="0%" r="80%">
                   <stop offset="0%" stopColor="#ffe09d" stopOpacity="0.9" />
@@ -81,22 +81,22 @@ export function AboutView({ page }: { page: WPPage | null }) {
                   <stop offset="100%" stopColor="#4829b3" stopOpacity="0.1" />
                 </linearGradient>
               </defs>
-              <circle className="animate-pulse" cx="400" cy="10" fill="url(#rootGlow)" r="16" />
-              <circle cx="400" cy="10" fill="#ffe09d" r="4" />
-              <path d="M400 10 C400 60, 360 80, 240 120 C180 140, 110 150, 40 190" stroke="url(#rootGoldLine)" strokeDasharray="6 3" strokeWidth="2" />
-              <path d="M400 10 C390 70, 310 90, 290 140 C270 170, 210 185, 170 195" stroke="url(#rootGoldLine)" strokeWidth="2" />
-              <path d="M400 10 C400 80, 390 120, 380 195" stroke="url(#rootGoldLine)" strokeWidth="2.5" />
-              <path d="M400 10 C400 80, 410 120, 420 195" stroke="url(#rootGoldLine)" strokeWidth="2.5" />
-              <path d="M400 10 C410 70, 490 90, 510 140 C530 170, 590 185, 630 195" stroke="url(#rootGoldLine)" strokeWidth="2" />
-              <path d="M400 10 C400 60, 440 80, 560 120 C620 140, 690 150, 760 190" stroke="url(#rootGoldLine)" strokeDasharray="6 3" strokeWidth="2" />
-              <circle cx="240" cy="120" fill="#ffe09d" r="5" />
-              <circle cx="560" cy="120" fill="#ffe09d" r="5" />
-              <circle cx="170" cy="195" fill="#cabeff" r="4" />
-              <circle cx="380" cy="195" fill="#cabeff" r="4" />
-              <circle cx="420" cy="195" fill="#cabeff" r="4" />
-              <circle cx="630" cy="195" fill="#cabeff" r="4" />
-              <circle cx="40" cy="190" fill="#ffe09d" r="3" />
-              <circle cx="760" cy="190" fill="#ffe09d" r="3" />
+              <circle className="animate-pulse" cx="400" cy="8" fill="url(#rootGlow)" r="14" />
+              <circle cx="400" cy="8" fill="#ffe09d" r="4" />
+              <path d="M400 8 C400 36, 360 48, 240 72 C180 84, 110 90, 40 114" stroke="url(#rootGoldLine)" strokeDasharray="6 3" strokeWidth="2" />
+              <path d="M400 8 C390 42, 310 54, 290 84 C270 102, 210 111, 170 117" stroke="url(#rootGoldLine)" strokeWidth="2" />
+              <path d="M400 8 C400 48, 390 72, 380 117" stroke="url(#rootGoldLine)" strokeWidth="2.5" />
+              <path d="M400 8 C400 48, 410 72, 420 117" stroke="url(#rootGoldLine)" strokeWidth="2.5" />
+              <path d="M400 8 C410 42, 490 54, 510 84 C530 102, 590 111, 630 117" stroke="url(#rootGoldLine)" strokeWidth="2" />
+              <path d="M400 8 C400 36, 440 48, 560 72 C620 84, 690 90, 760 114" stroke="url(#rootGoldLine)" strokeDasharray="6 3" strokeWidth="2" />
+              <circle cx="240" cy="72" fill="#ffe09d" r="5" />
+              <circle cx="560" cy="72" fill="#ffe09d" r="5" />
+              <circle cx="170" cy="117" fill="#cabeff" r="4" />
+              <circle cx="380" cy="117" fill="#cabeff" r="4" />
+              <circle cx="420" cy="117" fill="#cabeff" r="4" />
+              <circle cx="630" cy="117" fill="#cabeff" r="4" />
+              <circle cx="40" cy="114" fill="#ffe09d" r="3" />
+              <circle cx="760" cy="114" fill="#ffe09d" r="3" />
             </svg>
             <div className="-mt-2 grid w-full grid-cols-2 gap-4 sm:grid-cols-4">
               {roots.map(([title, copy]) => (
