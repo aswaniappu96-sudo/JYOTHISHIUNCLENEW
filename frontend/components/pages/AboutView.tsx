@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { BrandMark, BrandText } from "@/components/brand/BrandText";
 import { CmsHtml } from "@/components/brand/CmsHtml";
-import { CategoryDesk } from "@/components/home/CategoryDesk";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { AboutMantraCta } from "@/components/pages/AboutMantraCta";
 import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
@@ -11,9 +10,9 @@ import { Eyebrow } from "@/components/pages/PageHero";
 import { useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
 import { POOJAS_PATH } from "@/lib/siteRoutes";
-import type { Pooja, Product, TravelDestination, WPPage } from "@/types/wordpress";
+import type { WPPage } from "@/types/wordpress";
 
-const PORTRAIT = "/images/about-maharshi.jpg";
+const PORTRAIT = "/images/about-portrait.jpg";
 const HOMAM =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAbWL3okzkn5bZg1MCUYym3qKo4bQQTQPlPXLbT6d1x9RWPa5sTlCq_b_-f1erDJfDWDoMb6vptFclDzhHSyqVP9IaAVKzvsBJUumDsI6J5F1JBb1Wlq1rSAXVErXWkSf0ME7OgwEkXDS_V2m3wHTS9IqaLyafkga0XEEdmfPuLA5igFfy5OWiYvTsIGHlMA5HIboICnaxpUx4bSUoZF6K6v9b43IdxK9WDFvLW7rYYgeofbUUKoRVQ-w";
 const NAVAGRAHA =
@@ -47,17 +46,7 @@ const READINGS = [
   ["Yearly Transit Forecast", "3-year dasha timelines"],
 ];
 
-export function AboutView({
-  page,
-  poojas = [],
-  products = [],
-  travel = [],
-}: {
-  page: WPPage | null;
-  poojas?: Pooja[];
-  products?: Product[];
-  travel?: TravelDestination[];
-}) {
+export function AboutView({ page }: { page: WPPage | null }) {
   const loc = useLocalizedPage(page);
   const portrait = imageSrc(loc?.featured_image, PORTRAIT);
   const ritual1 = imageSrc(loc?.image_1, HOMAM);
@@ -134,7 +123,7 @@ export function AboutView({
           <div className="relative flex justify-center lg:col-span-5">
             <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl bg-linear-to-b from-primary/30 via-secondary-container/20 to-surface-lowest p-2 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_-5px_rgba(229,195,120,0.25)]">
               <div className="relative h-full w-full overflow-hidden rounded-xl">
-                <img alt="Maharshi at the temple" className="h-full w-full object-cover object-[28%_center]" src={portrait} />
+                <img alt="Traditional Vedic astrologer with palm-leaf manuscripts" className="h-full w-full object-cover object-center" src={portrait} />
               </div>
             </div>
           </div>
@@ -352,8 +341,6 @@ export function AboutView({
           </div>
         </div>
       </section>
-
-      <CategoryDesk poojas={poojas} products={products} travel={travel} />
 
       <AboutMantraCta />
     </div>
