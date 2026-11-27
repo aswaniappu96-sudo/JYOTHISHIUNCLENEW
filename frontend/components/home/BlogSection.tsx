@@ -61,13 +61,7 @@ function categoryLabel(topic: string) {
   return topic.toUpperCase();
 }
 
-export function BlogSection({
-  articles,
-  youtubeUrl = "",
-}: {
-  articles: Article[];
-  youtubeUrl?: string;
-}) {
+export function BlogSection({ articles }: { articles: Article[] }) {
   const { t } = usePrefs();
   const list = useJuList<Article>("/articles", articles);
   const localized = useLocalizedList(list);
@@ -84,7 +78,6 @@ export function BlogSection({
   const featured = filtered[0] || localized[0];
   const rail = filtered.slice(1, 5);
   const grid = (topic === "All" ? localized.slice(5) : filtered).slice(0, 6);
-  const youtube = youtubeUrl || "https://www.youtube.com";
 
   return (
     <section id="articles" className="relative w-full overflow-hidden scroll-mt-36 py-12 md:py-16 lg:py-20">
@@ -158,22 +151,6 @@ export function BlogSection({
           </div>
         ) : null}
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 rounded-[14px] border border-[#EAD9B0] bg-white px-5 py-4 shadow-[0_2px_0_0_#F5E8C6] md:flex-row">
-          <div className="flex items-center gap-3 text-[13px] text-[#6B5E53]">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FFFBF0] ring-1 ring-[#EAD9B0]">▶︎</span>
-            <span className="font-serif">{t("articles.youtube")}</span>
-          </div>
-          <a
-            href={youtube}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-[#221C16] px-5 py-2 text-[12px] font-medium tracking-wide text-[#FFFBF0] transition hover:bg-[#3A2F25]"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#FF4D4D]" />
-            {t("articles.watch")}
-            <span>→</span>
-          </a>
-        </div>
         <p className="mx-auto mt-6 max-w-[680px] text-center font-serif text-[11px] leading-[1.5] text-[#A99B8C]">{t("articles.foot")}</p>
       </div>
     </section>

@@ -45,7 +45,7 @@ export default async function HomePage() {
         <ProductSection products={data.products} whatsappNumber={data.settings.whatsapp_number} />
         <TravelSection travel={data.travel} whatsappNumber={data.settings.whatsapp_number} />
         <Testimonials testimonials={data.testimonials} />
-        <BlogSection articles={data.articles} youtubeUrl={data.settings.social_youtube} />
+        <BlogSection articles={data.articles} />
         <CtaSection
           whatsappNumber={data.settings.whatsapp_number}
           phone={data.settings.phone_number}
