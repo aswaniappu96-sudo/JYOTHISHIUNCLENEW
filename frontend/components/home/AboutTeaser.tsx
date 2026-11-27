@@ -589,7 +589,7 @@ export function AboutTeaser({
                   <div className="flex h-6 w-6 items-center justify-center rounded-full border border-[#EAD9B0] bg-[#FBF0D9] font-serif text-[11px] text-[#8B6A3A]">
                     ॐ
                   </div>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9C8360]">{t("about.parampara")}</span>
+                  <span className="text-[11px] font-semibold tracking-[0.04em] text-[#9C8360]">{t("about.parampara")}</span>
                 </div>
                 <div className="flex gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#E9C07A]" />
@@ -669,7 +669,7 @@ export function AboutTeaser({
                       </div>
                     </div>
 
-                    <div className="absolute -right-3 bottom-16 z-10 rounded-[14px] border border-[#EAD9B0] bg-white px-3 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+                    <div className="absolute -left-3 top-16 z-10 rounded-[14px] border border-[#EAD9B0] bg-white px-3 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
                       <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9C8360]">{t("about.worldwide")}</div>
                       <div className="grid grid-cols-5 gap-[4px]">
                         {Array.from({ length: 15 }).map((_, n) => (
