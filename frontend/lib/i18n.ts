@@ -307,7 +307,7 @@ const en = {
   "pooja.badge": "Pooja & Homam • Verified priests • Online and Offline",
   "pooja.lead": "Book a",
   "pooja.accent": "pooja",
-  "pooja.copy": "Homam and pooja arranged with a priest. Open a rite to see how it is done, then book. Dakshina is shared privately. Available online and offline.",
+  "pooja.copy": "Homam and Poojas arranged with a priest as per request.",
   "pooja.view": "View all poojas",
   "pooja.live": "Online & Offline",
   "pooja.booked": "Most booked",
