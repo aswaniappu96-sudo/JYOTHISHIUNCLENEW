@@ -27,7 +27,8 @@ export type GuidanceTopicId =
   | "vastu"
   | "tarot"
   | "numerology"
-  | "remedies";
+  | "health"
+  | "education";
 
 export const GUIDANCE_TOPIC_IDS: GuidanceTopicId[] = [
   "love",
@@ -38,7 +39,8 @@ export const GUIDANCE_TOPIC_IDS: GuidanceTopicId[] = [
   "vastu",
   "tarot",
   "numerology",
-  "remedies",
+  "health",
+  "education",
 ];
 
 const TOPIC_RE: Record<GuidanceTopicId, RegExp> = {
@@ -46,11 +48,12 @@ const TOPIC_RE: Record<GuidanceTopicId, RegExp> = {
   marriage: /marriage|kundli|kundali|jathak|match|porutham|mangal/i,
   career: /career|job|work|profession/i,
   business: /business|finance|money|wealth|trade/i,
-  family: /family|home|child|parent/i,
+  family: /family|home|child|parent|elder/i,
   vastu: /vastu/i,
   tarot: /tarot/i,
   numerology: /numerolog|number/i,
-  remedies: /remed|parihara|dosha|upay/i,
+  health: /health|well.?being|vitality|recovery|mental/i,
+  education: /educat|stud|exam|abroad|school|college/i,
 };
 
 export function isGuidanceTopic(value: string | null | undefined): value is GuidanceTopicId {
@@ -106,15 +109,17 @@ export type AstrologerView = {
 
 export type AstrologerFilter = "all" | "online" | "rated" | "newest";
 
-function languagesFor(location: string, index: number) {
-  const loc = location.toLowerCase();
-  if (/tamil|rameswaram|madurai|chennai|coimbatore/.test(loc)) return "Tamil · English";
-  if (/kerala|malayalam|kochi|thrissur|kozhikode/.test(loc)) return "Malayalam · English";
-  if (/karnataka|bengaluru|bangalore|mysore|mysuru/.test(loc)) return "Kannada · English · Hindi";
-  if (/andhra|telangana|hyderabad|vijayawada|visakhapatnam/.test(loc)) return "Telugu · English";
-  if (/maharashtra|mumbai|pune|nagpur/.test(loc)) return "Marathi · Hindi · English";
-  const fallbacks = ["Hindi · English", "Hindi · English · Sanskrit", "English · Hindi", "Hindi · Gujarati · English"];
-  return fallbacks[index % fallbacks.length];
+function languagesFor(_location?: string, _index?: number) {
+  return "Tamil · Hindi · Malayalam · English";
+}
+
+function experienceYearsFor(name: string, id: number) {
+  const key = name.toLowerCase();
+  if (/sasi\s*kumar|sasikumar/.test(key)) return 30;
+  if (/sree\s*kumar|sreekumar/.test(key)) return 15;
+  if (/jayakumar/.test(key)) return 20;
+  if (/panic?ker|panikar/.test(key)) return 25;
+  return 10 + ((id * 5) % 16);
 }
 
 function specialtyTags(text: string) {
@@ -151,7 +156,7 @@ export function buildAstrologerViews(list: Astrologer[], locale: Locale = "en"):
       ratingValue,
       reviews: 48 + ((id * 37) % 320),
       online: meta.status === "Online" || index % 4 !== 3,
-      experienceYears: 10 + ((id * 5) % 16),
+      experienceYears: experienceYearsFor(name, id),
       languages: languagesFor(location, index),
       isNew: newest.has(id),
       summary,

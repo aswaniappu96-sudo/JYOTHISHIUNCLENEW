@@ -56,7 +56,8 @@ const TOPIC_LABEL = {
   vastu: "consult.vastu",
   tarot: "consult.tarot",
   numerology: "consult.numerology",
-  remedies: "consult.remedies",
+  health: "consult.health",
+  education: "consult.education",
 } as const;
 
 type BoardProps = {

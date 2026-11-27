@@ -131,22 +131,21 @@ function NumbersIcon() {
   );
 }
 
-function PrashnaIcon() {
+function HealthIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
-      <circle cx="12" cy="12" r="8.2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M9.6 10.1a2.4 2.4 0 1 1 3.3 2.2c-.7.4-1.1.9-1.1 1.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="11.8" cy="16.4" r="0.8" fill="currentColor" />
+      <path d="M12 20.2S4.8 15.4 4.8 9.8A3.8 3.8 0 0 1 12 7.6a3.8 3.8 0 0 1 7.2 2.2c0 5.6-7.2 10.4-7.2 10.4Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M12 9.2v5.2M9.4 11.8h5.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
 
-function LotusIcon() {
+function EducationIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
-      <path d="M12 19c-3.4-1.6-5.8-4.2-6.6-7.6 2.2.2 4.2 1.4 6.6 3.6 2.4-2.2 4.4-3.4 6.6-3.6-.8 3.4-3.2 6-6.6 7.6Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M12 14.6C10 10.4 9.2 7.2 12 4.8c2.8 2.4 2 5.6 0 9.8Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M5.4 11.2c1.8-2.8 4.2-3.8 6.6-2.6M18.6 11.2c-1.8-2.8-4.2-3.8-6.6-2.6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="m4.4 9.2 7.6-3.8 7.6 3.8-7.6 3.8L4.4 9.2Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M7.2 11.2v4.2c0 .8 2.2 2.2 4.8 2.2s4.8-1.4 4.8-2.2v-4.2" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M19.6 9.6v5.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
@@ -167,7 +166,7 @@ function GuidanceArt({ src }: { src: string }) {
 }
 
 type Topic = {
-  id: GuidanceTopicId | "prashna";
+  id: GuidanceTopicId;
   title: MsgKey;
   hint: MsgKey;
   well: string;
@@ -178,14 +177,14 @@ type Topic = {
 const TOPICS: Topic[] = [
   { id: "love", title: "consult.love", hint: "consult.loveHint", well: "bg-[#FDECEC] text-[#C45C5C]", wash: "text-[#E8B4B4]", icon: HeartsIcon },
   { id: "marriage", title: "consult.marriage", hint: "consult.marriageHint", well: "bg-[#FBF0D4] text-[#B8872A]", wash: "text-[#E8D4A0]", icon: RingsIcon },
-  { id: "career", title: "consult.career", hint: "consult.careerHint", well: "bg-[#F3E9FB] text-[#8B5EAB]", wash: "text-[#D4B8E8]", icon: BriefcaseIcon },
-  { id: "business", title: "consult.business", hint: "consult.businessHint", well: "bg-[#FBF0D9] text-[#9A6F3A]", wash: "text-[#EAD9B0]", icon: CoinsIcon },
-  { id: "family", title: "consult.family", hint: "consult.familyHint", well: "bg-[#EAF2FB] text-[#4A7AA8]", wash: "text-[#B8CDE0]", icon: HomeIcon },
   { id: "vastu", title: "consult.vastu", hint: "consult.vastuHint", well: "bg-[#F8EDE0] text-[#C47A3A]", wash: "text-[#E8C9A8]", icon: CompassIcon },
   { id: "tarot", title: "consult.tarot", hint: "consult.tarotHint", well: "bg-[#F4EEE8] text-[#8B6A4A]", wash: "text-[#DCC8B0]", icon: TarotIcon },
   { id: "numerology", title: "consult.numerology", hint: "consult.numerologyHint", well: "bg-[#EEE8F8] text-[#6B5B9A]", wash: "text-[#C8BCD8]", icon: NumbersIcon },
-  { id: "remedies", title: "consult.remedies", hint: "consult.remediesHint", well: "bg-[#F8EFE4] text-[#B07A3A]", wash: "text-[#E4C8A0]", icon: LotusIcon },
-  { id: "prashna", title: "consult.prashna", hint: "consult.prashnaHint", well: "bg-[#FDE8D8] text-[#C45A28]", wash: "text-[#F0C2A4]", icon: PrashnaIcon },
+  { id: "health", title: "consult.health", hint: "consult.healthHint", well: "bg-[#EAF7F0] text-[#3E8A68]", wash: "text-[#B5D9C6]", icon: HealthIcon },
+  { id: "education", title: "consult.education", hint: "consult.educationHint", well: "bg-[#EAF2FB] text-[#4A7AA8]", wash: "text-[#B8CDE0]", icon: EducationIcon },
+  { id: "career", title: "consult.career", hint: "consult.careerHint", well: "bg-[#F3E9FB] text-[#8B5EAB]", wash: "text-[#D4B8E8]", icon: BriefcaseIcon },
+  { id: "business", title: "consult.business", hint: "consult.businessHint", well: "bg-[#FBF0D9] text-[#9A6F3A]", wash: "text-[#EAD9B0]", icon: CoinsIcon },
+  { id: "family", title: "consult.family", hint: "consult.familyHint", well: "bg-[#F0EAF8] text-[#6B5B9A]", wash: "text-[#C8BCD8]", icon: HomeIcon },
 ];
 
 const TRUST = [
