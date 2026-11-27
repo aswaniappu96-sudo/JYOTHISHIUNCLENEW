@@ -10,6 +10,7 @@ export function ArticleCard({ article: raw }: { article: Article }) {
   const article = useLocalized(raw);
   const src = imageSrc(article.featured_image);
   const category = articleCategory(article);
+  const showCategory = Boolean(category && category.toLowerCase() !== "uncategorized" && category !== "Guidance");
   const mins = readingMinutes(article.content || article.excerpt);
 
   return (
@@ -25,9 +26,11 @@ export function ArticleCard({ article: raw }: { article: Article }) {
           ) : (
             <div className="h-full w-full bg-linear-to-br from-surface-lowest to-secondary-container/40" />
           )}
-          <div className="absolute top-3 left-3 rounded-full bg-surface-lowest/80 px-2.5 py-1 text-[11px] font-bold tracking-[0.18em] text-tertiary uppercase backdrop-blur-md">
-            {category}
-          </div>
+          {showCategory ? (
+            <div className="absolute top-3 left-3 rounded-full bg-surface-lowest/80 px-2.5 py-1 text-[11px] font-bold tracking-[0.18em] text-tertiary uppercase backdrop-blur-md">
+              {category}
+            </div>
+          ) : null}
           <div className="absolute right-3 bottom-3 rounded bg-surface-lowest/80 px-2 py-0.5 text-xs text-on-surface backdrop-blur-sm">
             {mins} min read
           </div>
@@ -51,7 +54,7 @@ export function ArticleCard({ article: raw }: { article: Article }) {
           href={`/blog/${article.slug}`}
           className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition group-hover:translate-x-1"
         >
-          Read study →
+          Read article →
         </Link>
       </div>
     </article>
