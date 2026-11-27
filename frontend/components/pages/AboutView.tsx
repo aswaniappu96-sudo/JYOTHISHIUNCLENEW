@@ -5,7 +5,6 @@ import { BrandMark, BrandText } from "@/components/brand/BrandText";
 import { CmsHtml } from "@/components/brand/CmsHtml";
 import { PageHeading } from "@/components/home/SectionHeading";
 import { AboutMantraCta } from "@/components/pages/AboutMantraCta";
-import { BookConsultationButton } from "@/components/portal/BookConsultationButton";
 import { Eyebrow } from "@/components/pages/PageHero";
 import { useLocalizedPage } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
@@ -37,13 +36,6 @@ const PILLARS = [
   ["PILLAR II", "Astronomical Precision", "Zero algorithmic guesswork. We synthesize classic Lahiri Ayanamsha with calibrated planetary positions for down-to-the-minute accuracy.", "TRUE CELESTIAL ALIGNMENT", "secondary"],
   ["PILLAR III", "Karmic Realignment", "Remedies focus on lifestyle, conscious charitable deeds (Daan), and genuine sound vibrations—never overpriced superstitious trinkets.", "AUTHENTIC REMEDIES ONLY", "primary"],
   ["PILLAR IV", "Sanctuary Privacy", "Your birth charts, queries, and video sessions are strictly confidential between you and MaharshiOm. We maintain sacred client secrecy.", "SACRED CONFIDENTIALITY", "secondary"],
-];
-
-const READINGS = [
-  ["Complete Kundali Reading", "60 Mins · Life Path & Dasha"],
-  ["Marriage / Jathaka Matching", "Compatibility & muhurta"],
-  ["Prashna (Urgent Query)", "Immediate celestial inquiry"],
-  ["Yearly Transit Forecast", "3-year dasha timelines"],
 ];
 
 export function AboutView({ page }: { page: WPPage | null }) {
@@ -279,66 +271,6 @@ export function AboutView({ page }: { page: WPPage | null }) {
               </div>
             </article>
           ))}
-        </div>
-      </section>
-
-      <section id="booking-sanctuary" className="relative mx-auto max-w-7xl px-4 py-20 md:px-12">
-        <div className="relative overflow-hidden rounded-3xl bg-linear-to-b from-surface-high via-surface-container to-surface-lowest p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)] md:p-14">
-          <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
-          <div className="relative z-10 grid grid-cols-1 gap-10 lg:grid-cols-12">
-            <div className="flex flex-col justify-between lg:col-span-5">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 rounded-full bg-primary-container/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
-                  ● Live 1-on-1 Oracle Audience
-                </div>
-                <PageHeading lead="Seek the Council of the" accent="Cosmos" />
-                <p className="text-sm leading-relaxed text-on-surface-variant">
-                  Book a private, deep-dive session with <BrandText>MaharshiOm</BrandText>. Receive an in-depth analysis of your Natal
-                  Kundali, planetary dasha cycles, and immediate actionable remedies.
-                </p>
-                <div className="space-y-3 pt-3">
-                  {[
-                    "Complete Natal Chart (Lagna, Navamsha & D10)",
-                    "Upcoming 3-Year Dasha & Transit Timelines",
-                    "Personalized Vedic Homam & Mantra Prescriptions",
-                    "Secure Audio/Video Recording Provided",
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-3 text-sm text-on-surface">
-                      <span className="text-primary">✓</span>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-8 flex items-center gap-4 rounded-xl bg-surface-lowest/70 p-4 backdrop-blur-md">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/20 font-bold text-primary">ॐ</div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-on-surface">Consecrated Auspicious Timings</span>
-                  <span className="text-xs text-on-surface-variant">Synchronized with seeker&apos;s local planetary hour (Hora)</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col space-y-6 rounded-2xl bg-surface-low/90 p-6 shadow-xl backdrop-blur-xl md:p-8 lg:col-span-7">
-              <div>
-                <span className="font-serif text-[22px] text-primary">Sanctuary Reservation Form</span>
-                <p className="text-xs text-on-surface-variant">Enter your planetary coordinates in the consultation portal. Fees are shared privately.</p>
-              </div>
-              <div className="space-y-2">
-                <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-primary">Select Reading Discipline</span>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  {READINGS.map(([title, note], i) => (
-                    <div key={title} className={`rounded-xl p-3.5 ${i === 0 ? "bg-primary-container text-on-primary" : "bg-surface-container text-on-surface"}`}>
-                      <span className="block text-sm font-semibold">{title}</span>
-                      <span className="text-xs opacity-90">{note}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container py-3 text-sm font-bold text-on-primary shadow-[0_0_24px_rgba(229,195,120,0.4)] hover:brightness-95">
-                Open Consultation Calendar
-              </BookConsultationButton>
-            </div>
-          </div>
         </div>
       </section>
 
