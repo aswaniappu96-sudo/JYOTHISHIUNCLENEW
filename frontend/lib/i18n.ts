@@ -641,7 +641,7 @@ const en = {
   "footer.disclaimer": "Disclaimer",
   "footer.social": "Social",
   "footer.warningLabel": "Our Ethical Commitment",
-  "footer.warning": "Vedic astrology and rituals offer traditional, faith-based guidance, not medical, legal, or financial advice. MaharshiOm never guarantees outcomes or uses fear-based remedies. Please only communicate through our official website and verified numbers.",
+  "footer.warning": "All readings, rituals, and products on MaharshiOm are rooted in traditional Vedic belief and are not a substitute for advice from a licensed doctor, lawyer, psychiatrist, or financial advisor. We make no guarantees regarding results, and any action taken based on our guidance is solely your responsibility. MaharshiOm never promotes fear-based remedies; please interact only via our official website and verified contacts.",
   "footer.copy": "© MaharshiOm",
 };
 
