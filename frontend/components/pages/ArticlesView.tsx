@@ -153,7 +153,7 @@ export function ArticlesView({
                     href={`/blog/${featured.slug}`}
                     className="inline-flex items-center justify-center rounded-full bg-primary-container px-5 py-2.5 text-sm font-semibold text-on-primary shadow-[0_8px_20px_rgba(201,162,39,0.3)] transition hover:brightness-95"
                   >
-                    Read sacred article →
+                    Read article →
                   </Link>
                 </div>
               </div>
