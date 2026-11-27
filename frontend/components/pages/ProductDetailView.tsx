@@ -163,12 +163,6 @@ export function ProductDetailView({
               <PageHeading as="h1" title={title} />
               {summary ? <p className="text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
             </div>
-            <div className="rounded-xl bg-surface-high/90 p-5 shadow-lg">
-              <p className="font-serif text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-on-surface sm:text-[32px]">Enquire to reserve</p>
-              <p className="mt-1 text-sm text-on-surface-variant">
-                Dakshina and dispatch notes are confirmed on WhatsApp or email. This page never shows a price.
-              </p>
-            </div>
             <div className="rounded-2xl bg-surface-container/85 p-5 shadow-xl backdrop-blur-xl sm:p-6">
               <ProductEnquireForm slug={product.slug} title={title} whatsappNumber={whatsapp} />
             </div>
