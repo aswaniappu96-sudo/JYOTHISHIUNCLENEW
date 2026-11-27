@@ -24,7 +24,7 @@ const LEAVES = [
     href: POOJAS_PATH,
     title: "Poojas",
     script: "पूजा",
-    copy: "Book authentic pooja and homam with a priest, live from temple.",
+    copy: "Book an Authentic Pooja and Homam with a Priest (Offline and Online).",
     image: "/images/hero/banner-pooja.jpg",
     focus: "object-[82%_center]",
   },
