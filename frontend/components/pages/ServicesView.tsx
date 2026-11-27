@@ -179,10 +179,10 @@ export function ServicesView({
                   </span>
                   <span className="h-px w-12 bg-primary/40" />
                 </div>
-                <PageHeading title={loc?.list_title || "Sacred Fire Homams & Poojas"} />
+                <PageHeading title="Personalized Homams & Temple Rituals" />
                 <p className="mt-1 max-w-2xl text-sm text-on-surface-variant">
-                  {loc?.list_copy ||
-                    "HD Live Sankalpa Stream & Consecrated Prasadam shipped worldwide. Fees are shared privately after your booking request."}
+                  Connect directly with experienced Vedic priests to perform homams and poojas for your family — choose
+                  an offline home visit or live online participation from anywhere in the world.
                 </p>
               </div>
             </div>
