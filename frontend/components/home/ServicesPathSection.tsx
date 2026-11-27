@@ -8,7 +8,7 @@ const LEAVES = [
     href: "/astrologers",
     title: "Astrologers",
     script: "ज्योतिष",
-    copy: "Connect with expert astrologers for kundli, prashna, and personal guidance.",
+    copy: "Connect with expert astrologers for horoscope/Jathakam, prashna, and personal guidance.",
     image: "/images/astrologers/page-1.jpg",
     focus: "object-[center_20%]",
   },
