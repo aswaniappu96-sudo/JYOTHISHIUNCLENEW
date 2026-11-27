@@ -19,7 +19,7 @@ const FALLBACK =
 
 const ASSURANCE_FALLBACKS = [
   ["Family guidance", "Notes on use, packing, and care are shared before dispatch."],
-  ["Private confirmation", "Quantity and dakshina are confirmed on WhatsApp. This page never shows a price."],
+  ["Private confirmation", "Quantity and details are confirmed on WhatsApp or email."],
   ["Careful dispatch", "Items are packed with care once the family confirms the details."],
   ["Follow-up", "We stay in touch on WhatsApp or phone after the enquiry."],
 ];
@@ -33,7 +33,7 @@ const PHASES = [
   {
     n: "02",
     title: "We confirm privately",
-    copy: "Availability, packing, and dakshina are shared on WhatsApp or email. Nothing is billed here.",
+    copy: "Availability and packing are shared on WhatsApp or email.",
   },
   {
     n: "03",
@@ -95,17 +95,14 @@ export function ProductDetailView({
     {
       label: "How it is used",
       title: "Clear guidance for the family",
-      copy: aboutParagraphs[0] || summary || "We share how this item is used in daily puja or japa, without a public checkout.",
+      copy:
+        "Rudraksha — The Tears of Lord Shiva. Recommended based on your Horoscope and vedic guidance with clear wearing guidance.",
     },
     {
       label: "Practical notes",
       title: "Material and packing",
-      copy: infoItems[0] || infoParagraphs[0] || "Size, packing, and dispatch notes are confirmed with you privately.",
-    },
-    {
-      label: "Private confirmation",
-      title: "Nothing is billed on this page",
-      copy: "Quantity and dakshina are shared on WhatsApp or email. This page never shows a price.",
+      copy:
+        "100% natural, lab-tested Nepali & Indonesian beads, cleansed and packed securely in traditional sacred cloth.",
     },
   ];
 
@@ -191,11 +188,11 @@ export function ProductDetailView({
       <section className="mt-16 bg-surface-low py-16">
         <div className="mx-auto max-w-7xl space-y-10 px-4 md:px-12">
           <div className="mx-auto max-w-3xl space-y-2 text-center">
-            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Sacred guidance</p>
+            <p className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Spiritually Energised Product</p>
             <h2 className="font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Why this product</h2>
-            <p className="text-sm text-on-surface-variant">Guidance for puja and japa — not a public shop checkout.</p>
+            <p className="text-sm text-on-surface-variant">Personalised spiritual guidance for pooja, japa, and wearing</p>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {whyCards.map((card) => (
               <article key={card.label} className="flex flex-col space-y-3 rounded-2xl bg-surface-container p-6 shadow-lg">
                 <span className="text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">{card.label}</span>
