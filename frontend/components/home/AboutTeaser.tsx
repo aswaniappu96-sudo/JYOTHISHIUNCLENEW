@@ -210,8 +210,8 @@ export function TrustCards({ image }: { image?: WPImage } = {}) {
   const src = imageSrc(image, TRUST_SIDE_IMAGE);
 
   return (
-    <div className="mt-8 grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[minmax(140px,0.85fr)_minmax(0,1.5fr)_minmax(140px,0.85fr)] lg:gap-5">
-      <div className="relative hidden overflow-hidden rounded-[18px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18)] lg:block">
+    <div className="mt-8 grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[minmax(220px,0.9fr)_minmax(0,1.6fr)] lg:gap-5">
+      <div className="relative min-h-[220px] overflow-hidden rounded-[18px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18)] sm:min-h-[260px] lg:min-h-0">
         <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
       </div>
 
@@ -233,10 +233,6 @@ export function TrustCards({ image }: { image?: WPImage } = {}) {
             </div>
           );
         })}
-      </div>
-
-      <div className="relative hidden overflow-hidden rounded-[18px] border border-[#EAD9B0] bg-white shadow-[0_8px_24px_-16px_rgba(61,44,30,0.18)] lg:block">
-        <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
       </div>
     </div>
   );
