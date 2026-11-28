@@ -75,16 +75,15 @@ export function TravelCard({
           alt={title}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-surface-low via-surface-low/40 to-transparent" />
         {location ? (
           <span className="absolute top-4 left-4 rounded-full bg-surface-lowest/80 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-primary uppercase backdrop-blur-md">
             {location}
           </span>
         ) : null}
-        <h3 className="absolute right-4 bottom-4 left-4 font-serif text-[22px] leading-tight text-on-surface">{title}</h3>
       </div>
       <div className="flex flex-1 flex-col p-6">
-        {summary ? <p className="line-clamp-3 text-sm leading-6 text-on-surface-variant">{summary}</p> : null}
+        <h3 className="font-serif text-[22px] leading-tight text-on-surface">{title}</h3>
+        {summary ? <p className="mt-2 line-clamp-3 text-sm leading-6 text-on-surface-variant">{summary}</p> : null}
         <div className="mt-5 flex flex-wrap gap-2">
           <Link
             href={`/religious-travel/${travel.slug}`}
