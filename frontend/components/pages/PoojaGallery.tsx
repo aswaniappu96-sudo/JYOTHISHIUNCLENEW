@@ -4,16 +4,33 @@ import { useState } from "react";
 
 export type GalleryImage = { url: string; alt: string };
 
-export function PoojaGallery({ images, title }: { images: GalleryImage[]; title: string }) {
+export function PoojaGallery({
+  images,
+  title,
+  fillHeight = false,
+}: {
+  images: GalleryImage[];
+  title: string;
+  /** Stretch the main image to fill the available column height (desktop booking layout). */
+  fillHeight?: boolean;
+}) {
   const [active, setActive] = useState(0);
   const current = images[active] || images[0];
 
   if (!current) return null;
 
   return (
-    <div className="flex flex-col space-y-2">
-      <div className="group relative w-full overflow-hidden rounded-2xl bg-[#F7F0E2] shadow-2xl">
-        <div className="relative aspect-[4/3] w-full overflow-hidden">
+    <div className={`flex flex-col space-y-2 ${fillHeight ? "h-full min-h-0" : ""}`}>
+      <div
+        className={`group relative w-full overflow-hidden rounded-2xl bg-[#F7F0E2] shadow-2xl ${
+          fillHeight ? "min-h-[280px] flex-1" : ""
+        }`}
+      >
+        <div
+          className={`relative w-full overflow-hidden ${
+            fillHeight ? "absolute inset-0 h-full" : "aspect-[4/3]"
+          }`}
+        >
           <img
             src={current.url}
             alt={current.alt || title}
@@ -22,7 +39,7 @@ export function PoojaGallery({ images, title }: { images: GalleryImage[]; title:
         </div>
       </div>
       {images.length > 1 ? (
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid shrink-0 grid-cols-4 gap-2">
           {images.map((image, index) => (
             <button
               key={`${image.url}-${index}`}

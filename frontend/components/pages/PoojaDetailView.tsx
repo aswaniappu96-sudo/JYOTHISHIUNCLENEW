@@ -70,114 +70,40 @@ export function PoojaDetailView({
         <span className="font-medium tracking-wide text-primary">{title}</span>
       </nav>
 
-      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-10">
-        <div className="flex flex-col gap-8 lg:col-span-7">
-          {uniqueImages.length ? <PoojaGallery images={uniqueImages} title={title} /> : null}
+      <div className="mb-8 max-w-3xl space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-container/40 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">
+            <ConchIcon className="h-3 w-3" />
+            Pooja & homam
+          </span>
+          <span className="inline-flex items-center rounded-full bg-surface-high px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-surface-variant uppercase">
+            Traditional Vedic ritual
+          </span>
+        </div>
+        <PageHeading as="h1" title={title} />
+        {summary ? <p className="text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
+        <ul className="space-y-2 pt-2 text-sm leading-relaxed text-on-surface-variant md:text-base">
+          <li className="flex gap-2.5">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+            We arrange pooja required as per horoscope
+          </li>
+          <li className="flex gap-2.5">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+            Pooja can be arranged through various temples
+          </li>
+          <li className="flex gap-2.5">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+            Pooja can be arranged through various priests online or offline
+          </li>
+        </ul>
+      </div>
 
-          <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-container/40 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">
-                <ConchIcon className="h-3 w-3" />
-                Pooja & homam
-              </span>
-              <span className="inline-flex items-center rounded-full bg-surface-high px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-on-surface-variant uppercase">
-                Traditional Vedic ritual
-              </span>
-            </div>
-            <PageHeading as="h1" title={title} />
-            {summary ? <p className="text-base leading-relaxed text-on-surface-variant">{summary}</p> : null}
-            <ul className="space-y-2 pt-2 text-sm leading-relaxed text-on-surface-variant md:text-base">
-              <li className="flex gap-2.5">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                We arrange pooja required as per horoscope
-              </li>
-              <li className="flex gap-2.5">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                Pooja can be arranged through various temples
-              </li>
-              <li className="flex gap-2.5">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                Pooja can be arranged through various priests online or offline
-              </li>
-            </ul>
-          </div>
-
-          {about || benefits.length || benefitsHtml || requirements.length || requirementsHtml ? (
-            <div className="space-y-8">
-              {about ? (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="h-[2px] w-8 bg-primary" />
-                    <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this pooja</span>
-                  </div>
-                  <CmsHtml className="prose-ju max-w-none text-base leading-relaxed" html={about} />
-                </div>
-              ) : null}
-
-              {benefits.length ? (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <span className="h-[2px] w-8 bg-primary" />
-                    <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Why families choose this</span>
-                  </div>
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    {benefits.map((item) => (
-                      <div key={item} className="flex flex-col space-y-2 rounded-xl bg-surface-container p-4 shadow-md">
-                        <p className="text-sm leading-relaxed text-on-surface-variant">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : benefitsHtml ? (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="h-[2px] w-8 bg-primary" />
-                    <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Benefits</span>
-                  </div>
-                  <CmsHtml className="prose-ju" html={benefitsHtml} />
-                </div>
-              ) : null}
-
-              {requirements.length ? (
-                <div className="space-y-4 rounded-2xl bg-surface-low p-6 shadow-xl">
-                  <div className="flex items-center gap-2">
-                    <span className="h-[2px] w-8 bg-secondary" />
-                    <h2 className="font-serif text-[22px] text-on-surface">What to keep ready</h2>
-                  </div>
-                  <div className="space-y-4">
-                    {requirements.map((item, index) => (
-                      <div key={item} className="flex items-start gap-4">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-high text-sm font-bold text-primary shadow-md">
-                          {index + 1}
-                        </div>
-                        <p className="pt-1.5 text-sm leading-relaxed text-on-surface-variant">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : requirementsHtml ? (
-                <div className="space-y-3 rounded-2xl bg-surface-low p-6 shadow-xl">
-                  <h2 className="font-serif text-[22px] text-on-surface">Requirements</h2>
-                  <CmsHtml className="prose-ju" html={requirementsHtml} />
-                </div>
-              ) : null}
-
-              <div className="flex flex-col items-center gap-4 rounded-2xl bg-surface-container p-6 shadow-lg sm:flex-row">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-surface-highest text-2xl text-primary ring-2 ring-primary-container">
-                  ॐ
-                </div>
-                <div className="text-center sm:text-left">
-                  <p className="font-semibold text-primary">Guided with traditional care</p>
-                  <p className="text-sm leading-relaxed text-on-surface-variant">
-                    Every pooja is arranged with a clear sankalpa.
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : null}
+      <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12 lg:gap-10">
+        <div className="min-h-[280px] lg:col-span-7 lg:min-h-0">
+          {uniqueImages.length ? <PoojaGallery images={uniqueImages} title={title} fillHeight /> : null}
         </div>
 
-        <div className="lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
+        <div className="lg:col-span-5">
           <PoojaBookingPanel
             slug={pooja.slug}
             title={title}
@@ -189,6 +115,80 @@ export function PoojaDetailView({
           />
         </div>
       </div>
+
+      {about || benefits.length || benefitsHtml || requirements.length || requirementsHtml ? (
+        <section className="mt-12 space-y-8">
+          {about ? (
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="h-[2px] w-8 bg-primary" />
+                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this pooja</span>
+              </div>
+              <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={about} />
+            </div>
+          ) : null}
+
+          {benefits.length ? (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="h-[2px] w-8 bg-primary" />
+                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Why families choose this</span>
+              </div>
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                {benefits.map((item) => (
+                  <div key={item} className="flex flex-col space-y-2 rounded-xl bg-surface-container p-4 shadow-md">
+                    <p className="text-sm leading-relaxed text-on-surface-variant">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : benefitsHtml ? (
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="h-[2px] w-8 bg-primary" />
+                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Benefits</span>
+              </div>
+              <CmsHtml className="prose-ju" html={benefitsHtml} />
+            </div>
+          ) : null}
+
+          {requirements.length ? (
+            <div className="space-y-4 rounded-2xl bg-surface-low p-6 shadow-xl">
+              <div className="flex items-center gap-2">
+                <span className="h-[2px] w-8 bg-secondary" />
+                <h2 className="font-serif text-[22px] text-on-surface">What to keep ready</h2>
+              </div>
+              <div className="space-y-4">
+                {requirements.map((item, index) => (
+                  <div key={item} className="flex items-start gap-4">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-high text-sm font-bold text-primary shadow-md">
+                      {index + 1}
+                    </div>
+                    <p className="pt-1.5 text-sm leading-relaxed text-on-surface-variant">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : requirementsHtml ? (
+            <div className="space-y-3 rounded-2xl bg-surface-low p-6 shadow-xl">
+              <h2 className="font-serif text-[22px] text-on-surface">Requirements</h2>
+              <CmsHtml className="prose-ju" html={requirementsHtml} />
+            </div>
+          ) : null}
+
+          <div className="flex flex-col items-center gap-4 rounded-2xl bg-surface-container p-6 shadow-lg sm:flex-row">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-surface-highest text-2xl text-primary ring-2 ring-primary-container">
+              ॐ
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="font-semibold text-primary">Guided with traditional care</p>
+              <p className="text-sm leading-relaxed text-on-surface-variant">
+                Every pooja is arranged with a clear sankalpa.
+              </p>
+            </div>
+          </div>
+        </section>
+      ) : null}
       </div>
 
       {vendors.length ? (
