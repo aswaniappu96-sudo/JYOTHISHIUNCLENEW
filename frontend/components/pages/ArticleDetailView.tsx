@@ -13,19 +13,17 @@ import { PageHeading, SectionEyebrow } from "@/components/home/SectionHeading";
 import { articleCategory, formatArticleDate, readingMinutes, stripHtml, stripPublicPrices } from "@/lib/html";
 import { useLocalized, withLocale } from "@/lib/localized";
 import { imageSrc } from "@/lib/media";
-import { whatsappUrl } from "@/lib/whatsapp";
 import type { Article, Astrologer, Product } from "@/types/wordpress";
 
 export function ArticleDetailView({
   article: raw,
   related,
-  whatsappNumber,
   author,
   product,
 }: {
   article: Article;
   related: Article[];
-  whatsappNumber: string;
+  whatsappNumber?: string;
   author?: Astrologer | null;
   product?: Product | null;
 }) {
@@ -42,9 +40,6 @@ export function ArticleDetailView({
   const authorPhoto = imageSrc(authorLoc?.featured_image);
   const authorNote = stripPublicPrices(stripHtml(authorLoc?.full_description || authorLoc?.short_description || ""));
   const productSrc = imageSrc(product?.featured_image);
-  const waHref = whatsappNumber
-    ? whatsappUrl(whatsappNumber, `Hello, I read “${article.title}” and would like guidance.`)
-    : "";
 
   return (
     <div className="relative w-full overflow-hidden">
@@ -134,31 +129,6 @@ export function ArticleDetailView({
           ) : null}
 
           <CmsHtml className="prose-ju text-base leading-relaxed" html={content} />
-
-          <div className="relative overflow-hidden rounded-2xl bg-linear-to-b from-surface-high via-surface-container to-surface-low p-7 shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
-            <div className="pointer-events-none absolute -top-12 -right-12 h-48 w-48 rounded-full bg-primary-container/20 blur-3xl" />
-            <SectionEyebrow className="mb-2">Private session</SectionEyebrow>
-            <h3 className="mb-2 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">Want this applied to your chart?</h3>
-            <p className="mb-4 max-w-2xl text-sm leading-relaxed text-on-surface-variant">
-              A consultation can take the teaching in this article and look at your own questions. Share your details
-              through the booking form, or message us on WhatsApp.
-            </p>
-            <div className="flex flex-col items-stretch gap-3 pt-2 sm:flex-row sm:items-center">
-              <BookConsultationButton className="inline-flex items-center justify-center rounded-full bg-primary-container px-5 py-3 text-sm font-semibold tracking-wide text-on-primary shadow-[0_0_24px_rgba(229,195,120,0.35)] transition hover:brightness-95">
-                Book a consultation
-              </BookConsultationButton>
-              {waHref ? (
-                <a
-                  href={waHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-full bg-surface-highest px-5 py-3 text-sm font-semibold text-on-surface transition hover:bg-surface-high"
-                >
-                  Discuss on WhatsApp
-                </a>
-              ) : null}
-            </div>
-          </div>
 
           <ArticleShareBar title={article.title} tags={tags} />
 
@@ -255,29 +225,6 @@ export function ArticleDetailView({
         </section>
       ) : null}
 
-      <div className="relative overflow-hidden bg-surface-high py-16">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,224,157,0.1),transparent_70%)]" />
-        <div className="relative z-10 mx-auto max-w-4xl px-4 text-center md:px-12">
-          <SectionEyebrow className="mb-2 justify-center">Apply this teaching</SectionEyebrow>
-          <h2 className="mb-3 font-serif text-[40px] font-medium leading-[0.95] tracking-[-0.03em] text-[#9A6F3A] dark:text-[#e5c378] sm:text-[52px]">
-            Turn this article into a private conversation
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-on-surface-variant">
-            Book a consultation, or explore poojas if a ritual is the next step.
-          </p>
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <BookConsultationButton className="inline-flex w-full items-center justify-center rounded-full bg-primary-container px-12 py-3.5 text-sm font-semibold tracking-wide text-on-primary shadow-[0_0_32px_rgba(229,195,120,0.45)] transition hover:brightness-95 sm:w-auto">
-              Book full consultation
-            </BookConsultationButton>
-            <Link
-              href="/services"
-              className="inline-flex w-full items-center justify-center rounded-full bg-surface-container px-8 py-3.5 text-sm font-semibold text-on-surface transition hover:bg-surface sm:w-auto"
-            >
-              Explore poojas
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
