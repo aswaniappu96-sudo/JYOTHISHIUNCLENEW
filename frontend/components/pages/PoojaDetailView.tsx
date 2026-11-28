@@ -70,12 +70,10 @@ export function PoojaDetailView({
         <span className="font-medium tracking-wide text-primary">{title}</span>
       </nav>
 
-      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
-        <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:col-span-6">
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-10">
+        <div className="flex flex-col gap-8 lg:col-span-7">
           {uniqueImages.length ? <PoojaGallery images={uniqueImages} title={title} /> : null}
-        </div>
 
-        <div className="flex flex-col gap-6 lg:col-span-6">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary-container/40 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-secondary uppercase">
@@ -103,6 +101,83 @@ export function PoojaDetailView({
               </li>
             </ul>
           </div>
+
+          {about || benefits.length || benefitsHtml || requirements.length || requirementsHtml ? (
+            <div className="space-y-8">
+              {about ? (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-[2px] w-8 bg-primary" />
+                    <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this pooja</span>
+                  </div>
+                  <CmsHtml className="prose-ju max-w-none text-base leading-relaxed" html={about} />
+                </div>
+              ) : null}
+
+              {benefits.length ? (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <span className="h-[2px] w-8 bg-primary" />
+                    <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Why families choose this</span>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {benefits.map((item) => (
+                      <div key={item} className="flex flex-col space-y-2 rounded-xl bg-surface-container p-4 shadow-md">
+                        <p className="text-sm leading-relaxed text-on-surface-variant">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : benefitsHtml ? (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-[2px] w-8 bg-primary" />
+                    <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Benefits</span>
+                  </div>
+                  <CmsHtml className="prose-ju" html={benefitsHtml} />
+                </div>
+              ) : null}
+
+              {requirements.length ? (
+                <div className="space-y-4 rounded-2xl bg-surface-low p-6 shadow-xl">
+                  <div className="flex items-center gap-2">
+                    <span className="h-[2px] w-8 bg-secondary" />
+                    <h2 className="font-serif text-[22px] text-on-surface">What to keep ready</h2>
+                  </div>
+                  <div className="space-y-4">
+                    {requirements.map((item, index) => (
+                      <div key={item} className="flex items-start gap-4">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-high text-sm font-bold text-primary shadow-md">
+                          {index + 1}
+                        </div>
+                        <p className="pt-1.5 text-sm leading-relaxed text-on-surface-variant">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : requirementsHtml ? (
+                <div className="space-y-3 rounded-2xl bg-surface-low p-6 shadow-xl">
+                  <h2 className="font-serif text-[22px] text-on-surface">Requirements</h2>
+                  <CmsHtml className="prose-ju" html={requirementsHtml} />
+                </div>
+              ) : null}
+
+              <div className="flex flex-col items-center gap-4 rounded-2xl bg-surface-container p-6 shadow-lg sm:flex-row">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-surface-highest text-2xl text-primary ring-2 ring-primary-container">
+                  ॐ
+                </div>
+                <div className="text-center sm:text-left">
+                  <p className="font-semibold text-primary">Guided with traditional care</p>
+                  <p className="text-sm leading-relaxed text-on-surface-variant">
+                    Every pooja is arranged with a clear sankalpa.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
           <PoojaBookingPanel
             slug={pooja.slug}
             title={title}
@@ -115,80 +190,6 @@ export function PoojaDetailView({
         </div>
       </div>
       </div>
-
-      {about || benefits.length || benefitsHtml || requirements.length || requirementsHtml ? (
-        <section className="mx-auto mt-16 max-w-7xl space-y-10 px-4 md:px-12">
-          {about ? (
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="h-[2px] w-8 bg-primary" />
-                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">About this pooja</span>
-              </div>
-              <CmsHtml className="prose-ju max-w-4xl text-base leading-relaxed" html={about} />
-            </div>
-          ) : null}
-
-          {benefits.length ? (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <span className="h-[2px] w-8 bg-primary" />
-                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Why families choose this</span>
-              </div>
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                {benefits.map((item) => (
-                  <div key={item} className="flex flex-col space-y-2 rounded-xl bg-surface-container p-4 shadow-md">
-                    <p className="text-sm leading-relaxed text-on-surface-variant">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : benefitsHtml ? (
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="h-[2px] w-8 bg-primary" />
-                <span className="text-[11px] font-bold tracking-[0.22em] text-primary uppercase">Benefits</span>
-              </div>
-              <CmsHtml className="prose-ju" html={benefitsHtml} />
-            </div>
-          ) : null}
-
-          {requirements.length ? (
-            <div className="space-y-4 rounded-2xl bg-surface-low p-6 shadow-xl">
-              <div className="flex items-center gap-2">
-                <span className="h-[2px] w-8 bg-secondary" />
-                <h2 className="font-serif text-[22px] text-on-surface">What to keep ready</h2>
-              </div>
-              <div className="space-y-4">
-                {requirements.map((item, index) => (
-                  <div key={item} className="flex items-start gap-4">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-high text-sm font-bold text-primary shadow-md">
-                      {index + 1}
-                    </div>
-                    <p className="pt-1.5 text-sm leading-relaxed text-on-surface-variant">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : requirementsHtml ? (
-            <div className="space-y-3 rounded-2xl bg-surface-low p-6 shadow-xl">
-              <h2 className="font-serif text-[22px] text-on-surface">Requirements</h2>
-              <CmsHtml className="prose-ju" html={requirementsHtml} />
-            </div>
-          ) : null}
-
-          <div className="flex flex-col items-center gap-4 rounded-2xl bg-surface-container p-6 shadow-lg sm:flex-row">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-surface-highest text-2xl text-primary ring-2 ring-primary-container">
-              ॐ
-            </div>
-            <div className="text-center sm:text-left">
-              <p className="font-semibold text-primary">Guided with traditional care</p>
-              <p className="text-sm leading-relaxed text-on-surface-variant">
-                Every pooja is arranged with a clear sankalpa.
-              </p>
-            </div>
-          </div>
-        </section>
-      ) : null}
 
       {vendors.length ? (
         <div className="mx-auto mt-12 w-full max-w-7xl px-4 md:px-12">
